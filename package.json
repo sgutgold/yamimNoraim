@@ -1,0 +1,54 @@
+{
+  "name": "nodejs-configmap",
+  "description": "This project manages setaselection for yamim noraim for ariel shul",
+  "version": "1.0.0",
+  "author": "Simcha Gutgold.",
+  "license": "Apache-2.0",
+  "scripts": {
+    
+    "openshift": "nodeshift --strictSSL=false --dockerImage=registry.access.redhat.com/rhoar-nodejs/nodejs-8 --tryServiceAccount=false --configLocation /openshift.local.config/master/admin.kubeconfig",
+    "start": "PORT=8080 node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git:github.com/sgutgold/yamimNoraim.git"
+  },
+  "files": [
+    "package.json",
+    "server.js",
+    "index.html",
+    "gizbar.html",
+    "errPassw.html",
+    "initlz.html",
+    "okmsg.html",
+    "seatManagement.html",
+    "bin"
+  ],
+  
+  "homepage": "https://developers.redhat.com/rhoar",
+  "devDependencies": {
+    
+    
+    "nodeshift": "^1.5.0",
+    "nsp": "~3.2.1",
+    "nyc": "~11.4.1",
+    "standard-version": "^4.3.0",
+    "supertest": "^3.0.0",
+    "szero": "^1.0.0",
+    "tap-spec": "~4.1.1",
+    "tape": "~4.9.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "debug": "^3.1.0",
+    "express": "^4.16.0",
+    "js-yaml": "^3.10.0",
+    "kube-probe": "^0.3.0",
+    "xlsx":"^0.12.6",
+    "path":"^0.12.7",
+    "http":"^0.0.0",
+    "fs":"0.0.1-security",
+    "nodemailer": "^4.6.3"
+
+  }
+}
