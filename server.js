@@ -3,16 +3,17 @@
 var express = require('express');
 var fs      = require('fs');
 var http = require('http');
-
+;
 var path = require('path');
 var xlsx = require('xlsx');
 
 var nodemailer = require('nodemailer');
 
 
-    /*  ================================================================  */
+    /*  =======================================================================  */
 
     /*
+		
      *  Set up server IP address and port # using env variables/defaults.
      */
   function setupVariables  () {
@@ -24,7 +25,9 @@ var nodemailer = require('nodemailer');
             //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
             //  allows us to run/test the app locally.
             console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-          ipaddress = "127.0.0.1";
+      ipaddress = "127.0.0.1";
+	//ipaddress = '0.0.0.0';
+	//port = 8080;
         };
 				
 				console.log(ipaddress+'   '+port);
@@ -42,18 +45,23 @@ var nodemailer = require('nodemailer');
         //  Local cache for static content.
         zcache['index.html'] = fs.readFileSync('./index.html');
 				zcache['mgmt'] = fs.readFileSync('./seatManagement.html');   
-				zcache['initialize'] = fs.readFileSync('./initlz.html');  
+				zcache['initialize'] = fs.readFileSync('./initlz.html'); 
 				
-				zcache['prtMartef'] = fs.readFileSync('./martefBaseHtmlToPrint.html');  
+		/*		zcache['prtMartef'] = fs.readFileSync('./martefBaseHtmlToPrint.html');  
 				zcache['prtRashi'] = fs.readFileSync('./rashiBaseHtmlToPrint.html');  
-				zcache['prtNashim'] = fs.readFileSync('./nashimBaseHtmlToPrint.html'); 
+				zcache['prtNashim'] = fs.readFileSync('./nashimBaseHtmlToPrint.html');
+				zcache['prtBase'] = fs.readFileSync('./printBaseHtml.html');
+ */
 			  zcache['errPassw'] = fs.readFileSync('./errPassw.html');   
 				zcache['gizbar'] = fs.readFileSync('./gizbar.html');
 				zcache['okmsg'] = fs.readFileSync('./okmsg.html');
+			 zcache['real_index'] = fs.readFileSync('./index_real.html');
+
+				
     };
 
 
-    /*
+    /*  
      *  Retrieve entry (content) from cache.
      *  @param {string} key  Key identifying content to retrieve from cache.
      */
@@ -101,7 +109,17 @@ var nodemailer = require('nodemailer');
 
 //--------------------------------------------------------------------------------	
 	function knownName(str){  
-	var rNmA = new Array();           
+	var rNmA = new Array(); 
+	/*     debug
+	
+	if(initDone){
+	strtsrt='';
+	for (qqq=0; qqq<familyNames.length; qqq++)strtsrt=strtsrt+'/'+qqq.toString()+' '+familyNames[qqq];
+	addr='kehilatarielseats@gmail.com';
+	subj='family names';
+	sendMail(addr,subj,strtsrt); 
+	}
+	*/          
 	startingRow=3;
 	//nameParts=str.split(' '); firstNameInRequest=(nameParts.length==2);   
 	rNm=-1; 
@@ -120,7 +138,7 @@ var nodemailer = require('nodemailer');
 		 if (str == fnm_secondPossibilty) { firstNamesString=firstNamesString+	'$' +firstName[rn];	 };
 	
 			};
-			
+		
 	if(rNm!=-1)rNm=rNm+startingRow;
 	rNmA[0]=rNm;   rNmA[1]=firstNamesString;
 	return rNmA;
@@ -143,12 +161,29 @@ var nodemailer = require('nodemailer');
 	// email
 	
 		roww=rowNum.toString();
-
+    passNotOK=false;
 	tmpMail=	inPairs[1].split('=');
-	 if (tmpMail[0]=='reqemail') {  
-		email=tmpMail[1]; 
-	  if (email){ ptr=amudot.email+roww;    requestedSeatsWorksheet[ptr].v=email;}
-		} else {	reportInputProblem('002'); return false;};
+	 if (tmpMail[0] !='reqemail') {  reportInputProblem('002'); return false;};
+		emailStr=tmpMail[1];
+		emailAr= emailStr.split(',');
+		email=delLeadingBlnks(emailAr[0]);
+		emailPass=emailAr[1];
+	  if ( email){ 
+		             crrrntEmail=delLeadingBlnks(requestedSeatsWorksheet[ptr].v);
+		             ptr=amudot.email+roww; 
+							   if(email != requestedSeatsWorksheet[ptr].v){
+								 passNotOK= ( ! emailPass)  || (forgetList[rowNum] != emailPass);
+								     if ( (crrrntEmail) && passNotOK ) { // changing email but password not supplied or wrong
+							          console.log('bad attempt to change passcose. row='+roww+ ' old email='+requestedSeatsWorksheet[ptr].v+
+												          ' new attemted email='+email);
+												return false;					
+												 
+										 }  //changing email but password not supplied or wrong
+										 else {requestedSeatsWorksheet[ptr].v=email;}  // ok change email
+							      
+							  }    // if email !=
+					}  // if email
+		 	
 	
  //  phone
  
@@ -224,14 +259,15 @@ tmpCount=inPairs[7].split('=');
 		 numWomn=Math.max(numWomnRosh,numWomnKipur); 
 		};
 		
-// choose a Minyan for women
+// choose a Minyan for women    
   
     tmpMinyan=inPairs[8].split('=');  
 		reqMinyanData=inPairs[9].split('='); 
 				if ( (tmpMinyan[0] != 'reqminyanW') || (reqMinyanData[0] != 'reqMinyanDataW')|| isNaN(tmpMinyan[1] )
 				              || ( tmpMinyan[1]<0 )|| ( (tmpMinyan[1]>5)&& (tmpMinyan[1] != 9 ))  )  {reportInputProblem('008'); return false;}
 					
-					NtmpMinyan=Number(tmpMinyan[1]);   
+					NtmpMinyan=Number(tmpMinyan[1]); 
+					setUlam( NtmpMinyan,amudot.nashimMuadaf+roww) ;
 					if (tmpMinyan[1] != 9 ){ reqMinyan[0]= txtCodes[3+NtmpMinyan];	}
 					     else	reqMinyan[0]='9';
           reqMinyan[1]=reqMinyanData[1];			
@@ -244,6 +280,7 @@ tmpCount=inPairs[7].split('=');
 					ptr=amudot.preferedExplanationW+roww;    requestedSeatsWorksheet[ptr].v= reqMinyan[1]    
 	
 
+
 			
 // choose a Minyan for men
   
@@ -252,7 +289,8 @@ tmpCount=inPairs[7].split('=');
 				if ( (tmpMinyan[0] != 'reqminyanM') || (reqMinyanData[0] != 'reqMinyanDataM')|| isNaN(tmpMinyan[1] )
 				              || ( tmpMinyan[1]<0 )|| ( (tmpMinyan[1]>5)&& (tmpMinyan[1] != 9 ))  )  {reportInputProblem('008'); return false;}
 					
-					NtmpMinyan=Number(tmpMinyan[1]);   
+					NtmpMinyan=Number(tmpMinyan[1]); 
+						setUlam( NtmpMinyan,amudot.gvarimMuadaf+roww);   
 					if (tmpMinyan[1] != 9 ){ reqMinyan[0]= txtCodes[9+NtmpMinyan];	}
 					     else	reqMinyan[0]='9';		
           reqMinyan[1]=reqMinyanData[1];			
@@ -287,8 +325,8 @@ tmpCount=inPairs[7].split('=');
 			
 		ptr=amudot.markedSeats+roww;   
 		seats=tmpSeats[1].split('+');
-		seats=seats.sort(sortOrder);
-		lastSeatsRequest=(requestedSeatsWorksheet[ptr].v).split('+');
+		seats=seats.sort(sortOrder);  if( ! delLeadingBlnks(tmpSeats[1]) ){ seats=[];};
+		lastSeatsRequest=(requestedSeatsWorksheet[ptr].v).split('+');  if( ! delLeadingBlnks(requestedSeatsWorksheet[ptr].v) ) lastSeatsRequest=[];
 		changeInRequest=false;
 		if(seats.length != lastSeatsRequest.length){
 		                changeInRequest=true; }
@@ -300,7 +338,12 @@ tmpCount=inPairs[7].split('=');
 			  						
 										seatRelevantChangeRequest=true;
 										}
-		 requestedSeatsWorksheet[ptr].v=seats.join('+');
+										
+		tmppSeats=	seats.join('+');							
+		 requestedSeatsWorksheet[ptr].v=tmppSeats
+		
+		
+		
 		
 		countM=0;    countW=0;
 		for(i=0; i<seats.length; i++) {
@@ -311,6 +354,7 @@ tmpCount=inPairs[7].split('=');
 			ptr=amudot.numberMarkedMen+roww;  requestedSeatsWorksheet[ptr].v=countM.toString();
 			ptr=amudot.numberMarkedWomen+roww;  requestedSeatsWorksheet[ptr].v=countW.toString();
 			
+	                               		
 		
  incompatibilty='&0';	  
  if( ( ( countM)	&&	(countM<numMen) ) || ( ( countW) && (countW<numWomn) ) )incompatibilty='&1';
@@ -337,7 +381,7 @@ tmpCount=inPairs[7].split('=');
 		afterClosingDate='$0';
 	if ( delLeadingBlnks(requestedSeatsWorksheet[ptr].v) )afterClosingDate='$1';
 	
-	
+	updateRowForNewSelection(roww);  // init all other field derived from selection string
 	
 	update_namesForSeat(roww);
 	
@@ -346,6 +390,15 @@ tmpCount=inPairs[7].split('=');
 // write detailed request	
 	xlsx.writeFile(workbook, XLSXfilename);
 	
+	
+	ptr=amudot.email+roww;
+	maill=delLeadingBlnks(requestedSeatsWorksheet[ptr].v);
+	if (maill ){
+	    subj='registraion request registered';
+			txt='  ';
+	    sendMail(maill,subj,txt);
+	    }
+ 
 	return true;						
 }
 function sortOrder(a,b){
@@ -366,24 +419,36 @@ function sortOrder(a,b){
 		 }
 
 		 
-		
+
 
 // ----------------------------------------------------------------------------------------- 
-	
+ulamVlus=[2,3,1,1,0,0,0,0,0,0];
+		
+function setUlam( Minyan,ptr){
 
+ requestedSeatsWorksheet[ptr].v  = ulamVlus[Minyan].toString();
+ 
+ }
+// ----------------------------------------------------------------------------------------- 
+	
+ var dbgOccupation=[]; 
   function setSeatOccupationLevel(holiday){     // holiday == 0 => both; holiday ==1 => rosh' holiday ==2 => kipur
-	  
+	
 	  seatOcuupationLevel.forEach(setToZero);; // clear previous values
 	 for (ii=0; ii<lastSeatNumber+1;ii++)if (alreadyAssignedSeatsRosh[ii] || alreadyAssignedSeatsKipur[ii]){
 	                 combinedAlreadyAssigned[ii]=true} else combinedAlreadyAssigned[ii]=false;
 									 
 		 for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
 		    sMember=member.toString();  
-				
+	if(dbgOccupation.indexOf(member) != -1){dbg=true}else dbg=false;			
 				 toAssgnRoshMen=Number(requestedSeatsWorksheet[amudot.menRosh+sMember].v)-Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+sMember].v);
+				 toAssgnRoshMen=Math.max(toAssgnRoshMen,0);
  				 toAssgnRoshWomen=Number(requestedSeatsWorksheet[amudot.womenRosh+sMember].v)-Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+sMember].v);
+				 toAssgnRoshWomen=Math.max(toAssgnRoshWomen,0);
  				 toAssgnKipurMen=Number(requestedSeatsWorksheet[amudot.menKipur+sMember].v)-Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+sMember].v);
+				 toAssgnKipurMen=Math.max(toAssgnKipurMen,0);
  				 toAssgnKipurWomen=Number(requestedSeatsWorksheet[amudot.womenKipur+sMember].v)-Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+sMember].v);
+       	 toAssgnKipurWomen=Math.max(toAssgnKipurWomen,0);
 
 		
 				numSeatsMarkedForMen=requestedSeatsWorksheet[amudot.numberMarkedMen+sMember].v;
@@ -427,6 +492,7 @@ function sortOrder(a,b){
 					   else seatWeightForMen=0; ;
 					if( numSeatsMArkedForWomen){ seatWeightForWomen= Math.min(1,requestedSeatsForWomen / numSeatsMArkedForWomen)}
 					  else seatWeightForWomen=0;
+	
 					
 					seatStr=delLeadingBlnks(seatStr);
 					if(!seatStr){continue;}
@@ -446,7 +512,6 @@ function sortOrder(a,b){
 	      }   //end loop on members
 				
 			
-			    
 				
 		
 				
@@ -477,13 +542,13 @@ function sortOrder(a,b){
         //  Start the app on the specific interface (and port).
       app.listen(port, ipaddress, function() {
             console.log('%s: Node server started on %s:%d ...',
-                        Date(Date.now() ), ipaddress, port);
+                        5(Date.now() ), ipaddress, port);
         });
     };
 
 //  ----- handle member info request ------------------------
 
-function memberInfo(requestor,inputString){
+function  memberInfo(requestor,inputString){
 	var respnArray=new Array;
 	inp=inputString;
   inpData=inp.split('$'); 		
@@ -501,7 +566,7 @@ function memberInfo(requestor,inputString){
 						
 								 ocupAdd=ocuup.toString().substr(0,6);
 		 
-		             ocupAdd=ocupAdd+'-'+namesForSeat[i];  //  get all names for seat to client
+		             ocupAdd=ocupAdd+'@'+namesForSeat[i];  //  get all names for seat to client
 							   seatOccupationStr = seatOccupationStr +'+'+(i).toString()+'_'+ ocupAdd; 
 	                //  }      //if occup
 									
@@ -529,7 +594,7 @@ function memberInfo(requestor,inputString){
 	else	{					// regular name	  	
 	
 	 	 rawName=knownName(name);  
-		 rowNum=rawName[0];  
+		 rowNum=rawName[0];
 	
 		 if (rowNum ==-1 ){  respns='---000'+rawName[1];}    // 'שם לא מוכר'
 	   else {  // recognized name
@@ -543,7 +608,7 @@ function memberInfo(requestor,inputString){
 				 if ( (mRosh + wRosh + mKipur + wKipur) == 0) inputForMemberExists=false;      // member did not input a request; 
 				 
 		         
-						 respnArray[positionInMsg.email]=requestedSeatsWorksheet[amudot.email+Row].v;
+						 respnArray[positionInMsg.email]=requestedSeatsWorksheet[amudot.email+Row].v; 
 						 respnArray[positionInMsg.addr]=requestedSeatsWorksheet[amudot.addr+Row].v;
 						 respnArray[positionInMsg.phone]=requestedSeatsWorksheet[amudot.phone+Row].v;
 						 respnArray[positionInMsg.gvarimRoshHashana]=requestedSeatsWorksheet[amudot.menRosh+Row].v;
@@ -551,10 +616,10 @@ function memberInfo(requestor,inputString){
 						 respnArray[positionInMsg.nashimRoshHashana]=requestedSeatsWorksheet[amudot.womenRosh+Row].v;
 						 respnArray[positionInMsg.nashimKipur]=requestedSeatsWorksheet[amudot.womenKipur+Row].v;
 						 respnArray[positionInMsg.minyanMuadafNashim]=(requestedSeatsWorksheet[amudot.preferedMinyanW+Row].v).substr(0,1);
-						 if( ! inputForMemberExists) respnArray[positionInMsg.minyanMuadafNashim]='1';
+						 if( ! inputForMemberExists) respnArray[positionInMsg.minyanMuadafNashim]='9';
 						 respnArray[positionInMsg.esberNashim]=requestedSeatsWorksheet[amudot.preferedExplanationW+Row].v;
 						 respnArray[positionInMsg.minyanMuadafGvarim]=(requestedSeatsWorksheet[amudot.preferedMinyanM+Row].v).substr(0,1);
-						 if( ! inputForMemberExists) respnArray[positionInMsg.minyanMuadafGvarim]='1';
+						 if( ! inputForMemberExists) respnArray[positionInMsg.minyanMuadafGvarim]='9';
 						 respnArray[positionInMsg.esberGvarim]=requestedSeatsWorksheet[amudot.preferedExplanationM+Row].v;
 						 respnArray[positionInMsg.moreComments]=requestedSeatsWorksheet[amudot.cmnts+Row].v;
 						 respnArray[positionInMsg.requestedSeats]=requestedSeatsWorksheet[amudot.markedSeats+Row].v;
@@ -623,19 +688,21 @@ var debugIsOn = false;
 var debugparam=''; 
 
 var startingRowstsfction=6 ;
-var stsfctionFamilyNames = new Array;
+
 
 var  moedCode
 var	 SidurUlam
 var	 shlavBFilter;
 var	 notPaidFilter;
 var	 doneWithFilter;
-/*
-var maxCountRashiMen=0; 
-var maxCountRashiWmn=0;
-var maxCountMartefMen=0; 
-var maxCountMartefWmn=0;
-	*/
+
+var forgetList = new Array;
+
+	
+	var initDone=false;
+	
+var assgndBegunRosh=false;
+var assgndBegunKipur=false;	
 	
 var 	maxCountSeats=[[0,0],[0,0]]; // rashi-martef  /  gvarim-nashim
 var firstName = new Array;
@@ -657,20 +724,29 @@ var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',email:'G',
 							memberShipStatus:'AU',nashimMuadaf:'AV',gvarimMuadaf:'AW',stsfctnInFlrThisYrWmn:'AX',
 							stsfctnInFlr3ThisYrMen:'AY',ThisYRSSeat:'AZ'
 							};
-	// 2 lists of colomns both for membersrequests and stsfction. first is membersrequests						
-var amudotForStsfctionUpload={	
-              stsfctnInFlr2YRSAgoYrWmn:['AL','B'],stsfctnInFlr2YRSAgoYrMen:['AM','C'],TwoYRSAgoSeat:['AN','D'],stsfctnInFlr3YRSAgoYrWmn:['AO','E'],
-              stsfctnInFlr3YRSAgoYrMen:['AP','F'],ThreeYRSAgoSeat:['AQ','G'],memberShipStatus:['AU','N']
-							};
 							
-							
-amudotForStsfctionDownload= { name:['A','A'],menRosh:['G','O'],menKipur:['H','P'],womenRosh:['I','Q'],womenKipur:['J','R'], 
-              stsfctnInFlrLastYrWmn:['AI','B'], stsfctnInFlrLastYrMen:['AJ','C'],LastYrSeat:['AK','D'],                        
-              stsfctnInFlr2YRSAgoYrWmn:['AL','E'],stsfctnInFlr2YRSAgoYrMenn:['AM','F'],TwoYRSAgoSeat:['AN','G'],stsfctnInFlr3YRSAgoYrWmn:['AO','H'],
-              stsfctnInFlr3YRSAgoYrMen:['AP','I'],ThreeYRSAgoSeat:['AQ','J'],memberShipStatus:['AU','N']
-							};
-                             
+var amudotForDebug ={name:'A',requestDate:'D',email:'G',
+              assignedSeatsRosh:'Z',assignedSeatsKipur:'AA',
+             	stsfctnInFlr2YRSAgoYrWmn:'AL',stsfctnInFlr2YRSAgoYrMen:'AM',TwoYRSAgoSeat:'AN',stsfctnInFlr3YRSAgoYrWmn:'AO',
+							stsfctnInFlr3YRSAgoYrMen:'AP',ThreeYRSAgoSeat:'AQ',
+							memberShipStatus:'AU'
+						
+							};							
+	                       
 
+	var lastCol='AZ';													
+	
+amudotToClrInReqstdSeatsWhnGenNewYr= {registrationClosedDateNTime:'C',requestDate:'D',
+              menRosh:'J',menKipur:'K',womenRosh:'L',womenKipur:'M',preferedMinyanW:'N',
+              preferedExplanationW:'O',preferedMinyanM:'P',preferedExplanationM:'Q',cmnts:'R',
+							markedSeats:'S',numberMarkedMen:'T',numberMarkedWomen:'U',notAssignedMarkedSeatsRosh:'V',
+							notAssignedMarkedSeatsKipur:'W',NumberOfNotAssignedMarkedSeatsMen:'X', NumberOfNotAssignedMarkedSeatsWomen:'Y',
+							assignedSeatsRosh:'Z',assignedSeatsKipur:'AA',numberOfAssignedSeatsRoshMen:'AB',numberOfAssignedSeatsRoshWomen:'AC',
+							numberOfAssignedSeatsKipurMen:'AD',numberOfAssignedSeatsKipurWomen:'AE',tashlum:'AF',tashlumPaid:'AG',
+							stsfctnInFlrLastYrWmn:'AI',stsfctnInFlrLastYrMen:'AJ',lstYrSeat:'AK',
+							issueInFloorWmn:'AR',  issueinFloorMen:'AS',  issueBetweenFloors:'AT', 
+							nashimMuadaf:'AV',gvarimMuadaf:'AW'}
+									
 
 		
 var	positionInMsg={email:0,	addr:1,phone:2,	gvarimRoshHashana:3,gvarimKipur:4,nashimRoshHashana:5,nashimKipur:6,
@@ -684,19 +760,117 @@ var	positionInMsg={email:0,	addr:1,phone:2,	gvarimRoshHashana:3,gvarimKipur:4,na
 	
 var sortWeightsPtr={vetek:'F1',personalIssue:'F2',satisfactionHistory:'F3',satisfactionInFloor:'F4',horizontalDistance:'F5',
                     lastYearVS2YearsAgo:'F6',numberOfRequestedSeats:'F7',requestedSeatsPerFamilySize:'F8',Baby:'F10'}	
-											
+										
 
-app=express();
+var amudotOfConfig={fromSeat:'A', toSeat:"B",reltvRowQual:'C',open_badSeats:'D',ezor:'E',ulam:'F',X_forSlantedRow:'H',Y_forSlantedRow:'I'};										
+		
+var seatOcuupationLevel = new Array;			
+var requestedSeatsWorksheet ;
+var passwordsWS;
+var	mngmntPASSW;
+var	gizbarPASSW;	
+var errCodeWS;	
+var seatToRowWS;
+var shulConfigerationWS;
+//var nashimGvarimRegions=[];
+var UlamMartef=[];
+var ezorOfSeat=[];
+var configRowOfSeat=[];
+var sortWeightsSheet;	
+
+var lastYearInit='-';
+
+var firstConfigRow;
+
+var vetekWeight;
+var personalIssueWeight;
+var satisfactionHistoryWeight;
+var satisfactionInFloorWeight;
+var horizontalDistanceWeight;
+var lastYearVS2YearsAgoWeight;
+var numberOfRequestedSeatsWeight;
+var requestedSeatsPerFamilySizeWeight;
+var BabyWeight;
+var stsfctionColction=[];
+var assignedSeatslist=[[[],[]],[[],[]]];
+
+var originalReqSeats=[];
+var originalReqSeatPriority=[];
+var priorityFactorConst=0.95;
+
+var dbgStsfction=false;
+
+var aChagRslts=[];									
+rqstdSeats=[[],[]];  // men list and women list
+var rqstdRows=[[],[]];
+var assgndRows= [ [[],[]], [[],[]] ];
+
+var badSeats=[];
+			
+									
+ app=express();
+
 initialize();
 
+         /*     init new files in debug  */
 XLSXfilename=	process.env.OPENSHIFT_DATA_DIR+'membersRequests.xlsx';
 EmptyXLSXfilename=	process.env.OPENSHIFT_DATA_DIR+'EmptymembersRequests.xlsx';           
 seatsOrderedFileName=	process.env.OPENSHIFT_DATA_DIR+'seatsOrdered.xlsx';
 errPasswFilename=process.env.OPENSHIFT_DATA_DIR+'empty.xlsx';
-SortingDatafilename=	process.env.OPENSHIFT_DATA_DIR+'SortingData.xlsx';  
+supportTblsFilename=	process.env.OPENSHIFT_DATA_DIR+'supportTables.xlsx';  
+
+BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';     
+
+
+tmpfile=fs.readFileSync('supportTables.xlsx');
+	fs.writeFileSync(supportTblsFilename, tmpfile);
+	supportWB=xlsx.readFile(supportTblsFilename); 
+	
+	
+// debug code 1 
+/*
+tmpfile=fs.readFileSync('membersRequests.xlsx');
+	fs.writeFileSync(XLSXfilename, tmpfile);
+	workbook = xlsx.readFile(XLSXfilename);
+	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
+	*/
+	//////// - end debug code  1
+
+	
+	
+	/* debug code 2
+	
+	var workbook = xlsx.readFile(XLSXfilename); 
+	prvsYr=0;
+	 for (i=0;i<workbook.SheetNames.length; i++){
+	    WSnam=workbook.SheetNames[i];
+			fourDigitSuffix=WSnam.substr(WSnam.length-4); 
+			if (isNaN(fourDigitSuffix))continue;
+			Yrnum=Number(fourDigitSuffix);
+			if(Yrnum > prvsYr )prvsYr=Yrnum;
+	 };
+	 if (  prvsYr) {  
+	
+	 initFromFiles(prvsYr.toString());
+	 stsfctionColction=[];
+	 for (row=firstSeatRow; row<lastSeatRow+1; row++)analyseRqstVSAssgnd(row); ///
+	 }else console.log('no prvs year');
+	//////// - end debug code   2
+	*/
+	
+	
+	
+	
+	
+/*
+XLSXfilename=	process.env.OPENSHIFT_DATA_DIR+'membersRequests.xlsx';
+EmptyXLSXfilename=	process.env.OPENSHIFT_DATA_DIR+'EmptymembersRequests.xlsx';           
+seatsOrderedFileName=	process.env.OPENSHIFT_DATA_DIR+'seatsOrdered.xlsx';
+errPasswFilename=process.env.OPENSHIFT_DATA_DIR+'empty.xlsx';
+supportTblsFilename=	process.env.OPENSHIFT_DATA_DIR+'supportTables.xlsx';  
 
 BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';       
-
+*/
 //-----------------------init gmail ------------------------------------------
    
 
@@ -708,161 +882,345 @@ BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';
         }
     });
 		
-//--------------------------------------------------------------------------  
 
-//read error codes and Seat to Row from supportTables.xlsx            
+             
+// -----------------------------------------------------------------------
+  var workbook = xlsx.readFile(XLSXfilename);  
+
+	var supportWB=xlsx.readFile(supportTblsFilename);  
+
+//read error codes  from supportTables.xlsx            
 
 
-var supportWB=xlsx.readFile('supportTables.xlsx');
-var errCodeWS=supportWB.Sheets['errorCodes'];
+	passwordsWS=supportWB.Sheets['passwords'];
+	mngmntPASSW=passwordsWS['B1'].v;
+	gizbarPASSW=	passwordsWS['B2'].v;	
+	debugPASSW=	passwordsWS['B3'].v;	
+
+
+errCodeWS=supportWB.Sheets['errorCodes'];
 for (i=1; i<50; i++){
  ptr1='A'+(i).toString();
  if (errCodeWS[ptr1].v == '$$$') break;
  ptr2='B'+(i).toString();
  txtCodes[i]=errCodeWS[ptr2].v;    
       };
-			
-	lastSeatNumber=0;
-var seatToRowWS=supportWB.Sheets['seatToRow'];
-var isWomanWS=supportWB.Sheets['IsWoman'];
-for (i=1; i<1500; i++){
- ptr1='A'+(i).toString();
- if (seatToRowWS[ptr1].v == '$$$'){lastSeatNumber=i-1; break; }
- alreadyAssignedSeatsRosh[i]=' '; 
- alreadyAssignedSeatsKipur[i]=' ';
- seatToRow[i]=seatToRowWS[ptr1].v;
- if (seatToRow[i] != 'NAN'){ 
-    ptr1='A'+(seatToRow[i]).toString();
- isWoman[i]=isWomanWS[ptr1].v;
-       } 
-      };
-			
-	var nashimGvarimRegions=[];
-	
 
-	// get seats regions in martef and main; gvarim nashim; and count number of seats. gvarim nashim, in each region
-	row=3;
-	roww=row.toString();
-	k=-1;
-	while (isWomanWS['D'+roww].v != '$$$'){
-	  k++; if(k>20){console.log('err in eizorei gvarim nashim / no $$$ as end of input'); break};
-		nashimGvarimRegions[k]=new Array(5);
-	  nashimGvarimRegions[k][0]=isWomanWS['C'+roww].v;   //ulam
-		nashimGvarimRegions[k][1]=Number(isWomanWS['D'+roww].v);  //from seat - nashim
-		nashimGvarimRegions[k][2]=Number(isWomanWS['E'+roww].v);  //to seat - nashim
-		if(nashimGvarimRegions[k][1]!=nashimGvarimRegions[k][2]){    //count number of seats - nashim
-		   tempCount=0;
-			 for (j=nashimGvarimRegions[k][1]; j<nashimGvarimRegions[k][2]+1;j++)if (seatToRow[j] != 'NAN')tempCount++;
-			 if (nashimGvarimRegions[k][0] == 'main'){maxCountSeats[0][0]=maxCountSeats[0][0]+tempCount} else maxCountSeats[1][0]=maxCountSeats[1][0]+tempCount;
-			 }
-		nashimGvarimRegions[k][3]=Number(isWomanWS['F'+roww].v);   //from seat - gvarim
-		nashimGvarimRegions[k][4]=Number(isWomanWS['G'+roww].v);    //to seat - gvarim
-		if(nashimGvarimRegions[k][3]!=nashimGvarimRegions[k][4]){    //count number of seats - gvarim
-		   tempCount=0;
-			 for (j=nashimGvarimRegions[k][3]; j<nashimGvarimRegions[k][4]+1;j++)if (seatToRow[j] != 'NAN')tempCount++;
-			 if (nashimGvarimRegions[k][0] == 'main'){maxCountSeats[0][1]=maxCountSeats[0][1]+tempCount} else maxCountSeats[1][1]=maxCountSeats[1][1]+tempCount;
-			 }
-		
-		row++;
-	  roww=row.toString();
-		}
-	//console.log ('maxCountSeats='+maxCountSeats);
-
-	//
-		
-
-	var passwordsWS=supportWB.Sheets['passwords'];
-	mngmntPASSW=passwordsWS['B1'].v;
-	gizbarPASSW=	passwordsWS['B2'].v;	
+// -----------------------debug---------------------------
 
 
-
-             
-// -----------------------------------------------------------------------
-		
-			
-//
-// if first time make sure that an empty membersRequests exists
-    stats = fs.statSync(XLSXfilename);  
-   sts=stats.isFile();
-    if (! sts){
-  
-		tmpfile=fs.readFileSync('EmptymembersRequests.xlsx');
+/*	
+tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(XLSXfilename, tmpfile);
-	fs.writeFileSync(EmptyXLSXfilename, tmpfile);
+	workbook = xlsx.readFile(XLSXfilename);
+	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
+
+*/
+
+//----------end debug----------------------------
+    
+	tmpfile=fs.readFileSync('supportTables.xlsx');
+	fs.writeFileSync(supportTblsFilename, tmpfile);
+	supportWB=xlsx.readFile(supportTblsFilename); 
+
+console.log('loaded');
+
+var debugRows=[];
+// debug code 3
+
+/*
+
 	
-	  console.log('membersRequests file was initialized');
-}
-  //
-//
-var seatOcuupationLevel = new Array;
-for(i=1; i<lastSeatNumber+1; i++){
-      seatOcuupationLevel[i]=0;    // clear and set array size 
-			namesForSeat[i]='$/';
-			};
-			
-			
-var workbook = xlsx.readFile(XLSXfilename);
-var emptymemberRequests=xlsx.readFile('EmptymembersRequests.xlsx');
+	
+	 initFromFiles('2016');
+	 stsfctionColction=[];
+	 for (row=firstSeatRow; row<lastSeatRow+1; row++)analyseRqstVSAssgnd(row);
+//	 for (row=firstSeatRow; row<35; row++)analyseRqstVSAssgnd(row);
+	
+		// write file - save info
+		xlsx.writeFile(workbook, XLSXfilename);	  // write once for the cases when reloading from last year
+		initFromFiles('');
+	
+	for (i=0;i<stsfctionColction.length;i++){
+	//for (i=20;i<30;i++){
+	tmp=stsfctionColction[i].split('$');
+	dbgRow=tmp[4]; 
+	dbgStsfction=false; if(debugRows.indexOf(dbgRow) != -1 )dbgStsfction=true;
+	row=knownName(tmp[0])[0];	     
+	if (row== -1)continue;
+	row=row.toString();
+	if(dbgStsfction)console.log('row='+row+' '+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v+' '+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v+' '
+	    +requestedSeatsWorksheet[amudot.lstYrSeat+row].v);
+  tmp1=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v;
+	tmp1=tmp1.split('*');
+	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v=tmp[1]+'*'+tmp1[1];
+
+	
+	tmp1=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v;
+	tmp1=tmp1.split('*');
+	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v=tmp[2]+'*'+tmp1[1];
+	
+	tmp1=requestedSeatsWorksheet[amudot.lstYrSeat+row].v;
+	tmp1=tmp1.split('*');
+	requestedSeatsWorksheet[amudot.lstYrSeat+row].v=tmp[3]+'*'+tmp1[1];
+	
+	if(dbgStsfction)console.log('after ='+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v+' '+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v+' '
+	    +requestedSeatsWorksheet[amudot.lstYrSeat+row].v);
+	}
+		
+		xlsx.writeFile(workbook, XLSXfilename);		
+	
+	*/	
+		// end debug code 3
+		
+		
+		
+initFromFiles(''); // init info from files for last year
+		
+	checkDoubeeAssignments();
 
 
-	var requestedSeatsWorksheet = workbook.Sheets['HTMLRequests']; 
-	var emptyRequestedSeatsWorksheet = emptymemberRequests.Sheets['HTMLRequests']; 
-	// check if workbook is obsolete
-	fileIsOK=true;
-	Object.keys(amudot).forEach(function(key)  {
+	
 
-                            ptr1= amudot[key]+'1';
-														if (requestedSeatsWorksheet[ptr1] && emptyRequestedSeatsWorksheet[ptr1] ){
-									          if ( requestedSeatsWorksheet[ptr1].v != emptyRequestedSeatsWorksheet[ptr1].v )fileIsOK=false;
-													                       }		
-													
-													 
-                         });	
+	
+	
+
+setTimeout(backupRequests, 600000);	//check every 10 minutes
+var dayOfLastBackup=0;
+lastCol='AZ'; 
+var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
+var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
 
 
-if ( !  fileIsOK ){
-            tmpfile=fs.readFileSync('EmptymembersRequests.xlsx');
-	          fs.writeFileSync(XLSXfilename, tmpfile);
-	          fs.writeFileSync(EmptyXLSXfilename, tmpfile);
-						var workbook = xlsx.readFile(XLSXfilename);
-	          var requestedSeatsWorksheet = workbook.Sheets['HTMLRequests']; 
-						console.log('membersRequests file was initialized');
-}
 
-initValuesOutOfHtmlRequestsXLSX_file();   //init values
+initDone=true;
+
+//------------------------------------------------------------
+
+function initFromFiles(yearToInitFrom){
+   if(yearToInitFrom == lastYearInit)return;
+	 lastYearInit=yearToInitFrom;
+	 
+	 console.log('h1');
+   initValuesOutOfSupportTablesXLSX_file (yearToInitFrom);
+	console.log('h2');
+    initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom);   //init values
+		console.log('h3');
+		
+		}
+
+//------------------------------------------------------------
+  
+	function checkDoubeeAssignments(){
+	   var doubles=[];
+		 doubles_idx=0;
+	   assignedCol=amudot.assignedSeatsRosh;
+	   for (moed=1; moed<3;moed++){
+		  moedstr=moed.toString();
+	     for (i=firstSeatRow;i<lastSeatRow;i++){ 
+         row1=i.toString();
+	       assigned_row1_STR=delLeadingBlnks(requestedSeatsWorksheet[assignedCol+row1].v);
+				 if( ! assigned_row1_STR) continue;
+				 assigned_row1=assigned_row1_STR.split('+');
+				 for (j=i+1; j<lastSeatRow+1;j++){
+				    row2=j.toString();
+						assigned_row2_STR=delLeadingBlnks(requestedSeatsWorksheet[assignedCol+row2].v);
+					  if( ! assigned_row2_STR) continue;
+
+				    assigned_row2=assigned_row2_STR.split('+');
+						for (k=0; k<assigned_row2.length;k++){
+						  if (assigned_row1.indexOf(assigned_row2[k])  != -1){
+							                      doubles[doubles_idx]=row1+'-'+row2+'- moed='+moedstr;
+																		doubles_idx++;
+																		
+																		}
+										} // for k								
+	}  //j
+	}  // i
+	       assignedCol=amudot.assignedSeatsKipur;
+	} //moed
+	
+	  if ( ! doubles_idx)return; // no doubles
+		  console.log('doubles');
+			console.log(doubles);
+		
+		
+	} // function
 
 
-CountAssignedPerMoed_PerUlam();
+	
+//-------------------------------------------------------------------
 
-//open stsfction file and set stsfctionFamilyNames  
+function colNametoNumber(col){
+   var alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (col.length ==1) return alphabet.indexOf(col)+1;
+		col1=col.substr(0,1);  col2=col.substr(1,1);
+		num= 26*(alphabet.indexOf(col1)+1)+alphabet.indexOf(col2)+1;
+		
+		return num;
+		       
+	}
+//-------------------------------------------------------------
+function backupRequests(){
+    var d1 = new Date();
+    var hourInIsrael = Number(d1.getHours())+7-24;
+		
+// handle forgetList
+     for (iikk=firstSeatRow; i< lastSeatRow+1;i++){
+    		 if (forgetList[iikk]){
+				      countr=Number(forgetList[iikk].split('$')[1]);
+							if (countr>0)countr--;              forgetList[iikk]= forgetList[iikk].split('$')[0]+countr.toString();
+							if( ! countr )forgetList[iikk]='';
+							}
+				}
+				
+				
+// end of forget list handling
 
- var  stsfctionWB=xlsx.readFile('SortingData.xlsx');
- stsfctionSheets=stsfctionWB.SheetNames;
- var d = new Date();
- var crrntYyr = d.getFullYear();
- var lastYr=crrntYyr-1;
- var crrntYrSheetName='dataFor'+crrntYyr.toString();
- var lastYrSheetName='dataFor'+lastYr.toString();
+
+							 
+		 weekDay=d1.getDay();
+		 if(weekDay == dayOfLastBackup ) {
+		    setTimeout(backupRequests, 600000);	//check every 10 minutes
+		    return;
+				}
+		
+    if(hourInIsrael == 3){      // once a day; at night 
+    	 xlsx.writeFile(workbook, BackupFilename);
+	 
+	     dayOfLastBackup=weekDay;
+	     var mailOptions = {
+            from: 'kehilatarielseats@gmail.com', // sender address
+            to: 'kehilatarielseats@gmail.com', // list of receivers
+            subject: 'backupCreated', // Subject line
+            text: 'backup',  // plaintext body
+            attachments: [
+                {   // file on disk as an attachment
+               filename: 'requestsBackup.xlsx',
+               path: BackupFilename // stream this file
+              }  ]                  
+											
+					};
+									    
+     transporter.sendMail(mailOptions, function(error, info){
+         if(error)  console.log('send backup mail reported an error=='+error);
+	    })
+	 console.log('backup created at '+d1);
+	 
+	 }
+setTimeout(backupRequests, 600000);	//check every 10 minutes
 
 
-if ( initSatisfactionFile() == '---')console.log('err in stsfction file list of names');
-     
- var stsfctionWorkSheet = stsfctionWB.Sheets[lastYrSheetName]; 
+}	 
 
-	for (i=6;i<200;i++){ 
-	 row=i.toString();
-	 pointerCell=amudot.name+row;   //  name always in 'A'
+
+//-------------------------------------------------------------
+ function sendMail(addr,subj,txt){
+      
+      var mailOptions = {
+            from: 'kehilatarielseats@gmail.com', // sender address
+            to: addr, // list of receivers
+            subject: subj, // Subject line
+            text: txt,  // plaintext body
+  	      	};
+									    
+     transporter.sendMail(mailOptions, function(error, info){
+         if(error)  console.log('send  mail to '+addr+' subj='+subj+' text='+txt+' reported an error=='+error);
+	    })
  
-	 	 cell=stsfctionWorkSheet[pointerCell]; 
-	  if(! cell) continue;
-		if ( ! delLeadingBlnks(cell.v) ) continue;
-		if ( firstSeatRow == 0) startingRowstsfction=i;   // first name  row
-	     stsfctionFamilyNames[i- startingRowstsfction]=cell.v; 
-  }
+ 
+ }
 
-	// get  sortWeights
-sortWeightsSheet=stsfctionWB.Sheets['sortWeights'];   
+//--------------------------------------------------------------- 
+function initValuesOutOfSupportTablesXLSX_file(yearToInitFrom){  
+ var tmp;
+ var badList=[];
+ 
+//read Seat to Row from supportTables.xlsx  
+
+   maxCountSeats=[[0,0],[0,0]]; // rashi-martef  /  gvarim-nashim
+		
+	lastSeatNumber=0;    
+	seatToRowWS=supportWB.Sheets['seatToRow'+yearToInitFrom]; 
+  shulConfigerationWS=supportWB.Sheets['shulConfigeration'+yearToInitFrom];  
+	
+	for (i=0;i<1500;i++){  
+	      isWoman[i]='';
+				configRowOfSeat[i]=''; 
+				}
+ 
+ badSeats=[];
+ 
+ for (firstConfigRow=1;firstConfigRow<20;firstConfigRow++){
+         ptr=amudotOfConfig.fromSeat+firstConfigRow.toString(); 
+				 tmp=shulConfigerationWS[ptr].v;    
+				 if ( ! isNaN(tmp) )break;
+			}
+	if (firstConfigRow ==20){console.log('error in supporttables'); return}	 
+ 
+ 
+  for (i=firstConfigRow; i<1500; i++){
+	  row=(i).toString();
+    ptrFrom=amudotOfConfig.fromSeat+row;  
+		vlu=shulConfigerationWS[ptrFrom].v;
+		if (vlu == '$$$')break;
+		
+		
+		Stfrom=Number(vlu);
+		
+		if (! Stfrom){  // if from seat = 0 then info at "edge seats" is a list of "bad seats"
+		   ptr=amudotOfConfig.open_badSeats+row;
+		   badList=(shulConfigerationWS[ptr].v).split('+');
+			 for (ii=0; ii< badList.length; ii++)badSeats.push(Number(badList[ii]));  // add this row bad seats to global list of bad seats
+		  continue;
+			}
+		ptrTo=amudotOfConfig.toSeat+row;
+		StTo=Number(shulConfigerationWS[ptrTo].v);
+		
+		ptrEzor=amudotOfConfig.ezor+row;
+		ezor=shulConfigerationWS[ptrEzor].v;
+		
+		ptrUlam=amudotOfConfig.ulam+row;
+		ulam=shulConfigerationWS[ptrUlam].v;
+		if (ulam.substr(0,1) != 'n'){nashim=0;} else nashim=1;  // gender value for nashim in maxCountSeats is 1 
+		
+		itmp=ulam.indexOf(' ');
+		tmp=ulam.substr(itmp+1,1);
+		UlamOrMartef='m';  ind1=1;
+				if (tmp != 'm') {  UlamOrMartef='u';  ind1=0;};
+		
+		maxCountSeats[ind1][nashim] += StTo-Stfrom+1;
+		  
+		for(st=Stfrom; st<StTo+1; st++){
+		    isWoman[st]=nashim;
+		    UlamMartef[st]=UlamOrMartef;
+				ezorOfSeat[st]=ezor;
+				configRowOfSeat[st]=i;
+				
+			}	
+	}			
+		
+		
+		i=1;
+		ptr1=amudotOfConfig.fromSeat+(i).toString();
+		nextSt=seatToRowWS[ptr1].v	;
+		while (nextSt != '$$$'){
+   
+      alreadyAssignedSeatsRosh[i]=' '; 
+      alreadyAssignedSeatsKipur[i]=' ';
+      seatToRow[i]=seatToRowWS[ptr1].v;
+  
+	
+		i++;  if(i > 1500){console.log('error in seat to row'); return;};
+		ptr1=amudotOfConfig.fromSeat+(i).toString();
+		nextSt=seatToRowWS[ptr1].v	;
+   };
+		
+		lastSeatNumber=i-1;
+			
+	
+ // get  sortWeights
+sortWeightsSheet=supportWB.Sheets['sortWeights'];   
 
 vetekWeight=Number(sortWeightsSheet[sortWeightsPtr.vetek].v);
 personalIssueWeight=Number(sortWeightsSheet[sortWeightsPtr.personalIssue].v);
@@ -875,29 +1233,25 @@ requestedSeatsPerFamilySizeWeight=Number(sortWeightsSheet[sortWeightsPtr.request
 BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 
 
-var lastBackupBefore=0;
-backupEvery=24*6;  // every 24 hours
-setTimeout(backupRequests, 600000);	//check every 10 minutes
-
+}
 //-------------------------------------------------------------
-function backupRequests(){
+function initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom){
+
+
+for(i=1; i<lastSeatNumber+1; i++){
+      seatOcuupationLevel[i]=0;    // clear and set array size 
+			namesForSeat[i]='$/';
+			};
+			
+			
   
-   lastBackupBefore++;
-	 if(lastBackupBefore > 0){// 
-	 lastBackupBefore=0;
-	 xlsx.writeFile(workbook, BackupFilename);
-	 console.log('backup created');
-	 
-	 }
-setTimeout(backupRequests, 600000);	//check every 10 minutes
-
-
-}	 
-
-
-//-------------------------------------------------------------
-function initValuesOutOfHtmlRequestsXLSX_file(){
-   firstName=[];
+ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
+  
+	
+	
+	
+	
+	 firstName=[];
 	 	 firstSeatRow=0;
 	 for (i=2;i<200;i++){ 
 	 row=i.toString();
@@ -922,8 +1276,9 @@ function initValuesOutOfHtmlRequestsXLSX_file(){
 			     } 
 					 else firstName[i-firstSeatRow]='';
 					 
-					 
 	     familyNames[i-firstSeatRow]= famName; 
+			 
+			 forgetList[i]='';
 			  
 		   mRosh=Number(requestedSeatsWorksheet[amudot.menRosh +row].v);
 				 wRosh=Number(requestedSeatsWorksheet[amudot.womenRosh +row].v);
@@ -931,11 +1286,12 @@ function initValuesOutOfHtmlRequestsXLSX_file(){
 				 wKipur=Number(requestedSeatsWorksheet[amudot.womenKipur +row].v); 
 				
 				 if ( (mRosh + wRosh + mKipur + wKipur) == 0) continue; // member did not input a request
-
+		//		continue;
+  // updateRowForNewSelection(row);     // delete after ok
 				 closeSeats(1,i);
 				closeSeats(2,i);  
 						 
-	   }
+	   }  
 		
 	 if (i>190)reportAnError('no $$$ at end of family names'); 
 	 
@@ -943,12 +1299,20 @@ function initValuesOutOfHtmlRequestsXLSX_file(){
                alreadyAssignedSeatsRosh[i]=' '; 
                alreadyAssignedSeatsKipur[i]=' '; 
 							 }
+	
+//return;
+	init_notAssigenedMarked('rosh');
+	  init_notAssigenedMarked('kipur');
+
+    CountAssignedPerMoed_PerUlam();
+	
 	}
 	
  
 // -----------------------------------------------------------------------
 function counSeatsInEzor(row,moed,ezor){
 var reslt = new Array;
+
 
 
         menRosh=Number(requestedSeatsWorksheet[amudot.menRosh+row].v);
@@ -989,7 +1353,8 @@ var reslt = new Array;
 function update_namesForSeat(row){
 debug1=false;     //if (row  =='173') debug1=true; 
   nm=delLeadingBlnks( requestedSeatsWorksheet[amudot.name +row].v);
-
+  nmLastChr=nm.substr(nm.length-1);
+	if(nmLastChr=='*')nm=nm.substr(0,nm.length-1);
  
 	markedSeatsSTR=delLeadingBlnks( requestedSeatsWorksheet[amudot.markedSeats +row].v); 
 	if(markedSeatsSTR){ // seats were marked
@@ -1044,7 +1409,7 @@ debug1=false;     //if (row  =='173') debug1=true;
  idx=0;
  moed=['rosh','kipur','all'].indexOf(moedCode)+1;
  // start with filtering
- 
+
  for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
    row=i.toString();
 	 
@@ -1056,21 +1421,24 @@ debug1=false;     //if (row  =='173') debug1=true;
 		tmpVl=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)+Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)
 		      +Number(requestedSeatsWorksheet[amudot.menKipur+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
 		if ( !	tmpVl ) continue;  // no request made		
-		
+
 		if (notPaidFilter=='true'){
 		    paidValue=delLeadingBlnks(requestedSeatsWorksheet[amudot.tashlumPaid +row].v); 
 	      if( ! paidValue)continue;
 		}  // notPaidFilter
 		
-		// prepare for future "doneWith" filtering
-		
 		   toAssgnRoshMen=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)-Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v);
  			 toAssgnRoshWomen=Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)-Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v);
  			 toAssgnKipurMen=Number(requestedSeatsWorksheet[amudot.menKipur+row].v)-Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+row].v);
  			 toAssgnKipurWomen=Number(requestedSeatsWorksheet[amudot.womenKipur+row].v)-Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v);
+		
+		
+		
 		// name not filtered
 		
-		counts=counSeatsInEzor(row,moed,SidurUlam);
+		counts=counSeatsInEzor(row,moed,SidurUlam);  
+		if ( ! (counts[0]+ counts[1]) ) continue;    // no seat requested for current ulam
+		
 		nameToKeep= delLeadingBlnks(requestedSeatsWorksheet[amudot.name +row].v);
 		if (nameToKeep.substr(nameToKeep.length-1,1) == '*') nameToKeep=nameToKeep.substr(0,nameToKeep.length-1);
 		tempList[idx]=nameToKeep+'$'+calcSortParam(row)[0]+'$'+calcSortParam(row)[1]+
@@ -1080,11 +1448,11 @@ debug1=false;     //if (row  =='173') debug1=true;
 		
    }// for
 
- 
+
  
  // sort step  A
  tempList=tempList.sort(sortOrderFirstParam);
- 
+
  //move to tempList_2 upto amount of available seats
  countWomen=0;
  countMen=0;
@@ -1099,6 +1467,7 @@ debug1=false;     //if (row  =='173') debug1=true;
  if(SidurUlam=='2'){maxCountMen=assignedPerUlam[1][1]; maxCountWomen= assignedPerUlam[1][0]};
 
  for (i=0;i<tempList.length;i++){
+
    countWomen=countWomen+Number(tempList[i].split('$')[3]);
    countMen=countMen+Number(tempList[i].split('$')[4]);
    if( (countMen>maxCountMen) || (countWomen>maxCountWomen) ) break;
@@ -1106,20 +1475,22 @@ debug1=false;     //if (row  =='173') debug1=true;
 	} 
 	 
  //  sort step  B
-  tempList_2=tempList_2.sort(sortOrderSecondParam);
+   tempList_2=tempList_2.sort(sortOrderSecondParam);
 	
-//console.log('tempList_2='+tempList_2);
+  
 
  // second filtering stage of those that are already done and stripping of not required info
    vlu=[];
 	 idx=0;
 	 for(i=0;i<tempList_2.length;i++){
+	 
          vlu=tempList_2[i].split('$');
 		     toAssgnRoshMen=Number(vlu[5]);
  				 toAssgnRoshWomen=Number(vlu[6]);
  				 toAssgnKipurMen=Number(vlu[7]);
  				 toAssgnKipurWomen=Number(vlu[8]);
          doneWithFlag=false;  
+
 				 switch 	(moedCode) {  
 				     	case 'rosh':  
 							 if ( ( ! toAssgnRoshMen) && ( ! toAssgnRoshWomen) )doneWithFlag=true;
@@ -1145,7 +1516,9 @@ debug1=false;     //if (row  =='173') debug1=true;
 //--------------------------------------------------------------------------     
 function calcSortParam(row){
  var calcResult=[];
- 
+ var tmp;
+ var  tmp1;
+ var tmp2;
  //   calc family sort calue
  
 // part personal problem family between floors
@@ -1157,11 +1530,13 @@ part2=vetekWeight*Number(requestedSeatsWorksheet[amudot.memberShipStatus+row].v)
 //part mishkal koma in the past
 MakomMinus3Yrs=Number(requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v);
 MakomMinus2Yrs=lastYearVS2YearsAgoWeight*Number(requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v);
-MakomMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*Number(requestedSeatsWorksheet[amudot.lstYrSeat+row].v);
+tmp=(requestedSeatsWorksheet[amudot.lstYrSeat+row].v).split('*');
+if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);
+MakomMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*tmp1;
 
 part3=satisfactionHistoryWeight*(MakomMinus3Yrs+MakomMinus2Yrs+MakomMinus1Yrs);
 
-// part mispar mekomo mevukash
+// part mispar mekomot mevukash
 numOfRequestedSeats=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)+Number(requestedSeatsWorksheet[amudot.menKipur+row].v)
                   +Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
 part4=numberOfRequestedSeatsWeight*numOfRequestedSeats;
@@ -1173,29 +1548,37 @@ part5=requestedSeatsPerFamilySizeWeight*numOfRequestedSeats;
 calcResult[0]=part1+part2+part3-part4-part5+10000;
 
 
-
 // calc nashim+gvarim issue in floor sort value
 
 part6=personalIssueWeight*(Number(requestedSeatsWorksheet[amudot.issueInFloorWmn+row].v)+Number(requestedSeatsWorksheet[amudot.issueinFloorMen+row].v));
-
+  
 // part satisfaction history
-stsfctnMinus3Yrs=Number(requestedSeatsWorksheet[amudot.stsfctnInFlr3YRSAgoYrWmn+row].v)+Number(requestedSeatsWorksheet[amudot.stsfctnInFlr3YRSAgoYrMen+row].v);
-stsfctnMinus2Yrs=lastYearVS2YearsAgoWeight*(Number(requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrWmn+row].v)+Number(requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrMen+row].v));
-stsfctnMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*(Number(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v)
-                       +Number(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v));
+stsfctnMinus3Yrs=getStsfctnVlu(amudot.stsfctnInFlr3YRSAgoYrWmn+row)+getStsfctnVlu(amudot.stsfctnInFlr3YRSAgoYrMen+row);
+stsfctnMinus2Yrs=lastYearVS2YearsAgoWeight*(getStsfctnVlu(amudot.stsfctnInFlr2YRSAgoYrWmn+row)+getStsfctnVlu(amudot.stsfctnInFlr2YRSAgoYrMen+row));
+stsfctnMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*(getStsfctnVlu(amudot.stsfctnInFlrLastYrWmn+row)+getStsfctnVlu(amudot.stsfctnInFlrLastYrMen+row));
+//console.log('row='+row+'   -1='+stsfctnMinus1Yrs+'   -2='+stsfctnMinus2Yrs+'   -2='+stsfctnMinus3Yrs);
 
- part7=  stsfctnMinus3Yrs+  stsfctnMinus2Yrs+ stsfctnMinus1Yrs;
+/*
+//old version
+tmp=(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v).split('*');
+if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);
+tmp=(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v).split('*');
+if ( !tmp[1]){tmp2=Number(tmp[0])} else tmp2=Number(tmp[1]);
+stsfctnMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*(tmp1+tmp2);
+ */                      
+ part7= satisfactionInFloorWeight*( stsfctnMinus3Yrs+  stsfctnMinus2Yrs+ stsfctnMinus1Yrs);
  
  // part baby
- 
- if ( (requestedSeatsWorksheet[amudot.preferedMinyanW+row].v).substr(0,1) =='0'){
-       SourceBirthDate=  (requestedSeatsWorksheet[amudot.preferedExplanationW+row].v);
+ reqtmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.preferedMinyanW+row].v).substr(0,1);
+ SourceBirthDate=delLeadingBlnks(requestedSeatsWorksheet[amudot.preferedExplanationW+row].v);
+ if (SourceBirthDate && (reqtmp == '0')){
+         
        modifiedBirthDate=SourceBirthDate.substr(3,3)+' '+SourceBirthDate.substr(0,2)+', '+SourceBirthDate.substr(7,4);
 			 birthDayMilisec=Date.parse(modifiedBirthDate);
        dt=new Date();
 			 now=dt.getTime()
 			 babyAgeInDays=Math.floor((now-birthDayMilisec)/(1000*3600*24));
-      
+   
        if (babyAgeInDays > 730 ) {part8=0}else part8=730-babyAgeInDays;
       } 
      else part8=0;
@@ -1208,6 +1591,18 @@ calcResult[1]=part6+part2+part3-part7-part4-part5+part8+10000;
 return calcResult;
 
 
+}
+
+//-------------------------------------------------------------------------- 
+function getStsfctnVlu(cellPtr){
+var tmp=[];
+var tmp1;
+
+tmp1=(requestedSeatsWorksheet[cellPtr].v).toString();
+if (tmp1.indexOf('*')== -1)return Number(tmp1);
+tmp=tmp1.split('*');
+if (tmp[1])return Number(tmp[1]);
+return Number(tmp[0]);
 }
 
 
@@ -1250,9 +1645,18 @@ function sortOrderSecondParam(a,b){
 		return tArry;
 	}	 
 //--------------------------------------------------------------------------  
-  function  closeSeats(moed,row){   
-	var alreadyAssignedTemp = new Array;
+  
 	
+	
+	function  closeSeats(moed,row){  
+	
+	var dbgCloseSeats=[];
+	var dbgCloseSeatsFlag;
+	 
+	var alreadyAssignedTemp = new Array;
+	var ptrCol,ii,strOfSeats,seatNm,tmpAssigned,ptrNN,nameForSeat;
+	 
+	dbgCloseSeatsFlag=false;   if( dbgCloseSeats.indexOf(row) != -1)dbgCloseSeatsFlag=true; 
 	ptrNN=amudot.name+row;
 	nameForSeat=requestedSeatsWorksheet[ptrNN].v;
 	if( moed ==1) {
@@ -1266,15 +1670,17 @@ function sortOrderSecondParam(a,b){
 	for (ii = 1; ii < 1500; ii++)if (alreadyAssignedTemp[ii] == nameForSeat){alreadyAssignedTemp[ii]=''; }// clear previous assignments
 	
 	strOfSeats=requestedSeatsWorksheet[ptrCol+row].v;  
-	if (  delLeadingBlnks(strOfSeats)){ // return;
-	tmpAssigned=strOfSeats.split('+');  
-	for (ii=0; ii < tmpAssigned.length; ii++){
-	 seatNm=Number(tmpAssigned[ii]);  
-	 alreadyAssignedTemp[seatNm]=nameForSeat;
-	};	
+	if (  delLeadingBlnks(strOfSeats)){ 
+	    tmpAssigned=strOfSeats.split('+');  
+	    for (ii=0; ii < tmpAssigned.length; ii++){
+	       seatNm=Number(tmpAssigned[ii]);  
+	       alreadyAssignedTemp[seatNm]=nameForSeat;
+	   };	
 	
 	tArray=[];
 	tArray=countMenAndWomenAssignedSeats(row);
+	
+	if(true)console.log('row='+row+'    tArray='+tArray);   //dbgCloseSeatsFlag
 	
 	requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v=tArray[0];
 	requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v=tArray[1];
@@ -1298,7 +1704,7 @@ function CountAssignedPerMoed_PerUlam(){
 	       countAssignedPerMoed(0,member);  // rosh
  	       countAssignedPerMoed(1,member);  // kipur
       }
-  //   console.log(assignedPerUlam);
+  
 
 }
 //--------------------------------------------------------------------------   
@@ -1313,26 +1719,77 @@ function countAssignedPerMoed(moed,mmbr){
 	assgndSeats=assgndSeatsTemp.split('+');
 	for (j=0; j< assgndSeats.length; j++){
 	   Cseat=Number(assgndSeats[j]);
-		 eizorAndGender=getEizorForSeat(Cseat);
-		 eizor=['main','martef'].indexOf(eizorAndGender[0]);
-		 assignedPerUlam[eizor][moed][eizorAndGender[1]]++;
+		 gender=isWoman[Cseat];
+	//	 eizorAndGender=getEizorForSeat(Cseat);
+		 eizor=['u','m'].indexOf(UlamMartef[Cseat]);
+		 assignedPerUlam[eizor][moed][gender]++;
 	}
 	
 }
 
 
+
+//-------------------------------------------------------------------------- 
+
+app.get('/getAssignmentReport', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	 passW=decodeURI(req.originalUrl).split('?')[1];
+	 if (passW != mngmntPASSW){
+	      res.send('---');
+				return;
+				}
+				
+	rtrnStr='';
+	for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
+      row=i.toString();
+			
+			closeSeats(1,row); // recalculate numberOfAssignedSeats
+			closeSeats(2,row);
+						
+			req_men_rosh=Number(requestedSeatsWorksheet[amudot.menRosh+row].v);
+			req_wmn_rosh=Number(requestedSeatsWorksheet[amudot.womenRosh+row].v);
+			req_men_kipur=Number(requestedSeatsWorksheet[amudot.menKipur+row].v);
+			req_wmn_kipur=Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
+			asgnd_men_rosh=Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v);
+			asgnd_wmn_rosh=Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v);
+			asgnd_men_kipur=Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+row].v);
+			asgnd_wmn_kipur=Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v);
+					
+							
+
+      d_men_rosh=req_men_rosh-asgnd_men_rosh;
+	    d_wmn_rosh=req_wmn_rosh-asgnd_wmn_rosh;
+	    d_men_kipur=req_men_kipur-asgnd_men_kipur;
+	    d_wmn_kipur=req_wmn_kipur-asgnd_wmn_kipur;
+      nam=requestedSeatsWorksheet[amudot.name+row].v;
+			if (nam.substr(nam.length-1,1)== '*')nam=nam.substr(0,nam.length-1);
+			if( d_men_rosh || d_wmn_rosh  || d_men_kipur || d_wmn_kipur )   // at least one of them do not match
+			     rtrnStr=rtrnStr+nam+'&'+req_men_rosh.toString()+'&'+ req_wmn_rosh.toString()+ '&'+req_men_kipur.toString()+'&'+req_wmn_kipur.toString()
+				    +'&'+asgnd_men_rosh.toString()+'&'+asgnd_wmn_rosh.toString()+'&'+asgnd_men_kipur.toString()+'&'+asgnd_wmn_kipur.toString()+'$';
+		}  // for
+		if (	rtrnStr )rtrnStr=rtrnStr.substr(0,rtrnStr.length-1);	
+			console.log('rtrnStr='+rtrnStr);
+			res.send('+++' + rtrnStr);
+			
+		})	
+				         
+
 //--------------------------------------------------------------------------    
-function getEizorForSeat(seatNum){  
-  for (ll=0;ll<nashimGvarimRegions.length;ll++){
-	
-	     if ( (seatNum >= nashimGvarimRegions[ll][1])  && (seatNum<= nashimGvarimRegions[ll][2]) )return [nashimGvarimRegions[ll][0],0];
-    	 if ( (seatNum >= nashimGvarimRegions[ll][3])  && (seatNum<= nashimGvarimRegions[ll][4]) )return [nashimGvarimRegions[ll][0],1];
-			 }
-			 console.log('err in nashimGvarimRegions');
+function saveActionLog(inpStr){
+
+
+
+
+
+
+
+
 
 }
 
 //--------------------------------------------------------------------------    
+
 	function sendMsgToKehilatArielSeatsGmail(titl,Msg){
 	
 		 var mailOptions = {
@@ -1343,7 +1800,7 @@ function getEizorForSeat(seatNum){
                        };
 									    
    transporter.sendMail(mailOptions, function(error, info){
-    if(error)  console.log('send mail reported an error=='+error);
+    if(error)  console.log('send mail (title='+titl+')  reported an error=='+error);
 	    })
 }
 //--------------------------------------------------------------------------    
@@ -1358,8 +1815,30 @@ app.get('/dnldRequests', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	
 	inputString=decodeURI(req.originalUrl); 
-  passW=inputString.split('-')[1]; tt=inputString.split('-'); 
+  passW=inputString.split('-')[1]; //tt=inputString.split('-'); 
 	if (passW == mngmntPASSW){  fileToSendName= 'membersRequests.xlsx';  fileToRead=XLSXfilename}
+				else {fileToSendName='empty.xlsx'; fileToRead='empty.xlsx'}
+				
+				
+				
+        res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=' + fileToSendName);
+	      var fileR = fs.readFileSync(fileToRead, 'binary');
+        res.setHeader('Content-Length', fileR.length);
+        res.write(fileR, 'binary');
+        res.end();
+      
+ 
+});
+
+//----------------------------------------------------------------------------------
+
+app.get('/dnldSupportTblsFile', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	
+	inputString=decodeURI(req.originalUrl); 
+  passW=inputString.split('-')[1]; //tt=inputString.split('-'); 
+	if (passW == mngmntPASSW){  fileToSendName= 'supportTables.xlsx';  fileToRead=supportTblsFilename}
 				else {fileToSendName='empty.xlsx'; fileToRead='empty.xlsx'}
 				
 				
@@ -1397,7 +1876,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 //---------------------------------------------------------------------------------	
  //emptyHazmanatmekomotFileName=	process.env.OPENSHIFT_DATA_DIR+'hazmanatMekomotEmpty.xlsx';  
 	 function generate_seatsOrderedXLS(){
-	 
+	 initFromFiles('');
 	 var firstRowInHazmanot=12;
 	 var memberDataName =new Array; 
 	 memberDataName=[];
@@ -1410,8 +1889,10 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 var memberDataWmnK =new Array; 
 	 memberDataWmnK=[];
 	 
+	 var nameslist = new Array;
 	 var amudotHazmana=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
-	 nameslist=familyNames.sort();
+	 for(ijk=0;ijk<familyNames.length;ijk++)nameslist[ijk]=familyNames[ijk];
+	 nameslist= nameslist.sort();
 	 for (ik=0; ik<nameslist.length;ik++){
 	     memberDataName[ik]=nameslist[ik];
 			 rowNum=knownName(memberDataName[ik])[0];
@@ -1507,6 +1988,8 @@ app.get('/addMember', function(req, res) {
  
    passW=inputPairs[4];
 	 if (passW == mngmntPASSW){
+	 initFromFiles('');
+	 
 	 lastNm=delLeadingBlnks(inputPairs[1]);
    frstNm= delLeadingBlnks(inputPairs[2]);
 	 
@@ -1559,14 +2042,10 @@ app.get('/addMember', function(req, res) {
    
 	 xlsx.writeFile(workbook, XLSXfilename);
 	 
-	 var Emptyworkbook = xlsx.readFile(EmptyXLSXfilename); 
-   var EmptyrequestedSeatsWorksheet = Emptyworkbook.Sheets['HTMLRequests']; 
-	 EmptyrequestedSeatsWorksheet[pointerCell].v=newName; 	
-   
-	 xlsx.writeFile(workbook, EmptyXLSXfilename);
-	 
 	
 	 
+	
+						
 	 res.send('+++');
 	 }
 	else res.send('999' ); 
@@ -1583,6 +2062,7 @@ app.get('/addFirstName', function(req, res) {
  
    passW=inputPairs[3];
 	 if (passW == mngmntPASSW){
+	 initFromFiles('');
 	 lastNm=delLeadingBlnks(inputPairs[1]);
    frstNm= delLeadingBlnks(inputPairs[2]);
 	 if ( ( !lastNm) || ( !frstNm)  ){ res.send('---' );   return}; // bad input
@@ -1601,7 +2081,11 @@ app.get('/addFirstName', function(req, res) {
 
 app.get('/getCountOfSeats', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-  
+	inputString=decodeURI(req.originalUrl); 
+	inp=inputString.split('?')[1]; 
+	
+  initFromFiles(inp);
+	
 	rspns='';
 	for (ulam=0; ulam<2;ulam++)      //// rashi-martef  /  gvarim-nashim
 	      for (gender=0;gender<2;gender++) rspns=rspns+maxCountSeats[ulam][gender].toString()+'$';
@@ -1609,15 +2093,76 @@ app.get('/getCountOfSeats', function(req, res) {
 	for (ulam=0; ulam<2;ulam++)             //[ulam][moed][gvarim-nashim] 
 	   for (moed=0;moed<2;moed++)
 		    for (gender=0;gender<2;gender++) rspns=rspns+assignedPerUlam[ulam][moed][gender].toString()+'$';	
+	
+	
+	// count ulam assignment by commitee	
+	var nasimMartef=0;
+	var nashimRashi=0;
+	var gvarimMartef=0;
+	var gvarimRashi=0;
+	var famsNotFullyAssgnRosh=0;
+	var famsNotFullyAssgnKipur=0;
+
+	for (i=firstSeatRow ; i<lastSeatRow+1   ; i++){
+	  row=i.toString();
 				
-	rspns=rspns.substr(0,rspns.length-1);
-						
+	  if(Number(requestedSeatsWorksheet[amudot.nashimMuadaf+row].v) == 1)nashimRashi++;
+		if(Number(requestedSeatsWorksheet[amudot.nashimMuadaf+row].v) == 2)nasimMartef++;
+	  if(Number(requestedSeatsWorksheet[amudot.gvarimMuadaf+row].v) == 1)gvarimRashi++;
+	  if(Number(requestedSeatsWorksheet[amudot.gvarimMuadaf+row].v) == 2)gvarimMartef++;
+		
+		if ( ! compareAssgndVSRqstd(row,1) )famsNotFullyAssgnRosh++;
+		if ( ! compareAssgndVSRqstd(row,2) )famsNotFullyAssgnKipur++;
+		
+    }
+			
+	rspns=rspns+gvarimMartef.toString()+'$'+nasimMartef.toString()+'$'+gvarimRashi.toString()+'$'+nashimRashi.toString();
+	
+	rspns=rspns+'$'+famsNotFullyAssgnRosh.toString()+'$'+famsNotFullyAssgnKipur.toString();
+	
+
   
-	 res.send(rspns);
+	 res.send(rspns);  
 	
 	 });
 
-//--------------------------------------------------------------------------------- maxCountSeats  assignedPerUlam  [ulam][moed][gvarim-nashim] 
+//---------------------------------------------------------------------------------
+
+function compareAssgndVSRqstd(row,chag){  // return true if assignment fits request
+
+var assgndStr, requestForNashim, requestForGvarim;
+var i;
+var list=[];
+countassnd=[0,0];
+
+  switch (chag){
+			
+				case 1:    // rosh 
+				 assgndStr=delLeadingBlnks(requestedSeatsWorksheet[amudot.assignedSeatsRosh+row].v);
+				 requestForNashim=Number(delLeadingBlnks(requestedSeatsWorksheet[amudot.womenRosh+row].v));
+				 requestForGvarim=Number(delLeadingBlnks(requestedSeatsWorksheet[amudot.menRosh+row].v));
+
+				 break;
+				
+				case 2:     // kipur
+				assgndStr=delLeadingBlnks(requestedSeatsWorksheet[amudot.assignedSeatsKipur+row].v);
+				requestForNashim=Number(delLeadingBlnks(requestedSeatsWorksheet[amudot.womenKipur+row].v));
+				requestForGvarim=Number(delLeadingBlnks(requestedSeatsWorksheet[amudot.menKipur+row].v));
+				 break;
+				
+				}
+		if ( ! (	requestForNashim + 	requestForGvarim)  )return true;  // no request == full assignment
+		if( ! assgndStr) return false;  // not assigned yet at all
+		list=assgndStr.split('+');
+		for (i=0; i<list.length;i++)countassnd[isWoman[Number(list[i])]]++;
+		if (  (countassnd[0] < requestForGvarim) || (countassnd[1] < requestForNashim) )return false;
+		
+		return true;
+		
+}		
+		
+
+//--------------------------------------------------------------------------------- 
 
 // Hard initialize membersRequests.xlsx file
 
@@ -1634,11 +2179,11 @@ app.get('/shira1807', function(req, res) {
   alreadyAssignedSeatsKipur[i]=' ';
 	 };
 	 
-	 initValuesOutOfHtmlRequestsXLSX_file();
+	 initFromFiles('');
 	
  console.log('membersRequests file was HARD initialized');
 
-var seatOcuupationLevel = new Array;
+
 for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set array size 
 
 	
@@ -1658,13 +2203,18 @@ for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set a
 	res.header("Access-Control-Allow-Origin", "*");
 	inputString=decodeURI(req.originalUrl); 
 	
-	if (inputString.substr(12)==gizbarPASSW){ 
+	if (inputString.substr(12)==gizbarPASSW){
+	initFromFiles(''); 
 	listOfPayments='';
+	
 	for(i=firstSeatRow;i<lastSeatRow+1;i++){
+	    
 	    pointerCell=amudot.name+(i).toString(); 
 		 cell=requestedSeatsWorksheet[pointerCell]; 
 	   if(! cell) continue;
-		 listOfPayments=listOfPayments+'$'+cell.v;
+		 nameInCell=cell.v;
+		 if(nameInCell.substr(nameInCell.length-1)=='*')nameInCell=nameInCell.substr(0,nameInCell.length-1);
+		 listOfPayments=listOfPayments+'$'+nameInCell;
 		  pointerCell=amudot.tashlum+(i).toString(); 
 		 cell=requestedSeatsWorksheet[pointerCell];
      listOfPayments=listOfPayments+'+'+cell.v;	
@@ -1688,6 +2238,7 @@ app.get('/UPDtashlumim', function(req, res) {
 	if (inputPairs[1] != gizbarPASSW){ res.send('999')}
 	
 	else{
+	initFromFiles('');
 		 errFound=false;
 	 // check request validity
 	 for (i=2;i<inputPairs.length;i++){
@@ -1703,11 +2254,12 @@ app.get('/UPDtashlumim', function(req, res) {
        for (i=2;i<inputPairs.length;i++){
 	     memberUpd=inputPairs[i].split('+');
 		   paid=delLeadingBlnks(memberUpd[1]);
-		   if( ! paid) continue;
+		//   if( ! paid) continue;
 		   row=knownName(memberUpd[0])[0]; 
 	 		 ptr=amudot.tashlumPaid+row.toString();      
 			 requestedSeatsWorksheet[ptr].v=paid;
 			 atLeastOneToUpdate=true;
+			
 			 }
 			 if (atLeastOneToUpdate) {xlsx.writeFile(workbook, XLSXfilename)};
 			 res.send('+++');
@@ -1716,35 +2268,22 @@ app.get('/UPDtashlumim', function(req, res) {
 	 });
 
 
-//---------------------------------------------------------------------------------	 
-
-// initialize membersRequests.xlsx file
-
-app.get('/s276662', function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*");
-	tmpfile=fs.readFileSync(EmptyXLSXfilename);
-	fs.writeFileSync(XLSXfilename, tmpfile);
-	workbook = xlsx.readFile(XLSXfilename);
-	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];
-	 res.setHeader('Content-Type', 'text/html'); 
-	res.send(cache_get('initialize') );
-	
+//---------------------------------------------------------------------------------
 	 
-	 });
 
-//---------------------------------------------------------------------------------	
 
 // get request to write member's input
    var inputArray = new Array;
   app.get('/writeinfo', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-	inputString=decodeURI(req.originalUrl);   
-	
-	inputString=inputString.substr(12); 
+	fullInpString=decodeURI(req.originalUrl);
+	inputString=fullInpString.split('?')[1];   
+	initFromFiles('');
+//	inputString=inputString.substr(12); 
 	inputPairs=inputString.split('&'); 
 	namTitl=inputPairs[0].split('=')[1];
 	managementRequest=false;
-	sendMsgToKehilatArielSeatsGmail(namTitl,inputString);
+	sendMsgToKehilatArielSeatsGmail(namTitl,fullInpString);   
 	 if(handleInput(inputPairs)){res.send('+++'+incompatibilty+'$'+hasStillToPay.toString()+afterClosingDate)}else { res.send('---'+errorNumber);};
 	 
 	 });
@@ -1757,6 +2296,7 @@ app.get('/isThereSuchAName', function(req, res) {
 	if (inputPairs[1] != mngmntPASSW){ res.send('999')}
 	
 	else { 
+	initFromFiles(inputPairs[3]);
 	   srchArg=inputPairs[2];
 	   srchArgLength=srchArg.length;         
 	
@@ -1788,6 +2328,7 @@ app.get('/isThereSuchAName', function(req, res) {
 	app.get('/famname', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	inp=decodeURI(req.originalUrl).split('?')[1];
+	initFromFiles('');
 	respns=memberInfo('member',inp);
 	res.send(respns);
 	});
@@ -1798,9 +2339,9 @@ app.get('/isThereSuchAName', function(req, res) {
 	app.get('/mngfmname', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	inp=decodeURI(req.originalUrl).split('?')[1];
-	inpData=inp.split('-');   
+	inpData=inp.split('&');   
 	if(inpData[1] == mngmntPASSW){
-	   
+	  initFromFiles(inpData[2]); 
 	 respns=memberInfo('manage',inpData[0]);
 	 res.send(respns);
 	}
@@ -1818,7 +2359,7 @@ app.get('/isThereSuchAName', function(req, res) {
 	var d= Date();  
 	ptr=amudot.registrationClosedDateNTime+'2';    
 	if(inpData[1] == mngmntPASSW){
-	   
+	   initFromFiles('');
 	 if (inpData[0] == "close") {
 	     //     dateTimeNow=Date.now();
 	          requestedSeatsWorksheet[ptr].v=d;  
@@ -1828,7 +2369,7 @@ app.get('/isThereSuchAName', function(req, res) {
 						 for(member=firstSeatRow; member<lastSeatRow+1; member++){
 						                  ptr1=amudot.requestDate+(member).toString();
 															requestedSeatsWorksheet[ptr1].v=' ';  
-															           }
+															           }         
 				                      };
 		 xlsx.writeFile(workbook, XLSXfilename);																																	
 	 res.send('+++');
@@ -1852,20 +2393,66 @@ app.get('/getFullList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
    
+	 
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	inpData=inp.split('$');
 	 
 	if(inpData[1] == mngmntPASSW){
-	   
-	 listOfnames='+++'+	familyNames.join('$');																														
+	initFromFiles(inpData[2]);
+	tmplist=[];
+	for(ijk=0;ijk<familyNames.length;ijk++)tmplist[ijk]=familyNames[ijk];
+
+
+	
+	tmplist=tmplist.sort();
+
+	 listOfnames='+++'+	tmplist.join('$');																														
 	 res.send(listOfnames);
 	}
-	else {res.send('999' );
+	else { res.send('999' );
 	      }
 	 
 	 
         })
 
+
+//----------------------------------------------------------
+
+  app.get('/getRequstorsList', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+   
+	 inpA=decodeURI(req.originalUrl).split('?')[1];
+	// inpData=inp.split('$');
+	inp=inpA.split('$'); 
+	var tmpRqList=[];    idx=0;
+	if(inp[0] == mngmntPASSW){  
+	initFromFiles(inp[1]);
+	    for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
+              row=i.toString();
+							tmpVl=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)+Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)
+		             +Number(requestedSeatsWorksheet[amudot.menKipur+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
+		       if ( !	tmpVl ) continue;  // no request made		
+				   tmpp=	requestedSeatsWorksheet[amudot.name+row].v;         
+					 ltmpp= tmpp.length;
+					 if (tmpp.substr(ltmpp-1) =='*')tmpp=tmpp.substr(0,ltmpp-1);
+					tmpRqList[idx]=tmpp;		 
+					idx++;
+							
+			}				
+	 
+	    tmpRqList=tmpRqList.sort();
+			tmpRqListStr='+++'+tmpRqList.join('$');
+			if( ! idx )tmpRqListStr='000';   // empty list
+	    res.send(tmpRqListStr);
+	
+	
+	}
+	else res.send('999' );
+	      
+	 	 
+        })
+	 
 
 //----------------------------------------------------------
 
@@ -1878,13 +2465,13 @@ app.get('/getlist', function(req, res) {
 	inpData=inp.split('$');
 	
 	if(inpData[1] == mngmntPASSW){
-	 
+	// initFromFiles('');
 	 moedCode=inpData[2];
 	 SidurUlam=inpData[3];
 	 shlavBFilter=inpData[4];
 	 notPaidFilter=inpData[5];
 	 doneWithFilter=inpData[6];
-	   
+	 initFromFiles(inpData[7]);  
 	 listOfnames='+++'+	filterAndSort();																														
 	 res.send(listOfnames);
 	}
@@ -1893,17 +2480,62 @@ app.get('/getlist', function(req, res) {
 	 
 	 
         })
-
 //----------------------------------------------------------
- app.get('/saveStsfctionParams', function(req, res) {
+ app.get('/genCodeSendEmail', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
-   
+   initFromFiles('');
+	 mmbr=decodeURI(req.originalUrl).split('?')[1];
+	 	 
+	 row=knownName(mmbr)[0];
+	 if (row == -1){
+	     res.send('---1' );}
+		else {
+		   	emal=delLeadingBlnks(requestedSeatsWorksheet[amudot.email+row.toString()].v);
+	      if(! emal) {res.send('---2' );}
+				   else{
+					     codeToSend=Math.floor(Math.random()*100000);
+							 codeToSend=codeToSend.toString();
+							 txtToSend=' the follwing passcode is valid for the next 20 minutes : ' + codeToSend;
+               subjc='passcode to change email addr' ; 
+	             sendMail(emal,subjc,txtToSend);
+							 forgetList[row]=codeToSend+'$3';  // forget after 3 timer cycles
+							 d= new Date;
+							 console.log(d+' email password '+codeToSend+' was sent to '+emal+ ' for member='+mmbr+' rownum='+row);
+							 res.send('+++' );
+							 }
+						}	 
+	  })
+//----------------------------------------------------------
+ app.get('/ckEmailCode', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	 
+	 inp=decodeURI(req.originalUrl).split('?')[1];
+	 initFromFiles('');
+	 inpData=inp.split('$');
+	 mmbr=inpData[0];
+	 codeToVerify=inpData[1];
+	 row=knownName(mmbr)[0];
+	 if (row == -1){ res.send('---3' );}
+	   else {
+		    if ( ! forgetList[row] ) {res.send('---4' );}
+					  else {
+						  if (  forgetList[row].split('$')[0] == codeToVerify) { res.send('+++' );} else  res.send('---5' );
+				         }
+					}			 
+	
+	   })	 
+//----------------------------------------------------------
+ app.get('/savePrsnlPrblmsParams', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+   var tmp;
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	 inpData=inp.split('$');
 	 
 	if(inpData[0] == mngmntPASSW){
-	   
+	   initFromFiles('');
 	   rowNum= knownName(inpData[1])[0];   
 		 if(rowNum == -1 ){res.send('---')}
 		 else {
@@ -1911,21 +2543,20 @@ app.get('/getlist', function(req, res) {
 		 
 		 ptr= amudot.issueBetweenFloors + row;
 		 requestedSeatsWorksheet[ptr].v=inpData[2];   // issueBetweenFloors  
+		
      ptr= amudot.issueinFloorMen + row;
 		 requestedSeatsWorksheet[ptr].v=inpData[3];   // issueinFloorMen
+		
 		 ptr= amudot.issueInFloorWmn + row;
 		 requestedSeatsWorksheet[ptr].v=inpData[4];   // issueInFloorWmn
-		 ptr= amudot.stsfctnInFlrLastYrMen + row;
-		 requestedSeatsWorksheet[ptr].v=inpData[5];   //lastYearStsfctnMen
-		 ptr= amudot.stsfctnInFlrLastYrWmn + row;
-		 requestedSeatsWorksheet[ptr].v=inpData[6];   //lastYearStsfctnWmn
-		 ptr= amudot.lstYrSeat + row;
-		 requestedSeatsWorksheet[ptr].v=inpData[7]; //lastYearSeat
+		
 		 ptr= amudot.nashimMuadaf + row;
-		 requestedSeatsWorksheet[ptr].v=inpData[8]; 
-		 ptr= amudot.gvarimMuadaf + row;
-		 requestedSeatsWorksheet[ptr].v=inpData[9]; 
+		 requestedSeatsWorksheet[ptr].v=inpData[5]; 
 		 
+		 ptr= amudot.gvarimMuadaf + row;
+		 requestedSeatsWorksheet[ptr].v=inpData[6]; 
+		 
+		
 		  xlsx.writeFile(workbook, XLSXfilename);																													
 	   res.send('+++');
 	   }
@@ -1934,11 +2565,656 @@ app.get('/getlist', function(req, res) {
 	 
         })
 
-
-				
-
+//----------------------------------------------------------
+ app.get('/saveStsfctionParams', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+   var tmp;
+	 inp=decodeURI(req.originalUrl).split('?')[1];
+	 inpData=inp.split('$');
+	 
+	if(inpData[0] == mngmntPASSW){
+	   initFromFiles('');
+	   rowNum= knownName(inpData[1])[0];   
+		 if(rowNum == -1 ){res.send('---')}
+		 else {
+		 row=rowNum.toString();
+		 
+		 
+		 ptr= amudot.stsfctnInFlrLastYrMen + row; 
+		 tmp= (requestedSeatsWorksheet[ptr].v).split('*');
+		 requestedSeatsWorksheet[ptr].v=tmp[0]+'*'+inpData[2];   //lastYearStsfctnMen
 		
-//----------------------------------------------------------saveStsfctionParams
+		 ptr= amudot.stsfctnInFlrLastYrWmn + row; 
+		 tmp= (requestedSeatsWorksheet[ptr].v).split('*');  
+		 requestedSeatsWorksheet[ptr].v=tmp[0]+'*'+inpData[3];   //lastYearStsfctnWmn
+		 
+		 ptr= amudot.lstYrSeat + row;
+		 tmp= (requestedSeatsWorksheet[ptr].v).split('*');
+		 requestedSeatsWorksheet[ptr].v=tmp[0]+'*'+inpData[4]; //lastYearSeat
+		 
+		
+		
+		  xlsx.writeFile(workbook, XLSXfilename);																													
+	   res.send('+++');
+	   }
+	}
+	else res.send('999' );
+	 
+        })
+
+//----------------------------------------------------------
+function analyseRqstVSAssgnd(rowp){
+
+  	dbgStsfction=false; if(debugRows.indexOf(rowp) != -1 )dbgStsfction=true;
+		dbg1=false;
+		if( [].indexOf(rowp) != -1)dbg1=true;
+  var tmp,tmp0, tmp1, tmp2, tmp3;		
+	var i;
+	var row;
+	var seatVlus=[];
+	var stsArry=[];
+	var tmpResults=[];
+	row=rowp.toString();
+			// in this process gender=0 is men =1 is women	 
+		 
+	//console.log('===================   analyse row='+row+'  =========');
+		 	
+	 
+	 
+	 
+	 // init values
+	
+	
+	//-------------------
+	var 	wmn_mrtf_toIndex=[ [2,0],[3,1]];
+	aChagRslts=[10,10,0];
+  
+
+  var originalRequestArray=(delLeadingBlnks(requestedSeatsWorksheet[amudot.markedSeats+row].v)).split('+');
+	for (i=0; i<originalRequestArray.length;i++){
+	  seatVlus=originalRequestArray[i].split('_');
+		originalReqSeats[i]=seatVlus[0];
+		originalReqSeatPriority[i]=seatVlus[1];
+	}	
+	
+	var martefUlamGrade;
+	var nameForRow, tmpPosition;
+	var numOfGenders, firtGender,lastGender;
+	tmp=0;
+	chagimCounter=2;
+	 assignedSeatslist=[[[],[]],[[],[]]];
+   assgndRows=[ [[],[]], [[],[]] ];
+   chagimWithRequest=[0,1];
+for(chag=0;chag<2;chag++){
+
+	 martefUlam_gvrimNashim=[[],[],[],[]];  //martef gvrim, mrtef nashim, ulam g ulam n
+	 
+	 counters_martefUlam_gvrimNashim=[0,0,0,0];
+	 
+	 ptr=amudot.assignedSeatsRosh+row;  if (chag==1)ptr=amudot.assignedSeatsKipur+row;
+			 
+   sts=delLeadingBlnks(requestedSeatsWorksheet[ptr].v);  
+   if (! sts){     // no assignment no complaint   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	       chagimCounter--;
+				 tmpPosition=chagimWithRequest.indexOf(chag);
+				 chagimWithRequest.splice(tmpPosition,1);  // no request for this chag
+				 continue;
+				 }  
+ 
+  // get list of requested seats, full list and per ulam/gender lists
+	
+	 stsArry=sts.split('+');
+	 
+	 for(iill=0;iill<stsArry.length;iill++){
+	   st=stsArry[iill];
+     stN=Number(st);  
+     isw=isWoman[stN];  // isw==1 ===> nashim
+		 isInMrtf=0;    if(UlamMartef[stN]=='m')isInMrtf=1; 
+		 indx=wmn_mrtf_toIndex[isw][isInMrtf];  
+     assignedSeatslist[isw][chag].push(stN);	
+		martefUlam_gvrimNashim[indx].push(st);
+		counters_martefUlam_gvrimNashim[indx]++;
+		      
+		  roww=configRowOfSeat[stN];
+			if ( assgndRows[isw][chag].indexOf(roww) == -1) assgndRows[isw][chag].push(roww); // isw==1 ===> nashim
+			
+	};	 // for
+
+// calculate ulam/martef grade		per holiday	
+			genderCounter=2;
+		index1=wmn_mrtf_toIndex[1];
+		divideBy=counters_martefUlam_gvrimNashim[index1[1]]+ counters_martefUlam_gvrimNashim[index1[0]];
+		if (divideBy==0){gradeNashim=0;genderCounter--;} // no request no complaint
+		  else  gradeNashim=counters_martefUlam_gvrimNashim[index1[1]]/divideBy;
+    
+		index1=wmn_mrtf_toIndex[0];
+	  divideBy=counters_martefUlam_gvrimNashim[index1[1]]+ counters_martefUlam_gvrimNashim[index1[0]];
+		if (divideBy==0){gradeGvarim=0;genderCounter--;} // no assignment no complaint
+		  else  gradeGvarim=counters_martefUlam_gvrimNashim[index1[1]]/divideBy;
+			
+	
+		if ( ! genderCounter){   //no assignment for this chag
+		       chagimCounter--;  // this chag does not count for grade;
+					 chagimWithRequest=chagimWithRequest.splice(chagimWithRequest.indexOf(chag),1);  // no request for this chag
+					 combinedGrade=0;
+					 }   else  combinedGrade= (gradeNashim+gradeGvarim)/genderCounter;
+		tmp=tmp+combinedGrade;
+	}	
+
+
+   if(chagimCounter){martefUlamGrade=tmp/chagimCounter} else martefUlamGrade=0;
+	 
+	
+			
+nameForRow=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
+	if (nameForRow.substr(nameForRow.length-1,1)=='*')nameForRow=nameForRow.substr(0,nameForRow.length-1);	
+	// get lists of requested seats for women and for men 
+	
+ sts=delLeadingBlnks(requestedSeatsWorksheet[amudot.markedSeats+row].v);  
+ 
+ if (! sts) { stsfctionColction.push(row+'$10$10$0');  return};  // no request no complaint  
+  stsArry=sts.split('+');
+	
+	
+  rqstdSeats=[[],[]];
+	var prvsTmp=[[],[]];
+	
+ for (priority=1;priority<4;priority++){  
+   
+	  rqstdSeats_tmp=[[],[]];  
+	rqstdRows=[[[],[]],   [[],[]]];  // nashim [row,length} gvarim [row,length]
+	 
+	 var numSeats=[];    
+   for(iill=0;iill<stsArry.length;iill++){
+	   seatVlus=stsArry[iill].split('_');
+	   if (Number(seatVlus[1]) != priority )continue;
+	   st=seatVlus[0];
+     stN=Number(st);
+		 isw= isWoman[stN] ;         // isw==1 ===> nashim
+		  rqstdSeats_tmp[isw].push(stN);  
+	};   // for iill
+			
+			 for (gender=0;gender<2;gender++) numSeats[gender]=rqstdSeats_tmp[gender].length;
+			
+			 for (gender=0; gender<2; gender++){
+			   if( ( ! numSeats[gender]) || isExpansion(prvsTmp,rqstdSeats_tmp,gender,dbg1)  ){
+				if(dbgStsfction) console.log('expnsn  row='+row);
+			     concatArrays(rqstdSeats[gender],rqstdSeats_tmp[gender]);
+										 
+					 } else {
+					   rqstdSeats[gender]=[];
+						if(dbgStsfction)console.log('not expnsion row='+row);
+						   for(iill=0;iill<rqstdSeats_tmp[gender].length;iill++)rqstdSeats[gender][iill]=rqstdSeats_tmp[gender][iill];
+					} // else
+					
+				}  //gender	
+				
+				
+		// save this temp for next expansion checking
+	
+		prvsTmp=[[],[]];
+		for (gender=0;gender<2;gender++){
+				for(iill=0;iill<rqstdSeats_tmp[gender].length;iill++)prvsTmp[gender][iill]=rqstdSeats_tmp[gender][iill];					 
+			    }
+	for (gender=0;gender<2;gender++){		
+	 for(iill=0;iill<rqstdSeats[gender].length;iill++){
+	    stN=rqstdSeats[gender][iill];
+			roww=configRowOfSeat[stN];
+			tmp0=rqstdRows[gender][0].indexOf(roww);
+			if ( tmp0 == -1){
+			     rqstdRows[gender][0].push(roww);
+					 tmp0=rqstdRows[gender][0].indexOf(roww);
+					 rqstdRows[gender][1][tmp0] =1;
+					 } else rqstdRows[gender][1][tmp0]++;
+					
+				  
+		};   // for iill
+		} // for gender
+		
+						 
+						 sortRqstdRows(0);
+						 sortRqstdRows[1];
+		//	 };
+	
+		tmp0=0;  tmp1=0;  tmp2=0; 
+		
+	for(chag=0;chag<2;chag++){
+	  if (chagimWithRequest.indexOf(chag) != -1){  
+		
+	        evalRqstVSAssgnd(chag,row);   
+	
+					tmp0=tmp0+aChagRslts[0];  
+					tmp1=tmp1+aChagRslts[1];
+					}
+													
+	}  //for
+		if (chagimCounter){
+	tmp0=((tmp0/chagimCounter).toString()).substr(0,4);; 
+	tmp1=((tmp1/chagimCounter).toString()).substr(0,4);
+	} ; 
+		
+	  res1=tmp0+'$'+tmp1; 
+	tmpResults[priority]=res1;  
+	if(dbgStsfction) console.log('                               priority='+priority+ '  tmpResults[priority]='+tmpResults[priority]);
+	}  // priority
+	
+	
+	// choose best results
+	res1=nameForRow;
+	tmp0=0;
+	for (priority=1;priority<4;priority++){  // choose best 1st grade 
+	  tmp1=Number(tmpResults[priority].split('$')[0]);
+		if (tmp1>tmp0)tmp0=tmp1;
+		}
+		res1=res1+'$'+tmp0.toString();
+		
+		tmp0=0;
+	for (priority=1;priority<4;priority++){  // choose best 2nd grade 
+	  tmp1=Number(tmpResults[priority].split('$')[1]);
+		if (tmp1>tmp0)tmp0=tmp1;
+		}
+		res1=res1+'$'+tmp0.toString();
+		
+		res1=res1+'$'+martefUlamGrade.toString()+'$'+row;  // row is saved for debug
+	
+	
+	stsfctionColction.push(res1);
+	
+	
+	}
+	
+//----------------------------------------------------------	
+	
+	function sortRqstdRows(gender){
+	  var temp=[];
+		var tmp1=[];
+		var i;
+		
+		for (i=0; i<rqstdRows[gender][0].length; i++)temp[i]=rqstdRows[gender][0][i].toString()+'$'+rqstdRows[gender][1][i].toString();
+		temp.sort(rqstdRowsSort);
+		for (i=0; i<rqstdRows[gender][0].length; i++){
+		              temp1=temp[i].split('$');
+		              rqstdRows[gender][0][i]=Number ( temp1[0]);
+									rqstdRows[gender][1][i]=Number ( temp1[1]);
+									
+									}
+			
+							
+			}						
+
+//----------------------------------------------------------	
+function rqstdRowsSort(a,b){
+var t1,t2;
+t1=Number(a.split('$')[1]);
+t2=Number(b.split('$')[1]);
+return t2-t1;
+}
+
+//----------------------------------------------------------	
+function isExpansion(prvsTmp,rqstdSeats_tmp,gender,dbg){
+var sameRow=false;
+
+var i,j,tmp;
+//if(dbg)console.log('gender='+gender+' prvsTmp[gender='+prvsTmp[gender]+' rqstdSeats_tmp[gender]='+rqstdSeats_tmp[gender]);   
+  
+	for (i=0; i<prvsTmp[gender].length;i++){
+	  for(j=0; j<rqstdSeats_tmp[gender].length;j++){
+		
+    if(configRowOfSeat[prvsTmp[gender][i] ]  != configRowOfSeat[rqstdSeats_tmp[gender][j] ]  )continue;
+		tmp=prvsTmp[gender][i]-rqstdSeats_tmp[gender][j];
+		if (tmp <0 )tmp=-tmp;
+		if (tmp==1){ sameRow=true; ; break};
+		} // j
+		if (sameRow)break; // no need to continue for thiis gender
+		}  //i
+		
+		
+		return sameRow;
+
+
+}
+
+   
+//----------------------------------------------------------
+function concatArrays(ar1,ar2){
+var l1=ar1.length;
+var jj;
+for (jj=0;jj<ar2.length;jj++)ar1[l1+jj]=ar2[jj];
+}
+
+
+
+//----------------------------------------------------------	
+	
+ function convertListsToString(ar,idx){
+  var rtrnVlu='';
+	seperators=['$','+','-'];
+	var i;
+	var tmp;
+	for (i=0;i<ar.length;i++){
+	if (Array.isArray(ar[i])){ tmp=convertListsToString(ar[i],idx+1)}
+	  else {	if (isNaN(ar[i]))  {tmp=ar[i] }
+		    else tmp=ar[i].toString()};
+	rtrnVlu=rtrnVlu+tmp+	seperators[idx];
+	  }  //for		     
+		rtrnVlu=rtrnVlu.substr(0,rtrnVlu.length-1);
+		
+		return 	rtrnVlu;
+		}										 
+
+////----------------------------------------------------------		 
+	
+	function evalRqstVSAssgnd(chag,row){
+	// init default values of moedresults
+	var i,j,k,m,amuda, gender,temp;
+	var stsArry=[];
+	var roww;
+	var tempr=[];
+	var counterNonAisles;
+	var neededSeats,sum;
+	var numOfRqstdCol = [[amudot.menRosh,amudot.womenRosh],[amudot.menKipur,amudot.womenKipur]];   //  [chag)[gender];
+	
+	var minNumberOfRows=[1,1];
+	var numOfSeatsPerGenderPerChag=[[amudot.menRosh,amudot.menKipur],[amudot.womenRosh,amudot.womenKipur]];
+	
+	  	
+/* 
+calculate satisfaction 	for last year for a chag
+     The process is: 
+        First grade each assigned seat and then grade group of seats. 
+      This is done separately for men and for women
+	 
+     Grade of a chair is 10 if in the requested list, priority 1; 9.5 if priority 2 and 9.1 if priority 3.
+    Grade is 9 if not in the requested list but in the same row,  
+        for men: 8 if adjacent row, 7 if 2 rows away, 6 for 3 rows away and  3 if in the same zone    and 0 if in a different ulam
+For women: 8 if adjacent row, 6 if 2 rows away,   4 for 3 rows away and 3 if in the same zone and 0 if in a different ulam
+     Grade of all chairs (men, women) is average of seats grade
+	
+   Factors for the group are calculated as follows:
+Factor 1:
+   If all the requested seats fit into n rows in the requested zone,    and they were allocated to m rows, then the factor is (n+2)/(m+2). 
+The grade calculated in the previous step will be multiplied by this factor
+Factor 2:
+In the case where a few rows are designated as possible rows the program tries first to understand if each row is an alternative or all the designated seats are only one "alternative". To do that the program checks, in each row,  if enough seats are designated as "required" to accommodate the total request for the seats for this gender. If it is so,  the program decides that each row is an alternative.  In this case it checks if, excluding the "aisle" seats, there are still enough seats to accommodate the request. If there is at least one such row then it is understood that an aisle seat was not really a request.
+In the case of "one alternative" the same decision process is applied for the "one alternative"
+ 
+If aisle seat was requested  and there is no aisle seat allocated,   then the previous result will be multiplied by 0.85
+
+All the above process is done per chag and the satisfaction grade per gender is the average of all the chagim (depending on  for how many chagim seats are requested)
+
+
+All the above is repeated 3 times, first for priority1 seats, then priority 2 seats join the process and then priority 3.
+Also here the program tries to determine if each priority is an alternative of the previous priority (if it is not adjacent to the previous seats) or an extension. If extension then priority 2 seats are added to the list of priority 1 seats and the process is repeated for the joined list, and if not the process is repeated for priority 2 only.
+The same goes for priorities 2 and 3.
+
+
+After repeating the process 3 times the program chooses the best result for each gender
+
+
+
+ */ 
+    individualGrades=[[],[]];  
+
+   for (gender=0;gender<2;gender++){   // loop over gender
+      assigns=assignedSeatslist[gender][chag];
+			 if(dbgStsfction)console.log('gender='+gender+'   chag='+chag+'  assigns='+assigns);
+			for (i=0;i<assigns.length;i++){
+			   st=assigns[i];
+				 
+				 if (rqstdSeats[gender].indexOf(st) != -1) // assigned seat is in request list
+				    { 
+						   k= originalReqSeats.indexOf(st.toString());
+			         k=Number(originalReqSeatPriority[k])-1;
+				       kkkk=Math.pow( priorityFactorConst,k);
+						   individualGrades[gender][i]=10*kkkk;
+							 if(dbgStsfction)console.log('gggender='+gender+'  k='+k+'   kkkk='+kkkk+'  i='+i+'   individualGrades[gender][i]='+individualGrades[gender][i]);
+							   continue;
+						};
+				temp=calcRowDistance(st,rqstdRows[gender][0]); 
+				tempr=temp.split('$');
+				
+				k= originalReqSeats.indexOf(tempr[1]);
+				if (k== -1){
+				   kkkk=1;}   else{
+			        k=Number(originalReqSeatPriority[k])-1;
+				      kkkk=Math.pow( priorityFactorConst,k);
+							}
+				individualGrades[gender][i]=(10-tempr[0])*kkkk;
+				if(dbgStsfction)console.log('gender='+gender+'  i='+i+'  k='+k+'   kkkk='+kkkk+'   individualGrades[gender][i]='+individualGrades[gender][i]);
+			} // for i
+
+	} // for gender			   		
+			
+			
+			// calculate averages
+			if ( ! individualGrades[0].length){menGrade=10} else menGrade=average(individualGrades[0]);
+	   	if ( ! individualGrades[1].length){womenGrade=10} else womenGrade=average(individualGrades[1]);  
+			
+		
+			//calculate and apply row factor --assgndRows[idx][chag]
+		
+				
+				  for (gender=0;gender<2;gender++){   // loop over gender
+					 amuda=numOfRqstdCol[chag][gender];						 
+						neededSeats=Number(	requestedSeatsWorksheet[amuda+row].v)	;
+						sum=0;
+						eachRowIsAnAlternative=[true,true];
+						for (k=0;k<rqstdRows[gender][1].length;k++)	{
+						     sum=sum+	rqstdRows[gender][1][k];
+								 if (sum <	neededSeats)minNumberOfRows[gender]++;
+								 if (rqstdRows[gender][1][k] < neededSeats )eachRowIsAnAlternative[gender]=false;
+								
+								 }
+						} // for gender		  
+	    womenRowFactor=(minNumberOfRows[1]+2)/(assgndRows[1][chag].length+2); if (womenRowFactor> 1)womenRowFactor=1;
+			menRowFactor=(minNumberOfRows[0]+2)/(assgndRows[0][chag].length+2);       if (menRowFactor > 1)menRowFactor=1;
+			menGrade=menGrade*menRowFactor;
+			womenGrade=womenGrade*womenRowFactor;
+			
+			
+	 if(dbgStsfction)console.log('menRowFactor='+menRowFactor+' menGrade='+menGrade+'  womenRowFactor='+womenRowFactor+'   womenGrade='+womenGrade);
+	 
+	 var aisleFactor=[1,1];
+	// calculate and apply aisle seats factor;
+	    for (gender=0;gender<2;gender++){
+				 if(dbgStsfction)console.log('gender='+gender+'  eachRowIsAnAlternative[gender]='+eachRowIsAnAlternative[gender]);
+
+			 aisleReqstd=true;
+			 ptr=numOfSeatsPerGenderPerChag[gender][chag]+row; 
+			 rqstedSeatsPerChagPerGender=Number(requestedSeatsWorksheet[ptr].v);
+			
+			 if(eachRowIsAnAlternative[gender]){
+			    
+			    for (m=0 ;m<rqstdRows[gender][1].length; m++){
+					    counterNonAisles=rqstdRows[gender][1][m]-howManyAislesInRow(rqstdRows[gender][0][m],rqstdSeats[gender]);
+							if (counterNonAisles  >= rqstedSeatsPerChagPerGender){  aisleReqstd=false; break;}
+							 } // for m
+					} // if 	eachRowIsAnAlternative	
+				
+				else {		
+				 counterNonAisles=rqstdSeats[gender].length-howManyAislesInList(rqstdSeats[gender]);
+				 if (rqstedSeatsPerChagPerGender <= counterNonAisles)aisleReqstd=false;
+				 } // else
+				 
+				 aisleAssgnd=howManyAislesInList(assignedSeatslist[gender][chag]);
+				 if(rqstdSeats[gender].length)  if (aisleReqstd && ( ! aisleAssgnd) )aisleFactor[gender]=0.85;
+				  }
+				 
+				 
+			menGrade=menGrade*aisleFactor[0];
+			womenGrade=womenGrade*aisleFactor[1];
+
+		 if(dbgStsfction)console.log('aisleFactor[0]='+aisleFactor[0]+' menGrade='+menGrade+'  aisleFactor[1]='+aisleFactor[1]+'   womenGrade='+womenGrade);
+
+	//  
+	
+				 
+			aChagRslts=[menGrade,womenGrade,combinedGrade]; 
+						
+			return;
+}
+//-----------------------------------------------------------------
+function howManyAislesInRow(row, seatList){
+  var i, roww,ptr,seat;
+	var list=[];
+	var count=0;
+	ptr=amudotOfConfig.open_badSeats	+  row.toString();
+	tmp=delLeadingBlnks(shulConfigerationWS[ptr].v); 
+	if  ( !tmp ) return 0;
+	list=tmp.split('+'); 
+	for (i=0; i< seatList.length;i++){
+		   seat=seatList[i];
+	     roww=configRowOfSeat[Number(seat)];  
+	     if (row == roww){
+			   if (list.indexOf(seat.toString()) != -1)count++;
+				 }
+	} // for
+	
+		return count;
+		
+}		 
+		
+
+//-----------------------------------------------------------------
+
+function howManyAislesInList(ar){
+  var i,k;
+	var seat;
+	var tmp;
+	var roww;
+	var ptr;
+	var list=[];
+	var counter=0;
+	
+	 for (i=0; i<ar.length; i++){ 
+	  seat=ar[i];  
+		roww=configRowOfSeat[seat];
+		ptr=amudotOfConfig.open_badSeats	+  roww.toString();
+		tmp=delLeadingBlnks(shulConfigerationWS[ptr].v);
+		if  ( !tmp ) continue;
+		list=tmp.split('+'); 
+		seat=seat.toString(); 
+		for (k=0; k<list.length;k++)if (list[k]==seat) counter++; 
+		}// for
+		
+		return counter;
+	}
+
+//-----------------------------------------------------------------
+
+function average(ar){
+ var sum;
+ var i;
+ sum=0;
+ for (i=0;i<ar.length;i++)sum+=ar[i];
+ return sum/ar.length;
+ }
+//-----------------------------------------------------------------
+
+
+function calcRowDistance(seat,list){
+  var i;
+	var tmp;
+	var row;
+	var aNearRow;
+	var dist;
+	
+	var ezor;
+	var ulam;
+	var ptr;
+	var sameEzor=true;
+  var sameUlam=true;
+	
+	ulam=UlamMartef[seat];
+	ezor=ezorOfSeat[seat];
+	dist=10000; // huge distance
+	// find the nearest requested row
+	row=configRowOfSeat[seat];
+	foundInSameEzor=false;
+	sameUlam=false;
+	
+	if ( ! list.length) return '0$1000';  // no request made; full satisfaction
+	
+	for (i=0;i <list.length;i++){
+			
+	  ptr=amudotOfConfig.fromSeat+(list[i]).toString();
+    aSeatinThisRow=shulConfigerationWS[ptr].v;
+							
+	
+	   tmp=row-list[i];
+		 if (tmp <0)tmp=-tmp;
+		 if (tmp < dist){ // found a near row candidate
+		      if (ezorOfSeat[aSeatinThisRow] == ezor){
+					   	dist=tmp;
+							aNearRow=list[i];
+							rslt=aSeatinThisRow.toString();
+							foundInSameEzor=true;
+							sameUlam=true;
+							}  // if == ezor
+			   if ( ! foundInSameEzor){ 
+			       		if (! sameUlam)	sameUlam=(UlamMartef[aSeatinThisRow] == ulam);
+								}
+								
+					}  // if tmp< dist
+			}  // for i						
+							   
+					 
+		if ( ! sameUlam ) { return '10$1000';};   // deduct 10 from max grade  (from 10) ; row that does not exist
+		
+		if ( ! foundInSameEzor ) { return '7$1000';};   // deduct 7 from max grade  (from 10)  ; row that does not exist
+		
+		// in the same ezor
+		
+			   ptr1=amudotOfConfig.reltvRowQual+aNearRow.toString();
+				 ptr2=amudotOfConfig.reltvRowQual+row.toString();
+         delta=shulConfigerationWS[ptr1].v-shulConfigerationWS[ptr2].v;
+
+				if (badSeats.indexOf(seat) != -1) delta++;  // 
+			    if (delta<0)delta=dist;
+					if (dist<delta)dist=delta;
+					if (dist> 6)	dist=6;
+					if( dist == 0)dist=1;  // same line
+					rslt=dist.toString()+'$'+rslt;
+					
+					return rslt;
+						
+}
+
+/*----------------------------------------------------------
+function moveArrays(target,source){ return; 
+  var i;
+	for (i=0; i<source.length;i++){
+	  if (Array.isArray(source[i])){moveArrays(target[i],source[i]) }
+		    else  {  if (source[i]== source[i]+0){target[i]=source[i]+0;} else target[i] =source[i]+'';  //add nothing to value
+								
+						 }  // else
+	}  //for
+	return
+	}			
+*/
+
+//----------------------------------------------------------
+app.get('/testStsfction', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	
+	 
+	 inputString=decodeURI(req.originalUrl).split('?')[1];
+	 inputParams=inputString.split('$'); 
+	 chagdbg=Number(inputParams[1]);
+	 rowdbg=Number(inputParams[2]);
+	 if (inputParams[0] == mngmntPASSW){
+	    dbgStsfction=true;
+			initFromFiles('2016');
+	    analyseRqstVSAssgnd(rowdbg);
+      dbgStsfction=false;
+			}
+res.send('---' );
+
+   })
+//----------------------------------------------------------
+
 
 
 app.get('/updateAssignedSeats', function(req, res) {
@@ -1950,6 +3226,7 @@ app.get('/updateAssignedSeats', function(req, res) {
 	 inputParams=inputString.split('$'); 
 	 if (inputParams[0] != mngmntPASSW){res.send('999' )}
 	 else{ 
+	 initFromFiles('');
 	   moed=inputParams[1]; 
 	   nameToUpdate=inputParams[2];  
 	   strSeatsToUpdate=inputParams[3];  
@@ -1959,16 +3236,21 @@ app.get('/updateAssignedSeats', function(req, res) {
 		 row=rowNum.toString();
 		 
 		 if( (moed=='rosh') || (moed=='all') ){
+		 assgndBegunRosh=true;
 		 ptr=amudot.assignedSeatsRosh+row; 
 		 oldAssignedSeatsRosh=requestedSeatsWorksheet[ptr].v;
-		 requestedSeatsWorksheet[ptr].v=strSeatsToUpdate;  // console.log('ptr='+ptr+' requestedSeatsWorksheet[ptr].v='+requestedSeatsWorksheet[ptr].v);
+		 requestedSeatsWorksheet[ptr].v=strSeatsToUpdate; 
+		  
+		 closeSeats(1,row);
 		 markedSeatsLeft('rosh',row,delLeadingBlnks(oldAssignedSeatsRosh)); 
 			 };
 			 
-		 if( (moed=='kipur') || (moed=='all') ){   
+		 if( (moed=='kipur') || (moed=='all') ){ 
+		 assgndBegunKipur=true;  
 		 ptr=amudot.assignedSeatsKipur+row;
 		 oldAssignedSeatsKipur=requestedSeatsWorksheet[ptr].v;
-		 requestedSeatsWorksheet[ptr].v=strSeatsToUpdate;   //console.log('ptr='+ptr+' requestedSeatsWorksheet[ptr].v='+requestedSeatsWorksheet[ptr].v);
+		 requestedSeatsWorksheet[ptr].v=strSeatsToUpdate;   
+		 closeSeats(2,row);
 		 markedSeatsLeft('kipur',row,delLeadingBlnks(oldAssignedSeatsKipur));
 		    }
 		 CountAssignedPerMoed_PerUlam();
@@ -1985,8 +3267,97 @@ app.get('/updateAssignedSeats', function(req, res) {
     })
 		
 //----------------------------------------------------------
+ function updateRowForNewSelection(roww){
+ 
+  requestedSeatsWorksheet[amudot.notAssignedMarkedSeatsKipur+roww].v=requestedSeatsWorksheet[amudot.markedSeats+roww].v;
+ requestedSeatsWorksheet[amudot.notAssignedMarkedSeatsRosh+roww].v=requestedSeatsWorksheet[amudot.markedSeats+roww].v;
+ //requestedSeatsWorksheet[amudot.assignedSeatsKipur+roww].v='';
+ //requestedSeatsWorksheet[amudot.assignedSeatsRosh+roww].v='';
+ //requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+roww].v='0';
+// requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+roww].v='0';
+ //requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+roww].v='0';
+// requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+roww].v='0';
+
+if(assgndBegunRosh )init_notAssigenedMarked('rosh');
+if(assgndBegunKipur )init_notAssigenedMarked('kipur');
+
+ wmn=0;
+ men=0;
+ sts=delLeadingBlnks(requestedSeatsWorksheet[amudot.markedSeats+roww].v);
+ 
+ if (sts) {
+   stsArry=sts.split('+');
+   for(iill=0;iill<stsArry.length;iill++){
+     st=Number(stsArry[iill].split('_')[0]);
+		 if( isWoman[st] ){ wmn++; }  else men++;
+		} 
+	}	
+		wmn=wmn.toString();
+		men=men.toString(); 
+ requestedSeatsWorksheet[amudot.numberMarkedMen+roww].v=men;
+ requestedSeatsWorksheet[amudot.numberMarkedWomen+roww].v=wmn;
+ requestedSeatsWorksheet[amudot.NumberOfNotAssignedMarkedSeatsMen+roww].v=men;
+ requestedSeatsWorksheet[amudot.NumberOfNotAssignedMarkedSeatsWomen+roww].v=wmn;
+
+
+}
+//----------------------------------------------------------
+function init_notAssigenedMarked(moed){
+ assgndBegunRosh=false;
+ assgndBegunKipur=false;
+ 
+ if(moed=='rosh'){
+     assgnCol=amudot.assignedSeatsRosh;
+		 stillRequestedForMoedCol=amudot.notAssignedMarkedSeatsRosh;
+	
+		 markedLeftCol=amudot.notAssignedMarkedSeatsRosh;
+		 namesAssignedIdx=0;
+		          }
+		else {
+		  assgnCol=amudot.assignedSeatsKipur;
+			stillRequestedForMoedCol=amudot.notAssignedMarkedSeatsKipur;
+			markedLeftCol=amudot.notAssignedMarkedSeatsKipur;
+			namesAssignedIdx=1;
+			  }
+
+ for (membr1=firstSeatRow; membr1<lastSeatRow+1; membr1++){
+      requestedSeatsWorksheet[stillRequestedForMoedCol+membr1.toString()].v=requestedSeatsWorksheet[amudot.markedSeats+membr1.toString()].v;
+			if(delLeadingBlnks(requestedSeatsWorksheet[amudot.assignedSeatsRosh +row].v) )assgndBegunRosh=true;
+			if(delLeadingBlnks(requestedSeatsWorksheet[amudot.assignedSeatsKipur +row].v) )assgndBegunKipur=true;
+
+			};
+				
+	for (rownum=firstSeatRow; rownum<lastSeatRow+1; rownum++){
+	 row=rownum.toString();			
+				
+	 if( ! delLeadingBlnks(requestedSeatsWorksheet[assgnCol +row].v))continue;
+	 newlyAssignedArray=(requestedSeatsWorksheet[assgnCol +row].v).split('+');
+	          
+					 for (membr1=firstSeatRow; membr1<lastSeatRow+1; membr1++){
+								   row1=membr1.toString();  
+									
+											LeftMarkedSeatsArray=(requestedSeatsWorksheet[stillRequestedForMoedCol +row1].v).split('+');
+											
+                         for(ii=0; ii<newlyAssignedArray.length; ii++){
+												      for (ij=0; ij < LeftMarkedSeatsArray.length; ij++)
+															          if(LeftMarkedSeatsArray[ij].split('_')[0] == newlyAssignedArray[ii]){
+																				
+																				                      LeftMarkedSeatsArray.splice(ij,1);
+																													//		break;   
+																															}  // for ij
+														            															
+												      		     }  // for ii
+                    	requestedSeatsWorksheet[stillRequestedForMoedCol +row1].v=LeftMarkedSeatsArray.join('+');															
+
+													}  // for membr1	
+										} // for rownum					
+						}
+
+//----------------------------------------------------------
 
 function markedSeatsLeft(moed,row,oldAssignment){
+var nm;
+var tmp;
  if(moed=='rosh'){
      assgnCol=amudot.assignedSeatsRosh;
 		 stillRequestedForMoedCol=amudot.notAssignedMarkedSeatsRosh;
@@ -2010,19 +3381,22 @@ function markedSeatsLeft(moed,row,oldAssignment){
 												      for (ij=0; ij < LeftMarkedSeatsArray.length; ij++)
 															          if(LeftMarkedSeatsArray[ij].split('_')[0] == newlyAssignedArray[ii]){
 																				                      LeftMarkedSeatsArray.splice(ij,1);
-																															break;   
+																													//		break;   
 																															}  // for ij
 														            	requestedSeatsWorksheet[stillRequestedForMoedCol +row1].v=LeftMarkedSeatsArray.join('+');															
 												      		     }  // for ii
 															}  // for membr1	
 															
-															
+														
 	// update namesForSeat with new assigns
 		for (ii=0; ii<		newlyAssignedArray.length;ii++){
 		   			aSeat=Number(newlyAssignedArray[ii].split('_')[0]);
 						namesForSeatParts=namesForSeat[aSeat].split('/');
             namesAssigned=namesForSeatParts[0].split('$');
-			      namesAssigned[namesAssignedIdx]=requestedSeatsWorksheet[amudot.name+row].v;
+						nm=delLeadingBlnks( requestedSeatsWorksheet[amudot.name +row].v);
+            tmp=nm.substr(nm.length-1);
+	          if(tmp=='*')nm=nm.substr(0,nm.length-1);
+			      namesAssigned[namesAssignedIdx]=nm;
 			      namesForSeatParts[0]=namesAssigned.join('$');
 	          namesForSeat[aSeat]=namesForSeatParts.join('/'); 
 						}								
@@ -2086,71 +3460,180 @@ app.get('/setdebug123', function(req, res) {
         })	
 				
 			
-				
-//----------------------------------------------------------
-	
-	app.get('/initSatisfactionFile', function(req, res) {
+//---------------------------------------------------------------------------------	
+app.get('/getRowValues', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
+	 inputString=decodeURI(req.originalUrl).split('?')[1];
+	
+	 inputPrms=inputString.split('$');
+	 nameToDebug=[];
+	 if ( inputPrms[1]==debugPASSW){
+	     nameToDebug=knownName(inputPrms[0]);  
+			 numberOfFirstnames=nameToDebug[1].split('$').length;
+			 if (numberOfFirstnames > 1) {
+			     res.send('999 name not well defined') }
+					else {
+					   if (nameToDebug[0] == -1) {
+						     res.send('888 name does not exist') }
+								   else {  // name exists and isn unique
+									    listToSend='';
+											roww=nameToDebug[0].toString();
+											 Object.keys(amudotForDebug).forEach(function(key)  {   // copy all hdrs and values for row
+                         colmn=amudotForDebug[key];  
+												  listToSend=listToSend+colmn+'&'   //key
+													+ requestedSeatsWorksheet[ colmn+'1'].v+'&'  //hdr
+													+ requestedSeatsWorksheet[ colmn+roww].v     //value 
+													+'$';                                                  // delimiter
+													 }) // for each 
+											listToSend=listToSend.substr(0,listToSend.length-1);		 
+											
+											res.send('000$'+listToSend);
+			              }  // else  name exists
+         } // else
+				} else  res.send('777 wrong debug password')
+			})								
+											
+											
+//---------------------------------------------------------------------------------	
+app.get('/manualUpdateValues', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	 inputString=decodeURI(req.originalUrl).split('?')[1];
+	
+	 inputPrms=inputString.split('^');
+   if (inputPrms[0] != debugPASSW){
+	   res.send('777 wrong debug password');
+		 return;
+		 }
+		
+		inputPrms=inputPrms[1].split('$');  
+		temp1=inputPrms[0].split('&'); 
+		nam=temp1[1];
+		if (nam.substr(nam.length-1,1) =='*')nam=nam.substr(0,nam.length-1);
+		    		
+	  rowToDebug=knownName(nam)[0]; 
+		if (rowToDebug == -1){
+		  res.send('888 name does not exist');
+			return; }
+	
+		rowToDebug=rowToDebug.toString();	
+		for(i=0;i<inputPrms.length;i++){
+		  temp1=inputPrms[i].split('&');
+			ptr=temp1[0]+rowToDebug;
+			vlu=temp1[2];
+		console.log('i='+i+' ptr='+ptr+'   vlu='+vlu);
+			
+			requestedSeatsWorksheet[ptr].v=vlu;
+			}  //for
+			
+			xlsx.writeFile(workbook, XLSXfilename);
+			res.send('000 updated');
+
+})
+
+
+				
+//---------------------------------------------------------------------------------	 
+
+// initialize membersRequests.xlsx file
+
+app.get('/s276662', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	tmpfile=fs.readFileSync('membersRequests.xlsx');
+	fs.writeFileSync(XLSXfilename, tmpfile);
+	workbook = xlsx.readFile(XLSXfilename);
+	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
+	
+	tmpfile=fs.readFileSync('supportTables.xlsx');
+	fs.writeFileSync(supportTblsFilename, tmpfile);
+	supportWB=xlsx.readFile(supportTblsFilename); 
+	
+	initFromFiles('');
 	
 	
+	 res.setHeader('Content-Type', 'text/html'); 
+	res.send(cache_get('initialize') );
 	
 	 
-	 inputString=decodeURI(req.originalUrl).split('?')[1];
-	// inputParams=inputString.split('$'); 
-	 if (inputString != mngmntPASSW){res.send('999' )}
-	 else {
-	      rtrncod=initSatisfactionFile();
-				 res.send(rtrncod );
-			}	  
-	 })
-//----------------------------------------------------------  
-
-	
-	app.get('/dnldSatisfactionFile', function(req, res) {
+	 });
+//----------------------------------------------------------
+app.get('/getYearList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
 	
-	 inputString=decodeURI(req.originalUrl).split('-')[1];
-	 if (inputString != mngmntPASSW){console.log('wrong password'); res.send('999' )}
-	 else {
-	       stsfctionSheets=stsfctionWB.SheetNames;
-	       nm=stsfctionSheets.length;  
-         nextyrSheetNum=stsfctionSheets.indexOf(crrntYrSheetName);  
-         if(nextyrSheetNum== -1) stsfctionWB.SheetNames[nm]=crrntYrSheetName;
-				 
-				 
-				 
-				 stsfctionWB.Sheets[crrntYrSheetName]=stsfctionWB.Sheets['emptySheet'];
-				 currentYrSheet=stsfctionWB.Sheets[crrntYrSheetName];
-  				emptySheet=stsfctionWB.Sheets['emptySheet'];;
-								 
-				      for(i=0;i<familyNames.length  ; i++){
-				          nam=familyNames[i];
-				          row1=knownName(nam)[0];
-									row2=row1-firstSeatRow+startingRowstsfction;
-									row1=row1.toString();
-									row2=row2.toString();
-                  Object.keys(amudotForStsfctionDownload).forEach(function(key)  {
+	 years=[];   
+	 shNames=workbook.SheetNames;  
+	 for (i=0; i<shNames.length;i++)  
+	       if(shNames[i].substr(0,12)  == 'HTMLRequests')
+				     if( shNames[i].substr(12) ) years.push(shNames[i].substr(12)); // not null
+				 // for	
+				
+			  
+	 res.send(years.join('$'));
+})
 
-                            ptr1= amudotForStsfctionDownload[key][0]+row1;
-									          ptr2= amudotForStsfctionDownload[key][1]+row2;
-														currentYrSheet[ptr2].v=requestedSeatsWorksheet[ptr1].v;
-													
-													 
-                         });	
-									}	// for
-				 		
-							xlsx.writeFile(stsfctionWB, SortingDatafilename);	
-							
-				fileToSendName= 'seatsOrdered.xlsx'; 
-				fileToRead=SortingDatafilename; 				
-				res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        res.setHeader('Content-Disposition', 'attachment; filename=' + fileToSendName);
-	      var fileR = fs.readFileSync(fileToRead, 'binary');
-        res.setHeader('Content-Length', fileR.length);
-        res.write(fileR, 'binary');
-        res.end();
+
+
+
+//---------------------------------------------------------- 
+
+app.get('/setreadxls', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	 initFromFiles('');
+	 inputString=decodeURI(req.originalUrl).split('?')[1];
+	 inpArray=inputString.split('$');
+	 if (inpArray[0] == '987882'){
+	      if ( inpArray[2]  ) { // set value
+				   requestedSeatsWorksheet[inpArray[1]].v=inpArray[2];
+					 xlsx.writeFile(workbook, XLSXfilename);
+					 }
+		    vlu=	requestedSeatsWorksheet[inpArray[1]].v	;	
+				res.send('value in cell '+ inpArray[1]+ ' is '+vlu);
+			} 
+		else		res.send('err in passw');
+})
+//------------------------------------------------------------------------------		
+  app.get('/roshToKipur', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	 initFromFiles('');
+	 for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
+         row=i.toString();
+	       requestedSeatsWorksheet[amudot.assignedSeatsKipur +row].v=requestedSeatsWorksheet[amudot.assignedSeatsRosh +row].v
+				
+				 }
+				 
+     xlsx.writeFile(workbook, XLSXfilename);
+
+    initValuesOutOfHtmlRequestsXLSX_file();   //init values
+
+    init_notAssigenedMarked('rosh');
+	  init_notAssigenedMarked('kipur');
+
+    CountAssignedPerMoed_PerUlam();
+		
+		checkDoubeeAssignments();
+
+			res.send('copied');	 
+	}) 
+//------------------------------------------------------------------------------						
+	
+	app.get('/initNextyearFiles', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	
+	 inputString=decodeURI(req.originalUrl).split('?')[1];  
+	 msgParts=inputString.split('$');
+	 if (msgParts[0] != mngmntPASSW){console.log('wrong password'); res.send('999' )}
+	 else {
+	 
+	    newYear=msgParts[1];
+  		
+			resltSupportTbl=genNewYearSpportTblSheet(newYear);		
+       resltREQ=genNewYearRequestSheet(newYear); 
+        res.send(resltREQ+'$'+resltSupportTbl);
       			
 							
 							
@@ -2161,198 +3644,281 @@ app.get('/setdebug123', function(req, res) {
  
 	 })
 	 
-	
+//---------------------------------------------------------- 
+function genNewYearRequestSheet(yearToCreate){
 
-//----------------------------------------------------------
-	 
-	 
-function 	 initSatisfactionFile(){ 
-	       errInProcess=false;
-	       for(i=0;i<familyNames.length  ; i++){
-				          nam=familyNames[i];
-				          row1=(knownName(nam)[0]).toString();
-									row2=rowNumOfStsfctionFile(nam);
-									if (row2==-1){errInProcess=true; continue;};
-				              row2=row2.toString();
-	                     Object.keys(amudotForStsfctionUpload).forEach(function(key) {
-
-                            ptr1= amudotForStsfctionUpload[key][0]+row1;
-									          ptr2= amudotForStsfctionUpload[key][1]+row2;
-														if(stsfctionWorkSheet[ptr2]){vlu=stsfctionWorkSheet[ptr2].v} else vlu=0;
-														
-									          requestedSeatsWorksheet[ptr1].v=vlu; 
-                         });	
-									// update membership status   
-									ptr1=amudot.memberShipStatus+row1;
-									vlu=requestedSeatsWorksheet[ptr1].v;
-									if(vlu<2)requestedSeatsWorksheet[ptr1].v=vlu+1;
-									
-							}	// for
-						
-						
-							
-						xlsx.writeFile(workbook, XLSXfilename);		
-				  retrnCode='+++'; if (	errInProcess)retrnCode='---';
-					return retrnCode;
-		  } 
-					
-													
-//----------------------------------------------------------
-  function rowNumOfStsfctionFile(str){
-	          
-	rNm=-1; 
-	for (rn=0; rn<stsfctionFamilyNames.length; rn++){
-	      if(stsfctionFamilyNames[rn] == str) { rNm=rn; break };
-			};
+		 YearToSaveSheetName=	'HTMLRequests'	+ 	(yearToCreate-1).toString();							
+	       nm=workbook.SheetNames.length; 
+         sheetNum=workbook.SheetNames.indexOf(YearToSaveSheetName); 
 			
-	if(rNm!=-1)rNm=rNm+startingRowstsfction;
-	return rNm;
-	}; 
-
-//----------------------------------------------------------
-	 		
-	//  recover data fromBackup
-	
-	
-	
-	
-	app.get('/recoverBackupData2509', function(req, res) {
-	//res.header("Access-Control-Allow-Origin", "*");
-	 res.setHeader('Content-Type', 'text/html');
-	
-	 var backupWB = xlsx.readFile(BackupFilename);
-
-	  basePayment=1200;
-    paymentPerSeat=50;
-		
-		 
-	  var backupWBSheet = backupWB.Sheets['HTMLRequests']; 
-		rowNum=	firstSeatRow;
-   	row=rowNum.toString();
-	
-		while(backupWBSheet['A'+row].v  !=  '$$$'){  console.log('row='+row);
-		   Object.keys(amudot).forEach(function(key)  {
-
-                            ptr1= amudot[key]+row;// console.log('ptr1='+ptr1);
-														requestedSeatsWorksheet[ptr1].v = backupWBSheet[ptr1].v ;
-						      });	
-
-					// go to next name
-			  		rowNum++;
-						row=rowNum.toString();  console.log('row='+row);
-			}			
-
-					// all done -	write file 
-					xlsx.writeFile(workbook, XLSXfilename); 
-					
-					initValuesOutOfHtmlRequestsXLSX_file();
-					  
-            res.send(cache_get('initialize') );
-        })					
-
-
-
-
-//----------------------------------------------------------
-	 		
-	//   set input data to last year
-	
-	
-	
-	
-	app.get('/set2015data2509', function(req, res) {
-	//res.header("Access-Control-Allow-Origin", "*");
-	 res.setHeader('Content-Type', 'text/html');
-	
-	 var SeatPrio2015WB = xlsx.readFile('SeatPrio2015a.xlsx');
-
-	  basePayment=1200;
-    paymentPerSeat=50;
-		
-		 
-	 var SeatPrio2015WBSheet = SeatPrio2015WB.Sheets['requestedSeats1']; 
-	  namePtr='F7';
-		ptrToRequestCol=namePtr.substr(0,namePtr.length-1); 
-		name2015=SeatPrio2015WBSheet[namePtr].v; 
-		while(name2015 != '$$$'){
-		   rowNum=knownName(name2015)[0];
-			 if (rowNum != -1){
-			     seatStr='';
-					 wmn=0;
-					 men=0;
-		
-		       for (i=9;i<624;i++){
-					  ptrToRequest=ptrToRequestCol+(i).toString();
-						if (SeatPrio2015WBSheet[ptrToRequest].v != 1)continue;
-						seatStr=seatStr+'+'+SeatPrio2015WBSheet['D'+(i).toString()].v+'_1';
-						if(SeatPrio2015WBSheet['B'+(i).toString()].v == 1){wmn++;}else men++;
-	             } // end loop on i
-						if(seatStr){  // at least one seat selected	
-						  //write info 
-						    requestedSeatsWorksheet[amudot.markedSeats+rowNum.toString()].v=seatStr.substr(1);		
-								requestedSeatsWorksheet[amudot.notAssignedMarkedSeatsRosh+rowNum.toString()].v=seatStr.substr(1);
-						    requestedSeatsWorksheet[amudot.notAssignedMarkedSeatsKipur+rowNum.toString()].v=seatStr.substr(1);
+         if(sheetNum != -1) return '900'; // requested saving already done
+				
+				
+				workbook.SheetNames[nm]=YearToSaveSheetName; 
 								
-								requestedSeatsWorksheet[amudot.assignedSeatsKipur+rowNum.toString()].v='';
-								requestedSeatsWorksheet[amudot.assignedSeatsRosh+rowNum.toString()].v='';
-								requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+rowNum.toString()].v='0';
-								requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+rowNum.toString()].v='0';
-								requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+rowNum.toString()].v='0';
-								requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+rowNum.toString()].v='0';
-								ptrN=amudot.numberMarkedMen+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=men.toString();
-								ptrN=amudot.numberMarkedWomen+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=wmn.toString();
-								requestedSeatsWorksheet[amudot.NumberOfNotAssignedMarkedSeatsMen+rowNum.toString()].v=men.toString();
-								requestedSeatsWorksheet[amudot.NumberOfNotAssignedMarkedSeatsWomen+rowNum.toString()].v=wmn.toString();
-								
-								ptrZ=ptrToRequestCol+'4';
-								ptrN=amudot.menRosh+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=SeatPrio2015WBSheet[ptrZ].v;
-								seatsForRoshHashana=Number(requestedSeatsWorksheet[ptrN].v);
-								ptrZ=ptrToRequestCol+'3';
-								ptrN=amudot.womenRosh+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=SeatPrio2015WBSheet[ptrZ].v;
-								seatsForRoshHashana=seatsForRoshHashana+Number(requestedSeatsWorksheet[ptrN].v);
-								ptrZ=ptrToRequestCol+'5';
-								ptrN=amudot.womenKipur+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=SeatPrio2015WBSheet[ptrZ].v;
-								seatsForYomKipur=Number(requestedSeatsWorksheet[ptrN].v);
-								ptrZ=ptrToRequestCol+'6';
-								ptrN=amudot.menKipur+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=SeatPrio2015WBSheet[ptrZ].v;
-								seatsForYomKipur=seatsForYomKipur+Number(requestedSeatsWorksheet[ptrN].v);
-								
-								ptrN=amudot.preferedMinyanM+rowNum.toString();  requestedSeatsWorksheet[ptrN].v='1';
-								ptrN=amudot.preferedMinyanW+rowNum.toString();  requestedSeatsWorksheet[ptrN].v='1';
-								
-							  numberOfSeatsForPayment=Math.max(seatsForRoshHashana,	seatsForYomKipur);  
-		            requiredPayment= basePayment+		numberOfSeatsForPayment * paymentPerSeat; 
-								ptrN=amudot.tashlum+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=requiredPayment;
-								
-								ptrN=amudot.assignedSeatsRosh+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=' ';
-								ptrN=amudot.assignedSeatsKipur+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=' ';
-								
-								ptrN=amudot.tashlumPaid+rowNum.toString();  requestedSeatsWorksheet[ptrN].v=' ';
-
-								 
-								
-								
-							} // info for this seat was written
-					} // end if rownum != -1
-					// go to next name
-			  		 
-						namePtr=	SeatPrio2015WBSheet[ptrToRequestCol+'2'].v;  
-						ptrToRequestCol=namePtr.substr(0,namePtr.length-1);  
+								newWs = creatSheet(numOfColsInNewSheet ,  numOfRowsInNewSheet);  
+								workbook.Sheets[YearToSaveSheetName]=newWs;
 						
-						name2015=SeatPrio2015WBSheet[namePtr].v;  
-						} //  go to next name 
-					// all done -	write file 
-					xlsx.writeFile(workbook, XLSXfilename);   
-            res.send(cache_get('initialize') );
-        })													
+								YrSheet=workbook.Sheets[YearToSaveSheetName]; 
+								
+								for (rw=1; rw<numOfRowsInNewSheet;rw++) {      // copy all rows to file to Save a 
+								       rww=rw.toString();
+								       Object.keys(amudot).forEach(function(key)  {   // copy all colomns
+
+                            ptr1= amudot[key]+rww;
+														vlu=' ';
+														if( requestedSeatsWorksheet[ptr1]) vlu=requestedSeatsWorksheet[ptr1].v;
+									        
+														YrSheet[ptr1]={t:"s",v:vlu};
+												
+                         });	
+				if (rw <  3 )continue; // header lines
+				
+				if ( ! requestedSeatsWorksheet[amudot.name+rww]) continue;
+				
+				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+rww].v); 
+				if ( ( ! tmp) || (tmp=='$$$')  )continue;  //empty row
+												 
+				         // move stsfction one year back
+								 
+	 requestedSeatsWorksheet[amudot.stsfctnInFlr3YRSAgoYrWmn+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrWmn+rww];
+	 requestedSeatsWorksheet[amudot.stsfctnInFlr3YRSAgoYrMen+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrMen+rww];
+	 requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+rww]=requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+rww];
+	 requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrWmn+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+rww];
+	 requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrMen+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+rww];
+	 requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+rww]=requestedSeatsWorksheet[amudot.lstYrSeat+rww];
+							
+			
+								  	// update membership status   
+									ptr1=amudot.memberShipStatus+rww;
+									vlu=Number(requestedSeatsWorksheet[ptr1].v);
+									if(vlu<2)requestedSeatsWorksheet[ptr1].v=vlu+1;				 
+								 
+												 
+									// clear last  year ibfo from requested seats worksheet for the new yr new info
+                  Object.keys(amudotToClrInReqstdSeatsWhnGenNewYr).forEach(function(key)  {
+
+                            ptr1= amudotToClrInReqstdSeatsWhnGenNewYr[key]+rww;
+									        
+													requestedSeatsWorksheet[ptr1]= {t:"s",v:' '};
+														 
+													 });				 
+									}	// for
+								requestedSeatsWorksheet['C2']= {t:"s",v:' '};	// clear closing date and time
+							
+							xlsx.writeFile(workbook, XLSXfilename);	
+							workbook = xlsx.readFile(XLSXfilename);  
+
+	 	
+							
+							initValuesOutOfHtmlRequestsXLSX_file('');
+							
+			// initialize proposed values for satisfaction
+			
+			// get refernce year woek sheet
+	 prvsYr=0;
+	 for (i=0;i<workbook.SheetNames.length; i++){
+	    WSnam=workbook.SheetNames[i];
+			fourDigitSuffix=WSnam.substr(WSnam.length-4); 
+			if (isNaN(fourDigitSuffix))continue;
+			Yrnum=Number(fourDigitSuffix);
+			if(Yrnum > prvsYr )prvsYr=Yrnum;
+	 };
+	 if ( ! prvsYr) {  return '555';};
+	
+	 initFromFiles(prvsYr.toString());
+	 stsfctionColction=[];
+	 for (row=firstSeatRow; row<lastSeatRow+1; row++)analyseRqstVSAssgnd(row);
+		
+		// write file - save info
+		xlsx.writeFile(workbook, XLSXfilename);	  // write once for the cases when reloading from last year
+		initFromFiles('');
+		
+	for (i=0;i<stsfctionColction.length;i++){
+	tmp=stsfctionColction[i].split('$');
+	row=knownName(tmp[0])[0];	
+	if (row== -1)continue;
+	row=row.toString();
+
+  requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v=tmp[1]+'*';;
+	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v=tmp[2]+'*';
+	requestedSeatsWorksheet[amudot.lstYrSeat+row].v=tmp[3]+'*';
+	}
+		
+		xlsx.writeFile(workbook, XLSXfilename);					 	
+					
+		return '+++';
+									
+	}
+	
+
+//---------------------------------------------------------- 
+function genNewYearSpportTblSheet(yearToCreate){
+
+// save isWoman sheet 
+
+   rsltWmn='+++';
+   shulConfigerationNumOfCols=9;        
+	 shulConfigerationNumOfRows=800;
+	 shulConfigerationAmudot=['A','B','C','D','E','F','G','H','I'];
+		 YearToSaveShulConfigerationSheetName=	'shulConfigeration'	+ 	(yearToCreate-1).toString();							
+	       nm=supportWB.SheetNames.length; 
+         sheetNum=supportWB.SheetNames.indexOf(YearToSaveShulConfigerationSheetName); 
+			   lastYrshulConfigerationSheet=supportWB.Sheets['shulConfigeration']; 
+         if(sheetNum != -1){ rsltWmn= '900'; }     // requested saving already done
+				 else {
+				
+				supportWB.SheetNames[nm]=YearToSaveShulConfigerationSheetName; 
+								
+								newWs = creatSheet(shulConfigerationNumOfCols ,  shulConfigerationNumOfRows);  
+								supportWB.Sheets[YearToSaveShulConfigerationSheetName]=newWs;
+						
+								YrSheet=supportWB.Sheets[YearToSaveShulConfigerationSheetName]; 
+								
+								for (rw=1; rw<shulConfigerationNumOfRows;rw++) {      // copy all rows to file to Save a 
+								       rww=rw.toString();
+								       Object.keys(shulConfigerationAmudot).forEach(function(key)  {   // copy all colomns
+
+                            ptr1= shulConfigerationAmudot[key]+rww;
+														vlu=' ';
+														if( lastYrshulConfigerationSheet[ptr1]) vlu=lastYrshulConfigerationSheet[ptr1].v;
+									        
+														YrSheet[ptr1]={t:"s",v:vlu};
+												
+                         });	
+								 
+									}	// for
+					} //else				
+								
+	// save seat to row sheet	
+		rsltToRow='+++';
+		 seatToRowNumOfCols=4;
+	 seatToRowNumOfRows=1400;
+	 seatToRowAmudot=['A','B','C','D'];
+		 YearToSaveseatToRowSheetName=	'seatToRow'	+ 	(yearToCreate-1).toString();							
+	       nm=supportWB.SheetNames.length; 
+         sheetNum=supportWB.SheetNames.indexOf(YearToSaveseatToRowSheetName); 
+			   lastYrseatToRowSheet=supportWB.Sheets['seatToRow']; 
+         if(sheetNum != -1){ rsltToRow= '900';}   // requested saving already done
+				else {
+				
+				supportWB.SheetNames[nm]=YearToSaveseatToRowSheetName; 
+								
+								newWs = creatSheet(seatToRowNumOfCols ,  seatToRowNumOfRows);  
+								supportWB.Sheets[YearToSaveseatToRowSheetName]=newWs;
+						
+								YrSheet=supportWB.Sheets[YearToSaveseatToRowSheetName]; 
+								
+								for (rw=1; rw<seatToRowNumOfRows;rw++) {      // copy all rows to file to Save a 
+								       rww=rw.toString();
+								       Object.keys(seatToRowAmudot).forEach(function(key)  {   // copy all colomns
+
+                            ptr1= seatToRowAmudot[key]+rww;
+														vlu=' ';
+														if( lastYrseatToRowSheet[ptr1]) vlu=lastYrseatToRowSheet[ptr1].v;
+									        
+														YrSheet[ptr1]={t:"s",v:vlu};
+												
+                         });	
+								 
+									}	// for	
+									
+							} //else		
+														
+							xlsx.writeFile(supportWB, supportTblsFilename);	
+							
+							
+					
+		return rsltWmn+'$'+rsltToRow;
+									
+	}
+	
+
+
+
 //----------------------------------------------------------
+	function creatSheet( cols, rows) {
+	var ws = {};
+	var range = {s: {c:0, r:0}, e: {c:cols, r:rows }};
+	for(var R = 0; R < rows; ++R) {
+		for(var C = 0; C <cols; ++C) {
+			
+			var cell = {v: '   ' };
+			
+			var cell_ref = xlsx.utils.encode_cell({c:C,r:R});
+			
+			 cell.t = 's';
+			
+			ws[cell_ref] = cell;
+		}
+	}
+	 ws['!ref'] = xlsx.utils.encode_range(range);
+	return ws;
+}
+  
+//----------------------------------------------------------	  
+		
+	
+	app.get('/getShulConfig', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+            rspns='';
+						i=firstConfigRow;
+						Istr=(i).toString();
+						
+						while(shulConfigerationWS[amudotOfConfig.fromSeat+Istr].v != '$$$'){
+						  fromSt=shulConfigerationWS[amudotOfConfig.fromSeat+Istr].v;
+						 if( Number(fromSt) ){
+						    ulam=shulConfigerationWS[amudotOfConfig.ulam+Istr].v;
+							 if (ulam.substr(0,1) != 'n'){nashim=0;} else nashim=1; 
+							 itmp=ulam.indexOf(' ');
+		           tmp=ulam.substr(itmp+1,1);
+							 UlamOrMartef='m';
+							 if (tmp != 'm'){if (tmp=='e'){UlamOrMartef='n'} else UlamOrMartef='r'};  // 'e' == ezrat nashim
+							 slantedX=shulConfigerationWS[amudotOfConfig.X_forSlantedRow+Istr].v;
+							 if ( isNaN(slantedX) )slantedX='';
+							 slantedY=shulConfigerationWS[amudotOfConfig.Y_forSlantedRow+Istr].v;
+							 if ( isNaN(slantedY) )slantedY='';
+						  rspns=rspns+shulConfigerationWS[amudotOfConfig.fromSeat+Istr].v+'@'
+							+shulConfigerationWS[amudotOfConfig.toSeat+Istr].v+'@'
+							+shulConfigerationWS[amudotOfConfig.reltvRowQual+Istr].v+'@'
+							+shulConfigerationWS[amudotOfConfig.open_badSeats+Istr].v+'@'
+							+shulConfigerationWS[amudotOfConfig.ezor+Istr].v+'@'
+							+slantedX+'@'
+							+slantedY+'@'
+							+UlamOrMartef+	'$';  
+							}; 
+						  i++;
+							Istr=(i).toString();  
+							};
+        rspns=rspns.substr(0,rspns.length-1);  
+				res.send(rspns);			
+        })	
+																	
+
+
+		 
+		
+		
+		  ind1=1;
+				 {  UlamOrMartef='u';  ind1=0;};
+		//----------------------------------------------------------
 		
 	
 	app.get('/gizbar', function(req, res) {
 	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
             res.send(cache_get('gizbar') );
-        })						
+        })	
+				
+				//-----------------------------------------------------------
+app.get('/printBaseHtml', function(req, res) {
+	//res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	   res.send(cache_get('prtBase') );  
+	  
+        })			
+									
 //-----------------------------------------------------------
 app.get('/prtMartef', function(req, res) {
 	//res.header("Access-Control-Allow-Origin", "*");
@@ -2393,7 +3959,18 @@ app.get('/ckpswMGMT', function(req, res) {
             res.send(rspns );
         })	
 
-				
+
+//------------------------------------------------------------------------------	
+	app.get('/sendBrsrRprtedErr', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	 
+	    maill='kehilatarielseats@gmail.com';
+	    subj='errFromBrowser';
+			txt=decodeURI(req.originalUrl);
+	    sendMail(maill,subj,txt);
+            res.send('+++' );
+        })				
 //------------------------------------------------------------------------------	
 
 // ck if registration is closed
@@ -2402,6 +3979,7 @@ app.get('/ckpswMGMT', function(req, res) {
 app.get('/isRegistrationClosed', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
+	 initFromFiles('');
 	 isWomanString=isWoman.join('+');
 	 rspns='---$ $'+isWomanString;
 	 ptr=amudot.registrationClosedDateNTime+'2';  
@@ -2427,9 +4005,22 @@ app.get('/ckpswGIZBAR', function(req, res) {
 	app.get('/', function(req, res) {
 	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
-            res.send(cache_get('index.html') );
+       res.send(cache_get('index.html'));
         })			
-			
+
+//------------------------------------------------------------------------------	
+app.get('/keepAlive', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+            res.send('ok' );
+        })	
+//------------------------------------------------------------------------------							
+				
+	app.get('/iiiik', function(req, res) {
+	//res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+            res.send(cache_get('real_index') );
+        })				
 				start();
 				
 				
