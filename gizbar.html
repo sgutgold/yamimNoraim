@@ -184,18 +184,24 @@ function buildTable(rspnsString){
        
 };
 
-function genData(memberInfo,row,id){
-                    MemberName=document.createElement("td");    MemberName.setAttribute("id","a"+id.toString()); 
-						  	    MemberToPay=document.createElement("td");
-						      	MemberPaid=document.createElement("td");   MemberPaid.setAttribute("id","c"+id.toString()); 
+function genData(memberInfo,row,idd){
+                    MemberName=document.createElement("td");    MemberName.setAttribute("id","a"+idd.toString()); 
+						  	    MemberToPay=document.createElement("td");  MemberToPay.setAttribute("id","b"+idd.toString()); 
+						      	MemberPaid=document.createElement("td");   MemberPaid.setAttribute("id","c"+idd.toString()); 
 										
-									 inpt=document.createElement("input"); 
+									 inpt=document.createElement("input");       inpt.setAttribute("id","d"+idd.toString()); 
                    inpt.setAttribute("type","number"); 
 							
 
                    MemberName.innerHTML=memberInfo[0];
 						  	   MemberToPay.innerHTML=memberInfo[1];
-									 inpt.value=memberInfo[2];
+									 inpt.value=memberInfo[2];  
+									 inpt.style.fontWeight='bold';
+									  inpt.onchange=inputChanged; 
+									 if( Number(memberInfo[2]) < Number(memberInfo[1]) )  MemberToPay.style.color="red";
+									 if( Number(memberInfo[2]) > Number(memberInfo[1]) )  inpt.style.color="DarkOrchid";  //deeppink
+			
+												
 						  	   MemberPaid.appendChild(inpt);  
                    row.appendChild(MemberName);
 							   	 row.appendChild(MemberToPay);
@@ -203,6 +209,25 @@ function genData(memberInfo,row,id){
 	}
 
 // -----------------------------------------------------------------------------------------
+ function inputChanged(e){
+     paid_id = this.id;                        paid_cell=document.getElementById(paid_id);
+		 toPay_id='b'+paid_id.substr(1);           toPay_cell=document.getElementById(toPay_id);
+		 paid=paid_cell.value;
+     toPay=toPay_cell.innerHTML;
+		 if( Number(paid) < Number(toPay) )  toPay_cell.style.color="red";
+		 if( Number(paid) > Number(toPay) )  paid_cell.style.color="DarkOrchid";  //deeppink
+   	 if( Number(paid) == Number(toPay) ) {
+		                 toPay_cell.style.color="black";  
+                     paid_cell.style.color="black"; 
+										 }
+ 
+ 
+ 
+ }
+
+
+// -----------------------------------------------------------------------------------------
+
 
 function ckPassW(){
    paswElement=document.getElementById("pasw");
@@ -222,7 +247,8 @@ function ckPassW(){
 								 else  {
 								       document.getElementById("paswDiv").style.display='none';
 											 document.getElementById("tbl").style.display='block'; 
-											 document.getElementById("updat").style.display='block';  
+											 document.getElementById("updat").style.display='block'; 
+											 document.getElementById("msgToGizbar").style.display='block';   
 								       	validPasswordEntered=true;
 												buildTable( rspnsString.substr(3) );
 												
@@ -272,6 +298,7 @@ function updateTashlumim(){
 <h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
 <h1 style="font-size:150%;text-align:center"><b><u>חיובים ותשלומים תשע"ז</u></b> </h1>
 <div id='paswDiv' style='align:center'>סיסמא:<input id='pasw' type="password" style="display:inline-block;border:2px solid black"  autofocus onchange='ckPassW()'> </div> <br>
+<div id='msgToGizbar' style='display:none;color:brown'><h3>הנחיות לגזבר: אחרי שהחבר שילם אנא הכנס לשדה "שולם" את הסכום המלא המחושב (גם אם הסכום ששולם בפועל שונה מהסכום התקני לפי אישור)</h3></div>
 <div id='updat' style='display:none'> <button onclick="updateTashlumim()"><h3>עדכן נתונים</h3></button> </div>
 </div>
 
