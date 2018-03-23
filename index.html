@@ -34,9 +34,9 @@
                      -ms-transform: rotate(90deg); visibility:hidden} 
 		#drawing_3 {width:240px; height:143px; position:absolute; left:289px; top:1px;
 		     background-color:LightSlateGray; border: 1px solid black;visibility:hidden}			 
-		#mafrid4 	{  position:absolute; left:290px; top:550px; height:5px; width:140px;  
+		#mafrid4 	{  position:absolute; left:290px; top:550px; height:5px; width:90px;  
 		     background-color:black;  border: 1px solid black; visibility:hidden }	
-		#mafrid5 {  position:absolute; left:430px; top:140px; height:410px; width:5px;  
+		#mafrid5 {  position:absolute; left:380px; top:140px; height:410px; width:5px;  
 		     background-color:black;  border: 1px solid black;  visibility:hidden} 	
 		#knisa1, #knisa2		{position:absolute; left:300px; top:200px;font-size:30px;visibility:hidden} 	
 		#arrow1 {position:absolute; left:300px; top:200px;font-size:100px;visibility:hidden}
@@ -73,14 +73,16 @@
 	 legend {color:red}
    #reqaddress, #RmoreComments {width:560px; height:80px;  border:1px solid black; font-size:18px}
 	#pitzulMishpachotM, #REQfamilyListM, #reqExplanationM, #pitzulM, #reqExplanationW, #REQfamilyListW, #pitzulMishpachotW {width:320px;   border:1px solid black; font-size:16px}
-
+ 
    #id1 {width:auto}
    table, td,th {border:1px solid black; border-collapse:collapse; font-size:12px; text-align:center;font-weight:bold;}
 	 input {font-size:17px ; }
-		
+	  input[type="number"] { direction:ltr; text-align:center }
+
 	    img {position:absolute; z-index:-1}
-     body{direction: rtl; style='overflow-x:scroll'}
-		 
+			
+     body{direction: rtl; }
+		
 		
    .UlClass {}
 	 
@@ -97,6 +99,9 @@
 		.spnForW22H37   { width:24px; height:10px; position:relative; display:inline-block; margin:0; padding:0}
 
  		.W50H20  { width:50px; height:22px; position:relative; display:inline-block; margin:0; padding:0;   }
+		
+		.W20H50  { width:22px; height:50px; position:relative; display:inline-block; margin:0; padding:0;   }
+		
 		.spnForW50H20   { width:52px; height:15px; position:relative; display:inline-block; margin:0; padding:0;   }
     
 
@@ -106,6 +111,12 @@
                      -ms-transform: rotate(45deg);
                       transform: rotate(45deg)  
 									  }
+		.Rotated90Div   { position:absolute; 
+		                 -webkit-transform: rotate(90deg);  
+                     -moz-transform: rotate(90deg);
+                     -ms-transform: rotate(90deg);
+                      transform: rotate(90deg)  
+									  }								
 										
 		.RotatedM45Div   { position:absolute; 
 		                 -webkit-transform: rotate(-45deg);  
@@ -145,14 +156,40 @@
                      -ms-transform: rotate(-90deg);
                       transform: rotate(-90deg) 
 	                }
+									
+											
+		.textRotatedM90Special	{  display:inline-block;
+                    	margin-right: 0%; 
+											width:49;
+											height:19;
+	                   -webkit-transform: rotate(-90deg);
+										   -webkit-transform-origin: 80%;  
+										 -moz-transform: rotate(-90deg);
+										    -moz-transform-origin: 80%; 
+										 -ms-transform: rotate(-90deg);
+										     -ms-transform-origin: 80%; 
+										 transform: rotate(-90deg);  
+										   transform-origin: 80%; 
+									    }	
+																		
 	 .textRotated90 {  display:inline-block;
 	                   -webkit-transform: rotate(90deg);   
                      -moz-transform: rotate(90deg);
                      -ms-transform: rotate(90deg);
                       transform: rotate(90deg) 
 	                }
+									
+									
+									
 	
+								
 	
+	.EnglishClass {direction: ltr}
+	.HebrewClass {direction: rtl}
+	.confirmationEnglish {direction:ltr; display:none; clear:both}
+	.confirmationHebrew {direction:rtl; display:none; clear:both}
+	
+
 	
 	#dialogoverlay{
 	display: none;
@@ -194,14 +231,14 @@ var toPrint =new Array;
 
 // -----------------------------MARTEF-----------------------------------------------------
 
-row701={firstInRow:701, lastInRow:781, lft:552, tp:60,textRotate:"textNotRotated", cellClass:"W40H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};
-row702={firstInRow:702, lastInRow:782};
-row703={firstInRow:703, lastInRow:783};
-row704={firstInRow:704, lastInRow:784};
-row705={firstInRow:705, lastInRow:785};
-spn716={spn:"spn",  spnClass:"spnForW40H20" ,spnCount:1};
+row701={firstInRow:711, lastInRow:781, lft:552, tp:60,textRotate:"textNotRotated", cellClass:"W40H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+row702={firstInRow:712, lastInRow:782};
+row703={firstInRow:713, lastInRow:783};
+row704={firstInRow:714, lastInRow:784};
+row705={firstInRow:715, lastInRow:785};
+//spn716={spn:"spn",  spnClass:"spnForW40H20" ,spnCount:1};
 row716={firstInRow:716, lastInRow:786};
-								 List701T716= [[10,10,10,10,10,10,10,10,10],row701,row702,row703,row704,row705,spn716, row716];
+								 List701T716= [[10,10,10,10,10,10,10,10,10],row701,row702,row703,row704,row705, row716];
 								 
 row801=	{firstInRow:801, lastInRow:805, lft:1065, tp:270,textRotate:"textNotRotated",  cellClass:"W25H40", uLstClass:"UlClass",divClass:"notRotatedDiv"};							 
 row811=	{firstInRow:811, lastInRow:815};
@@ -212,9 +249,9 @@ row831=	{firstInRow:831, lastInRow:836};
 row841=	{firstInRow:841, lastInRow:845};	
 	                  List821T841=[[1,1,1,1,1,1],row821,row831,row841];
 										
-row901=	{firstInRow:901, lastInRow:906, lft:1012, tp:737, textRotate:"textNotRotated",cellClass:"W25H40", uLstClass:"UlClass",divClass:"notRotatedDiv"};							 
-row911=	{firstInRow:911, lastInRow:916};										
-row921=	{firstInRow:921, lastInRow:927};	
+row901=	{firstInRow:901, lastInRow:905, lft:1065, tp:737, textRotate:"textNotRotated",cellClass:"W25H40", uLstClass:"UlClass",divClass:"notRotatedDiv"};							 
+row911=	{firstInRow:911, lastInRow:915};										
+row921=	{firstInRow:921, lastInRow:925};	
 	                   List901T921=[[1,1,1,1,1,1,1],row901,row911,row921];
 /*										 										
 row1009={firstInRow:1009, lastInRow:1109, lft:410, tp:430,textRotate:"textNotRotated", cellClass:"W40H25", uLstClass:"UlClass",divClass:"RotatedM45Div"};
@@ -228,8 +265,7 @@ row1002={firstInRow:1002, lastInRow:1122};
 row1001={firstInRow:1001, lastInRow:1121};	
 
 */
-row1009={firstInRow:1009, lastInRow:1089, lft:470, tp:400,textRotate:"textNotRotated", cellClass:"W40H25", uLstClass:"UlClass",divClass:"RotatedM45Div"};
-row1008={firstInRow:1008, lastInRow:1088};	
+row1008={firstInRow:1008, lastInRow:1088, lft:470, tp:400,textRotate:"textNotRotated", cellClass:"W40H25", uLstClass:"UlClass",divClass:"RotatedM45Div"};
 row1007={firstInRow:1007, lastInRow:1087};	
 row1006={firstInRow:1006, lastInRow:1086};	
 row1005={firstInRow:1005, lastInRow:1085};	
@@ -239,7 +275,7 @@ row1002={firstInRow:1002, lastInRow:1082};
 row1001={firstInRow:1001, lastInRow:1081};	
 
 
-                   List1009T1101= [[20,20,20,20,20,20,20,20,20], row1009,row1008,row1007,row1006,row1005,row1004,row1003,row1002,row1001];
+                   List1009T1101= [[20,20,20,20,20,20,20,20,20], row1008,row1007,row1006,row1005,row1004,row1003,row1002,row1001];
 	
 //row937={firstInRow:937, lastInRow:974, lft:650, tp:645, textRotate:"textNotRotated",cellClass:"W40H25", uLstClass:"UlClass",divClass:"RotatedM45Div"};  // last was 982
 row937={firstInRow:937, lastInRow:974, lft:650, tp:610, textRotate:"textNotRotated",cellClass:"W40H25", uLstClass:"UlClass",divClass:"RotatedM45Div"};  // last was 982
@@ -247,9 +283,9 @@ row936={firstInRow:936, lastInRow:973};// was 981
 row935={firstInRow:935, lastInRow:972};
 row934={firstInRow:934, lastInRow:971};
 row933={firstInRow:933, lastInRow:962};
-row932={firstInRow:932, lastInRow:961};
-row931={firstInRow:931, lastInRow:941};
-            List937T931=[[10,9,10,8,8], row937,row936,row935,row934,row933,row932,row931]
+//row932={firstInRow:932, lastInRow:961};
+//row931={firstInRow:931, lastInRow:941};
+            List937T931=[[10,9,10,8,8], row937,row936,row935,row934,row933];   //,row932,row931]
 
 								 
 row851=	{firstInRow:851, lastInRow:863, lft:550, tp:420, textRotate:"textRotatedM90",cellClass:"W22H37", uLstClass:"UlClass",divClass:"RotatedM315Div"};							 
@@ -275,20 +311,25 @@ row650 = {firstInRow:650, lastInRow:690};
 row651 = {firstInRow:651, lastInRow:691};
             List681T691=[[20,20,20],row641,row642,row643,row644,row645,row646,row647,row648,row649,row650,row651];
  */
-row661 = {firstInRow:661, lastInRow:681, lft:310, tp:280,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};			
-row662 = {firstInRow:662, lastInRow:682};	
-row663 = {firstInRow:663, lastInRow:683};
-row664 = {firstInRow:664, lastInRow:684};
-row665 = {firstInRow:665, lastInRow:685};
-row666 = {firstInRow:666, lastInRow:686};
-row667 = {firstInRow:667, lastInRow:687};
-row668 = {firstInRow:668, lastInRow:688};
-row669 = {firstInRow:669, lastInRow:689};
-row670 = {firstInRow:670, lastInRow:690};
-row671 = {firstInRow:671, lastInRow:691};
-            List681T691=[[20,20,20],row661,row662,row663,row664,row665,row666,row667,row668,row669,row670,row671];
  
+ /*
+row681 = {firstInRow:681, lastInRow:681, lft:310, tp:280,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};			
+row682 = {firstInRow:682, lastInRow:682};	
+row683 = {firstInRow:683, lastInRow:683};
+row684 = {firstInRow:684, lastInRow:684};
+row685 = {firstInRow:685, lastInRow:685};
+row686 = {firstInRow:686, lastInRow:686};
+row687 = {firstInRow:687, lastInRow:687};
+row688 = {firstInRow:688, lastInRow:688};
+row689 = {firstInRow:689, lastInRow:689};
+row690 = {firstInRow:690, lastInRow:690};
+row691 = {firstInRow:691, lastInRow:691};
+            List681T691=[[20,20,20],row681,row682,row683,row684,row685,row686,row687,row688,row689,row690,row691];
  
+*/ 
+
+row681 = {firstInRow:681, lastInRow:691, lft:210, tp:385,textRotate:"textRotatedM90Special", cellClass:"W20H50", uLstClass:"UlClass",divClass:"Rotated90Div"};			
+  List681T681=[[1,1,1,1,1,1,1,1,1,1,1,1],row681];
  
 /* 
 row391 = {firstInRow:391, lastInRow:581, lft:510, tp:280,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};	
@@ -306,22 +347,22 @@ row590 = {firstInRow:590, lastInRow:590};
 row591 = {firstInRow:591, lastInRow:591};
 spn391={spn:"spn",  spnClass:"spnForW50H20"};
 */
-row391 = {firstInRow:391, lastInRow:601, lft:450, tp:280,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};	
-row392 = {firstInRow:392, lastInRow:602};
-row393 = {firstInRow:393, lastInRow:603};
-row394 = {firstInRow:394, lastInRow:604};
-row395 = {firstInRow:395, lastInRow:605};
-row396 = {firstInRow:396, lastInRow:606};
-row397 = {firstInRow:397, lastInRow:607};
-row398 = {firstInRow:398, lastInRow:608};
+row391 = {firstInRow:391, lastInRow:661, lft:400, tp:280,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};	
+row392 = {firstInRow:392, lastInRow:662};
+row393 = {firstInRow:393, lastInRow:663};
+row394 = {firstInRow:394, lastInRow:664};
+row395 = {firstInRow:395, lastInRow:665};
+row396 = {firstInRow:396, lastInRow:666};
+row397 = {firstInRow:397, lastInRow:667};
+row398 = {firstInRow:398, lastInRow:668};
 spn579={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
-row579 = {firstInRow:579, lastInRow:609};
+row579 = {firstInRow:579, lastInRow:669};
 spn590={spn:"spn",  spnClass:"spnForW50H20",spnCount:2};
-row590 = {firstInRow:590, lastInRow:610};
-row591 = {firstInRow:591, lastInRow:611};
+row590 = {firstInRow:590, lastInRow:670};
+row591 = {firstInRow:591, lastInRow:671};
 spn391={spn:"spn",  spnClass:"spnForW50H20"};
 
-              List391T591 = [[180,10,20],row391,row392,row393,row394,row395,row396,row397,row398,spn579,row579,
+              List391T591 = [[180,10,20,60],row391,row392,row393,row394,row395,row396,row397,row398,spn579,row579,
 							               spn590,row590,spn590,row591];
  
  row301 = {firstInRow:301, lastInRow:371, lft:530, tp:16,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};
@@ -359,7 +400,7 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
                List381=[[1,1],row381];
 
 
-   ListArray2=[List681T691,List391T591,list301T316,List401T541,List461T548,List381];
+   ListArray2=[List681T681,List391T591,list301T316,List401T541,List461T548,List381];
  
 // -----------EZRAT NASHIM-----------------------------------------------------------------
  
@@ -448,7 +489,9 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
  row228 = {firstInRow:228, lastInRow:234, lft:574, tp:500,textRotate:"textNotRotated", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
  row248 = {firstInRow:248, lastInRow:255};
                  List228T248=[[1,1,1,1,1,1,1,1,1],row228,row248];
-								 								 
+	
+	
+/*								 								 
  row181 = {firstInRow:181, lastInRow:211, lft:320, tp:490,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"RotatedM45Div"};
  row182 = {firstInRow:182, lastInRow:212};
  spn203={spn:"spn",  spnClass:"spnForW50H20",spnCount:2};
@@ -456,15 +499,27 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
  spn204={spn:"spn",  spnClass:"spnForW50H20",spnCount:2};
  row204 = {firstInRow:204, lastInRow:204}
                  List181T204=[[10,10,10,10],row181,row182,spn203,row203,spn204,row204];
-								 								 
- row41 = {firstInRow:41, lastInRow:43, lft:820, tp:140,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"RotatedM135Div"};
+*/	
+
+
+spn181={spn:"spn",  spnClass:"spnForW22H37",spnCount:2, lft:370, tp:450,textRotate:"textRotatedM90",cellClass:"W22H37", uLstClass:"UlClass",divClass:"RotatedM315Div"};
+row181={firstInRow:181, lastInRow:182};
+spn191={spn:"spn",  spnClass:"spnForW22H37",spnCount:2};
+row191={firstInRow:191, lastInRow:192};
+row201={firstInRow:201, lastInRow:204};
+spn211={spn:"spn",  spnClass:"spnForW22H37",spnCount:1};
+row211={firstInRow:211, lastInRow:213};
+  List181T211=[[1,1,1,1],spn181,row181,spn191,row191,row201,spn211,row211];
+
+							 								 
+ row41 = {firstInRow:41, lastInRow:43, lft:820, tp:140,textRotate:"textRotatedM90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"RotatedM315Div"};
 								 List41=[[1,1,1],row41];
  
 
   ListArray3=[List111T164,List115T117,List111T173,List91T105,List51T71,List76,List31,List1T15,List221T261,List228T248,
-	             List181T204,List41];
+	             List181T211,List41];
 	
-// ----------------------------------------------------------------------------------------	
+/* ----------------------------------------------------------------------------------------	
 
 var shurot=[   //shura starts at seat number, ends at seat number, belongs to eizor
              [1,15,'a'],       // ezrat nashim
@@ -557,13 +612,13 @@ var shurot=[   //shura starts at seat number, ends at seat number, belongs to ei
 						 [1041,1049,'s'],
 						 [1061,1069,'s'],
 						 [1081,1089,'s']
-				/*		, [1101,1109,'s'],
-						 [1121,1127,'s']   */
+				//	, [1101,1109,'s'],
+					//	 [1121,1127,'s']   
 						 ];
 						 
-						 
+			*/			 
 
-
+var shurot=[];
 
 // ----------------------------------------------------------------------------------------	
 var dataToSend = [ ['familyname=',''],      //0
@@ -580,8 +635,28 @@ var dataToSend = [ ['familyname=',''],      //0
 									 ['&reqMinyanDataM=',''], //11
 									 ['&RmoreComments=',''],  //12
 									 ['&seatsString=',''],    //13
-									 ['&tashlum=','']         //14
+									 ['&tashlum=',''] ,       //14
+									 ['&language=','']        //15
+									        
 									]; 
+									
+// ---------------------------pictures-------embedded from simcha's microsoft One Drive account----------------------------------------------------------------
+var  ezrat_nashim_pic='https://2ugfcg-sn3301.files.1drv.com/y4mBeOdkaIFgL-gYvPvzq_FRDw5-LjOlyNGQ0zhuqDW4hNJIoqL0qZoLPQsWvoY7U-QSr3hHhzB9xa99iGE29wKsv6Faao6MeiVf0qoNZZIbdvXcXrPU2ZVaGiJGbmqn1koi7IySvNNw_Ifkno8i2AFn6cUG8dgkeSt-zuwSICNyuTgTGFPzNyaRjWg3VUY4g5lSNSXt87SBC8dUb7nJ_oFGg';
+var martef_pic001='https://q0z75q-ch3301.files.1drv.com/y4mrGdKoV4EOFYWhbnuI0cJa_k5-EWJQp4tg2mi5-WlYpsWRArGL9c8H0M2eepMkQLBGQ_SnJFVWP0RoP53x_YL68YS0Akfg8JQZY3WlLUz0bRjeLCeNUNOGhkxbdYog28KC_3uiAf1c3D5i0PAyX_l8MPmQhiF2LOAH8UxJ1wMEw4iOSkIIDYT2N_7tYv2_AP8mvfaszT08eh_s8iWlU5sdQ';									
+var martef_pic002='https://q0ajqa-sn3301.files.1drv.com/y4mdcq7N6PKPsZMkb52cbHNjvToniAak0_yloPvh9aLY_hGxrxliC60N243oceCmS1SvTXoaeJplFaWakQNd-1xps5x4fw4qQa-f13gLZRRwjGWEu09DKVDx24Bxhijn9Lus2Og-qXPv-vsc_IJ6sQ1FrOhlxWSr0-zb6f_r4LMDD1GRv3ifZRmwbmIXO7cEsKeH5vDrSw8Mod9UDvIY7-QHg';
+var martef_pic003='https://2ui65g-sn3301.files.1drv.com/y4mHGOkjIV32CdAO69JC9LdlZetuEVQop2EqLh2CfJqlc0DuHj-IAEPI5W5SUL2EwDE968cz4GWRAyUPtwhMWmb4wMqqtSlsIzc-lvpaua1Hpm3z4aGonat1QbwURuXo2uf5jFvuJvFBaTYmeL1LHrbGNwkj9t0maQlgClC2GLp3nn9Uw6wb_AkQIsJhQGXiBCsf_wJnqRgFzp7OjVFoRjcJw';
+var merkazi1='https://2uieqq-sn3301.files.1drv.com/y4mzcc5ufyZP05s2XkFA9EUjqxN8d8PlfV0xpwG6e4r039oqHZVh19UKB4R4l3Ru8K_cIZZGuyCKCxOBCDtVVXqukxnL1Kc24pd_KqB9Juh_dqvxYfF4Axdijr10NQPEjK84WmzJSTWfSEREotnVkp8hy-vjEdJnk_ncpyWsg5fuvbG37SXDFeuD2fFhMQ9XkZps86obFRUvC87U_-as0uXwA';
+var merkazi2='https://2uhvww-sn3301.files.1drv.com/y4mhqSP0p3XvoxW5hLJqpeZS47wJ4APgrqLlzH1g9mBodXKnEI7v8OwY2nMWVBZnLgUHL7uDYKhufNK-j_E-S4ZELQy9DgHMd4lm-MLruINyTvCvoUZjX7CAGp8PXmssZzshYm9Weh6RBvjarWDTYTFntnATj-7ODGcc0VrSoYqyqdEwHSao0Hpl8F3c_8sZiDnmSJidDq_W66LFfvN6OHwug';								
+
+//-------------------------------------------------------------------------------------------------------------------								
+
+
+var basePayment=1200;
+ var paymentPerSeat=50;
+ 
+ var Cancelling;
+
+									
 var toPrintCt;
 var shiftKeyIsPressed=false;
 var listOfIDs=new Array;
@@ -593,6 +668,13 @@ var marqueeDirection='right';
 
 var currentWarningID='';
 var currentMarqueeID='';
+
+var retrievedPayment=0;
+
+var prtiDisplayed=false;
+
+var emailPassDisplayed=false;
+var emailPassCode='';
 
 var firstPartOfURL ='http://seatselection-arielyamimnoraim.rhcloud.com';
 
@@ -658,9 +740,27 @@ function clear_listOfIDsUp(e){
 		currentWarningID=idToset;
 		}
 	
+	//-----------------------------------------------------------------------------------var =[-
+	
+	function getShulConfig(){
+	   url=encodeURI(firstPartOfURL+"/getShulConfig");
+     xhttp.open("GET", url, false);
+       xhttp.send();
+	     rspnsString = xhttp.responseText;        
+			 shurot=[];
+			 var i;
+       var tbl1=	rspnsString.split('$'); 
+			 for (i=0;i<tbl1.length;i++){
+			    tmp=tbl1[i].split('@');
+					shurot[i]=new Array;
+					shurot[i][0]=Number(tmp[0]);
+					shurot[i][1]=Number(tmp[1]);
+					shurot[i][2]=tmp[4];
+			}				
 	
 	
-	// ---------------------------------------------------------------------------------isCurrentLanguageHebrew	setCurrentLanguage
+	}
+	// ---------------------------------------------------------------------------------  
 
 function GenerateTables(){
 document.onkeyup = clear_listOfIDsUp;
@@ -671,11 +771,14 @@ document.onkeydown = clear_listOfIDsDown;
 			 setCurrentLanguage();
 			 }  
 
+			 
+	getShulConfig();	
+			 
+			 
   deleteOldChildren('kk'); // delete previous tables.
-
+	
 // creat cost table; If basePayment or paymentPerSeat are changed, make sure to change them in the form
-basePayment=1200;
-paymentPerSeat=50;
+
  tRow=document.getElementById("costValues"); 
  var tDataChildren= tRow.getElementsByTagName('td');  
  for (i=1; i<tDataChildren.length; i++){  
@@ -722,9 +825,9 @@ paymentPerSeat=50;
 		 generate_list(ListArray1[ull],MartefElement,startingTop);}  
 				
 	 gensteps();
-	 genPicture(MartefElement,"martef_pic001.jpg",250,900,10,15,0,"hall1","Hall1FrameTop",'pic001'); 
-	 genPicture(MartefElement,"martef_pic002.jpg",170,170,800,300,45,"hall1","Hall1FrameTop",'pic002'); 
-	 genPicture(MartefElement,"martef_pic003.jpg",60,100,1000,140,45,"hall1","Hall1FrameTop",'pic003'); 
+	 genPicture(MartefElement,martef_pic001,250,900,10,15,0,"hall1","Hall1FrameTop",'pic001'); 
+	 genPicture(MartefElement,martef_pic002,170,170,800,300,45,"hall1","Hall1FrameTop",'pic002'); 
+	 genPicture(MartefElement,martef_pic003,60,100,1000,140,45,"hall1","Hall1FrameTop",'pic003'); 
 	 	
    adjustElementTop("Hall1FrameTop","drawing_1",170);
 	 adjustElementTop("Hall1FrameTop","drawing_2",192);
@@ -746,8 +849,8 @@ paymentPerSeat=50;
 		           generate_list(ListArray2[ull],MartefElement,startingTop);} 
 							 
 						 	
-			 genPicture(merkaziElement,"merkazi1.jpg",170,170,800,260,45,"hall2","Hall2FrameTop",'m1pic'); 
-	     genPicture(merkaziElement,"merkazi2.jpg",80,135,1030,80,45,"hall2","Hall2FrameTop",'m2pic'); 
+			 genPicture(merkaziElement,merkazi1,170,170,800,260,45,"hall2","Hall2FrameTop",'m1pic'); 
+	     genPicture(merkaziElement,merkazi2,80,135,1030,80,45,"hall2","Hall2FrameTop",'m2pic'); 
 			 
 			 adjustElementTop("Hall2FrameTop","drawing_3",15);
        adjustElementTop("Hall2FrameTop","mafrid4",565);
@@ -775,7 +878,7 @@ paymentPerSeat=50;
 		 adjustElementTop("Hall3FrameTop","arrow3",140); 
 		 adjustElementTop("Hall3FrameTop","arrow4",400);
 		 
-		 genPicture(nashimElement,"ezrat_nashim_pic.jpg",400,260,460,165,0,"hall3","Hall3FrameTop",'nashimpic');
+		 genPicture(nashimElement,ezrat_nashim_pic,400,260,460,165,0,"hall3","Hall3FrameTop",'nashimpic');
 	
 	
 	if (document.myform.seatsString.value)reconstructSeats(document.myform.seatsString.value);
@@ -918,7 +1021,6 @@ function markIt (div_id,shiftKeyApplied,ctrlKeyApplied) {
 	// creat list of seats to apply click to
 	
 	var seatsToApplyClickTo=[seatR];    // no shift or ctrl - the only seat to apply click to
-	
 	if (shiftKeyApplied || ctrlKeyApplied){
 	 seatsToApplyClickTo=[];
 	 sourceSeat=Number(seatR);  
@@ -943,9 +1045,11 @@ function markIt (div_id,shiftKeyApplied,ctrlKeyApplied) {
 		
 					
 	 for ( i=firstRowOfEzor;  i<=lastRowOfEzor; i++)  // loop on row in ezor
-	      for  (j=shurot[i][0]; j<=shurot[i][1];j++) seatsToApplyClickTo.push(Number(j));
-				
-				
+	      for  (j=shurot[i][0]; j<=shurot[i][1];j++) {
+				        cellId='c'+(j.toString())+'_p'; 
+			          cell_element=document.getElementById(cellId); 
+				        if ( cell_element) seatsToApplyClickTo.push(Number(j));
+				          }
 				
 	} // end building list of seats
 	
@@ -1043,9 +1147,8 @@ function genPicture(baseElement,sorc,wdth,hgt,lft,tp,rtt,hall_id,frameTopId,picI
 	startingTop=startingTop.y;
 	startingTop1=startingTop+ tp;
 	 var aPic= document.createElement("img");
-	               fullSorc=sorc;
-	            fullSorc="https://googledrive.com/host/0B3RY8t3CW8yEMzd1RlRsMmNJZnc/"+fullSorc;
-						    aPic.src=fullSorc; 
+	               
+						    aPic.src=sorc; 
 						 aPic.style.width=wdth+"px";
 						 aPic.style.height=hgt+"px";
 				 		 aPic.style.left = lft+ "px";
@@ -1067,14 +1170,10 @@ function adjustElementTop(LegendTextElement,element,tp){
 					 tmp1.style.top=(startingTopA+tp)+"px";
 	         tmp1.style.visibility='visible';
               };
-					 
-
+	
 }
-
   
-		
-		
-		
+//----------------------------------------------------------------------------------------------------------
 		
 		function Alert(dialog,focusOnId){
         var winW = window.innerWidth;  
@@ -1086,8 +1185,12 @@ function adjustElementTop(LegendTextElement,element,tp){
         dialogbox.style.left = (winW/2) - (550 * .5)+"px";
         dialogbox.style.top = "100px";
         dialogbox.style.display = "block";
+				if(isCurrentLanguageHebrew){document.getElementById('dialogboxbody').style='direction:rtl';}
+				      else document.getElementById('dialogboxbody').style='direction:ltr';
+
     //    document.getElementById('dialogboxhead').innerHTML = "Acknowledge This Message";
         document.getElementById('dialogboxbody').innerHTML = dialog;
+				document.getElementById('dialogboxfootLeft').innerHTML = '';
         document.getElementById('dialogboxfoot').innerHTML = '<button onclick="AlertOk(focusId)">OK</button>';
     }
 	AlertOk = function(focusId){
@@ -1097,11 +1200,47 @@ function adjustElementTop(LegendTextElement,element,tp){
 		
 	}
 // -----------------------------------------------------------------------------------------	
+  
+		function yesOrNo(dialog)		{
+        var winW = window.innerWidth;  
+        var winH = window.innerHeight; 
+        var dialogoverlay = document.getElementById('dialogoverlay');
+        var dialogbox = document.getElementById('dialogbox');
+        dialogoverlay.style.display = "block";
+        dialogoverlay.style.height = winH+"px";
+        dialogbox.style.left = (winW/2) - (550 * .5)+"px";
+        dialogbox.style.top = "100px";
+        dialogbox.style.display = "block";
+				
+				if(isCurrentLanguageHebrew){document.getElementById('dialogboxbody').style='direction:rtl';}
+				      else document.getElementById('dialogboxbody').style='direction:ltr';
+
+        document.getElementById('dialogboxbody').innerHTML = dialog;
+        document.getElementById('dialogboxfoot').innerHTML = '<button onclick="yesOrNo_yes()">&nbsp &nbsp &nbsp &nbsp כן</button>';
+		    document.getElementById('dialogboxfootLeft').innerHTML = '<button onclick="yesOrNo_no()">לא &nbsp &nbsp &nbsp &nbsp &nbsp</button>';
+    }
+	 function yesOrNo_yes(func){
+	
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+	   funcYes(); 
+		}
+		function yesOrNo_no(func){
+		
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+    funcNo(); 
+	}
+// -------------------------------------------------------------------------------------
+
     function clearPrevsVlus(){
 		
 		setRegistrationClosedHeader();
 		
-		
+		 emailPassCode='';
+		// retrievedEmail='';
+		 
+		 
 		 var prtiElmnt = document.getElementById("prti");
 		 prtiElmnt.selectedIndex=0;
 	   document.myform.reqemail.value='';  
@@ -1157,22 +1296,30 @@ function adjustElementTop(LegendTextElement,element,tp){
 }
 
 
-// -----------------------------------------------------------------------------------------	
+// -----------------------------------------------------------------------------------------
 
    function ckNameRtrvVlus(){
 	   var resArray = new Array;
+		 retrievedPayment=0;
 		 if(	document.myform.familyname.value != delLeadingBlnks(document.myform.familyname.value)){
 	       	document.myform.familyname.value=delLeadingBlnks(document.myform.familyname.value);	
          };
 				 if(   document.myform.familyname.value==''  ){ clearPrevsVlus();	return;};
 		 
-		 res= ckName();
+		 res= ckName(); 
+		 
 		 if(res.substr(0,3)=='---')return;
 		  resArray=res.split('&');  // for (iii=0;iii<resArray.length;iii++) alert('iii='+iii+'    '+resArray[iii]);
 		 if(document.hiddenForm.lastFamName.value != document.myform.familyname.value)clearPrevsVlus();
 		 document.hiddenForm.lastFamName.value = document.myform.familyname.value;
 		 
-		 if(resArray[3]+resArray[4]+resArray[5]+resArray[6]==0 ){//first time, no previous data
+		 document.myform.menRosh.value=Number(resArray[3]);
+		 document.myform.menkipur.value=Number(resArray[4]);
+		 document.myform.womenRosh.value=Number(resArray[5]);
+		 document.myform.womenkipur.value=Number(resArray[6]);
+		 retrievedPayment=calcPayment();
+		 
+		 if(retrievedPayment==0 ){//first time, no previous data
 			IDTodisplay='newBefore';
 			 if(registrationIsClosed)IDTodisplay='newAfter';
 			 clearAndSetWarnings(IDTodisplay);
@@ -1180,16 +1327,15 @@ function adjustElementTop(LegendTextElement,element,tp){
 			 }
 		
 		 document.myform.reqemail.value=delLeadingBlnks(resArray[0]);
+		 document.hiddenForm.retrievedEmail.value=delLeadingBlnks(document.myform.reqemail.value);
 		 document.myform.reqaddress.value=resArray[1];
 		 document.myform.reqPhone.value=delLeadingBlnks(resArray[2]);
-		 document.myform.menRosh.value=Number(resArray[3]);
-		 document.myform.menkipur.value=Number(resArray[4]);
-		 document.myform.womenRosh.value=Number(resArray[5]);
-		 document.myform.womenkipur.value=Number(resArray[6]);
+		 
 		 document.myform.RmoreComments.value=resArray[11];
 		  
-//restore women selection		 
-		if(resArray[7] != 9){
+//restore women selection	
+
+		if(resArray[7] != 9){   // 9 means choice not made yet
 		 document.myform.ReqminyanW[resArray[7]].checked=true; 
 		
 		 switch 	(resArray[7]) {  
@@ -1230,7 +1376,7 @@ function adjustElementTop(LegendTextElement,element,tp){
      }
 	  
 //restore men selection		 
-		if(resArray[9] != 9){
+		if(resArray[9] != 9){   // 9 means choice not made yet
 		 document.myform.ReqminyanM[resArray[9]].checked=true; 
 		
 		 switch 	(resArray[9]) {  
@@ -1265,6 +1411,7 @@ function adjustElementTop(LegendTextElement,element,tp){
 	paid=		 Number(delLeadingBlnks(resArray[17])); 
 	hadToPay= Number(delLeadingBlnks(resArray[16])); 
 	stillToPay=hadToPay- paid;    
+	if (stillToPay < 0 )stillToPay=0; // no warning for over paid
 	existingRequestAfterClosing=delLeadingBlnks(resArray[13]);   
 	
 	
@@ -1333,8 +1480,10 @@ function reconstructSeats(str){
 // delete leading blanks
 
  function delLeadingBlnks (str){
-     str1=str;
+     str1=str;    if (! str1)return str1;
 		 while (str1.substr(0,1)==' '){str1= str1.substr(1); 	  if (! str1.length)break;}		
+		 while (str1.substr(str1.length-1,1)==' '){str1= str1.substr(0,str1.length-1); 	  if (! str1.length)break;}		
+	
 		 return str1;
 		 }
 
@@ -1343,10 +1492,13 @@ function reconstructSeats(str){
     function ckName(){ 
 		          nnn=document.myform.familyname.value;
 							var prtiElmnt = document.getElementById("prti");
+							
+					if(prtiDisplayed) {
 							if (prtiElmnt.selectedIndex != 0) {
 					          nnn=nnn+' '+prtiElmnt.options[prtiElmnt.selectedIndex].value;
 					          prtiElmnt.selectedIndex = 0;
 										} 
+						}				
 					// "normalize" name to one blank seperator
 					    nn1=nnn.split(/[ ,]+/);
 					    nnn='';
@@ -1360,10 +1512,12 @@ function reconstructSeats(str){
 	            rspnsString = xhttp.responseText;  
 							focusId=document.getElementById('fmName');
 							tmp1= document.getElementById("prtitxt");
-		                tmp1.style.display='none';							
+		                tmp1.style.display='none';	prtiDisplayed=false;						
 							if(rspnsString.substr(0,3)=='---'){ // name not valid or incomplete
 							firstNames=rspnsString.split('$'); 
-							  if ( ! firstNames[1]) { Alert("שם המשפחה לא רשום כחבר קהילה.אנא פנה לחבר הנהלה להכללתך ברשימה",focusId);
+							if(isCurrentLanguageHebrew){alertText="שם המשפחה לא רשום כחבר קהילה.אנא פנה לחבר הנהלה להכללתך ברשימה";}
+							 else alertText='This surname was not recognized.  Please enter the surname in Hebrew as it appears in the membership list.  If it does not work, please contact one of the gabbaim.';
+							  if ( ! firstNames[1]) { Alert(alertText,focusId);
 	     			                           return rspnsString;}
 								// first name required
 								
@@ -1375,7 +1529,7 @@ function reconstructSeats(str){
 							  						document.myform.prti.options[i]=new Option(firstNames[i]);
 														}
 											tmp1= document.getElementById("prtitxt");
-		                tmp1.style.display='inline';
+		                tmp1.style.display='inline';   prtiDisplayed=true;
 										focusId=document.getElementById('prti');							 
             //          Alert('אנא השלם שם משפחה / שם פרטי',focusId);
 										}  
@@ -1383,16 +1537,115 @@ function reconstructSeats(str){
 										
 										return rspnsString;
     }
-		
+// -----------------------------------------------------------------------------------------				
+
+function displayPassCodeRequest() {
+  var tmp1;
+
+ tmp1= document.getElementById("emailPass");
+ tmp1.style.display='inline-block';  
+  emailPassDisplayed=true;
+	} 
+	
+	
+// -----------------------------------------------------------------------------------------	emailPassDisplayed   emailChangedWaitingForPassw			
+
+function UnDisplayPassCodeRequest() {
+ var tmp1;
+ tmp1= document.getElementById("emailPass");
+ tmp1.style.display='none';  
+  emailPassDisplayed=false;
+	} 
+// -----------------------------------------------------------------------------------------						
 		 
+		 function emailChangedWaitingForPassw(){ 
+		 if(isCurrentLanguageHebrew){alertText="המערכת ממתינה לסיסמא לשינוי כתובת המייל";}	
+		        else alertText='waiting for PassCode input in order to change the email address';
+						focusId=document.getElementById('passcode');
+						Alert(alertText,focusId); 
+						return false;
+		}
 // -----------------------------------------------------------------------------------------					
 		function validateEmail() {
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (! document.myform.reqemail.value)return true;
-		isValid= re.test(document.myform.reqemail.value);
+  
+		 if(	document.myform.reqemail.value != delLeadingBlnks(document.myform.reqemail.value)){
+	       	document.myform.reqemail.value=delLeadingBlnks(document.myform.reqemail.value);	
+         };
+		    
+	  if (! document.myform.reqemail.value)return true;
+		isValid= re.test(document.myform.reqemail.value);  
 		focusId=document.getElementById('reqemail');
-		if (! isValid )Alert("כתובת המייל אינה חוקית",focusId);	
-		return isValid;		
+		if(isCurrentLanguageHebrew){alertText="כתובת המייל אינה חוקית";}	 else alertText='illegal mail address';
+			if (! isValid ){Alert(alertText,focusId); return false;}
+			if ( ( ! document.hiddenForm.retrievedEmail.value ) || (document.hiddenForm.retrievedEmail.value==document.myform.reqemail.value)  )return isValid;
+			
+			
+			//  password is requied to change an existing email addr
+			
+			if (emailPassDisplayed){
+			 
+				url=encodeURI(firstPartOfURL+"/ckEmailCode/?"+document.myform.familyname.value+'$'+document.myform.passcode.value);
+							
+							xhttp.open("GET", url, false);
+              xhttp.send();
+	            rspnsString = xhttp.responseText; 
+			       if (	rspnsString.substr(0,3) == '+++'){  // pass ok
+					       UnDisplayPassCodeRequest();
+							  
+								document.hiddenForm.retrievedEmail.value='';  // will not block changes
+								emailPassCode=document.myform.passcode.value;
+				        return true;
+								}
+							else { // errors
+							    UnDisplayPassCodeRequest();
+						    errCode=rspnsString.substr(3,1);
+								
+								if(isCurrentLanguageHebrew){alertText="שגיאת מערכת. אנא הכנס שוב לדף ההרשמה";}	 else alertText='system error; Please re-enter to registration page';
+                if (errCode == '3' )Alert(alertText,focusId); 
+								
+				 	    	if(isCurrentLanguageHebrew){alertText="תוקף הסיסמא פג. אנא הכנס שוב את כתובת המייל כדי שתשלח אליך סיסמא חדשה";}	
+								  else alertText='passcode expired. please re-enter email addr to trigger a new password';
+                focusId=document.getElementById('passcode');
+						    if (errCode == '4' ){
+								     UnDisplayPassCodeRequest();
+										 document.myform.reqemail.value=document.hiddenForm.retrievedEmail.value;
+										 Alert(alertText,focusId); 
+						   	   }
+								if(isCurrentLanguageHebrew){alertText="סיסמא שגויה. אנא הכנס  סיסמא נכונה";}	
+								  else alertText='wrong passcode . please re-enter';
+                focusId=document.getElementById('passcode');
+						    if (errCode == '5' )Alert(alertText,focusId); 	
+								displayPassCodeRequest();
+								return false;
+						}		
+				    
+			}
+			
+			
+			
+			url=encodeURI(firstPartOfURL+"/genCodeSendEmail/?"+document.myform.familyname.value);
+							
+							xhttp.open("GET", url, false);
+              xhttp.send();
+	            rspnsString = xhttp.responseText; 
+			if (	rspnsString.substr(0,3) == '+++'){  // email sent to member		
+			    
+			    displayPassCodeRequest();
+					return false;
+					}
+					else {
+					   errCode=rspnsString.substr(3,1);
+				 		if(isCurrentLanguageHebrew){alertText="שם משפחה שגוי. אנא הכנס שוב";}	 else alertText='illegal surname; Please re-enter';
+            focusId=document.getElementById('fmName');
+						if (errCode == '1' )Alert(alertText,focusId); 
+						
+						if(isCurrentLanguageHebrew){alertText="שגיאת מערכת. אנא הכנס שוב לדף ההרשמה";}	 else alertText='system error; Please re-enter to registration page';
+            if (errCode == '2' )Alert(alertText,focusId); 
+			   
+				   return false;
+				 }
+				
 }
 
 // -----------------------------------------------------------------------------------------
@@ -1408,12 +1661,26 @@ function reconstructSeats(str){
 		        telNumber=delLeadingBlnks(telNumber);
 		        document.myform.reqPhone.value=telNumber;
 				           }		
+		if ( ! telNumber.length) return true;	
+		
+		twoDigitPrfx=telNumber.substring(0, 2);
+		if (israelFixedLinesPrefixes.indexOf(twoDigitPrfx)!=-1){   //two digit prefix
+		   if ( telNumber.substring(2, 3)  != '-'){     // fix phone format
+			       telNumber=telNumber.substring(0, 2)+'-'+telNumber.substring(2);
+						                                   }
+											}	
+											
+		threeDigitPrfx=telNumber.substring(0, 3);
+		if (israel_3DigitPrefixes.indexOf(threeDigitPrfx)!=-1){   //three digit prefix
+		   if ( telNumber.substring(3, 4)  != '-'){     // fix phone format
+			       telNumber=telNumber.substring(0, 3)+'-'+telNumber.substring(3);
+						                                   }
+											}																				 
 				
+			document.myform.reqPhone.value=telNumber;
 		 telLength=telNumber.length;
 		 switch (telLength) {
-		    case 0:
-		       return true;
-					 break;
+		   
 				case 11: //3 digit prefix
   	 		   telPrefix=telNumber.substring(0, 3); 
    		     if (israel_3DigitPrefixes.indexOf(telPrefix)==-1) validTel= false;  
@@ -1432,8 +1699,9 @@ function reconstructSeats(str){
 					 	
 						
 		   
-				focusId=document.getElementById('reqmobile');																									
-		if (!	 validTel) 	Alert("מספר הטלפון  אינו חוקי",focusId);																									
+				focusId=document.getElementById('reqmobile');	
+				if(isCurrentLanguageHebrew){alertText="מספר הטלפון  אינו חוקי";}	 else alertText='illegal phone number';																								
+		if (!	 validTel) 	Alert(alertText,focusId);																									
    	return validTel;
 	}
 	
@@ -1442,7 +1710,8 @@ function reconstructSeats(str){
 		function ckAddress(){
 	   RWord=	checkreservedWords(document.myform.reqaddress.value);
 		 focusId=document.getElementById('reqaddress');	
-   	 if 	(RWord!=-1	) { Alert(".מלים שגויות בשדה הכתובת"+"\n"+" בבקשה אל תשתמש בטקסט:"+RWord,focusId); return false;};
+		 if(isCurrentLanguageHebrew){alertText="מלים שגויות בשדה הכתובת"+"\n"+" בבקשה אל תשתמש בטקסט:";}	 else alertText='illegal characters, please do not use:';																								
+   	 if 	(RWord!=-1	) { Alert(alertText+RWord,focusId); return false;};
       return true;
 			}
 			
@@ -1455,20 +1724,47 @@ function reconstructSeats(str){
 				 if ((s < 0)||(s > mxSeatsPerSubrequest)){ validSeats=false;};
 				 return validSeats;
 				 }
+				
+				 if(isCurrentLanguageHebrew){alertText="אנא בדוק/בדקי את מספר הכסאות שרשמת";}	 else alertText='please check number of requested seats';																								
+         focusId=document.getElementById('misparMekomot');	
 			if ( 	!  (isValidSeatNumbers(document.myform.menRosh.value) &&  isValidSeatNumbers(document.myform.menkipur.value)
 			     && isValidSeatNumbers(document.myform.womenRosh.value) &&  isValidSeatNumbers(document.myform.womenkipur.value)  )
-					   || (document.myform.menRosh.value+document.myform.menkipur.value
-											      +document.myform.womenRosh.value+document.myform.womenkipur.value==0))
-										{focusId=document.getElementById('misparMekomot');	Alert("אנא בדוק/בדקי את מספר הכסאות שרשמת",focusId);  return false;};	
-										
+					   )  {Alert(alertText,focusId);  return false; };
+				pymnt=	calcPayment();						 
+			if (  (retrievedPayment == 	basePayment)  && (pymnt 	== basePayment)		) { //first time and no request made
+														Alert(alertText,focusId);  return false; };
+									
+				if ( (pymnt == 	basePayment) && ( ! Cancelling))	{ // is it a request to cancel registration?	
+				
+			        if(isCurrentLanguageHebrew){alertText="האם ברצונך לבטל את ההרשמה? (אם לא -אנא בדוק/בדקי את מספר הכסאות שרשמת)";}	
+			         else alertText='Do you want to cancel the registration? - (if not -please check number of requested seats)';																								
+					     funcYes=cancelRegistraion;
+					     funcNo=retryInput;
+							 yesOrNo(alertText);
+							 return false;
+							 };			
+													
 					return true;
-					}					 			
+					
+		}
+		
+					
+	//-------------
+	function retryInput(){return}
+	function cancelRegistraion(){
+	  			Cancelling=true;
+					ckValidity_1();
+					}
+					
+					
+										 			
 	
-// -----------------------------------------------------------------------------------------			
+// -----------------------------------------------------------------------------------------yesOrNo			
 	  function  ckSibaW(){
 		    RWord=	checkreservedWords(document.myform.reqExplanationW.value);
 				focusId=document.getElementById('reqExplanationW');
-	 if 	(RWord!=-1	) { Alert(".מלים שגויות בהסבר הסיבה"+"\n"+" בבקשה אל תשתמש בטקסט:"+RWord,focusId); return false;};
+						 if(isCurrentLanguageHebrew){alertText="מלים שגויות בהסבר הסיבה"+"\n"+" בבקשה אל תשתמש בטקסט:";}	 else alertText='illegal characters, please do not use:';																								
+        	 if 	(RWord!=-1	) { Alert(alertText+RWord,focusId); return false;};
 		       return true;   };	
 					 
 //---------------------------------------
@@ -1476,14 +1772,17 @@ function reconstructSeats(str){
  function  ckSibaM(){
 		    RWord=	checkreservedWords(document.myform.reqExplanationM.value);
 				focusId=document.getElementById('reqExplanationM');
-	 if 	(RWord!=-1	) { Alert(".מלים שגויות בהסבר הסיבה"+"\n"+" בבקשה אל תשתמש בטקסט:"+RWord,focusId); return false;};
+				if(isCurrentLanguageHebrew){alertText="מלים שגויות בהסבר הסיבה"+"\n"+" בבקשה אל תשתמש בטקסט:";}	 else alertText='illegal characters, please do not use:';																								
+
+	 if 	(RWord!=-1	) { Alert(alertText+RWord,focusId); return false;};
 		       return true;   };							 												 
 	
 // -----------------------------------------------------------------------------------------			
    function ckMishpW(){
 	      RWord=	checkreservedWords(document.myform.REQfamilyListW.value);
 				focusId=document.getElementById('REQfamilyListW');
-	 if 	(RWord!=-1	) { Alert(".מלים שגויות ברשימת המשפחות"+"\n"+" בבקשה אל תשתמש בטקסט:"+RWord,focusId); return false;};	
+				if(isCurrentLanguageHebrew){alertText="מלים שגויות ברשימת המשפחות"+"\n"+" בבקשה אל תשתמש בטקסט:";}	 else alertText='illegal characters, please do not use:';																								
+	 if 	(RWord!=-1	) { Alert(alertText+RWord,focusId); return false;};	
 		    return true;
 				}
 				
@@ -1492,14 +1791,16 @@ function reconstructSeats(str){
  function ckMishpM(){
 	      RWord=	checkreservedWords(document.myform.REQfamilyListM.value);
 				focusId=document.getElementById('REQfamilyListM');
-	 if 	(RWord!=-1	) { Alert(".מלים שגויות ברשימת המשפחות"+"\n"+" בבקשה אל תשתמש בטקסט:"+RWord,focusId); return false;};	
+				if(isCurrentLanguageHebrew){alertText="מלים שגויות ברשימת המשפחות"+"\n"+" בבקשה אל תשתמש בטקסט:";}	 else alertText='illegal characters, please do not use:';																								
+	 if 	(RWord!=-1	) { Alert(alertText+RWord,focusId); return false;};	
 		    return true;
 				}				
 // -----------------------------------------------------------------------------------------		
     function ckPitzulW() {
 		RWord=	checkreservedWords(document.myform.pitzulMishpachotW.value);
 		focusId=document.getElementById('pitzulMishpachotW');
-	 if 	(RWord!=-1	) { Alert(".מלים שגויות בהסבר הפיצול"+"\n"+" בבקשה אל תשתמש בטקסט:"+RWord,focusId); return false;};		
+		if(isCurrentLanguageHebrew){alertText="מלים שגויות בהסבר הפיצול"+"\n"+" בבקשה אל תשתמש בטקסט:";}	 else alertText='illegal characters, please do not use:';																								
+ 	 if 	(RWord!=-1	) { Alert(alertText+RWord,focusId); return false;};		
 	   return true;
 		 }
 		 
@@ -1507,15 +1808,16 @@ function reconstructSeats(str){
 function ckPitzulM() {
 		RWord=	checkreservedWords(document.myform.pitzulMishpachotM.value);
 		focusId=document.getElementById('pitzulMishpachotM');
-	 if 	(RWord!=-1	) { Alert(".מלים שגויות בהסבר הפיצול"+"\n"+" בבקשה אל תשתמש בטקסט:"+RWord,focusId); return false;};		
-	   return true;
+    if(isCurrentLanguageHebrew){alertText="מלים שגויות בהסבר הפיצול"+"\n"+" בבקשה אל תשתמש בטקסט:";}	 else alertText='illegal characters, please do not use:';																								
+ 	  if 	(RWord!=-1	) { Alert(alertText+RWord,focusId); return false;};			   return true;
 		 }		 
 
 // -----------------------------------------------------------------------------------------		
      function  ckMoreCmnts(){  										 
 			RWord=	checkreservedWords(document.myform.RmoreComments.value);
 			focusId=document.getElementById('RmoreComments');
-	 if 	(RWord!=-1	) { Alert(".מלים שגויות בהערות הנוספות  "+"\n"+" בבקשה אל תשתמש בטקסט:"+RWord,focusId); return false;};													 
+			if(isCurrentLanguageHebrew){alertText="מלים שגויות בהערות הנוספות  "+"\n"+" בבקשה אל תשתמש בטקסט:";}	 else alertText='illegal characters, please do not use:';																								
+ 	  if 	(RWord!=-1	) { Alert(alertText+RWord,focusId); return false;};			   return true;
 				return true;
 				}	
 
@@ -1525,26 +1827,31 @@ function ckPitzulM() {
 // -----------------------------------------------------------------------------------------			
 		
 		function ckValidity(){
-		
-	
+		if(emailPassDisplayed){   emailChangedWaitingForPassw(); return false;}		
+		Cancelling=false;
+	 ckValidity_1();
+	 }
 	
  
-	
+	function ckValidity_1(){
 	 
 	document.myform.sbmt.disabled=true; 
-	 
+	
 // ck name				
 	 
 		 res=ckName();
 		 if(res.substr(0,3)=='---'){
 		       					document.myform.sbmt.disabled=false; 
 										 return false};
-			dataToSend[0][1]=document.myform.familyname.value;							 
+			dataToSend[0][1]=document.myform.familyname.value;		
+			
+			if (dataToSend[0][0] != 'familyname=')sendErrMail('a',dataToSend);
+						 
 // ck email
 
 
 if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;   };
-     dataToSend[1][1]=document.myform.reqemail.value;
+     dataToSend[1][1]=document.myform.reqemail.value+','+emailPassCode;
 	
 // ck phone	
 	if(! ckPhone()){   document.myform.sbmt.disabled=false;      return false;   };
@@ -1572,13 +1879,16 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
  var m = document.getElementById("mntth");  
  var d = document.getElementById("ddy"); 
  var y = document.getElementById("yyr");
+
+	if(isCurrentLanguageHebrew){alertText="תאריך לידת התינוק/ת שגוי";}	 else alertText="error in baby's birthdate";																								
+
  
  BabyDateInput=true;
  if ( ! (m.selectedIndex && d.selectedIndex && y.selectedIndex) ){     // month or year or day left not chosen 
    if ( (m.selectedIndex + d.selectedIndex + y.selectedIndex) > 0)   // but at least one of them specified
 	      {
 				focusId=document.getElementById('yyr');
-				 Alert("תאריך לידת התינוק/ת שגוי",focusId);   document.myform.sbmt.disabled=false;    return false;}
+				Alert(alertText,focusId);   document.myform.sbmt.disabled=false;    return false;}
 				else {BabyDateInput=false;}
     } 
  
@@ -1590,10 +1900,10 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
   
      focusId=document.getElementById('yyr');
      if(  ([4,6,9,11].indexOf(m.selectedIndex)!=-1) && (d.selectedIndex==31)  ){
-		        Alert("תאריך לידת התינוק/ת שגוי",focusId);   document.myform.sbmt.disabled=false;    return false;};
-			if ((m.selectedIndex)  == 2	){ 
+				Alert(alertText,focusId);   document.myform.sbmt.disabled=false;    return false;}	
+		if ((m.selectedIndex)  == 2	){ 
 			              leapYear=0; if (4*Math.floor(y1/4)== y1)leapYear=1;  
-			               if (d.selectedIndex>(leapYear+28)) {Alert("תאריך לידת התינוק/ת שגוי",focusId);  document.myform.sbmt.disabled=false;
+			               if (d.selectedIndex>(leapYear+28)) {Alert(alertText,focusId);  document.myform.sbmt.disabled=false;
 										                                     return false;};
 			                             };
 				dataToSend[9][1]=	d1+'/'+m1+'/'+y1;	
@@ -1611,8 +1921,10 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 		
 	if (document.myform.ReqminyanW[3].checked){
 	focusId=document.getElementById('reqExplanationW');
+	if(isCurrentLanguageHebrew){alertText=" (נשים) לא נרשמה 'סיבה מיוחדת' ";}	 else alertText="no reason given (women)";																								
+
 	  if( document.myform.reqExplanationW.value.length==0){
-	                               Alert(" (נשים) לא נרשמה 'סיבה מיוחדת' ",focusId);  document.myform.sbmt.disabled=false; return false;};
+	                               Alert(alertText,focusId);  document.myform.sbmt.disabled=false; return false;};
 		
 	if(! ckSibaW()){   document.myform.sbmt.disabled=false;      return false;   };															
 		ChosenMinyanW=3;  dataToSend[9][1]=document.myform.reqExplanationW.value;
@@ -1623,9 +1935,10 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	if (document.myform.ReqminyanW[4].checked){
 	   focusId=document.getElementById('REQfamilyListW');
 	   if(document.myform.REQfamilyListW.value.length==0){ 
-	                               Alert(" (נשים) לא נרשמו שמות המשפחות שבקשת להתפלל יחד אתם באותו המנין ",focusId);
-																 document.myform.sbmt.disabled=false; return false;};
-																 
+		                    if(isCurrentLanguageHebrew){alertText=" (נשים) לא נרשמו שמות המשפחות שבקשת להתפלל יחד אתם באותו המנין  ";}	 else alertText="missing names of families  (women)";																								
+	                       Alert(alertText,focusId);
+												 document.myform.sbmt.disabled=false; return false;};
+												
 				  
 			if(! ckMishpW()){   document.myform.sbmt.disabled=false;      return false;   };															 
 					ChosenMinyanW=4;		dataToSend[9][1]=document.myform.REQfamilyListW.value;	
@@ -1636,7 +1949,8 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	if (document.myform.ReqminyanW[5].checked){
 	focusId=document.getElementById('pitzulMishpachotW');
 	  if( document.myform.pitzulMishpachotW.value.length==0){ 
-	                               Alert(" (נשים) לא נרשם הסבר לפיצול המשפחות ",focusId); document.myform.sbmt.disabled=false; return false;};
+				  if(isCurrentLanguageHebrew){alertText="(נשים) לא נרשם הסבר לפיצול המשפחות  ";}	 else alertText="no explanation given to family split (women)";																								
+	         Alert(alertText,focusId); document.myform.sbmt.disabled=false; return false;};
 																 
 			if(! ckPitzulW()){   document.myform.sbmt.disabled=false;      return false;   };																 
 					ChosenMinyanW=5;		dataToSend[9][1]=document.myform.pitzulMishpachotW.value;		
@@ -1649,7 +1963,8 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
                             		ChosenMinyanW=9;    }
 																else {
 																focusId=document.getElementById('RmartefW');
-		                            Alert("לא נרשם מנין נשים מועדף ",focusId);
+																if(isCurrentLanguageHebrew){alertText="לא נרשם מנין נשים מועדף ";}	 else alertText="missing 'Preferrd minyan (women)";																								
+		                            Alert(alertText,focusId);
 																 document.myform.sbmt.disabled=false; return false;
 																 };	
 								}								 		
@@ -1657,7 +1972,8 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	
 	
 	
-	
+				if (dataToSend[0][0] != 'familyname=')sendErrMail('b',dataToSend);
+
 																																			
 // ck requested minyan  Men--------------
  var ChosenMinyanM;
@@ -1672,7 +1988,8 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	if (document.myform.ReqminyanM[3].checked){
 	focusId=document.getElementById('reqExplanationM');
 	  if( document.myform.reqExplanationM.value.length==0){
-	                               Alert(" (גברים) לא נרשמה 'סיבה מיוחדת' ",focusId);  document.myform.sbmt.disabled=false; return false;};
+			       if(isCurrentLanguageHebrew){alertText=" (גברים) לא נרשמה 'סיבה מיוחדת' ";}	 else alertText="no reason given (men)";																								
+	           Alert(alertText,focusId);  document.myform.sbmt.disabled=false; return false;};
 		
 	if(! ckSibaM()){   document.myform.sbmt.disabled=false;      return false;   };															
 		ChosenMinyanM=3;  dataToSend[11][1]=document.myform.reqExplanationM.value;
@@ -1683,8 +2000,9 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	if (document.myform.ReqminyanM[4].checked){
 	   focusId=document.getElementById('REQfamilyListM');
 	   if(document.myform.REQfamilyListM.value.length==0){ 
-	                               Alert(" (גברים) לא נרשמו שמות המשפחות שבקשת להתפלל יחד אתם באותו המנין ",focusId);
-																 document.myform.sbmt.disabled=false; return false;};
+		 		           if(isCurrentLanguageHebrew){alertText=" (גברים) לא נרשמו שמות המשפחות שבקשת להתפלל יחד אתם באותו המנין ";}	 else alertText="missing names of families  (men)";																								
+                    Alert(alertText,focusId);
+										document.myform.sbmt.disabled=false; return false;};
 																 
 				  
 			if(! ckMishpM()){   document.myform.sbmt.disabled=false;      return false;   };															 
@@ -1695,8 +2013,9 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 			
 	if (document.myform.ReqminyanM[5].checked){
 	focusId=document.getElementById('pitzulMishpachotM');
-	  if( document.myform.pitzulMishpachotM.value.length==0){ 
-	                               Alert(" (גברים)לא נרשם הסבר לפיצול   המשפחות ",focusId); document.myform.sbmt.disabled=false; return false;};
+	  if( document.myform.pitzulMishpachotM.value.length==0){
+		      if(isCurrentLanguageHebrew){alertText=" (גברים)לא נרשם הסבר לפיצול   המשפחות  ";}	 else alertText="no explanation given to family split (men)";																								
+	         Alert(alertText,focusId); document.myform.sbmt.disabled=false; return false;}; 
 																 
 			if(! ckPitzulM()){   document.myform.sbmt.disabled=false;      return false;   };																 
 					ChosenMinyanM=5;		dataToSend[11][1]=document.myform.pitzulMishpachotM.value;		
@@ -1708,7 +2027,8 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
                             		ChosenMinyanM=9;}
 										else{						
 																focusId=document.getElementById('RmartefM');
-		                            Alert("לא נרשם מנין גברים מועדף",focusId);
+																if(isCurrentLanguageHebrew){alertText="לא נרשם מנין גברים מועדף ";}	 else alertText="missing 'Preferrd minyan (men)";																								
+		                            Alert(alertText,focusId);
 																 document.myform.sbmt.disabled=false; return false;
 																 };	
 						}		
@@ -1723,23 +2043,45 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 				
 				
 				dataToSend[13][1]=document.myform.seatsString.value;	
-				
+				if ( Cancelling )dataToSend[13][1]='';	
+	/*			
 		seatsForRoshHashana=Number(document.myform.menRosh.value)+Number(document.myform.womenRosh.value);
 		seatsForYomKipur=Number(document.myform.menkipur.value)+Number(document.myform.womenkipur.value);
 	  numberOfSeatsForPayment=Math.max(seatsForRoshHashana,	seatsForYomKipur);  
 		requiredPayment= basePayment+		numberOfSeatsForPayment * paymentPerSeat;  
+	*/
+	  requiredPayment=calcPayment();
 		dataToSend[14][1]=requiredPayment.toString();			
+		
+					if (dataToSend[0][0] != 'familyname=')sendErrMail('c',dataToSend);
+
+		
+		if(isCurrentLanguageHebrew){dataToSend[15][1]='hebrew';} else dataToSend[15][1]='english';
 				
 		    stringToSend='';
 				for (i=0; i<dataToSend.length;i++){
 				     for (j=0; j<2; j++) stringToSend=stringToSend+dataToSend[i][j];
-						                           }
-				
-				
 	
-										 	
-		
-		
+	
+	// debug   
+		inputPairss=stringToSend.split('&');                   }
+tmpNName=inputPairss[0].split('='); 
+if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
+	 
+	 
+	 
+	  // end debug	
+/*	
+	 // cover up for request not honored					                           
+	 
+			console.log(stringToSend);			
+  stringToSend			='familyname=גרין&reqemail=adrach@gmail.com&reqPhone=054-4975897&reqaddress=66 David Elazar&menRosh=2&menKipur=2&womenRosh=2&womenKipur=2&reqminyanW=0&reqMinyanDataW= &reqminyanM=0&reqMinyanDataM=&RmoreComments=&seatsString=721_1+722_1+906_1+905_1&tashlum=1400&language=english';
+	
+		console.log(stringToSend);								 	
+	*/	
+	
+	
+	
 		url=encodeURI(firstPartOfURL+"/writeinfo/?"+stringToSend);
         xhttp.open("GET", url, false);
         xhttp.send();
@@ -1754,7 +2096,10 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 										tmp1= document.getElementById("shgia");
 		                tmp1.innerHTML=rspnsString.substr(3,3);
 										}
-				      else{
+				      else{  
+							      document.getElementById("tosefet").style.display='none';
+										document.getElementById("hafchata").style.display='none';
+										
 							      tmp1= document.getElementById("incompatibilty");
 							      incompatibilty=rspnsString.substr(4,1); 
 										if (incompatibilty == '1'){ tmp1.style.display='block';}
@@ -1768,18 +2113,28 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 										hasStillToPay=rspnsString.split('$')[1];
 										tmp1= document.getElementById("confirmation");
 		                tmp1.style.display='block';
-										tmp1= document.getElementById("tashlum");
-										tmp2= document.getElementById("tashlum1");
-										tmp3= document.getElementById("tashlum2");
 										
-										tmp1.innerHTML=hasStillToPay;
-   									tmp2.style.display='none';
-										tmp3.style.display='none';
-										if( Number(hasStillToPay) ){ 
-										      tmp2.style.display='block';  
-													tmp3.style.display='block'; 
-													}
-		                
+		
+	
+	
+	                tmp1= document.getElementById("tashlum");
+									tmp1.innerHTML=requiredPayment.toString();
+	
+	                if ( (! retrievedPayment) || ( retrievedPayment == basePayment) )return true;     // first time; no message about change in payment
+									deltaPayment=requiredPayment-retrievedPayment;
+									if ( ! deltaPayment )return true;     // no change; no message about change in payment
+	        
+	                if (deltaPayment > 0 ){
+									                  document.getElementById("tashlum4").innerHTML=deltaPayment.toString();
+	                                  document.getElementById("tashlum5").innerHTML=deltaPayment.toString();
+                                    document.getElementById("tosefet").style.display='inline-block';
+	                                     }
+																else {  // last option; deltaPayment is negative	
+									                  deltaPayment=-deltaPayment; 									 
+		                                document.getElementById("tashlum6").innerHTML=deltaPayment.toString();
+	                                  document.getElementById("tashlum7").innerHTML=deltaPayment.toString();
+                                    document.getElementById("hafchata").style.display='inline-block'; 
+																		} 
 				           }
 		
 		
@@ -1787,7 +2142,22 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 		return true;
 		
 	};
-	
+// ----------------------------------------------------------------------------------------------
+  function sendErrMail (err,arry){
+	 arryStr='';
+	 for (iiii=0; iiii<arry.length; iiii++)arryStr=arryStr+arry[iiii];
+   arryStr='err='+err+' --'+arryStr;
+   url=encodeURI(firstPartOfURL+"/sendBrsrRprtedErr/?"+arryStr);
+        xhttp.open("GET", url, false);
+        xhttp.send();
+	      rspnsString = xhttp.responseText;
+				
+}
+
+
+// ----------------------------------------------------------------------------------------------sendErrMail
+
+
 function 	reDisplayMainForm(){
       tmp1= document.getElementById("errorInRequest");
 		  tmp1.style.display='none';
@@ -1797,6 +2167,18 @@ function 	reDisplayMainForm(){
 		  tmp1.style.display='block';
 			document.myform.sbmt.disabled=false;
 										}
+										
+// ----------------------------------------------------------------------------------------------
+		function calcPayment(){							
+										
+										
+    seatsForRoshHashana=Number(document.myform.menRosh.value)+Number(document.myform.womenRosh.value);
+		seatsForYomKipur=Number(document.myform.menkipur.value)+Number(document.myform.womenkipur.value);
+	  numberOfSeatsForPayment=Math.max(seatsForRoshHashana,	seatsForYomKipur);  
+		requiredPayment= basePayment+		numberOfSeatsForPayment * paymentPerSeat; 
+		
+		return  	requiredPayment;
+		}									
 // ----------------------------------------------------------------------------------------------
 	
 	function SimpleMinyanDisplayW(){ 
@@ -1896,15 +2278,23 @@ function pitzulMinyanM(){
 		     if (inputText.indexOf(reservesWordsArray[rWord])!=-1)return reservesWordsArray[rWord]; };
 		  return -1;
 			};  
-			
-// ----------------------------------------------------------------------------------------------		
+	
+
+//---------------------------------------------------------------------------------
+
+
+
+
+
+		
+// ---------------------------------------------------------------------------------------------- 		
 function changeLanguageTo(str){
-  var numOfStrings=60;
+  var numOfStrings=70;
 	for (i=0; i<=numOfStrings; i++){
 	   strId='lanDepndntStr'+(i).toString()+'_';
 		 elmnt= document.getElementById(strId+"EN"); 
 		 if (elmnt)elmnt.style.display='none';
-		 
+	//if (  elmnt)console.log(strId);	 // look for unused numbers
 		 elmnt= document.getElementById(strId+"HB"); 
 		 if (elmnt)elmnt.style.display='none';
 		 
@@ -1918,16 +2308,17 @@ function changeLanguageTo(str){
 // ----------------------------------------------------------------------------------------------
 
 function setCurrentLanguage(){
-   if(isCurrentLanguageHebrew){hebrew()} else english();
+  if(isCurrentLanguageHebrew){hebrew()} else english();
 	 
 	 }
 
 // ----------------------------------------------------------------------------------------------
 
 function english(){
-   document.getElementById("mainFieldset").style='direction:ltr';
-	 document.getElementById("confirmation").style='direction:ltr;display:none;clear:both;';
-	 document.getElementById("lnguage").style='float:right';
+   document.getElementById("mainFieldset").setAttribute("class",'EnglishClass');
+
+	 document.getElementById("confirmation").setAttribute("class",'confirmationEnglish');
+	// document.getElementById("lnguage").setAttribute("class",'langRight');
 	 
 	 yyy=document.myform.Reqyr.selectedIndex; 
 	 ddd=document.myform.Reqddy.selectedIndex;
@@ -1936,6 +2327,9 @@ function english(){
 	 document.myform.Reqyr.options[0]=new Option('year');
 	 document.myform.Reqmnth.options[0]=new Option('month');
 	 document.myform.Reqddy.options[0]=new Option('day');
+	
+	 document.myform.prti.options[0]=new Option('Select Name');
+
 	  
 	 isCurrentLanguageHebrew=false;
 	 changeLanguageTo('EN');
@@ -1949,10 +2343,13 @@ function english(){
 	 }
 	 
 // ----------------------------------------------------------------------------------------------	
+
 function hebrew(){
-   document.getElementById("mainFieldset").style='direction:rtl';
-	 	 document.getElementById("confirmation").style='direction:rtl;display:none;clear:both;';
-	   document.getElementById("lnguage").style='float:left';
+ 
+	    document.getElementById("mainFieldset").setAttribute("class",'HebrewClass');
+
+	 	 document.getElementById("confirmation").setAttribute("class",'confirmationHebrew');
+	//   document.getElementById("lnguage").setAttribute("class",'langLeft');
 	 
 	 yyy=document.myform.Reqyr.selectedIndex;  
 	 ddd=document.myform.Reqddy.selectedIndex;
@@ -1961,6 +2358,8 @@ function hebrew(){
 	 document.myform.Reqyr.options[0]=new Option('שנה');
 	 document.myform.Reqmnth.options[0]=new Option('חודש');
 	 document.myform.Reqddy.options[0]=new Option('יום');
+	 
+	 document.myform.prti.options[0]=new Option('בחר שם');
 	  
 	 isCurrentLanguageHebrew=true;
 	 changeLanguageTo('HB');
@@ -1972,7 +2371,15 @@ function hebrew(){
 	 changeMarqueeDirection('right');
 	 
 	 }
-
+	 
+	 /*
+	 
+	 	
+				<div style="display:inline;" id='lnguage' ><button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button> &nbsp 
+				<button  type="button"  onclick= 'hebrew()' style='display:inline;direction:rtl;font-size:22px;'>  עבר' </button> </div> 
+				
+	 
+*/
 // ----------------------------------------------------------------------------------------------	
 
 function changeMarqueeDirection(drction){
@@ -1987,12 +2394,11 @@ function changeMarqueeDirection(drction){
 		    marqId='';
 		    children=itemmElmnt.children;  
 				for(i=0; i<children.length; i++){
-				  aChildId=children[i].id;  console.log(aChildId.substr(0,3));
+				  aChildId=children[i].id; 
 					if(aChildId.substr(0,4)=='marq'){marqId=aChildId;   break;}
 				 };
-				 if(marqId){  console.log(marqId);
-		//    itemmElmnt.display='none';
-			//	itemmElmnt.display='block';
+				 if(marqId){ 
+		
 		     	document.getElementById(marqId).stop();
 					document.getElementById(marqId).start();
 		  
@@ -2011,16 +2417,17 @@ function changeMarqueeDirection(drction){
   <div>
     <div id="dialogboxhead"></div>
     <div id="dialogboxbody"></div>
-    <div id="dialogboxfoot"></div>
+    <div><span id="dialogboxfoot"> </span><span id ="dialogboxfootLeft" style='display:inline; float:left'></span>  </div>
   </div>
 </div>
 
 
 
-<form name="myform" id='myForm'     >
+<form name="myform" id='myForm'     > 
 
 <h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
-<h1 style="font-size:150%;text-align:center"><b><u>הזמנת מקומות לימים נוראים תשע"ז</u></b> </h1>
+<h1 style="font-size:150%;text-align:center"><b><u><span id='lanDepndntStr0_HB'>הזמנת מקומות לימים נוראים תשע"ח</span>
+<span id='lanDepndntStr0_EN'> Seat requests for High Holydays 5778 </span></u></b> </h1>
 
 <h1 id='newBefore' style="font-size:150%;text-align:center;display:block;">  &nbsp &nbsp &nbsp </h1>
 <h1 id='newAfter' style="font-size:150%;text-align:center;display:none;color:red;"><marquee direction='right'; id='marq1'; width:  100%;
@@ -2034,8 +2441,8 @@ function changeMarqueeDirection(drction){
     height: 100%; SCROLLAMOUNT =10> <b><span id='lanDepndntStr3_HB'>  ההזמנה הקיימת נרשמה לאחר סגירת ההרשמה והיא תטופל בשלב השני של סדור המקומות <u> ולאחר שיבוצע תשלום</u></span>
 		   <span id='lanDepndntStr3_EN' >The request was submitted after registration closed, and it will be handled in the second round of seating arrangements <u>after payment is made</u></span></b></marquee> </h1>
 <h1 id='oldBeforeBeforeToPay' style="font-size:150%;text-align:center;display:none;color:red;"> <marquee direction='right'; id='marq4'; width:  100%;
-    height: 100%; SCROLLAMOUNT =10><b><span id='lanDepndntStr4_HB'> אנא דאג/י למסור את התשלום לגזבר או לאחד מחברי ההנהלה כדי להשלים את תהליך ההרשמה</span>
-		    <span id='lanDepndntStr4_EN' >Please submit payment to the treasurer of to one of the members of the board of management, in order to complete the registration process</span></b></marquee> </h1>
+    height: 100%; SCROLLAMOUNT =10><b><span id='lanDepndntStr4_HB'> אנא דאג/י לשלם כדי להשלים את תהליך ההרשמה</span>
+		    <span id='lanDepndntStr4_EN' >Please submit payment, in order to complete the registration process</span></b></marquee> </h1>
 <h1 id='oldBeforeAfterToPay' style="font-size:150%;text-align:center;display:none;color:red"> <marquee direction='right'; id='marq5'; width:  100%;
     height: 100%; SCROLLAMOUNT =10><b><span id='lanDepndntStr5_HB'> מכיון שההרשמה נסגרה, שליחת בקשה המשפיעה על סדור המקומות תשנה את סטטוס הבקשה לכזו שתטופל בשלב השני של סדור המקומות.  <u> הבקשה תכנס לסדור המקומות לאחר בצוע התשלום </u></span>
 		     <span id='lanDepndntStr5_EN' >As registration is closed, a change affecting seat distribution changes the status of the request such that it will be processed in the second round of seat allocations. <u>The request will be processed after payment is made</u></span></b></marquee> </h1>
@@ -2044,35 +2451,45 @@ function changeMarqueeDirection(drction){
 		    <span id='lanDepndntStr6_EN' >As registration is closed, a change affecting seat distribution changes the status of the request such that it will be processed in the second round of seat allocations</span></b></marquee> </h1>
  
 
-	 <fieldset id='mainFieldset' style="width:1200px;">
+	 <fieldset id='mainFieldset'  style="width:1200px;">
 	     
                   <label for="familyname"><span id='lanDepndntStr7_HB'>שם משפחה</span><span id='lanDepndntStr7_EN' >Surname</span></label>
 		      <input type="text" name="familyname" id="fmName" required onchange='ckNameRtrvVlus()'> 
 					  <div id='prtitxt' style='display:none; color:brown'> <span id='lanDepndntStr8_HB'> &nbsp &nbsp &nbsp אנא השלם שם משפחה /  שם פרטי</span>
 						  <span id='lanDepndntStr8_EN' >Please fill in surname / first name</span> 
 						<select id='prti'  name='prti' onchange="ckNameRtrvVlus()">
-							                            <option value="0"><span id='lanDepndntStr9_HB'> בחר שם</span><span id='lanDepndntStr9_EN' >Select name</span> </option>  
+							                            <option value="0"> בחר שם</option>  
 																					<option value="1" > &nbsp </option>         
 																			    <option value="2" > &nbsp </option> 
 																				  <option value="3" > &nbsp </option> 	
 											</select>	
 											</div>	  
-				
-				<div id='lnguage' style='display:inline; float:left;'><button  type="button"  onclick= 'english()' style='display:inline'> EN </button> &nbsp 
-				<button  type="button"  onclick= 'hebrew()' style='display:inline;direction:rtl'>  עבר' </button> </div> 
-				
+	<!-- ------------ Hebrew/English buttons -------------  -->			
+				<div style="float:right" id='lanDepndntStr9_EN' ><button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button> &nbsp 
+				<button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> 'עבר </button> </div> 
+				<div style="float:left" id='lanDepndntStr9_HB' ><button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> עבר' </button> &nbsp 
+				<button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button></div> 
+	<!-- ---------------------------------------------------- -->			
 							  <br>
 					      <div><br><span id='lanDepndntStr10_HB'> אנא עדכן פרטים</span><span id='lanDepndntStr10_EN' >Please update contact information</span>  </div>
+		
 								<label for="reqemail"><span id='lanDepndntStr11_HB'>מייל:</span><span id='lanDepndntStr11_EN' >Email:</span> </label>
-		      <input type="email" name="reqemail" id='reqemail' style="direction:ltr" onchange='validateEmail()'> <br><br>
-                  <label for="reqPhone"><span id='lanDepndntStr12_HB'>טלפון או טלפון נייד </span><span id='lanDepndntStr12_EN' > Home or mobile phone</span>(05x-xxxxxxx ; 0x-xxxxxxx) :</label>
+		      <input type="email" name="reqemail" id='reqemail' style="direction:ltr" onchange='validateEmail()'>
+          <span id='emailPass' style="display:none;color:red"> <span id='lanDepndntStr61_HB'> &nbsp שנוי כתובת מייל מצריך סיסמא. זו נשלחה למייל הקיים ותוקפה כ20 דקות:</span>
+					      <span id='lanDepndntStr61_EN'>&nbsp passcode to change existing email was sent to old mail addr and is valid for 20 minutes:</span>
+								<input type='text' id='passcode' name='passcode'  onchange='validateEmail()'>  </span><br><br>
+	  
+		              <label for="reqPhone"><span id='lanDepndntStr12_HB'>טלפון או טלפון נייד (אנא מלא לפי אחד מהפורמטים הבאים: </span><span id='lanDepndntStr12_EN' > Home or mobile phone (please use one of these formats: </span> 0xx-xxxxxxx ; 0x-xxxxxxx) :</label>
 		      <input type="tel" name="reqPhone" id='reqPhone' style="direction:ltr" onchange='ckPhone()'> <br><br>
+ 
                   <label for="reqaddress" ><span id='lanDepndntStr13_HB'>כתובת:</span><span id='lanDepndntStr13_EN' >Address</span></label>
                       <textarea  name="reqaddress" id='reqaddress' onchange='ckAddress()'></textarea> <br>
+	
+	
 	<br><h2><span id='lanDepndntStr45_HB'> עלויות </span><span id='lanDepndntStr45_EN'>Payment</span> </h2> 
 	
 	
-	<div><span id='lanDepndntStr14_HB'>התשלום <b>1200</b> ש"ח + 50 ש"ח למקום. <big>נא להכין התשלומים לתאריך 1/XX/201X</big></span>
+	<div><span id='lanDepndntStr14_HB'>התשלום <b>1200</b> ש"ח + 50 ש"ח למקום. <big>נא להכין התשלומים לתאריך 01 לחודש XX שנה 201X </big></span>
 	     <span id='lanDepndntStr14_EN' >Annual dues are NIS <b>1200</b> 1200 per family, plus NIS 50 per seat for High Holydays. <big>Please make out cheques for 1/XX/201X. </big></span></div>	
 	<table>
 	<thead> 
@@ -2087,7 +2504,7 @@ function changeMarqueeDirection(drction){
 	<td><span id='lanDepndntStr16_HB'>תשלום</span><span id='lanDepndntStr16_EN' >Payment</span></td><td>1250</td><td>1300</td><td>1350</td><td>1400</td><td>1450</td><td>1500</td><td>1550</td>
 	<td>1600</td><td>1650</td><td>1700</td>
 	<td>1750</td>
-	<td>1800</td><td>1850</td><td>1900</td><td>1950</td><td>2000</td>
+	<td>1800</td><td>1850</td><td>1900</td><td>1950</td><td>2000</td>   
 	</tr>
 	</tbody>
 	</table>
@@ -2109,21 +2526,22 @@ function changeMarqueeDirection(drction){
 לאולמי התפילה בשתי הקומות העליונות, וגם לא להשאירן בלובי. אפשר להשאיר עגלות מחוץ לבניין, 
 בבית יהודה בקומה העליונה, או בחדר הביטחון במרתף. המקום <u> היחיד</u> בתוך אולם 
 תפילה שמותר להכניס אליו עגלות הוא האזור השמאלי בעזרת הנשים במרתף (לא במעברים!!).
-לכן תהיה העדפה לבית המדרש במרתף לנשים הרוצות להתפלל שם עם עגלת ילדים</span>
+לכן תהיה העדפה באזור השמאלי בבית המדרש במרתף לנשים הרוצות להתפלל שם עם עגלת ילדים</span>
 <span id='lanDepndntStr24_EN' >
 
 Note: For safety reasons, prams are not permitted in the prayer halls on the two upper floors and in the lobby.
   Prams may be left outside the building, in Beit Yehuda on the upper floor, or in the security room in the basement.
 	  The only place inside a prayer hall where prams are permitted is the area to the left of the women's seats
-		 in the basement (not in the aisles!!).  Therefore, women with prams will receive priority for seats in the basement.
+		 in the basement (not in the aisles!!).  therefore, preference for seating on the left side in the basement will be given to women who wish to bring prams.
 
 </span> </b></div>  <br>
 	
    <input type="radio" name="ReqminyanW" value="martefleft" id='RmartefW' onclick="BabyMinyan()"><span id='lanDepndntStr25_HB'>העדפה לבית המדרש במרתף</span>
 	     <span id='lanDepndntStr25_EN' >We prefer to sit in the basement</span> 
-	 <span id='babyComment' style="color:red; " >  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-				<b><span id='lanDepndntStr26_HB'> אנא רשום/רשמי את תאריך לידת התינוק על מנת לקבל עדיפות למקום בבית המדרש במרתף. </span>
-				    <span id='lanDepndntStr26_EN' >Please write the date of the baby's birth in order to receive priority seating in the basement</span></b> </span>
+	 <span id='babyComment' style="color:red; " >  &nbsp &nbsp  &nbsp  &nbsp
+				<b><span id='lanDepndntStr26_HB'> אם ברצונך לשבת באיזור השמאלי בבית המדרש במרתף עם עגלת ילדים, אנא רשום/רשמי את תאריך לידת התינוק. </span>
+				    <span id='lanDepndntStr26_EN' >If you wish to sit on the left side of the women's section  with a pram, please enter the baby's birth date.
+</span></b> </span>
    <div id="tinok" style="display:inline">
 	 <label for="date of birth">    </label>
                      <select id='yyr'  name='Reqyr'>
@@ -2288,7 +2706,7 @@ Note: For safety reasons, prams are not permitted in the prayer halls on the two
  </fieldset> <br><br>
 <fieldset id='Button' >
 
-	<button name='sbmt' type="button"  onclick= 'ckValidity()' style='display:block;width:80px;margin: auto;min-height:45px;'> <h2><span id='lanDepndntStr48_HB' >שלח </span>
+	<button name='sbmt' id='sbmt' type="button"  onclick= 'ckValidity()' style='display:block;width:80px;margin: auto;min-height:45px;'> <h2><span id='lanDepndntStr48_HB' >שלח </span>
 	<span id='lanDepndntStr48_EN'> submit</span></h2></button><br><br>
 
 	<input type="text"  name='seatsString'  value='' style='display:none'> 
@@ -2298,23 +2716,60 @@ Note: For safety reasons, prams are not permitted in the prayer halls on the two
 <form name="hiddenForm" id='hiddenForm' style='display:none'>
 <div id='hiddenDiv'>  </div>
 <input type="text"  name='lastFamName'  value='' style='display:none'>
+<input type="text"  name='retrievedEmail'  value='' style='display:none'>
 
 </form>
 
 <form name='confirmation' id='confirmation'  style='display:none;clear:both;'>
 <br><br><br>
+
+
  <div style='margin: auto; text-align:center'>  <h1> <font color='green'><span id='lanDepndntStr49_HB'> בקשתך נרשמה </span><span id='lanDepndntStr49_EN'>Your request has been registered</span>
  <span id='tashlum2'> <span id='lanDepndntStr50_HB'>והיא תטופל לאחר התשלום.</span><span id='lanDepndntStr50_EN'>and will be processed after payment.</span> </span></font></h1></div> 
+ 
  <h1 id='sgura_3' style="font-size:150%;text-align:center;display:none;color:red"><b><u>
    <span id='lanDepndntStr51_HB'>זו הזמנת מקומות לאחר סגירת ההרשמה. הזמנה זו תטופל בשלב השני של סידור המקומות</span>
 	 <span id='lanDepndntStr51_EN'>The request was submitted after registration closed, and it will be handled in the second round of seating arrangements.</span></u></b> </h1>
+	
+	
 	<div id='tashlum1'> <h2> <span id='lanDepndntStr52_HB'>  אם עדין לא שילמת נא להעביר תשלום בסך</span>
 	      <span id='lanDepndntStr52_EN'> If you have not paid yet, please submit payment of </span> <span id='tashlum'> 0 </span> 
-	<span id='lanDepndntStr27_HB'>ש"ח לאחד מחברי ההנהלה או להפקיד שק בקופת הגזברות בבית הכנסת</span>
+	<span id='lanDepndntStr27_HB'>ש"ח לאחד מחברי ההנהלה או להפקיד שק בקופת הגזברות בבית הכנסת.</span> 
+	<span id='lanDepndntStr28_HB'>
+	 ניתן גם לשלם  <a href="https://icredit.rivhit.co.il/payment/DonationPage.aspx?GroupId=043af093-640c-4723-8813-0b19aed72add" class="button">בכרטיס אשראי.    </a>  
+  &nbsp &nbsp &nbsp <a href="https://www.kehilatariel.com/donation" class="button">באתר הקהילה</a>  תמצא/י הסבר וכן אפשרויות תשלום נוספות  
+ 	</span>
 	<span id='lanDepndntStr27_EN' style='display:inline-block;'>NIS  to one of the members of the board of management,</span>
-	 <span id='lanDepndntStr28_EN' style='display:inline-block;'>or deposit a cheque in the treasury slot in the synagogue.</span> </h2></div>
-	<div id='incompatibilty' style='margin: auto; text-align:center'> <h2><font color='Purple'> <span id='lanDepndntStr53_HB'>הבקשה נרשמה למרות שמספר הכסאות שסומן לגברים ו/או לנשים קטן ממספר המקומות שנרשמו בבקשה </span>
+	 <span id='lanDepndntStr28_EN' style='display:inline-block;'>or deposit a cheque in the treasury slot in the synagogue.<br>
+	 Click <a href="https://icredit.rivhit.co.il/payment/DonationPage.aspx?GroupId=043af093-640c-4723-8813-0b19aed72add" class="button">here    </a>  
+	 to pay online by credit card, or see the <a href="https://www.kehilatariel.com/donation" class="button">shul site</a> for other payment options.
+	 </span> 
+
+</div></h2>
+
+      	 
+	 
+<div id='tosefet' style='display:none'; > <h2> 
+<span id='lanDepndntStr58_HB' style='display:inline-block;'>התשלום הנדרש מהווה תוספת של <span id='tashlum4'>0</span> ש"ח ביחס לרישום הקודם</span>
+	 <span id='lanDepndntStr58_EN' style='display:inline-block;'> The new required payment represents an increase of <span id='tashlum5'>0</span> shekalim over the previous one.</span> </h2></div>
+</h2></div>
+
+<div id='hafchata' style='display:none';><h2>
+<span id='lanDepndntStr59_HB' style='display:inline-block;'>התשלום הנדרש מהווה הפחתה של <span id='tashlum6'>0</span> ש"ח ביחס לרישום הקודם</span>
+	 <span id='lanDepndntStr59_EN' style='display:inline-block;'> The new required payment represents a decrease of <span id='tashlum7'>0</span> shekalim over the previous one.</span> </h2></div>
+</h2></div>
+
+
+	<div id='incompatibilty' style='margin: auto; text-align:center'> <h2><font color='red'> <span id='lanDepndntStr53_HB'>הבקשה נרשמה למרות שמספר הכסאות שסומן לגברים ו/או לנשים קטן ממספר המקומות שנרשמו בבקשה </span>
 	<span id='lanDepndntStr53_EN'>The request has been registered although the number of seats marked for men and/or women is less than the number of seats requested.</span>  </font></h2></div>
+
+<br><br>
+
+<div  style='margin: auto; text-align:center'> <h2><font color='blue'> <span id='lanDepndntStr60_HB' style='display:inline-block;'>הודעת אישור נשלחה אל כתובת המייל (אם הוכנסה) </span>
+	<span id='lanDepndntStr60_EN' style='display:inline-block;'> Confirmation message has been sent to your email addr (if entered)</span>  </font></h2></div>
+
+<br><br>
+
 <div style='margin: auto; text-align:center'>
 <button  type="button"  onclick= 'reDisplayMainForm()'> <h2><span id='lanDepndntStr54_HB'>חזרה לדף ראשי </span>
                                  <span id='lanDepndntStr54_EN'>Back to main page</span></h2></button><br><br>  </div>
