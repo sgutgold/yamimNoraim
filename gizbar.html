@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="he">
+<head>
+<meta charset="windows-1255">
+<meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<meta HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+<title>רישום תשלומים לימים נוראים</title>
+<style>
+
+ 													
+    #Button {border-style:hidden; width:50px; align:center; float:center;position:relative; margin: auto;}
+  
+   table {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold; width: 100%;}
+	 td {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold;margin:0px ;padding:0px;
+	       width:auto }
+	 th {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold;}
+	 input {margin:0px ;padding:0;px font-size:25px; width:inherit; border-style:hidden;}
+		
+	 
+     body{direction: rtl; style='overflow-x:scroll'}
+		 span {width:inherit}
+		
+	
+	
+	#dialogoverlay{
+	display: none;
+	opacity: .8;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: #FFF;
+	width: 100%;
+	z-index: 10;
+}
+#dialogbox{
+	display: none;
+	position: fixed;
+	background: #000;
+	border-radius:7px; 
+	width:550px;
+	z-index: 10;
+}
+
+#dialogbox > div{ background:#FFF; margin:8px; }
+#dialogbox > div > #dialogboxhead{ background: DarkGray; font-size:19px; padding:10px; color:#CCC; }
+#dialogbox > div > #dialogboxbody{ background:DarkSlateGray; padding:20px; color:#FFF; }
+#dialogbox > div > #dialogboxfoot{ background: DarkGray; padding:10px; text-align:right; }
+	
+	
+	 
+</style>
+<script>
+
+var password;
+
+var numberOfMembers;
+
+var xhttp = new XMLHttpRequest();
+
+var firstPartOfURL ='http://seatselection-arielyamimnoraim.rhcloud.com';
+
+
+var validPasswordEntered=false;
+
+
+// -------------------------------------------------------------------------------------
+  
+		function yesOrNo(dialog)		{
+        var winW = window.innerWidth;  
+        var winH = window.innerHeight; 
+        var dialogoverlay = document.getElementById('dialogoverlay');
+        var dialogbox = document.getElementById('dialogbox');
+        dialogoverlay.style.display = "block";
+        dialogoverlay.style.height = winH+"px";
+        dialogbox.style.left = (winW/2) - (550 * .5)+"px";
+        dialogbox.style.top = "100px";
+        dialogbox.style.display = "block";
+        document.getElementById('dialogboxbody').innerHTML = dialog;
+        document.getElementById('dialogboxfoot').innerHTML = '<button onclick="yesOrNo_yes()">&nbsp &nbsp &nbsp &nbsp כן</button>';
+		    document.getElementById('dialogboxfootLeft').innerHTML = '<button onclick="yesOrNo_no()">לא &nbsp &nbsp &nbsp &nbsp &nbsp</button>';
+    }
+	 function yesOrNo_yes(func){
+	
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+	   funcYes(); 
+		}
+		function yesOrNo_no(func){
+		
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+    funcNo(); 
+	}
+
+
+// -------------------------------------------------------------------------------------
+
+
+		function Alert(dialog){
+        var winW = window.innerWidth;  
+        var winH = window.innerHeight; 
+        var dialogoverlay = document.getElementById('dialogoverlay');
+        var dialogbox = document.getElementById('dialogbox');
+        dialogoverlay.style.display = "block";  
+				dialogoverlay.style.height = winH+"px";
+        dialogbox.style.left = (winW/2) - (550 * .5)+"px";
+        dialogbox.style.top = "100px";
+        dialogbox.style.display = "block";
+    
+        document.getElementById('dialogboxbody').innerHTML = dialog;
+				document.getElementById('dialogboxfootLeft').innerHTML = '';
+        document.getElementById('dialogboxfoot').innerHTML = '<button onclick="AlertOk()">OK</button>';
+    }
+	AlertOk = function(){
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+
+		
+	}
+
+// -----------------------------------------------------------------------------------------	
+
+// --------------------------------------------------------------------------------
+
+
+
+// -----------------------------------------------------------------------------------------	
+	
+			
+// delete leading blanks
+
+ function delLeadingBlnks (str){
+     str1=str;  if (! str1)return str1;
+		 while (str1.substr(0,1)==' '){str1= str1.substr(1); 	  if (! str1.length)break;}		
+		 return str1;
+		 }
+
+
+
+//--------------------------------------------------------------------------------------------------------
+function empty(){};
+//-------------------------------------------------------------------------------------------------------------
+function buildTable(rspnsString){
+
+
+	          
+							tbodyElement=document.getElementById("tableBody");
+							memberInfoList=rspnsString.split('$');
+					
+							numberOfMembers=memberInfoList.length;
+							
+							for (i=0;i<memberInfoList.length;i=i+3){
+						   	row=document.createElement("tr");
+								
+						  	memberInfo=memberInfoList[i].split('+');
+                genData(memberInfo,row,i);
+								
+               
+								
+								if(i+1 < memberInfoList.length){
+								 blankD=document.createElement("span");  
+								 blankD.innerHTML='&nbsp &nbsp &nbsp &nbsp &nbsp';
+								row.appendChild(blankD);
+								
+								memberInfo=memberInfoList[i+1].split('+');
+                genData(memberInfo,row,i+1);
+								}
+								
+								
+								if(i+2 < memberInfoList.length){
+						  	blankD=document.createElement("span");
+								blankD.innerHTML='&nbsp &nbsp &nbsp &nbsp &nbsp';
+								row.appendChild(blankD);
+								memberInfo=memberInfoList[i+2].split('+');
+                genData(memberInfo,row,i+2);
+								    
+								}	 
+								
+					tbodyElement.appendChild(row);
+					}			
+       
+};
+
+function genData(memberInfo,row,id){
+                    MemberName=document.createElement("td");    MemberName.setAttribute("id","a"+id.toString()); 
+						  	    MemberToPay=document.createElement("td");
+						      	MemberPaid=document.createElement("td");   MemberPaid.setAttribute("id","c"+id.toString()); 
+										
+									 inpt=document.createElement("input"); 
+                   inpt.setAttribute("type","number"); 
+							
+
+                   MemberName.innerHTML=memberInfo[0];
+						  	   MemberToPay.innerHTML=memberInfo[1];
+									 inpt.value=memberInfo[2];
+						  	   MemberPaid.appendChild(inpt);  
+                   row.appendChild(MemberName);
+							   	 row.appendChild(MemberToPay);
+								   row.appendChild(MemberPaid);
+	}
+
+// -----------------------------------------------------------------------------------------
+
+function ckPassW(){
+   paswElement=document.getElementById("pasw");
+   password=delLeadingBlnks(paswElement.value);
+ 
+   url=encodeURI(firstPartOfURL+"/tashlumim/?"+password);
+              xhttp.open("GET", url, false);
+              xhttp.send();
+              rspnsString = xhttp.responseText;
+							focusId=paswElement;
+							
+						
+						if(rspnsString.substr(0,3)=='---'){
+							
+							  Alert ('סיסמא שגויה'); return
+												         }
+								 else  {
+								       document.getElementById("paswDiv").style.display='none';
+											 document.getElementById("tbl").style.display='block'; 
+											 document.getElementById("updat").style.display='block';  
+								       	validPasswordEntered=true;
+												buildTable( rspnsString.substr(3) );
+												
+	                      }
+	}
+// -----------------------------------------------------------------------------------------
+	
+function updateTashlumim(){  
+ 
+ rspns='';
+ for (i=0; i<numberOfMembers;i++){
+  nm=  document.getElementById("a"+i.toString()).innerHTML; 
+  paid= document.getElementById("c"+i.toString()).firstChild.value; 
+  rspns=rspns+'$'+nm+'+'+paid;
+	} 
+	
+	
+  url=encodeURI(firstPartOfURL+"/UPDtashlumim/?"+'$'+password+rspns);
+              xhttp.open("GET", url, false);
+              xhttp.send();
+              rspnsString = xhttp.responseText.substr(0,3);
+							if(rspnsString=='999'){Alert('עדכון נכשל, בעיה בסיסמא')}
+							  else Alert('נתונים עודכנו');
+              
+ } 
+// ------------------------------------------------------------------------------------<form name="myform" id='myForm'     >-----
+
+                			
+</script>
+</head>
+<body  >
+
+<div id="dialogoverlay"></div>
+<div id="dialogbox">
+  <div>
+    <div id="dialogboxhead"></div>
+    <div id="dialogboxbody"></div>
+    <div><span id="dialogboxfoot"> </span><span id ="dialogboxfootLeft" style='display:inline; float:left'></span>  </div>
+</div></div>
+
+
+
+
+
+
+<div id='headerDiv'>
+<h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
+<h1 style="font-size:150%;text-align:center"><b><u>חיובים ותשלומים תשע"ז</u></b> </h1>
+<div id='paswDiv' style='align:center'>סיסמא:<input id='pasw' type="password" style="display:inline-block;border:2px solid black"  autofocus onchange='ckPassW()'> </div> <br>
+<div id='updat' style='display:none'> <button onclick="updateTashlumim()"><h3>עדכן נתונים</h3></button> </div>
+</div>
+
+
+	 
+	<div >  
+	<table id='tbl' style='display:none'>
+	
+	<thead> 
+	<tr>
+	 <th>שם משפחה</th> <th>סכום לתשלום</th><th> שולם</th>
+	    <th style='border-top-style:hidden;border-bottom-style:hidden'>&nbsp &nbsp &nbsp &nbsp &nbsp </th><th>שם משפחה</th> <th>סכום לתשלום</th><th> שולם</th>
+			<th style='border-top-style:hidden;border-bottom-style:hidden'>&nbsp &nbsp &nbsp &nbsp &nbsp </th><th>שם משפחה</th> <th>סכום לתשלום</th><th> שולם</th>
+	 	</tr>
+	</thead>
+	<tbody id='tableBody'>
+	
+	
+</tbody>
+</table>
+	
+	</div>   
+        
+</body>
+</html>
+
