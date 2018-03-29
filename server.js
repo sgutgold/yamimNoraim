@@ -887,15 +887,17 @@ BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';
 
              
 // -----------------------------------------------------------------------
+
+console.log('log1');
   var workbook = xlsx.readFile(XLSXfilename);  
 
 	var supportWB=xlsx.readFile(supportTblsFilename);  
-
+console.log('log2');
 //read error codes  from supportTables.xlsx            
 
 
 	passwordsWS=supportWB.Sheets['passwords'];
-	mngmntPASSW=passwordsWS['B1'].v;
+	mngmntPASSW=passwordsWS['B1'].v;   console.log('mngmntPASSW='+mngmntPASSW);
 	gizbarPASSW=	passwordsWS['B2'].v;	
 	debugPASSW=	passwordsWS['B3'].v;	
 
