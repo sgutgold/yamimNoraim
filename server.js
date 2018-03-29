@@ -830,12 +830,12 @@ tmpfile=fs.readFileSync('supportTables.xlsx');  console.log('read support tables
 	console.log('read support tables2');
 	
 // debug code 1 
-/*
+
 tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(XLSXfilename, tmpfile);
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
-	*/
+	
 	//////// - end debug code  1
 
 	
