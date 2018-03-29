@@ -814,14 +814,17 @@ var badSeats=[];
 initialize();
 
          /*     init new files in debug  */
-XLSXfilename=	process.env.OPENSHIFT_DATA_DIR+'membersRequests.xlsx';
-EmptyXLSXfilename=	process.env.OPENSHIFT_DATA_DIR+'EmptymembersRequests.xlsx';           
-seatsOrderedFileName=	process.env.OPENSHIFT_DATA_DIR+'seatsOrdered.xlsx';
-errPasswFilename=process.env.OPENSHIFT_DATA_DIR+'empty.xlsx';
-supportTblsFilename=	process.env.OPENSHIFT_DATA_DIR+'supportTables.xlsx';  
+		 localFileDir=process.env.OPENSHIFT_DATA_DIR;  console.log(' original localFileDir='+localFileDir);
+	localFileDir='x';
+				 
+XLSXfilename=	+'membersRequests.xlsx';
+EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
+seatsOrderedFileName=	localFileDir+'seatsOrdered.xlsx';
+errPasswFilename=localFileDir+'empty.xlsx';
+supportTblsFilename=	plocalFileDir+'supportTables.xlsx';  
 
-BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';     
-console.log('process.env.OPENSHIFT_DATA_DIR='+process.env.OPENSHIFT_DATA_DIR);
+BackupFilename= localFileDir+'BackupMembersRequests.xlsx';     
+console.log('localFileDir='+localFileDir);
 
 tmpfile=fs.readFileSync('supportTables.xlsx');  console.log('read support tables');
 
