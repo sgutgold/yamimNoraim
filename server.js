@@ -532,6 +532,7 @@ function setUlam( Minyan,ptr){
         setupVariables();
         populateCache();
         setupTerminationHandlers();
+				console.log('initialized');
                       };
 
 
