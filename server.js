@@ -821,12 +821,13 @@ errPasswFilename=process.env.OPENSHIFT_DATA_DIR+'empty.xlsx';
 supportTblsFilename=	process.env.OPENSHIFT_DATA_DIR+'supportTables.xlsx';  
 
 BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';     
+console.log('process.env.OPENSHIFT_DATA_DIR='+process.env.OPENSHIFT_DATA_DIR);
 
+tmpfile=fs.readFileSync('supportTables.xlsx');  console.log('read support tables');
 
-tmpfile=fs.readFileSync('supportTables.xlsx');
 	fs.writeFileSync(supportTblsFilename, tmpfile);
 	supportWB=xlsx.readFile(supportTblsFilename); 
-	
+	console.log('read support tables2');
 	
 // debug code 1 
 /*
