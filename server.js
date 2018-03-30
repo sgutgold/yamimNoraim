@@ -10,7 +10,7 @@ var xlsx = require('xlsx');
 var nodemailer = require('nodemailer');
 
 
-    /*  =======================================================================  */
+    /*  ======================================================================= port = 
 
     /*
 		
@@ -18,16 +18,16 @@ var nodemailer = require('nodemailer');
      */
   function setupVariables  () {
         //  Set the environment variables we need.
-       ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+       ipaddress = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+        port      = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
         if (typeof ipaddress === "undefined") {
             //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
             //  allows us to run/test the app locally.
             console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-      ipaddress = "127.0.0.1";
-	//ipaddress = '0.0.0.0';
-	//port = 8080;
+             ipaddress = "127.0.0.1";
+	           //ipaddress = '0.0.0.0';
+	          //port = 8080;
         };
 				
 				console.log(ipaddress+'   '+port);
@@ -1687,7 +1687,7 @@ function sortOrderSecondParam(a,b){
 	tArray=[];
 	tArray=countMenAndWomenAssignedSeats(row);
 	
-	if(true)console.log('row='+row+' name='+amudot.name+'    tArray='+tArray);   //dbgCloseSeatsFlag
+	if(true)console.log('row='+row+' name='+requestedSeatsWorksheet[amudot.name+row].v+'    tArray='+tArray);   //dbgCloseSeatsFlag
 	
 	requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v=tArray[0];
 	requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v=tArray[1];
