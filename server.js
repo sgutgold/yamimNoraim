@@ -543,7 +543,7 @@ function setUlam( Minyan,ptr){
         //  Start the app on the specific interface (and port).
       app.listen(port, ipaddress, function() {
             console.log('%s: Node server started on %s:%d ...',
-                        5(Date.now() ), ipaddress, port);
+                        (Date.now() ), ipaddress, port);
         });
     };
 
@@ -1687,7 +1687,7 @@ function sortOrderSecondParam(a,b){
 	tArray=[];
 	tArray=countMenAndWomenAssignedSeats(row);
 	
-	if(true)console.log('row='+row+'    tArray='+tArray);   //dbgCloseSeatsFlag
+	if(true)console.log('row='+row+' name='+amudot.name+'    tArray='+tArray);   //dbgCloseSeatsFlag
 	
 	requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v=tArray[0];
 	requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v=tArray[1];
