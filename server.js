@@ -821,7 +821,7 @@ XLSXfilename=localFileDir	+'membersRequests.xlsx';  console.log('XLSXfilename='+
 EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
 seatsOrderedFileName=	localFileDir+'seatsOrdered.xlsx';
 errPasswFilename=localFileDir+'empty.xlsx';
-supportTblsFilename=	plocalFileDir+'supportTables.xlsx';  
+supportTblsFilename=	localFileDir+'supportTables.xlsx';  
 
 BackupFilename= localFileDir+'BackupMembersRequests.xlsx';     
 console.log('localFileDir='+localFileDir);
