@@ -1687,7 +1687,7 @@ function sortOrderSecondParam(a,b){
 	tArray=[];
 	tArray=countMenAndWomenAssignedSeats(row);
 	
-	if(true)console.log('row='+row+' name='+requestedSeatsWorksheet[amudot.name+row].v+'    tArray='+tArray);   //dbgCloseSeatsFlag
+	if(false)console.log('row='+row+' name='+requestedSeatsWorksheet[amudot.name+row].v+'    tArray='+tArray);   //dbgCloseSeatsFlag
 	
 	requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v=tArray[0];
 	requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v=tArray[1];
