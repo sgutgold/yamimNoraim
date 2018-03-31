@@ -814,7 +814,7 @@ var badSeats=[];
 initialize();
 
          /*     init new files in debug  */
-		 localFileDir=process.env.OPENSHIFT_DATA_DIR;  console.log(' original localFileDir='+localFileDir);
+//		 localFileDir=process.env.OPENSHIFT_DATA_DIR;  console.log(' original localFileDir='+localFileDir);
 	localFileDir='x';
 				 
 XLSXfilename=localFileDir	+'membersRequests.xlsx';  console.log('XLSXfilename='+XLSXfilename);
@@ -1132,7 +1132,7 @@ setTimeout(backupRequests, 600000);	//check every 10 minutes
   	      	};
 									    
      transporter.sendMail(mailOptions, function(error, info){
-         if(error)  console.log('send  mail to '+addr+' subj='+subj+' text='+txt+' reported an error=='+error);
+         if(error)  console.log('send  mail to '+addr+' subj='+subj+' text='+txt+'  info='+info+' reported an error=='+error);
 	    })
  
  
