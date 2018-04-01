@@ -1869,7 +1869,24 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	if (passW == mngmntPASSW){  fileToSendName= 'seatsOrdered.xlsx';  fileToRead=seatsOrderedFileName; generate_seatsOrderedXLS();}
 				else {fileToSendName='empty.xlsx'; fileToRead='empty.xlsx'}
 				
-				
+				//
+				 var mailOptions = {
+            from: 'kehilatarielseats@gmail.com', // sender address
+            to: 'kehilatarielseats@gmail.com', // list of receivers
+            subject: 'seatorderedlist', // Subject line
+            text: 'debug',  // plaintext body
+            attachments: [
+                {   // file on disk as an attachment
+               filename: 'seatsOrdered.xlsx',
+               path: seatsOrderedFileName // stream this file
+              }  ]                  
+											
+					};
+			console.log('sending seatsOrdered.xlsx');						    
+     transporter.sendMail(mailOptions, function(error, info){
+         if(error)  console.log('send seatsorderedfile mail reported an error=='+error);
+	    })
+			//
 				
         res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', 'attachment; filename=' + fileToSendName);
