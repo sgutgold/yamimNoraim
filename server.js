@@ -30,7 +30,7 @@ var nodemailer = require('nodemailer');
 	          //port = 8080;
         };
 				
-				console.log(ipaddress+'   '+port);
+				//console.log(ipaddress+'   '+port);
     };
 
 
@@ -532,7 +532,7 @@ function setUlam( Minyan,ptr){
         setupVariables();
         populateCache();
         setupTerminationHandlers();
-				console.log('initialized');
+				
                       };
 
 
@@ -832,14 +832,14 @@ tmpfile=fs.readFileSync('supportTables.xlsx');  //console.log('read support tabl
 	supportWB=xlsx.readFile(supportTblsFilename); 
 	//console.log('read support tables2');
 	
-// debug code 1 
+/* debug code 1 
 
 tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(XLSXfilename, tmpfile);
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	//////// - end debug code  1
+	*/  //////// - end debug code  1
 
 	
 	
@@ -1067,9 +1067,9 @@ function colNametoNumber(col){
 	}
 //-------------------------------------------------------------
 function backupRequests(){
-    var d1 = new Date();  console.log('d1='+d1);
+    var d1 = new Date();  
     var hour_Greenwich_Mean_Time = Number(d1.getHours());
-		console.log('hour_Greenwich_Mean_Time='+hour_Greenwich_Mean_Time);
+		
 // handle forgetList
      for (iikk=firstSeatRow; i< lastSeatRow+1;i++){
     		 if (forgetList[iikk]){
@@ -1867,7 +1867,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	if (passW == mngmntPASSW){  fileToSendName= 'seatsOrdered.xlsx';  fileToRead=seatsOrderedFileName; generate_seatsOrderedXLS();}
 				else {fileToSendName='empty.xlsx'; fileToRead='empty.xlsx'}
 				
-				//
+				/*  send file to mail for debug purpose
 				 var mailOptions = {
             from: 'kehilatarielseats@gmail.com', // sender address
             to: 'kehilatarielseats@gmail.com', // list of receivers
@@ -1884,7 +1884,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
      transporter.sendMail(mailOptions, function(error, info){
          if(error)  console.log('send seatsorderedfile mail reported an error=='+error);
 	    })
-			//
+			*/
 				
         res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', 'attachment; filename=' + fileToSendName);
