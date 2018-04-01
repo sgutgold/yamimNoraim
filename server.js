@@ -1069,7 +1069,7 @@ function colNametoNumber(col){
 	}
 //-------------------------------------------------------------
 function backupRequests(){
-    var d1 = new Date();
+    var d1 = new Date();  console.log('d1='+d1);
     var hourInIsrael = Number(d1.getHours())+7-24;
 		console.log('hourInIsrael='+hourInIsrael);
 // handle forgetList
@@ -1092,7 +1092,7 @@ function backupRequests(){
 		    return;
 				}
 		
-    if(hourInIsrael == 3){      // once a day; at night 
+    if(true){      // once a day; at night hourInIsrael == 3
     	 xlsx.writeFile(workbook, BackupFilename);
 	 
 	     dayOfLastBackup=weekDay;
