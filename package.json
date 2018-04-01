@@ -16,9 +16,10 @@
     "errPassw.html",
     "initlz.html",
     "okmsg.html",
-		"index_real.html",
+    "index_real.html",
     "seatManagement.html",
     "supportTables.xlsx",
+    "hazmanatMekomotEmpty.xlsx",
     "bin"
   ],
   "homepage": "https://developers.redhat.com/rhoar",
