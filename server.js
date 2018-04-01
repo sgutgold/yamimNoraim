@@ -817,7 +817,7 @@ initialize();
 //		 localFileDir=process.env.OPENSHIFT_DATA_DIR;  console.log(' original localFileDir='+localFileDir);
 	localFileDir='/data/';
 				 
-XLSXfilename=localFileDir	+'membersRequests.xlsx'; // console.log('XLSXfilename='+XLSXfilename);
+XLSXfilename=localFileDir	+'membersRequests.xlsx';  console.log('XLSXfilename='+XLSXfilename);
 EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
 seatsOrderedFileName=	localFileDir+'seatsOrdered.xlsx';
 errPasswFilename=localFileDir+'empty.xlsx';
