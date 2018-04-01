@@ -991,7 +991,7 @@ initFromFiles(''); // init info from files for last year
 
 	
 	
-
+console.log('h1');
 setTimeout(backupRequests, 600000);	//check every 10 minutes
 var dayOfLastBackup=0;
 lastCol='AZ'; 
