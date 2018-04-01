@@ -4,7 +4,7 @@ var express = require('express');
 var fs      = require('fs');
 var http = require('http');
 ;
-var path = require('path');
+var path = require('path');	
 var xlsx = require('xlsx');
 
 var nodemailer = require('nodemailer');
@@ -817,20 +817,20 @@ initialize();
 //		 localFileDir=process.env.OPENSHIFT_DATA_DIR;  console.log(' original localFileDir='+localFileDir);
 	localFileDir='x';
 				 
-XLSXfilename=localFileDir	+'membersRequests.xlsx';  console.log('XLSXfilename='+XLSXfilename);
+XLSXfilename=localFileDir	+'membersRequests.xlsx'; // console.log('XLSXfilename='+XLSXfilename);
 EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
 seatsOrderedFileName=	localFileDir+'seatsOrdered.xlsx';
 errPasswFilename=localFileDir+'empty.xlsx';
 supportTblsFilename=	localFileDir+'supportTables.xlsx';  
 
 BackupFilename= localFileDir+'BackupMembersRequests.xlsx';     
-console.log('localFileDir='+localFileDir);
+//console.log('localFileDir='+localFileDir);
 
-tmpfile=fs.readFileSync('supportTables.xlsx');  console.log('read support tables');
+tmpfile=fs.readFileSync('supportTables.xlsx');  //console.log('read support tables');
 
 	fs.writeFileSync(supportTblsFilename, tmpfile);
 	supportWB=xlsx.readFile(supportTblsFilename); 
-	console.log('read support tables2');
+	//console.log('read support tables2');
 	
 // debug code 1 
 
@@ -891,16 +891,16 @@ BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';
              
 // -----------------------------------------------------------------------
 
-console.log('log1');
+
   var workbook = xlsx.readFile(XLSXfilename);  
 
 	var supportWB=xlsx.readFile(supportTblsFilename);  
-console.log('log2');
+
 //read error codes  from supportTables.xlsx            
 
 
 	passwordsWS=supportWB.Sheets['passwords'];
-	mngmntPASSW=passwordsWS['B1'].v;   console.log('mngmntPASSW='+mngmntPASSW);
+	mngmntPASSW=passwordsWS['B1'].v;   
 	gizbarPASSW=	passwordsWS['B2'].v;	
 	debugPASSW=	passwordsWS['B3'].v;	
 
@@ -930,7 +930,7 @@ tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(supportTblsFilename, tmpfile);
 	supportWB=xlsx.readFile(supportTblsFilename); 
 
-console.log('loaded');
+
 
 var debugRows=[];
 // debug code 3
@@ -1008,11 +1008,11 @@ function initFromFiles(yearToInitFrom){
    if(yearToInitFrom == lastYearInit)return;
 	 lastYearInit=yearToInitFrom;
 	 
-	 console.log('h1');
+	 
    initValuesOutOfSupportTablesXLSX_file (yearToInitFrom);
-	console.log('h2');
+	
     initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom);   //init values
-		console.log('h3');
+		
 		
 		}
 
@@ -1071,7 +1071,7 @@ function colNametoNumber(col){
 function backupRequests(){
     var d1 = new Date();
     var hourInIsrael = Number(d1.getHours())+7-24;
-		
+		console.log('hourInIsrael='+hourInIsrael);
 // handle forgetList
      for (iikk=firstSeatRow; i< lastSeatRow+1;i++){
     		 if (forgetList[iikk]){
@@ -1776,7 +1776,7 @@ app.get('/getAssignmentReport', function(req, res) {
 				    +'&'+asgnd_men_rosh.toString()+'&'+asgnd_wmn_rosh.toString()+'&'+asgnd_men_kipur.toString()+'&'+asgnd_wmn_kipur.toString()+'$';
 		}  // for
 		if (	rtrnStr )rtrnStr=rtrnStr.substr(0,rtrnStr.length-1);	
-			console.log('rtrnStr='+rtrnStr);
+			
 			res.send('+++' + rtrnStr);
 			
 		})	
