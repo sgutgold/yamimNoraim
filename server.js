@@ -1087,8 +1087,8 @@ function backupRequests(){
 
 							 
 		 weekDay=d1.getDay();
-		 if(weekDay == dayOfLastBackup ) {
-		    setTimeout(backupRequests, 600000);	//check every 10 minutes
+		 if( true) {   // weekDay == dayOfLastBackup
+		    setTimeout(backupRequests, 60000);	//check every 10 minutes
 		    return;
 				}
 		
