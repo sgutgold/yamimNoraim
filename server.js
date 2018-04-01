@@ -1070,8 +1070,8 @@ function colNametoNumber(col){
 //-------------------------------------------------------------
 function backupRequests(){
     var d1 = new Date();  console.log('d1='+d1);
-    var hourInIsrael = Number(d1.getHours())+7-24;
-		console.log('hourInIsrael='+hourInIsrael);
+    var hour_Greenwich_Mean_Time = Number(d1.getHours());
+		console.log('hour_Greenwich_Mean_Time='+hour_Greenwich_Mean_Time);
 // handle forgetList
      for (iikk=firstSeatRow; i< lastSeatRow+1;i++){
     		 if (forgetList[iikk]){
@@ -1092,7 +1092,7 @@ function backupRequests(){
 		    return;
 				}
 		
-    if(true){      // once a day; at night hourInIsrael == 3
+    if(true){      // once a day; at night; when vale=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
     	 xlsx.writeFile(workbook, BackupFilename);
 	 
 	     dayOfLastBackup=weekDay;
