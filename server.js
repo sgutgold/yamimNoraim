@@ -1087,7 +1087,7 @@ function backupRequests(){
 
 							 
 		 weekDay=d1.getDay();
-		 if( true) {   // weekDay == dayOfLastBackup
+		 if( false) {   // weekDay == dayOfLastBackup
 		    setTimeout(backupRequests, 60000);	//check every 10 minutes
 		    return;
 				}
@@ -1108,14 +1108,14 @@ function backupRequests(){
               }  ]                  
 											
 					};
-									    
+			console.log('sending backup');						    
      transporter.sendMail(mailOptions, function(error, info){
          if(error)  console.log('send backup mail reported an error=='+error);
 	    })
 	 console.log('backup created at '+d1);
 	 
 	 }
-setTimeout(backupRequests, 600000);	//check every 10 minutes
+setTimeout(backupRequests, 60000);	//check every 10 minutes
 
 
 }	 
