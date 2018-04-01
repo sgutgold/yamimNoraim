@@ -993,7 +993,7 @@ initFromFiles(''); // init info from files for last year
 backupRequests();	
 console.log('h1');
 setTimeout(backupRequests, 60000);	//check every 10 minutes
-var dayOfLastBackup=0;
+var dayOfLastBackup=-1;
 lastCol='AZ'; 
 var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
 var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
@@ -1086,7 +1086,7 @@ function backupRequests(){
 
 
 							 
-		 weekDay=d1.getDay();  console.log('weekDay='+weekDay);
+		 weekDay=d1.getDay();  
 		 if( weekDay == dayOfLastBackup) {    
 		    setTimeout(backupRequests, 600000);	//check every 10 minutes
 		    return;
