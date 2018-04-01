@@ -679,7 +679,7 @@ var incompatibilty;
 var hasStillToPay;
 var inputString;
 var namesForSeat = new Array;
-closeRegistrationDate =new Date;
+//closeRegistrationDate =new Date;
 var afterClosingDate;
 var alreadyAssignedSeatsRosh = new Array;
 var alreadyAssignedSeatsKipur = new Array;
@@ -1086,13 +1086,13 @@ function backupRequests(){
 
 
 							 
-		 weekDay=d1.getDay();
-		 if( false) {   // weekDay == dayOfLastBackup
-		    setTimeout(backupRequests, 60000);	//check every 10 minutes
+		 weekDay=d1.getDay();  console.log('weekDay='+weekDay);
+		 if( weekDay == dayOfLastBackup) {    
+		    setTimeout(backupRequests, 600000);	//check every 10 minutes
 		    return;
 				}
 		
-    if(true){      // once a day; at night; when vale=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
+    if( hour_Greenwich_Mean_Time == 0){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
     	 xlsx.writeFile(workbook, BackupFilename);
 	 
 	     dayOfLastBackup=weekDay;
@@ -1115,7 +1115,7 @@ function backupRequests(){
 	 console.log('backup created at '+d1);
 	 
 	 }
-setTimeout(backupRequests, 60000);	//check every 10 minutes
+setTimeout(backupRequests, 600000);	//check every 10 minutes
 
 
 }	 
