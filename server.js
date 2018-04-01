@@ -815,7 +815,7 @@ initialize();
 
          /*     init new files in debug  */
 //		 localFileDir=process.env.OPENSHIFT_DATA_DIR;  console.log(' original localFileDir='+localFileDir);
-	localFileDir='x';
+	localFileDir='/data/';
 				 
 XLSXfilename=localFileDir	+'membersRequests.xlsx'; // console.log('XLSXfilename='+XLSXfilename);
 EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
@@ -832,14 +832,14 @@ tmpfile=fs.readFileSync('supportTables.xlsx');  //console.log('read support tabl
 	supportWB=xlsx.readFile(supportTblsFilename); 
 	//console.log('read support tables2');
 	
-/* debug code 1 
+// debug code 1 
 
 tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(XLSXfilename, tmpfile);
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	*/  //////// - end debug code  1
+	//  //////// - end debug code  1
 
 	
 	
