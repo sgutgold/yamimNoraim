@@ -832,14 +832,14 @@ tmpfile=fs.readFileSync('supportTables.xlsx');  //console.log('read support tabl
 	supportWB=xlsx.readFile(supportTblsFilename); 
 	//console.log('read support tables2');
 	
-// debug code 1 
+/* debug code 1 
 
 tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(XLSXfilename, tmpfile);
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	//  //////// - end debug code  1
+	*/  //////// - end debug code  1
 
 	
 	
@@ -891,7 +891,7 @@ BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';
              
 // -----------------------------------------------------------------------
 
-
+console.log('894 XLSXfilename='+XLSXfilename);
   var workbook = xlsx.readFile(XLSXfilename);  
 
 	var supportWB=xlsx.readFile(supportTblsFilename);  
