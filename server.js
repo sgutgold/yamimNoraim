@@ -3084,12 +3084,14 @@ After repeating the process 3 times the program chooses the best result for each
 }
 //-----------------------------------------------------------------
 function howManyAislesInRow(row, seatList){
-  var i, roww,ptr,seat;
+  var i, roww,ptr,seat,tmp11;
 	var list=[];
 	var count=0;
 	ptr=amudotOfConfig.open_badSeats	+  row.toString();
-	console.log('ptr='+ptr+' shulConfigerationWS[ptr].v='+shulConfigerationWS[ptr].v);  
-	tmp=delLeadingBlnks(shulConfigerationWS[ptr].v); 
+	console.log('ptr='+ptr+' shulConfigerationWS[ptr].v='+shulConfigerationWS[ptr].v);
+	tmp11=  (shulConfigerationWS[ptr].v).toString();
+	//tmp=delLeadingBlnks(shulConfigerationWS[ptr].v); 
+	tmp=delLeadingBlnks(tmp11);
 	if  ( !tmp ) return 0;
 	list=tmp.split('+'); 
 	for (i=0; i< seatList.length;i++){
