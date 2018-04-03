@@ -4038,7 +4038,7 @@ app.get('/ckpswGIZBAR', function(req, res) {
 
 //------------------------------------------------------------------------------	
 app.get('/keepAlive', function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*");
+	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
             res.send('ok' );
         })	
