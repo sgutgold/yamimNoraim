@@ -10,7 +10,7 @@ var xlsx = require('xlsx');
 var nodemailer = require('nodemailer');
 
 
-    /*  ======================================================================= port = 
+    /*  ======================================================================= 
 
     /*
 		
@@ -838,14 +838,14 @@ tmpfile=fs.readFileSync('supportTables.xlsx');  //console.log('read support tabl
 	supportWB=xlsx.readFile(supportTblsFilename); 
 	//console.log('read support tables2');
 	
-/* debug code 1 
+// debug code 1 
 
 tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(XLSXfilename, tmpfile);
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	*/  //////// - end debug code  1
+	//  //////// - end debug code  1
 
 	
 	
@@ -2809,7 +2809,7 @@ nameForRow=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 		
 	for(chag=0;chag<2;chag++){
 	  if (chagimWithRequest.indexOf(chag) != -1){  
-		
+		console.log('chag='+chag+'    row='+row);
 	        evalRqstVSAssgnd(chag,row);   
 	
 					tmp0=tmp0+aChagRslts[0];  
@@ -3054,7 +3054,7 @@ After repeating the process 3 times the program chooses the best result for each
 			
 			 if(eachRowIsAnAlternative[gender]){
 			    
-			    for (m=0 ;m<rqstdRows[gender][1].length; m++){
+			    for (m=0 ;m<rqstdRows[gender][1].length; m++){   console.log('m='+m+' gender='+gender+'  rqstdRows[gender][0][m]='+rqstdRows[gender][0][m]+ '  rqstdSeats[gender]='+rqstdSeats[gender]); 
 					    counterNonAisles=rqstdRows[gender][1][m]-howManyAislesInRow(rqstdRows[gender][0][m],rqstdSeats[gender]);
 							if (counterNonAisles  >= rqstedSeatsPerChagPerGender){  aisleReqstd=false; break;}
 							 } // for m
@@ -3088,6 +3088,7 @@ function howManyAislesInRow(row, seatList){
 	var list=[];
 	var count=0;
 	ptr=amudotOfConfig.open_badSeats	+  row.toString();
+	console.log('ptr='+ptr+' shulConfigerationWS[ptr].v='+shulConfigerationWS[ptr].v);  
 	tmp=delLeadingBlnks(shulConfigerationWS[ptr].v); 
 	if  ( !tmp ) return 0;
 	list=tmp.split('+'); 
@@ -3658,7 +3659,7 @@ app.get('/setreadxls', function(req, res) {
 	 else {
 	 
 	    newYear=msgParts[1];
-  		
+  		console.log('newYear='+newYear);
 			resltSupportTbl=genNewYearSpportTblSheet(newYear);		
        resltREQ=genNewYearRequestSheet(newYear); 
         res.send(resltREQ+'$'+resltSupportTbl);
@@ -3753,7 +3754,7 @@ function genNewYearRequestSheet(yearToCreate){
 			if(Yrnum > prvsYr )prvsYr=Yrnum;
 	 };
 	 if ( ! prvsYr) {  return '555';};
-	
+	console.log('prvsYr.toString()='+prvsYr.toString());
 	 initFromFiles(prvsYr.toString());
 	 stsfctionColction=[];
 	 for (row=firstSeatRow; row<lastSeatRow+1; row++)analyseRqstVSAssgnd(row);
