@@ -3089,9 +3089,9 @@ function howManyAislesInRow(row, seatList){
 	var count=0;
 	ptr=amudotOfConfig.open_badSeats	+  row.toString();
 	console.log('ptr='+ptr+' shulConfigerationWS[ptr].v='+shulConfigerationWS[ptr].v);
-	tmp11=  (shulConfigerationWS[ptr].v).toString();
-	//tmp=delLeadingBlnks(shulConfigerationWS[ptr].v); 
-	tmp=delLeadingBlnks(tmp11);
+	//tmp11=  (shulConfigerationWS[ptr].v).toString();
+	tmp=delLeadingBlnks(shulConfigerationWS[ptr].v); 
+//	tmp=delLeadingBlnks(tmp11);
 	if  ( !tmp ) return 0;
 	list=tmp.split('+'); 
 	for (i=0; i< seatList.length;i++){
@@ -3814,8 +3814,9 @@ function genNewYearSpportTblSheet(yearToCreate){
 														vlu=' ';
 														if( lastYrshulConfigerationSheet[ptr1]) vlu=lastYrshulConfigerationSheet[ptr1].v;
 									        
-													 lastYrshulConfigerationSheet[ptr1]={t:"s",v:vlu};  //make sure it is of str attribute
+													 
 														YrSheet[ptr1]={t:"s",v:vlu};
+														YrSheet[ptr1].v=(YrSheet[ptr1].v).toString();  //make sure it is of str attribute
 												
                          });	
 								 
