@@ -3812,6 +3812,7 @@ function genNewYearSpportTblSheet(yearToCreate){
 														vlu=' ';
 														if( lastYrshulConfigerationSheet[ptr1]) vlu=lastYrshulConfigerationSheet[ptr1].v;
 									        
+													 lastYrshulConfigerationSheet[ptr1]={t:"s",v:vlu};  //make sure it is of str attribute
 														YrSheet[ptr1]={t:"s",v:vlu};
 												
                          });	
