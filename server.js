@@ -820,68 +820,43 @@ var badSeats=[];
 initialize();
 
          /*     init new files in debug  */
-//		 localFileDir=process.env.OPENSHIFT_DATA_DIR;  console.log(' original localFileDir='+localFileDir);
+
 	localFileDir='/data/';
 				 
-XLSXfilename=localFileDir	+'membersRequests.xlsx';  console.log('XLSXfilename='+XLSXfilename);
+XLSXfilename=localFileDir	+'membersRequests.xlsx';  
 EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
 seatsOrderedFileName=	localFileDir+'seatsOrdered.xlsx';
 errPasswFilename=localFileDir+'empty.xlsx';
 supportTblsFilename=	localFileDir+'supportTables.xlsx';  
 
 BackupFilename= localFileDir+'BackupMembersRequests.xlsx';     
-//console.log('localFileDir='+localFileDir);
 
-tmpfile=fs.readFileSync('supportTables.xlsx');  //console.log('read support tables');
+
+
+	
+/* debug code 1 
+
+tmpfile=fs.readFileSync('supportTables.xlsx');  
 
 	fs.writeFileSync(supportTblsFilename, tmpfile);
 	supportWB=xlsx.readFile(supportTblsFilename); 
-	//console.log('read support tables2');
-	
-// debug code 1 
 
 tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(XLSXfilename, tmpfile);
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	//  //////// - end debug code  1
+	*/  //////// - end debug code  1
 
 	
 	
-	/* debug code 2
-	
-	var workbook = xlsx.readFile(XLSXfilename); 
-	prvsYr=0;
-	 for (i=0;i<workbook.SheetNames.length; i++){
-	    WSnam=workbook.SheetNames[i];
-			fourDigitSuffix=WSnam.substr(WSnam.length-4); 
-			if (isNaN(fourDigitSuffix))continue;
-			Yrnum=Number(fourDigitSuffix);
-			if(Yrnum > prvsYr )prvsYr=Yrnum;
-	 };
-	 if (  prvsYr) {  
-	
-	 initFromFiles(prvsYr.toString());
-	 stsfctionColction=[];
-	 for (row=firstSeatRow; row<lastSeatRow+1; row++)analyseRqstVSAssgnd(row); ///
-	 }else console.log('no prvs year');
-	//////// - end debug code   2
-	*/
 	
 	
 	
 	
 	
-/*
-XLSXfilename=	process.env.OPENSHIFT_DATA_DIR+'membersRequests.xlsx';
-EmptyXLSXfilename=	process.env.OPENSHIFT_DATA_DIR+'EmptymembersRequests.xlsx';           
-seatsOrderedFileName=	process.env.OPENSHIFT_DATA_DIR+'seatsOrdered.xlsx';
-errPasswFilename=process.env.OPENSHIFT_DATA_DIR+'empty.xlsx';
-supportTblsFilename=	process.env.OPENSHIFT_DATA_DIR+'supportTables.xlsx';  
+	
 
-BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';       
-*/
 //-----------------------init gmail ------------------------------------------
    
 
@@ -897,7 +872,7 @@ BackupFilename= process.env.OPENSHIFT_DATA_DIR+'BackupMembersRequests.xlsx';
              
 // -----------------------------------------------------------------------
 
-console.log('894 XLSXfilename='+XLSXfilename);
+
   var workbook = xlsx.readFile(XLSXfilename);  
 
 	var supportWB=xlsx.readFile(supportTblsFilename);  
@@ -1112,7 +1087,7 @@ function backupRequests(){
               }  ]                  
 											
 					};
-			console.log('sending backup');						    
+								    
      transporter.sendMail(mailOptions, function(error, info){
          if(error)  console.log('send backup mail reported an error=='+error);
 	    })
@@ -2809,7 +2784,7 @@ nameForRow=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 		
 	for(chag=0;chag<2;chag++){
 	  if (chagimWithRequest.indexOf(chag) != -1){  
-		console.log('chag='+chag+'    row='+row);
+		
 	        evalRqstVSAssgnd(chag,row);   
 	
 					tmp0=tmp0+aChagRslts[0];  
@@ -3054,7 +3029,7 @@ After repeating the process 3 times the program chooses the best result for each
 			
 			 if(eachRowIsAnAlternative[gender]){
 			    
-			    for (m=0 ;m<rqstdRows[gender][1].length; m++){   console.log('m='+m+' gender='+gender+'  rqstdRows[gender][0][m]='+rqstdRows[gender][0][m]+ '  rqstdSeats[gender]='+rqstdSeats[gender]); 
+			    for (m=0 ;m<rqstdRows[gender][1].length; m++){   
 					    counterNonAisles=rqstdRows[gender][1][m]-howManyAislesInRow(rqstdRows[gender][0][m],rqstdSeats[gender]);
 							if (counterNonAisles  >= rqstedSeatsPerChagPerGender){  aisleReqstd=false; break;}
 							 } // for m
@@ -3088,7 +3063,7 @@ function howManyAislesInRow(row, seatList){
 	var list=[];
 	var count=0;
 	ptr=amudotOfConfig.open_badSeats	+  row.toString();
-	console.log('ptr='+ptr+' shulConfigerationWS[ptr].v='+shulConfigerationWS[ptr].v);
+	
 	//tmp11=  (shulConfigerationWS[ptr].v).toString();
 	tmp=delLeadingBlnks(shulConfigerationWS[ptr].v); 
 //	tmp=delLeadingBlnks(tmp11);
@@ -3661,7 +3636,7 @@ app.get('/setreadxls', function(req, res) {
 	 else {
 	 
 	    newYear=msgParts[1];
-  		console.log('newYear='+newYear);
+  		
 			resltSupportTbl=genNewYearSpportTblSheet(newYear);		
        resltREQ=genNewYearRequestSheet(newYear); 
         res.send(resltREQ+'$'+resltSupportTbl);
@@ -3701,6 +3676,7 @@ function genNewYearRequestSheet(yearToCreate){
 														if( requestedSeatsWorksheet[ptr1]) vlu=requestedSeatsWorksheet[ptr1].v;
 									        
 														YrSheet[ptr1]={t:"s",v:vlu};
+														YrSheet[ptr1].v=(YrSheet[ptr1].v).toString();  //make sure it is of str attribute
 												
                          });	
 				if (rw <  3 )continue; // header lines
@@ -3723,7 +3699,7 @@ function genNewYearRequestSheet(yearToCreate){
 								  	// update membership status   
 									ptr1=amudot.memberShipStatus+rww;
 									vlu=Number(requestedSeatsWorksheet[ptr1].v);
-									if(vlu<2)requestedSeatsWorksheet[ptr1].v=vlu+1;				 
+									if(vlu<2)requestedSeatsWorksheet[ptr1].v=(vlu+1).toString();				 
 								 
 												 
 									// clear last  year ibfo from requested seats worksheet for the new yr new info
@@ -3732,6 +3708,8 @@ function genNewYearRequestSheet(yearToCreate){
                             ptr1= amudotToClrInReqstdSeatsWhnGenNewYr[key]+rww;
 									        
 													requestedSeatsWorksheet[ptr1]= {t:"s",v:' '};
+													requestedSeatsWorksheet[ptr1].v=(requestedSeatsWorksheet[ptr1].v).toString();  //make sure it is of str attribute
+													
 														 
 													 });				 
 									}	// for
@@ -3756,7 +3734,7 @@ function genNewYearRequestSheet(yearToCreate){
 			if(Yrnum > prvsYr )prvsYr=Yrnum;
 	 };
 	 if ( ! prvsYr) {  return '555';};
-	console.log('prvsYr.toString()='+prvsYr.toString());
+	
 	 initFromFiles(prvsYr.toString());
 	 stsfctionColction=[];
 	 for (row=firstSeatRow; row<lastSeatRow+1; row++)analyseRqstVSAssgnd(row);
@@ -3851,6 +3829,7 @@ function genNewYearSpportTblSheet(yearToCreate){
 														if( lastYrseatToRowSheet[ptr1]) vlu=lastYrseatToRowSheet[ptr1].v;
 									        
 														YrSheet[ptr1]={t:"s",v:vlu};
+														YrSheet[ptr1].v=(YrSheet[ptr1].v).toString();  //make sure it is of str attribute
 												
                          });	
 								 
