@@ -826,7 +826,7 @@ nashimDrawing=[
                      rashi:{ListArray:ListArray2_2016,pics:picsforRashi,drawings:rashiDrawing_2016},
                      nashim:{ListArray:ListArray3,pics:picsforNashim,drawings:nashimDrawing} }; 									 
 										 
-yearlyDataStructure=[['lastYear',lastyearStructure],[2016,Y2016Structure]];
+yearlyDataStructure=[[2017,lastyearStructure],[2016,Y2016Structure]];
 
 var LastYear;
 var nextYear;
@@ -1090,15 +1090,16 @@ function getSeatsStructureForYear(yr){
   if ( !yr )return yearlyDataStructure[0][1];
 	if (yearlyDataStructure.length==1) return yearlyDataStructure[0][1];
 	
-	yearToDsply=0;
-	yearToDsplyIdx=0;
+	//yearToDsply=0;
+	//yearToDsplyIdx=0;
 		rqstYr=Number(yr);
 		
-	for (ii=1;ii<yearlyDataStructure.length;ii++){
-	   if ( (yearlyDataStructure[ii][0] <= rqstYr)  && (yearlyDataStructure[ii][0] > yearToDsply)  )
-		       {yearToDsply=yearlyDataStructure[ii][0];  yearToDsplyIdx=ii;};
+	for (ii=0;ii<yearlyDataStructure.length;ii++){
+	 //  if ( (yearlyDataStructure[ii][0] <= rqstYr)  && (yearlyDataStructure[ii][0] > yearToDsply)  )
+	 if (yearlyDataStructure[ii][0] <= rqstYr)return yearlyDataStructure[ii][1];
+		    //   {yearToDsply=yearlyDataStructure[ii][0];  yearToDsplyIdx=ii;};
 	 }
-	 return yearlyDataStructure[yearToDsplyIdx][1];
+	// return yearlyDataStructure[yearToDsplyIdx][1];
 }	
 
 
