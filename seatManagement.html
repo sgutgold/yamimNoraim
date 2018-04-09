@@ -1090,16 +1090,14 @@ function getSeatsStructureForYear(yr){
   if ( !yr )return yearlyDataStructure[0][1];
 	if (yearlyDataStructure.length==1) return yearlyDataStructure[0][1];
 	
-	//yearToDsply=0;
-	//yearToDsplyIdx=0;
-		rqstYr=Number(yr);
+	rqstYr=Number(yr);
 		
 	for (ii=0;ii<yearlyDataStructure.length;ii++){
-	 //  if ( (yearlyDataStructure[ii][0] <= rqstYr)  && (yearlyDataStructure[ii][0] > yearToDsply)  )
+	
 	 if (yearlyDataStructure[ii][0] <= rqstYr)return yearlyDataStructure[ii][1];
-		    //   {yearToDsply=yearlyDataStructure[ii][0];  yearToDsplyIdx=ii;};
+		   
 	 }
-	// return yearlyDataStructure[yearToDsplyIdx][1];
+	
 }	
 
 
