@@ -903,15 +903,15 @@ tmpfile=fs.readFileSync('membersRequests.xlsx');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 
-*/
 
-//----------end debug----------------------------
     
 	tmpfile=fs.readFileSync('supportTables.xlsx');
 	fs.writeFileSync(supportTblsFilename, tmpfile);
 	supportWB=xlsx.readFile(supportTblsFilename); 
 
+*/
 
+//----------end debug----------------------------
 
 var debugRows=[];
 // debug code 3
