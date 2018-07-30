@@ -2174,7 +2174,7 @@ countassnd=[0,0];
 
 app.get('/shira1807', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-	tmpfile=fs.readFileSync('EmptymembersRequests.xlsx');
+	tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(EmptyXLSXfilename, tmpfile);
 	fs.writeFileSync(XLSXfilename, tmpfile);
 	workbook = xlsx.readFile(XLSXfilename);
