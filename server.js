@@ -1278,8 +1278,11 @@ for(i=1; i<lastSeatNumber+1; i++){
 				closeSeats(2,i);  
 						 
 	   }  
+		familyNames.length=i-firstSeatRow;
 		
 	 if (i>190)reportAnError('no $$$ at end of family names'); 
+	 
+	 
 	 
 	 for (i=1; i<lastSeatNumber+1; i++){
                alreadyAssignedSeatsRosh[i]=' '; 
