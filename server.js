@@ -1250,8 +1250,8 @@ for(i=1; i<lastSeatNumber+1; i++){
 		if ( ! cell.v )continue;
 		if ( firstSeatRow == 0) firstSeatRow=i;   // first name  row
 		
-	     famName=cell.v; console.log('famName='+famName);
-			 if (famName == '$$$'){console.log('found $$$'); lastSeatRow=i-1; break;}
+	     famName=cell.v; 
+			 if (famName == '$$$'){ lastSeatRow=i-1; break;}
 			 famParts= famName.split(' ');
 			 famName=famParts.join(' '); // remove un necessary blanks
 			 if (famName.substr(famName.length-1,1)=='*') {
@@ -1263,7 +1263,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 					 else firstName[i-firstSeatRow]='';
 					 
 	     familyNames[i-firstSeatRow]= famName; 
-		console.log('init   firstSeatRow='+firstSeatRow+' lastSeatRow='+lastSeatRow); 	 
+		
 			 forgetList[i]='';
 			  
 		   mRosh=Number(requestedSeatsWorksheet[amudot.menRosh +row].v);
@@ -1278,6 +1278,8 @@ for(i=1; i<lastSeatNumber+1; i++){
 				closeSeats(2,i);  
 						 
 	   }  
+		 
+		 console.log('init   firstSeatRow='+firstSeatRow+' lastSeatRow='+lastSeatRow); 	 
 		familyNames.length=i-firstSeatRow;
 		
 	 if (i>190)reportAnError('no $$$ at end of family names'); 
