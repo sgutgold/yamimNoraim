@@ -1263,7 +1263,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 					 else firstName[i-firstSeatRow]='';
 					 
 	     familyNames[i-firstSeatRow]= famName; 
-			 
+		console.log('init   firstSeatRow='+firstSeatRow+' lastSeatRow='+lastSeatRow); 	 
 			 forgetList[i]='';
 			  
 		   mRosh=Number(requestedSeatsWorksheet[amudot.menRosh +row].v);
@@ -2212,13 +2212,15 @@ for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set a
 	if (inputString.substr(12)==gizbarPASSW){
 	initFromFiles(''); 
 	listOfPayments='';
-	
+			console.log('gizbar   firstSeatRow='+firstSeatRow+' lastSeatRow='+lastSeatRow); 	 
+
 	for(i=firstSeatRow;i<lastSeatRow+1;i++){
 	    
 	    pointerCell=amudot.name+(i).toString(); 
 		 cell=requestedSeatsWorksheet[pointerCell]; 
 	   if(! cell) continue;
-		 nameInCell=cell.v;
+		 nameInCell=delLeadingBlnks(cell.v);
+		 if ( ! nameInCell)continue;
 		 if(nameInCell.substr(nameInCell.length-1)=='*')nameInCell=nameInCell.substr(0,nameInCell.length-1);
 		 listOfPayments=listOfPayments+'$'+nameInCell;
 		  pointerCell=amudot.tashlum+(i).toString(); 
