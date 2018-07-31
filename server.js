@@ -1279,7 +1279,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 						 
 	   }  
 		 
-		 console.log('init   firstSeatRow='+firstSeatRow+' lastSeatRow='+lastSeatRow); 	 
+		
 		familyNames.length=i-firstSeatRow;
 		
 	 if (i>190)reportAnError('no $$$ at end of family names'); 
@@ -2266,7 +2266,7 @@ app.get('/UPDtashlumim', function(req, res) {
 		   paid=delLeadingBlnks(memberUpd[1]);
 		//   if( ! paid) continue;
 		   row=knownName(memberUpd[0])[0]; 
-	 		 ptr=amudot.tashlumPaid+row.toString(); console.log('ptr='+ptr);     
+	 		 ptr=amudot.tashlumPaid+row.toString();   
 			 requestedSeatsWorksheet[ptr].v=paid;
 			 atLeastOneToUpdate=true;
 			
