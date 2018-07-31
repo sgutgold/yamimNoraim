@@ -763,6 +763,9 @@ function clear_listOfIDsUp(e){
 	// ---------------------------------------------------------------------------------  
 
 function GenerateTables(){
+
+
+hebrewYears=['תשע"ח','תשע"ט','תש"פ','תשפ"א','תשפ"ב','תשפ"ג','תשפ"ד','תשפ"ה','תשפ"ו','תשפ"ז','תשפ"ח','תשפ"ט','תש"צ'];
 document.onkeyup = clear_listOfIDsUp;
 document.onkeydown = clear_listOfIDsDown;
  
@@ -791,7 +794,7 @@ document.onkeydown = clear_listOfIDsDown;
 	
 													             	
 
-        //  set Years for baby birth date
+        //  set Years for baby birth date      
 	
 	  var d = new Date();
     var thisYear = d.getFullYear(); 
@@ -802,6 +805,10 @@ document.onkeydown = clear_listOfIDsDown;
 		document.myform.Reqyr.options[3]=new Option(PrvYear);
 	 
 	 document.myform.sbmt.disabled=false; 
+	 
+	 distFromBaseYear=thisYear-2017;
+	 if(distFromBaseYear < hebrewYears.length){document.getElementById('yearHebrewTitle').innerHTML=hebrewYears[distFromBaseYear]}else document.getElementById('yearHebrewTitle').innerHTML=' ';
+	 document.getElementById('yearEnglishTitle').innerHTML=(5778+distFromBaseYear).toString();
 	
 	 toPrintCt=0;
 	
@@ -2426,8 +2433,8 @@ function changeMarqueeDirection(drction){
 <form name="myform" id='myForm'     > 
 
 <h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
-<h1 style="font-size:150%;text-align:center"><b><u><span id='lanDepndntStr0_HB'>הזמנת מקומות לימים נוראים תשע"ח</span>
-<span id='lanDepndntStr0_EN'> Seat requests for High Holydays 5778 </span></u></b> </h1>
+<h1 style="font-size:150%;text-align:center"><b><u><span id='lanDepndntStr0_HB'>הזמנת מקומות לימים נוראים <span id='yearHebrewTitle'> תשע"ח </span></span>
+<span id='lanDepndntStr0_EN'> Seat requests for High Holydays <span id='yearEnglishTitle'> 5778 </span></span></u></b> </h1>
 
 <h1 id='newBefore' style="font-size:150%;text-align:center;display:block;">  &nbsp &nbsp &nbsp </h1>
 <h1 id='newAfter' style="font-size:150%;text-align:center;display:none;color:red;"><marquee direction='right'; id='marq1'; width:  100%;
