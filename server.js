@@ -1250,7 +1250,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 		if ( ! cell.v )continue;
 		if ( firstSeatRow == 0) firstSeatRow=i;   // first name  row
 		
-	     famName=cell.v; 
+	     famName=cell.v; console.log('famName='+famName);
 			 if (famName == '$$$'){console.log('found $$$'); lastSeatRow=i-1; break;}
 			 famParts= famName.split(' ');
 			 famName=famParts.join(' '); // remove un necessary blanks
