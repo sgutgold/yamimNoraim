@@ -2214,7 +2214,7 @@ for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set a
 	if (inputString.substr(12)==gizbarPASSW){
 	initFromFiles(''); 
 	listOfPayments='';
-			console.log('gizbar   firstSeatRow='+firstSeatRow+' lastSeatRow='+lastSeatRow); 	 
+		 
 
 	for(i=firstSeatRow;i<lastSeatRow+1;i++){
 	    
@@ -2266,7 +2266,7 @@ app.get('/UPDtashlumim', function(req, res) {
 		   paid=delLeadingBlnks(memberUpd[1]);
 		//   if( ! paid) continue;
 		   row=knownName(memberUpd[0])[0]; 
-	 		 ptr=amudot.tashlumPaid+row.toString();      
+	 		 ptr=amudot.tashlumPaid+row.toString(); console.log('ptr='+ptr);     
 			 requestedSeatsWorksheet[ptr].v=paid;
 			 atLeastOneToUpdate=true;
 			
