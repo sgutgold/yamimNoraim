@@ -1523,7 +1523,7 @@ part2=vetekWeight*Number(requestedSeatsWorksheet[amudot.memberShipStatus+row].v)
 //part mishkal koma in the past
 //MakomMinus3Yrs=Number(requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v);
 tmp=requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v;
-if (isNan(tmp){ 
+if (isNan(tmp)){ 
          tmp=tmp.split('*');
          if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
 			else tmp1=tmp;	 
@@ -1531,14 +1531,14 @@ MakomMinus3Yrs=tmp1;
 
 //MakomMinus2Yrs=lastYearVS2YearsAgoWeight*Number(requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v);
 tmp=requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v;
-if (isNan(tmp){ 
+if (isNan(tmp)){ 
          tmp=tmp.split('*');
          if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
 			else tmp1=tmp;	
 MakomMinus2Yrs=lastYearVS2YearsAgoWeight*tmp1;
 
 tmp=requestedSeatsWorksheet[amudot.lstYrSeat+row].v;
-if (isNan(tmp){ 
+if (isNan(tmp)){ 
          tmp=tmp.split('*');
          if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
 			else tmp1=tmp;
