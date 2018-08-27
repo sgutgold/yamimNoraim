@@ -52,7 +52,7 @@ var nodemailer = require('nodemailer');
 				zcache['prtNashim'] = fs.readFileSync('./nashimBaseHtmlToPrint.html');
 				zcache['prtBase'] = fs.readFileSync('./printBaseHtml.html');
  */
-			  zcache['errPassw'] = fs.readFileSync('./errPassw.html');   
+			  zcache['errPasswd'] = fs.readFileSync('./errPasswd.html');   
 				zcache['gizbar'] = fs.readFileSync('./gizbar.html');
 				zcache['okmsg'] = fs.readFileSync('./okmsg.html');
 			 zcache['real_index'] = fs.readFileSync('./index_real.html');
@@ -3944,7 +3944,7 @@ app.get('/prtMartef', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 	 inputString=decodeURI(req.originalUrl);  
 	 if(inputString.split('&')[1] == mngmntPASSW){  res.send(cache_get('prtMartef') )   }
-	  else res.send(cache_get('errPassw') );
+	  else res.send(cache_get('errPasswd') );
         })			
 				
 //--------------------------------------------------------------
@@ -3953,7 +3953,7 @@ app.get('/prtRashi', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 	 inputString=decodeURI(req.originalUrl);  
 	 if(inputString.split('&')[1] == mngmntPASSW){  res.send(cache_get('prtRashi') )   }
-	  else res.send(cache_get('errPassw') );
+	  else res.send(cache_get('errPasswd') );
             
         })			
 				
@@ -3964,7 +3964,7 @@ app.get('/prtNashim', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 	 inputString=decodeURI(req.originalUrl);  
 	 if(inputString.split('&')[1] == mngmntPASSW){  res.send(cache_get('prtNashim') )   }
-	  else res.send(cache_get('errPassw') );
+	  else res.send(cache_get('errPasswd') );
 	
         })			
 //------------------------------------------------------------------------------	
