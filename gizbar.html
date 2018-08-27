@@ -145,7 +145,7 @@ function empty(){};
 //-------------------------------------------------------------------------------------------------------------
 function buildTable(rspnsString){
 
-
+console.log(rspnsString);
 	          
 							tbodyElement=document.getElementById("tableBody");
 							memberInfoList=rspnsString.split('$');
@@ -208,6 +208,7 @@ function genData(memberInfo,row,idd){
 								   row.appendChild(MemberPaid);
 	}
 
+	
 // -----------------------------------------------------------------------------------------
  function inputChanged(e){
      paid_id = this.id;                        paid_cell=document.getElementById(paid_id);
