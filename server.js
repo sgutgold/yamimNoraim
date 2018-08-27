@@ -1437,7 +1437,7 @@ debug1=false;     //if (row  =='173') debug1=true;
 		                '$'+counts[0].toString()+'$'+counts[1].toString()
 										+'$'+toAssgnRoshMen.toString()+'$'+toAssgnRoshWomen.toString()+'$'+toAssgnKipurMen.toString()+'$'+toAssgnKipurWomen.toString();
 		
-		console.log(tempList[idx]);
+		//console.log(tempList[idx]);
 		idx++
    }// for
 
