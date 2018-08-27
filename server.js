@@ -1521,8 +1521,16 @@ part1= personalIssueWeight*Number(requestedSeatsWorksheet[amudot.issueBetweenFlo
 part2=vetekWeight*Number(requestedSeatsWorksheet[amudot.memberShipStatus+row].v);
 
 //part mishkal koma in the past
-MakomMinus3Yrs=Number(requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v);
-MakomMinus2Yrs=lastYearVS2YearsAgoWeight*Number(requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v);
+//MakomMinus3Yrs=Number(requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v);
+tmp=(requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v).split('*');
+if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);
+MakomMinus3Yrs=tmp1;
+
+//MakomMinus2Yrs=lastYearVS2YearsAgoWeight*Number(requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v);
+tmp=(requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v).split('*');
+if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);
+MakomMinus2Yrs=lastYearVS2YearsAgoWeight*tmp1;
+
 tmp=(requestedSeatsWorksheet[amudot.lstYrSeat+row].v).split('*');
 if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);
 MakomMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*tmp1;
