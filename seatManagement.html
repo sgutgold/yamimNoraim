@@ -1071,7 +1071,7 @@ function enableFmNmOnChange(){ fmNmOnChangeDIsabled=false;}
   
 
 function simpleHideFieldSets(){
-
+console.log('simpleHideFieldSets');
 document.getElementById("hall1").style.display='none';
 	 document.getElementById("hall2").style.display='none';
 	 document.getElementById("hall3").style.display='none';
@@ -2820,7 +2820,7 @@ function updateCountAssigned(seat,delta){
 	
  if(isWoman[seat]==1){countAssignedWomen=countAssignedWomen+delta;}
     else countAssignedMen=countAssignedMen+delta;
-		
+	//	console.log('moed='+moed);
 			switch 	(moed) {  
 				     				 
 				     case 1:	// rosh hashana
@@ -2831,10 +2831,10 @@ function updateCountAssigned(seat,delta){
 						          countRequestedMen=Number(document.getElementById('menkipur').innerHTML);
 											countRequestedWomen=Number(document.getElementById('womenkipur').innerHTML);
 											if (! noBlnks_roshStr)break;
-											tmp11=noBlnks_roshStr.split('+');  
+											tmp11=noBlnks_roshStr.split('+'); // console.log('tmp11='+tmp11);
 											seatsInUlam=false;
-											for (ii=0;ii<tmp11.length;ii++)if(inUlam(tmp11[ii])){seatsInUlam=true; break};
-											if ( (seatsInUlam) &&  ( !  (countAssignedMen+countAssignedWomen) ))copyAssgnmntElmnt.style.display='block'
+											for (ii=0;ii<tmp11.length;ii++)if(inUlam(tmp11[ii])){seatsInUlam=true; break};  //console.log('seatsInUlam='+seatsInUlam+' counters sum='+countAssignedMen+countAssignedWomen);
+											if ( (seatsInUlam) &&  ( !  (countAssignedMen+countAssignedWomen) )){copyAssgnmntElmnt.style.display='block'; }
 											break;
 							case 3:  // both
 							        countRequestedMen=Math.max(Number(document.getElementById('menRosh').innerHTML),Number(document.getElementById('menkipur').innerHTML));
@@ -3036,7 +3036,7 @@ if (ulam != reqUlam)continue;
 	toSeat=shurot[shura][1];
 	inDbgRange=false;  if ( (fromSeat==681) || (fromSeat==681) )inDbgRange=true;//===========================================dbg switch
 
-// if(	inDbgRange) console.log('
+
 	
 inDbgRange=false;
 //	if ( (toSeat - fromSeat +1) <  minGroupSize) continue;   // line too short  
@@ -3563,7 +3563,8 @@ return;
 
 //--------------------------------------------------------------------------------------------------------checkOnly
   function  nextname(){ 
-	checkOnly= ! event.altKey;   // if alt key pressed==> donot ask; save!
+	checkOnly= ! event.altKey;   // if alt key pressed==> donot ask; save!  
+	alert('checkOnly='+checkOnly);
 	 noSaveNeeded=  svSeatAssignment(checkOnly,false);  // if saved, no more saving needed
 	 if (noSaveNeeded){  
 	         kadem(1);
