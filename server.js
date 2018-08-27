@@ -1522,17 +1522,26 @@ part2=vetekWeight*Number(requestedSeatsWorksheet[amudot.memberShipStatus+row].v)
 
 //part mishkal koma in the past
 //MakomMinus3Yrs=Number(requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v);
-tmp=(requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v).split('*');
-if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);
+tmp=requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v;
+if (isNan(tmp){ 
+         tmp=tmp.split('*');
+         if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
+			else tmp1=tmp;	 
 MakomMinus3Yrs=tmp1;
 
 //MakomMinus2Yrs=lastYearVS2YearsAgoWeight*Number(requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v);
-tmp=(requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v).split('*');
-if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);
+tmp=requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v;
+if (isNan(tmp){ 
+         tmp=tmp.split('*');
+         if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
+			else tmp1=tmp;	
 MakomMinus2Yrs=lastYearVS2YearsAgoWeight*tmp1;
 
-tmp=(requestedSeatsWorksheet[amudot.lstYrSeat+row].v).split('*');
-if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);
+tmp=requestedSeatsWorksheet[amudot.lstYrSeat+row].v;
+if (isNan(tmp){ 
+         tmp=tmp.split('*');
+         if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
+			else tmp1=tmp;
 MakomMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*tmp1;
 
 part3=satisfactionHistoryWeight*(MakomMinus3Yrs+MakomMinus2Yrs+MakomMinus1Yrs);
