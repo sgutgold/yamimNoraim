@@ -1547,7 +1547,7 @@ part5=requestedSeatsPerFamilySizeWeight*numOfRequestedSeats;
 
 //sum all for first sort value
 calcResult[0]=part1+part2+part3-part4-part5+10000;
-console.log('part1='+part1+' part2='+part2+' part3='+part3+' part4='+part4+' part5='+part5);
+//console.log('part1='+part1+' part2='+part2+' part3='+part3+' part4='+part4+' part5='+part5);
 
 // calc nashim+gvarim issue in floor sort value
 
@@ -1588,7 +1588,7 @@ stsfctnMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*(tmp1+tmp2)
  
  //sum all for first sort value
 calcResult[1]=part6+part2+part3-part7-part4-part5+part8+10000;
- 	console.log('part6='+part6+' part7='+part7+' part8='+part8);	 
+ //	console.log('part6='+part6+' part7='+part7+' part8='+part8);	 
 return calcResult;
 
 
