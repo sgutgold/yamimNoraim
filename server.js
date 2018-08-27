@@ -1436,8 +1436,9 @@ debug1=false;     //if (row  =='173') debug1=true;
 		tempList[idx]=nameToKeep+'$'+calcSortParam(row)[0]+'$'+calcSortParam(row)[1]+
 		                '$'+counts[0].toString()+'$'+counts[1].toString()
 										+'$'+toAssgnRoshMen.toString()+'$'+toAssgnRoshWomen.toString()+'$'+toAssgnKipurMen.toString()+'$'+toAssgnKipurWomen.toString();
-		idx++
+		
 		console.log(tempList[idx]);
+		idx++
    }// for
 
 
