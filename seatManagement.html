@@ -3463,6 +3463,7 @@ tmp[0]=getPosition(cell).x;
 	   moed=document.getElementById("moedPrint").selectedIndex;  
    }
 
+	 
 //--------------------------------------------------------------------------------------------------------
 function getNameList(){
    if ( ! moed){
@@ -3486,7 +3487,7 @@ function getNameList(){
        	       fnm=namesToAssign[rn].split(' ');
 			         if (fnm.length>1)namesToAssign[rn]=fnm.join(' '); 
 			   	  }  // for 	
-					 
+					console.log(namesToAssign);
 									
 				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0)}
 					  else{
