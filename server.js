@@ -821,8 +821,8 @@ initialize();
 
          /*     init new files in debug  */
 
-	//localFileDir='/data/';
-	localFileDir='D_';
+	localFileDir='/data/';
+//	localFileDir='D_';
 				 
 XLSXfilename=localFileDir	+'membersRequests.xlsx';  
 EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
