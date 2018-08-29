@@ -835,7 +835,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 
 
 	
- //debug code   1 
+ /*debug code   1 
 
 tmpfile=fs.readFileSync('supportTables.xlsx');  
 
@@ -847,7 +847,7 @@ tmpfile=fs.readFileSync('membersRequests.xlsx');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	//  //////// - end debug code  1
+	*/  //////// - end debug code  1
 
 	
 	
