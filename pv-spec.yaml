@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: seatselectionstorage 
+spec:
+  capacity:
+    storage: 1Gi 
+  accessModes:
+  - ReadWriteMany
+  nfs: 
+    path: /data
+    server:  https://api.starter-us-west-2.openshift.com --token=etqreyidAGBPsG4v_1IT_dY-Tl66Pl8AfAeoAWdHUuU
+  persistentVolumeReclaimPolicy: Recycle 
