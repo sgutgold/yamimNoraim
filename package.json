@@ -21,6 +21,7 @@
     "supportTables.xlsx",
     "hazmanatMekomotEmpty.xlsx",
     "empty.xlsx",
+    "pv-spec.yaml",
     "bin"
   ],
   "homepage": "https://developers.redhat.com/rhoar",
