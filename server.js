@@ -823,7 +823,7 @@ initialize();
 
 //	localFileDir='/data/';
 	localFileDir='D_';
-				 
+	console.log('1');			 
 XLSXfilename=localFileDir	+'membersRequests.xlsx';  
 EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
 seatsOrderedFileName=	localFileDir+'seatsOrdered.xlsx';
@@ -840,7 +840,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
  
 
 tmpfile=fs.readFileSync('supportTables.xlsx');  
-
+console.log('2');
 	fs.writeFileSync(supportTblsFilename, tmpfile);
 	supportWB=xlsx.readFile(supportTblsFilename); 
 
