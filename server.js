@@ -842,9 +842,11 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 tmpfile=fs.readFileSync('supportTables.xlsx');  
 console.log('2');
 	fs.writeFileSync(supportTblsFilename, tmpfile);
+	console.log('3');
 	supportWB=xlsx.readFile(supportTblsFilename); 
-
+console.log('4');
 tmpfile=fs.readFileSync('membersRequests.xlsx');
+console.log('5');
 	fs.writeFileSync(XLSXfilename, tmpfile);
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
