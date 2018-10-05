@@ -2017,7 +2017,7 @@ app.get('/addMember', function(req, res) {
 	 inputPairs=inputString.split('&');
 	 
  
-   passW=inputPairs[4];
+   passW=inputPairs[5];
 	 if (passW == mngmntPASSW){
 	 initFromFiles('');
 	 
