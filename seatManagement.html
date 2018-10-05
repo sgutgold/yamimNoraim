@@ -296,8 +296,22 @@
                      -ms-transform: rotate(90deg);
 										  -ms-transform-origin: 80%; 
                       transform: rotate(90deg);  
-											 transform-origin: 80%; 
-	                }								
+											 transform-origin: 70% 60%; 
+	                }		
+									
+	.prtNarrowTextRotated90_50_50		{  display:inline-block; float:right; position:absolute; bottom:0; 
+                        margin:0px 0px 0px 0px;   
+	                   line-height:80%;
+										
+                     -webkit-transform: rotate(90deg);
+										   -webkit-transform-origin: 80%;  
+                     -moz-transform: rotate(90deg);
+										  -moz-transform-origin: 80%; 
+                     -ms-transform: rotate(90deg);
+										  -ms-transform-origin: 80%; 
+                      transform: rotate(90deg);  
+											 transform-origin: 50% 50%; 
+	                }														
 	
 	.prtWideTextRotated90 {  display:inline-block; float:right; position:absolute; bottom:0; 
                         margin:0px 0px 0px 0px;   
@@ -326,6 +340,20 @@
 										     -ms-transform-origin: 0% 50%; 
                       transform: rotate(90deg);  
 											    transform-origin: 0% 50%;  
+                     }
+										 
+										 
+.prtRotate180 {  
+                      
+	                     position:absolute; 
+		                 -webkit-transform: rotate(180deg);   
+										      -webkit-transform-origin: 0% 30%; 
+                     -moz-transform: rotate(180deg);
+										      -moz-transform-origin: 0% 00%; 
+                     -ms-transform: rotate(180deg);
+										     -ms-transform-origin: 50% 50%; 
+                      transform: rotate(180deg);  
+											    transform-origin: 50% 50%;  
                      }
 	
 	#dialogoverlay{
@@ -1071,7 +1099,7 @@ function enableFmNmOnChange(){ fmNmOnChangeDIsabled=false;}
   
 
 function simpleHideFieldSets(){
-console.log('simpleHideFieldSets');
+//console.log('simpleHideFieldSets');
 document.getElementById("hall1").style.display='none';
 	 document.getElementById("hall2").style.display='none';
 	 document.getElementById("hall3").style.display='none';
@@ -1347,7 +1375,7 @@ function adjustElementTop(LTextElement,element,tp,styl){
  function generate_list(LLst,baseElement,startingTop) {
  
  
- rotations=['RotatedM45Div','RotatedM315Div','RotatedM135Div','RotatedM90DivSpecial'];
+ rotations=['RotatedM45Div','RotatedM315Div','RotatedM135Div','RotatedM90DivSpecial','notRotatedDiv'];
   var divE     = document.createElement("div");
 	divE.setAttribute("id","kk");
 	generateUl=true;
@@ -1385,6 +1413,7 @@ function adjustElementTop(LTextElement,element,tp,styl){
 				case 2:  cell.style.quotes="'#' '$'";  break;
 				case 3:  cell.style.quotes="'>' '$'";  break;
 				case 4:  cell.style.quotes="'_' '$'";  break;
+				case 5:  cell.style.quotes="'+' '$'";  break;
 				}
 			cell.onmouseover=showNames;	
 			cell.onmouseout= hideNames;
@@ -2996,7 +3025,7 @@ function prepareToPrint(reqUlam){
 										 
 										 
 
-var directnTags=['$','#','<','>','_'];
+var directnTags=['$','#','<','>','_','+'];
 var shura;
 var fromSeat;
 var toSeat;
@@ -3134,7 +3163,8 @@ inDbgRange=false;
 			
 			
 	 switch 	(directionType) {
-		      case 0: 
+		      case 0:
+					case 5:  
 								 	    
 											 if (cellAttrbts[0][0]==cellAttrbts[1][0]){ // second case ==> verical row; rotated 90
 						          heightBased=true;
@@ -3182,7 +3212,8 @@ inDbgRange=false;
 								      widthBased=true;
 							        width=baseWidth * seatCount-2;  
 								      height=baseHeight-2;
-											break;														
+											break;	
+																			
 				  }  // switch
 			// coomon code
 			
@@ -3205,7 +3236,7 @@ inDbgRange=false;
 										 cell.style.color='white';
 										 if ( seatCount>1 )cell.style.border=  '1px dotted  green';
 							 	 }  
-					if(directionType==0){ // if not slanted
+					if((directionType==0) || (directionType==5) ){ // if not slanted
 				envHeight=height;
 				if(widthBased){
 				        //envHeight=baseHeight-2;
@@ -3236,7 +3267,7 @@ inDbgRange=false;
 				
 				
 				
-				if(  (directionType==0) || (directionType==4) ) { // if not slanted
+				if(  (directionType==0) || (directionType==4)  || (directionType==5) ) { // if not slanted
 				envHeight=height;
 				if(widthBased){
 				        //envHeight=baseHeight-2;
@@ -3274,6 +3305,7 @@ inDbgRange=false;
 //--------------------------------------------------------------------------------------------------------
  function formatName(div,name,width,height,seatCount,widthBased,directionType){
  BGColors=['lightgray','gainsboro','mistyrose','lavender','lightyellow','beige'];
+//BGColors=['white']; //,'gainsboro','mistyrose','lavender','lightyellow','beige'];
   var tmp;
 	var tmp2;
 	var hgt;
@@ -3281,6 +3313,7 @@ inDbgRange=false;
   var textSpan = document.createElement("span");
 	var nam;
 	var ind;
+	var line_hight_reduced;
 
 	nam=delLeadingBlnks(name);
 						
@@ -3294,14 +3327,15 @@ inDbgRange=false;
 			 textSpan.style.fontWeight = 'bold';
 			
 			 tmp1=calcFont(nam.length,width,height);
-			 ind=nam.indexOf(' ');
-			 lnHgt=hgt;  if ( (tmp1[2]) || (ind) )lnHgt=lnHgt/1.8;
+			 ind_tmp=nam.indexOf(' '); ind=false; if (ind_tmp != -1)ind = true;
+			 line_hight_reduced=false;
+			 lnHgt=hgt;  if ( (tmp1[2]) || (ind) ){lnHgt=lnHgt/2; line_hight_reduced=true; /*console.log('tmp1[2]='+tmp1[2]+' ind='+ind);*/}
 			 if( (tmp1[1] <= 14) && ind)tmp1[1]=16; 
 			 textSpan.style.lineHeight =(lnHgt  ).toString()+'px';
 			 
 			 if(nam){textSpan.innerHTML=nam;} else textSpan.innerHTML='&nbsp';
 			 textSpan.style.fontSize=tmp1[1];
-		
+	/*	
 			if ( ! tmp1[0] ){
 			               if ( directionType  ){ txtClass='prtTextRotatedM90'; if( directionType==4)txtClass ='textRotated90';}   //prtTextRotatedM90_4
 										   else { 
@@ -3309,14 +3343,33 @@ inDbgRange=false;
 													}
 			               textSpan.className=txtClass;
 			
-			   } else  textSpan.className='textNotRotated';
+			   } else {
+				             if (directionType != 1) textSpan.className='prtRotate180';   };
+*/
+
+//
+
+//console.log('lll='+nam+' tmp1[0]='+tmp1[0]+' directionType='+directionType+' widthBased='+widthBased); 
+if ( (! tmp1[0] )  && (  directionType==2  ) && ( ! widthBased )){ textSpan.className='prtTextRotatedM90';	/* console.log('nnam='+nam);*/}
+if ( (! tmp1[0] )  && (  directionType==1  ) && ( ! widthBased )){ textSpan.className='prtTextRotatedM90';	/*console.log('nlam='+nam);*/}
+
+if ( ( tmp1[0] ) && ( ! directionType  )){ textSpan.className='prtRotate180';	}
+if ( ( ! tmp1[0] ) && (  directionType ==5 ))
+          { textSpan.className= 'prtNarrowTextRotated90';
+					// console.log('line_hight_reduced='+line_hight_reduced+'  DivClass='+DivClass+'  lnHgt='+lnHgt);
+					 if ( (line_hight_reduced)  && (lnHgt>18) )textSpan.className='prtNarrowTextRotated90_50_50';}  
+if ( (  tmp1[0] ) && (  directionType==5  )  && (! widthBased )  ){ textSpan.className= 'prtRotate180';}   
+if (	directionType==4  )		textSpan.className= 'prtRotate180';            
+										 
+//
+
 
 			div.appendChild(textSpan);
 			
 			 if (nam){
 			div.style.background=BGColors[BG_indx];
 			BG_indx++; if (BG_indx >= BGColors.length)BG_indx=0;
-			div.style.opacity = "0.5"
+			div.style.opacity = "0.7"
 			}
 			 return;
 			 }
@@ -3338,11 +3391,11 @@ inDbgRange=false;
 	rspns[2]=false; // one text line
 	tmpMx=Math.max(width,height);				
 	if (tmpMx == width){rspns[0]=true}else rspns[0]=false;
-	tmpMn=width+height-tmpMx;
-	tmp=Math.floor((tmpMx/namLength)*1.9);
+	tmpMn=width+height-tmpMx; // console.log('mx='+tmpMx+'  namLength='+namLength);
+	tmp=Math.floor((tmpMx/namLength)*1.5);
 	
 	if (tmp>tmpMx)tmp=tmpMx;
-	if (tmp<12)rspns[2]=true;     // probably 2 lines of text 
+//	if (tmp<12)rspns[2]=true;     // probably 2 lines of text 
 	 if (tmp<14)tmp=14;     if (tmp>35)tmp=35;
 	rspns[1]=tmp;  
 	return rspns;
@@ -4193,8 +4246,11 @@ function addMember(){
 						
 						 ChaverOrTomechIdx=document.getElementById("isTomech").selectedIndex;  
 						  if ( ( ! lstNm) || ( ! ChaverOrTomechIdx) ) return;
-						 	mmbrshp=['0','3','0'][ChaverOrTomechIdx];							 
-              url=encodeURI(firstPartOfURL+"/addMember/?&"+lstNm+'&'+frstNm+'&'+mmbrshp+'&'+password);
+						 	mmbrshp=['0','3','0'][ChaverOrTomechIdx];	
+							
+							
+							familyType=	document.getElementById("familyType").value; 		 
+              url=encodeURI(firstPartOfURL+"/addMember/?&"+lstNm+'&'+frstNm+'&'+mmbrshp+'&'+familyType+'&'+password);
 							
 						
               xhttp.open("GET", url, false);
@@ -4838,7 +4894,14 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 																					<option value="chaver">חבר</option>           
 																			    <option value="tomech">תומך</option> 
 													</select>	
-																		<span> &nbsp &nbsp  &nbsp &nbsp </span>
+																		<span> &nbsp &nbsp  אפיון משפחה &nbsp </span>
+																		
+					<select id='familyType'  name='familyType'  style='font-size:20px;'display:inline-block;'>     
+							                            <option value="zug">זוג</option> 
+																					<option value="gever">גבר</option>           
+																			    <option value="Yisha">אשה</option> 
+													</select>	
+																		<span> &nbsp &nbsp  &nbsp &nbsp </span>													
 
 <button  type="button"  onclick= 'addMember()' style='display:inline-block;'> <h3>הוסף  </h3></button> 
 
