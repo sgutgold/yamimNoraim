@@ -711,7 +711,7 @@ var firstName = new Array;
 
 var assignedPerUlam=[[[0,0],[0,0]],[[0,0],[0,0]]];  //[ulam][moed][gvarim-nashim]
 
-var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',email:'G',addr:'H',phone:'I',
+var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',
               menRosh:'J',menKipur:'K',womenRosh:'L',womenKipur:'M',preferedMinyanW:'N',
               preferedExplanationW:'O',preferedMinyanM:'P',preferedExplanationM:'Q',cmnts:'R',
 							markedSeats:'S',numberMarkedMen:'T',numberMarkedWomen:'U',notAssignedMarkedSeatsRosh:'V',
@@ -2057,6 +2057,8 @@ app.get('/addMember', function(req, res) {
 	 requestedSeatsWorksheet[pointerCell].v=newName; 	
 	 ptr=amudot.memberShipStatus+roww; 
 	 requestedSeatsWorksheet[ptr].v=inputPairs[3];
+	 ptr=amudot.zug_gever_yisha+roww; 
+	 requestedSeatsWorksheet[ptr].v=inputPairs[4];
 	 ptr=amudot.stsfctnInFlr2YRSAgoYrWmn+roww;    // set values for sorting so that a new member will not get high priority for un-existing past
 	 requestedSeatsWorksheet[ptr].v=10;
 	 ptr=amudot.stsfctnInFlr2YRSAgoYrMen+roww; 
