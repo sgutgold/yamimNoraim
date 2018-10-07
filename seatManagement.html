@@ -962,7 +962,7 @@ var cellAttrbts=[[]];
 var BG_indx;			 
 
 minyanMevukashW= [ 
-	         '  אנו מבקשים להושיב את הנשים באזור השמאלי בבית המדרש במרתף סמוך לאזור המיועד לעגלות תינוקות. תאריך הלידה של התינוק:',
+	         '  אנו מבקשים להושיב את הנשים באזור השמאלי בבית המדרש במרתף סמוך לאזור המיועד לעגלות תינוקות. ',
 										'לא משנה',
 										'מעדיפים להיות במנין המרכזי אבל מבינים שאחת למספר שנים נתפלל בבית המדרש במרתף',
 										'  הסיבה שבגללה אנו מבקשים לשבת השנה במנין המרכזי היא',
@@ -2069,12 +2069,12 @@ function memberdetails(resArray){
 						 }
 						 
 		index=Number(resArray[positionInMsg.minyanMuadafNashim ]);  
-		tmp=resArray[positionInMsg.esberNashim];
-		if( index == 0) {
+		tmp=resArray[positionInMsg.esberNashim]; 
+		if( index == 0)  {
 		         tmp1=tmp.split('/');
 		         MonthNum=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf( tmp1[1]);
-						 tmp1[1]=['01','02','03','04','05','06','07','08','09','10','11','12'][MonthNum];
-						 tmp= tmp1.join('/');
+						 tmp1[1]=['01','02','03','04','05','06','07','08','09','10','11','12'][MonthNum];   
+						 if ( delLeadingBlnks(tmp) ){tmp=' תאריך הלידה של התינוק:'+ tmp1.join('/')}else tmp='';;
 						 }
 		minyan=	minyanMevukashW[index]+'  '+	tmp;  
 		document.getElementById('minyanW').innerHTML=minyan;      
