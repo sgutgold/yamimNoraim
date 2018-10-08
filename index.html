@@ -2304,7 +2304,7 @@ function changeLanguageTo(str){
 	//if (  elmnt)console.log(strId);	 // look for unused numbers
 		 elmnt= document.getElementById(strId+"HB"); 
 		 if (elmnt)elmnt.style.display='none';
-		 
+		 //if(elmnt)console.log('i='+i);
 		 elmnt= document.getElementById(strId+str);
 		 if (elmnt)elmnt.style.display='inline-block';
 		 }
@@ -2459,7 +2459,21 @@ function changeMarqueeDirection(drction){
  
 
 	 <fieldset id='mainFieldset'  style="width:1200px;">
-	     
+	 <!-- ------------ Hebrew/English buttons -------------  -->			
+				<div style="float:right" id='lanDepndntStr9_EN' ><button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button> &nbsp 
+				<button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> 'עבר </button> </div> 
+				<div style="float:left" id='lanDepndntStr9_HB' ><button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> עבר' </button> &nbsp 
+				<button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button></div> 
+	<!-- ---------------------------------------------------- -->			
+	     <h2 id='gen_exp1' style="color:blue"><b><u>
+			                  <span id='lanDepndntStr62_HB'>  לאחר הכנסת כל הנתונים יש ללחוץ על כפתור"שלח". המערכת תציג אז דף שמכיל אישור הרשמה והפניה לאפשרויות תשלום באתר בית הכנסת</span>
+		                    <span id='lanDepndntStr62_EN' >After completing the form, click on "submit".  You will then be presented with a confirmation screen and a link to the synagogue web site as one of the options for payment</span>
+			 </u></b> </h2>
+			 <br><br><br>
+	     <div id='gen_exp2' style="color:blue"><b>
+			                  <span id='lanDepndntStr22_HB'>  יש להכניס שם משפחה בלבד. אם יש מתפללים נוספים בעלי אותו שם משפחה, המערכת תציג אפשרויות לבחירת שם פרטי</span>
+		                    <span id='lanDepndntStr22_EN' >Enter only the surname.  If there are other families in the congregation with the same surname, a menu will appear for choosing first name</span>
+			 </b> </div> 
                   <label for="familyname"><span id='lanDepndntStr7_HB'>שם משפחה</span><span id='lanDepndntStr7_EN' >Surname</span></label>
 		      <input type="text" name="familyname" id="fmName" required onchange='ckNameRtrvVlus()'> 
 					  <div id='prtitxt' style='display:none; color:brown'> <span id='lanDepndntStr8_HB'> &nbsp &nbsp &nbsp אנא השלם שם משפחה /  שם פרטי</span>
@@ -2471,12 +2485,7 @@ function changeMarqueeDirection(drction){
 																				  <option value="3" > &nbsp </option> 	
 											</select>	
 											</div>	  
-	<!-- ------------ Hebrew/English buttons -------------  -->			
-				<div style="float:right" id='lanDepndntStr9_EN' ><button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button> &nbsp 
-				<button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> 'עבר </button> </div> 
-				<div style="float:left" id='lanDepndntStr9_HB' ><button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> עבר' </button> &nbsp 
-				<button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button></div> 
-	<!-- ---------------------------------------------------- -->			
+	
 							  <br>
 					      <div><br><span id='lanDepndntStr10_HB'> אנא עדכן פרטים</span><span id='lanDepndntStr10_EN' >Please update contact information</span>  </div>
 		
