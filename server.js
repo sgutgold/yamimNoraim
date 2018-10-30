@@ -711,7 +711,7 @@ var firstName = new Array;
 
 var assignedPerUlam=[[[0,0],[0,0]],[[0,0],[0,0]]];  //[ulam][moed][gvarim-nashim]
 
-var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',
+var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',permanentSeats:'E',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',
               menRosh:'J',menKipur:'K',womenRosh:'L',womenKipur:'M',preferedMinyanW:'N',
               preferedExplanationW:'O',preferedMinyanM:'P',preferedExplanationM:'Q',cmnts:'R',
 							markedSeats:'S',numberMarkedMen:'T',numberMarkedWomen:'U',notAssignedMarkedSeatsRosh:'V',
@@ -4031,6 +4031,62 @@ app.get('/isRegistrationClosed', function(req, res) {
 	 if(tmp)rspns='+++$'+tmp+'$'+isWomanString;
 	 res.send(rspns );
         })	
+				
+	//------------------------------------------------------------------------------						
+	
+	app.get('/getPermanentSeatsList', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	var tempList=[];
+	 inputString=decodeURI(req.originalUrl).split('?')[1];  
+	 msgParts=inputString.split('$');
+	 if (msgParts[0] != mngmntPASSW){console.log('wrong password'); res.send('999' )}
+	 else {
+	   k=0;
+	   for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
+		    row=member.toString(); 
+		    row=(i).toString();
+		    nam=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
+		    if (nam )tempList[k]=nam+'+'+delLeadingBlnks(requestedSeatsWorksheet[amudot.permanentSeats+row].v);
+				k++;
+				}
+		rspns='+++'+tempList.join)'$');
+	  res.send(rspns );						
+							
+							
+									
+			}  // else						
+								 
+ 
+	 })
+	 
+//------------------------------------------------------------------------------						
+	
+	app.get('/setPermanentSeatsList', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	var tempList=[];
+	 inputString=decodeURI(req.originalUrl).split('?')[1];  
+	 msgParts=inputString.split('$');
+	 if (msgParts[0] != mngmntPASSW){console.log('wrong password'); res.send('999' )}
+	 else {
+	      for (i=1; i<msgParts.length;i++){
+				    entry=msgParts[i].split('@');
+				    nam=entry[0];
+						rowNum=knownName(name)[0];
+						requestedSeatsWorksheet[amudot.permanentSeats+rowNum].v=entry[1]; 
+			};			
+	   
+		xlsx.writeFile(workbook, XLSXfilename);  // update file
+	  res.send('+++' );						
+							
+							
+									
+			}  // else						
+								 
+ 
+	 })
+	 
 
 //------------------------------------------------------------------------------					
 				
