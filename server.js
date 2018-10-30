@@ -4078,7 +4078,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	      for (i=1; i<msgParts.length;i++){
 				    entry=msgParts[i].split('@');
 				    nam=entry[0];
-						rowNum=knownName(name)[0];
+						rowNum=knownName(nam)[0];
 						requestedSeatsWorksheet[amudot.permanentSeats+rowNum].v=entry[1]; 
 			};			
 	   
