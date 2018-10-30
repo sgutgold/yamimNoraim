@@ -1,0 +1,1999 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">           
+
+<html lang="he">
+<head>
+<meta charset="windows-1255">
+<meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<meta HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+<title>סידור אולם ראשי</title>
+<style>
+
+ span {width:auto}
+
+    
+ 
+    .steps1 {width:15px; height:50px; border: 1px solid DarkGray; position:absolute;  }
+		.
+		.knisa {position:absolute; left:310px; top:200px;visibility:hidden}
+		
+		.drawing_3 {width:240px; height:143px; position:absolute; left:29px; top:1px;
+		     background-color:LightSlateGray; border: 1px solid black;visibility:hidden}	
+		
+		
+		.knisa1, #knisa2		{position:absolute; left:40px; top:200px;font-size:30px;visibility:hidden} 	
+		.arrow1 {position:absolute; left:40px; top:200px;font-size:100px;visibility:hidden}
+		.arrow2 {position:absolute; left:0px; top:200px;font-size:100px;visibility:hidden}
+		.drawing_4 {width:118px; height:118px; position:absolute; left:70px; top:20px;
+		      background-color:LightSlateGray;border: 1px solid black; visibility:hidden}	
+    .knisa3		{position:absolute; left:70px; top:140px;font-size:30px;visibility:hidden} 	
+   	.arrow3 {position:absolute; left:70px; top:170px;font-size:100px;visibility:hidden}
+    .drawing_5 {width:50px; height:33px; position:absolute; left:70px; top:269px;
+		      background-color:LightSlateGray;border: 1px solid black; visibility:hidden}	
+    .arrow4 {position:absolute; left:950px; top:350px;font-size:100px; transform: rotate(180deg); visibility:hidden}
+		.drawing_6 {width:50px; height:23px; position:absolute; left:70px; top:446px;
+		      background-color:LightSlateGray;border: 1px solid black; visibility:hidden}	
+	  .knisa4		{position:absolute; left:980px; top:400px;font-size:30px;visibility:hidden} 		
+		
+		
+		#calculatedStsfctn {position:absolute; left:600px; top:730px; }
+		
+		#explnArrow1 { width:720px;border:1px solid; position:absolute; left:50px; top:330px;visibility:hidden; background:white}
+		#explnArrow2 { width:720px;border:1px solid; position:absolute; left:50px; top:330px;visibility:hidden; background:white}
+		#explnAddMember { width:900px;border:1px solid; position:absolute; left:150px; top:400px;visibility:hidden}
+
+		#prtFormt { display:inline-block;  text-align:right;  color;black;     border:1px solid Black; 
+		            backgroundColor:transparent; overflow: auto;   padding:0px; margin: 0px;}    
+
+		
+		#hall1Txt {font-size:30px;}
+		#hall2Button {font-size:30px;}
+		#hall3Txt {font-size:30px;}
+
+		#hall1 { border:2px solid black;  width:1200px;height:970px; display:inline-block;   padding: 0;
+              margin: 0; float:left;  min-width: 0;}	
+		#hall2 { border:2px solid black;  width:1200px;height:780px; display:inline-block;   padding: 0;
+              margin: 0; float:left;  min-width: 0; }	
+		#hall3 { border:2px solid black;  width:1200px;height:770px; display:inline-block;   padding: 0;
+              margin: 0; float:left;  min-width: 0;}															
+    #Button {border-style:hidden; width:50px; align:center; float:center;position:relative; margin: auto;}
+   label, legend, radio, checkbox {display:inline-block; text-align:right; text-align:top; vertical-align:middle}
+	 legend {color:red}
+   textarea {width:560px; height:80px;  border:1px solid black; font-size:15px}
+   #id1 {width:auto}
+    td   {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold;}
+	 input {font-size:25px}
+	 .floatingDivColorTable  {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold;}
+	  
+		#FmNmT1 {display:inline-block; vertical-align:middle;border-collapse:collapse }
+		#FmNmT2 {display:inline-block; vertical-align:middle;border-collapse:collapse }
+		#fmNameFloat  {	border-style: none}
+		#fmName {	border-style: none}
+	  img {position:absolute; z-index:-1}
+     body{direction: rtl; overflow-x:scroll}
+		
+		#dbgdiv {position:absolute; width:5px; height:5px; background:red; z-index:15}
+		 
+		
+   .UlClass {}
+	 
+	   input[type="number"] {  direction:ltr; text-align:center }
+		 ul {position:relative;  display:block;list-style-type:none; margin:0;  -webkit-padding-start: 0px; }
+		 li {border:1px solid green;vertical-align:middlepadding:0px; margin: 0px; overflow:hidden;z-index:2 }
+		 span { margin:0px; padding:0px;vertical-align:middle; text-align:center;}
+		.W40H20  { width:40px; height:20px;  position:relative; display:inline-block; margin:0px; padding:0px;   }
+		.spnForW40H20    { width:42px; height:10px; position:relative; display:inline-block; margin:0 ;padding:0 }
+		
+		.W25H40  { width:25px; height:40px; position:relative; display:inline-block; margin:0; padding:25px 0px 0px 0px;}
+		.W40H25  { width:40px; height:25px; position:relative; display:inline-block; margin:0; padding:0;   }
+		.W22H37  { width:22px; height:37px; position:relative; display:inline-block; margin:0; padding:12px 0px 0px 0px;   }
+		.spnForW22H37   { width:24px; height:10px; position:relative; display:inline-block; margin:0; padding:0}
+
+ 		.W50H20  { width:50px; height:22px; position:relative; display:inline-block; margin:0; padding:0;   }
+		
+		.W20H50  { width:22px; height:50px; position:relative; display:inline-block; margin:0; padding:0;   }
+		
+		.spnForW50H20   { width:52px; height:5px; position:relative; display:inline-block; margin:0; padding:0;   }
+    
+		.RotatedM90Div   { position:absolute; text-align: center;
+                                        vertical-align: middle;
+			               -webkit-transform: rotate(270deg);  
+                     -moz-transform: rotate(270deg);
+                     -ms-transform: rotate(270deg);
+                      transform: rotate(270deg)  
+											}
+		
+		.RotatedM90DivSpecial   { position:absolute; text-align: center;
+                                        vertical-align: middle;
+			               -webkit-transform: rotate(270deg); 
+										      -webkit-transform-origin: 0% 0%;  
+                     -moz-transform: rotate(270deg);
+										      -moz-transform-origin: 0% 0%; 
+                     -ms-transform: rotate(270deg);
+										      -ms-transform-origin: 0% 0%; 
+                      transform: rotate(270deg);
+											    transform-origin: 0% 0%; 
+											}
+											
+											
+		.Rotated90Div   { position:absolute; text-align: center;
+                                        vertical-align: middle;
+			               -webkit-transform: rotate(90deg); 
+										      -webkit-transform-origin: 0% 0%;  
+                     -moz-transform: rotate(90deg);
+										      -moz-transform-origin: 0% 0%; 
+                     -ms-transform: rotate(90deg);
+										      -ms-transform-origin: 0% 0%; 
+                      transform: rotate(90deg);
+											    transform-origin: 0% 0%; 
+											}									
+		.NoRotateDiv   { position:absolute; text-align: center;
+                                        vertical-align: middle;}
+
+	  .prtRotated45Div   { position:absolute; 
+	                      	text-align: center;
+                          vertical-align: middle;
+		                 -webkit-transform: rotate(45deg);
+										   -webkit-transform-origin: 0% 0%;  
+                     -moz-transform: rotate(45deg);
+										  -moz-transform-origin: 0% 0%; 
+                     -ms-transform: rotate(45deg);
+										  -ms-transform-origin: 0% 0%; 
+                      transform: rotate(45deg);  
+											 transform-origin: 0% 0%; 
+									  }
+		.Rotated45Div   { position:absolute; 
+	                      	text-align: center;
+                          vertical-align: middle;
+		                 -webkit-transform: rotate(45deg);  
+                     -moz-transform: rotate(45deg);
+                     -ms-transform: rotate(45deg);
+                      transform: rotate(45deg)  
+									  }
+										
+		.RotatedM45Div   { position:absolute; 
+ 		                 -webkit-transform: rotate(-45deg);  
+                     -moz-transform: rotate(-45deg);
+                     -ms-transform: rotate(-45deg);
+                      transform: rotate(-45deg)  
+									  }
+										
+	 .RotatedM315Div   { position:absolute; 
+		                 -webkit-transform: rotate(-315deg);   
+                     -moz-transform: rotate(-315deg);
+                     -ms-transform: rotate(-315deg);
+                      transform: rotate(-315deg)  
+									  }	
+										
+		.RotatedM135Div   { position:absolute; 
+		                 -webkit-transform: rotate(-135deg);   
+                     -moz-transform: rotate(-135deg);
+                     -ms-transform: rotate(-135deg);
+                      transform: rotate(-135);
+											}  
+											
+											
+		.RotatedM315Div   { position:absolute; 
+		                 -webkit-transform: rotate(-315deg);   
+                     -moz-transform: rotate(-315deg);
+                     -ms-transform: rotate(-315deg);
+                      transform: rotate(-315deg);  
+									   									  }											
+	 .notRotatedDiv {position:absolute}
+	 
+	 .textNotRotated {display:inline-block; 
+	                 line-height:80%;
+                        margin:0px 0px 0px 0px;   
+	                    width:auto;height:auto;}
+	 
+	 .prtTextRotatedM90 {  display:inline-block;
+                    	margin-right: 0%; 
+											bottom:0;
+											line-height:80%;
+	                   -webkit-transform: rotate(-90deg);
+										   -webkit-transform-origin: 100% 100%;  
+                     -moz-transform: rotate(-90deg);
+										  -moz-transform-origin: 100% 100%; 
+                     -ms-transform: rotate(-90deg);
+										  -ms-transform-origin: 100% 100%; 
+                      transform: rotate(-90deg);  
+											 transform-origin: 100% 100%; 
+	                }
+									
+		.prtTextRotatedM90_4 {  display:inline-block;
+                    	margin-right: 0%; 
+											bottom:0;
+											line-height:80%;
+	                   -webkit-transform: rotate(-90deg);
+										   -webkit-transform-origin: 50% 50%;  
+                     -moz-transform: rotate(-90deg);
+										  -moz-transform-origin: 50% 50%; 
+                     -ms-transform: rotate(-90deg);
+										  -ms-transform-origin: 50% 50%; 
+                      transform: rotate(-90deg);  
+											 transform-origin: 50% 50%; 
+	                }							
+									
+	 .textRotatedM90 {  display:inline-block;
+                    	margin-right: 0%; 
+											
+	                   -webkit-transform: rotate(-90deg);
+										 -moz-transform: rotate(-90deg);
+										 -ms-transform: rotate(-90deg);
+										 transform: rotate(-90deg);  
+									    }
+											
+		.textRotatedM90Special	{  display:inline-block;
+                    	margin-right: 0%; 
+											width:49;
+											height:19;
+	                   -webkit-transform: rotate(-90deg);
+										   -webkit-transform-origin: 80%;  
+										 -moz-transform: rotate(-90deg);
+										    -moz-transform-origin: 80%; 
+										 -ms-transform: rotate(-90deg);
+										     -ms-transform-origin: 80%; 
+										 transform: rotate(-90deg);  
+										   transform-origin: 80%; 
+									    }								
+	 .textRotated90 {  display:inline-block;  
+                        margin:0px 0px 0px 0px;   
+	                   
+										
+                     -webkit-transform: rotate(90deg);
+										 -moz-transform: rotate(90deg);
+										 -ms-transform: rotate(90deg);
+										  transform: rotate(90deg);  
+						         }
+										 
+		.textRotated90Special	{  display:inline-block;  position:absolute; left:10;  bottom:40;
+                        margin:0px 0px 0px 0px;   
+	                   width:49;
+											height:19;
+										
+                     -webkit-transform: rotate(90deg);
+										   -webkit-transform-origin: 0%;  
+                     -moz-transform: rotate(90deg);
+										  -moz-transform-origin: 0%; 
+                     -ms-transform: rotate(90deg);
+										  -ms-transform-origin: 0%; 
+                      transform: rotate(90deg);  
+											 transform-origin: 0%; 
+						         }							 
+									
+	.prtNarrowTextRotated90 {  display:inline-block; float:right; position:absolute; bottom:0; 
+                        margin:0px 0px 0px 0px;   
+	                   line-height:80%;
+										
+                     -webkit-transform: rotate(90deg);
+										   -webkit-transform-origin: 80%;  
+                     -moz-transform: rotate(90deg);
+										  -moz-transform-origin: 80%; 
+                     -ms-transform: rotate(90deg);
+										  -ms-transform-origin: 80%; 
+                      transform: rotate(90deg);  
+											 transform-origin: 70% 60%; 
+	                }		
+									
+	.prtNarrowTextRotated90_50_50		{  display:inline-block; float:right; position:absolute; bottom:0; 
+                        margin:0px 0px 0px 0px;   
+	                   line-height:80%;
+										
+                     -webkit-transform: rotate(90deg);
+										   -webkit-transform-origin: 80%;  
+                     -moz-transform: rotate(90deg);
+										  -moz-transform-origin: 80%; 
+                     -ms-transform: rotate(90deg);
+										  -ms-transform-origin: 80%; 
+                      transform: rotate(90deg);  
+											 transform-origin: 50% 50%; 
+	                }														
+	
+	.prtWideTextRotated90 {  display:inline-block; float:right; position:absolute; bottom:0; 
+                        margin:0px 0px 0px 0px;   
+	                   line-height:80%;
+										
+                     -webkit-transform: rotate(90deg);	
+										 	  -webkit-transform-origin: 50% 30%;  
+                     -moz-transform: rotate(90deg);
+										  -moz-transform-origin: 50% 50%; 
+                     -ms-transform: rotate(90deg);
+										  -ms-transform-origin: 50% 50%; 
+                      transform: rotate(90deg);  
+											 transform-origin: 50% 50%; 
+	                }			
+									
+	.RotatedM135Txt  {}
+	
+	.prtRotate90 {  
+                      
+	                     position:absolute; 
+		                 -webkit-transform: rotate(90deg);   
+										      -webkit-transform-origin: 0% 30%; 
+                     -moz-transform: rotate(90deg);
+										      -moz-transform-origin: 0% 50%; 
+                     -ms-transform: rotate(90deg);
+										     -ms-transform-origin: 0% 50%; 
+                      transform: rotate(90deg);  
+											    transform-origin: 0% 50%;  
+                     }
+										 
+										 
+.prtRotate180 {  
+                      
+	                     position:absolute; 
+		                 -webkit-transform: rotate(180deg);   
+										      -webkit-transform-origin: 0% 30%; 
+                     -moz-transform: rotate(180deg);
+										      -moz-transform-origin: 0% 00%; 
+                     -ms-transform: rotate(180deg);
+										     -ms-transform-origin: 50% 50%; 
+                      transform: rotate(180deg);  
+											    transform-origin: 50% 50%;  
+                     }
+	
+	#dialogoverlay{
+	display: none;
+	opacity: .8;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: #FFF;
+	width: 100%;
+	z-index: 10;
+}
+#dialogbox{
+	display: none;
+	position: fixed;
+	background: #000;
+	border-radius:7px; 
+	width:550px;
+	z-index: 10;
+}
+
+#dialogbox > div{ background:#FFF; margin:8px; }
+#dialogbox > div > #dialogboxhead{ background: DarkGray; font-size:19px; padding:10px; color:#CCC; }
+#dialogbox > div > #dialogboxbody{ background:DarkSlateGray; padding:20px; color:#FFF; }
+#dialogbox > div > #dialogboxfoot{ background: DarkGray; padding:10px; text-align:right; }
+	
+	
+	 
+</style>
+<script>
+
+
+var xhttp = new XMLHttpRequest();
+var xhttpDnld = new XMLHttpRequest();
+
+
+var toPrint =new Array;
+
+var validPasswordEntered=false;
+
+// rgb colors
+RGray='rgba(190,190,190,0.6)';
+RBlue='rgba(0,0,255,0.6)';
+RGreen='rgba(0,255,0,0.6)';
+RYellow='rgba(255,255,0,0.6)';
+ROrange='rgba(255,165,0,0.6)';
+RRed='rgba(255,0,0,0.6)';
+RRed4='rgba(139,0,0,0.6)';  // dark red replacement
+
+
+// color map
+// colormap= [ [0,'white','white'], [1, 'Gray', 'Blue'], [2, 'Green', 'Yellow'], [3,'Orange', 'Red'], [500, 'DarkRed', 'DarkRed']  ]; 
+ colormap= [ [0,'white','white'], [1, RGray, RBlue], [2, RGreen, RYellow], [3,ROrange, RRed], [500, RRed4, RRed4]  ]; 
+ 
+ var mapForMember;
+
+
+
+                     
+
+
+// --------------------------------OOLAM RASHI------------------------------------------------------------------	
+
+
+
+ 
+//  textRotatedM90Special   lft:110, tp:277   
+ 
+ 
+
+
+														 
+//
+row391 = {firstInRow:391, lastInRow:681, lft:50, tp:280,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};	
+row392 = {firstInRow:392, lastInRow:682};
+row393 = {firstInRow:393, lastInRow:683};
+row394 = {firstInRow:394, lastInRow:684};
+row395 = {firstInRow:395, lastInRow:685};
+row396 = {firstInRow:396, lastInRow:686};
+row397 = {firstInRow:397, lastInRow:687};
+row398 = {firstInRow:398, lastInRow:688};
+spn579={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
+row579 = {firstInRow:579, lastInRow:689};
+spn590={spn:"spn",  spnClass:"spnForW50H20",spnCount:2};
+row590 = {firstInRow:590, lastInRow:690};
+row591 = {firstInRow:591, lastInRow:691};
+spn391={spn:"spn",  spnClass:"spnForW50H20"};
+
+              List391T591 = [[180,10,20,20,40,20],row391,row392,row393,row394,row395,row396,row397,row398,spn579,row579,
+							               spn590,row590,spn590,row591];
+ 
+ row301 = {firstInRow:301, lastInRow:371, lft:270, tp:16,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+ row302 = {firstInRow:302, lastInRow:372};
+ row303 = {firstInRow:303, lastInRow:373};
+ row304 = {firstInRow:304, lastInRow:374};
+ row305 = {firstInRow:305, lastInRow:375};
+ spn316={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
+ row316 = {firstInRow:316, lastInRow:376};
+              list301T316=[[10,10,10,10,10,10,10,10],row301,row302,row303,row304,row305,spn316,row316];
+ 
+  
+ row401 = {firstInRow:401, lastInRow:405, lft:770, tp:230,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+ row411 = {firstInRow:411, lastInRow:416};
+ row421 = {firstInRow:421, lastInRow:426};
+ row431 = {firstInRow:431, lastInRow:436};
+ row441 = {firstInRow:441, lastInRow:446};
+ row451 = {firstInRow:451, lastInRow:456};
+ row471 = {firstInRow:471, lastInRow:476};
+ row491 = {firstInRow:491, lastInRow:496};
+ row511 = {firstInRow:511, lastInRow:516};
+ row541 = {firstInRow:541, lastInRow:547};
+                List401T541=[[1,1,1,1,1,1,1,1,1],
+								              row401,row411,row421,row431,row441,row451,row471,row491,row511,row541];
+ 
+ 
+ row461 = {firstInRow:461, lastInRow:467, lft:338, tp:485,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+ row481 = {firstInRow:481, lastInRow:488};
+ row501 = {firstInRow:501, lastInRow:510};
+ row521 = {firstInRow:521, lastInRow:532};
+ row548 = {firstInRow:548, lastInRow:565};
+               List461T548=[[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],row461,row481,row501,row521,row548];
+							 
+ row381={firstInRow:381, lastInRow:382, lft:670, tp:230,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"RotatedM135Div"};
+               List381=[[1,1],row381];
+
+
+  					 
+   ListArray2=[List391T591,list301T316,List401T541,List461T548,List381];
+	
+
+
+// ---------------------------pictures-------embedded from simcha's microsoft One Drive account----------------------------------------------------------------
+
+var merkazi1='https://2uieqq-sn3301.files.1drv.com/y4mzcc5ufyZP05s2XkFA9EUjqxN8d8PlfV0xpwG6e4r039oqHZVh19UKB4R4l3Ru8K_cIZZGuyCKCxOBCDtVVXqukxnL1Kc24pd_KqB9Juh_dqvxYfF4Axdijr10NQPEjK84WmzJSTWfSEREotnVkp8hy-vjEdJnk_ncpyWsg5fuvbG37SXDFeuD2fFhMQ9XkZps86obFRUvC87U_-as0uXwA';
+var merkazi2='https://2uhvww-sn3301.files.1drv.com/y4mhqSP0p3XvoxW5hLJqpeZS47wJ4APgrqLlzH1g9mBodXKnEI7v8OwY2nMWVBZnLgUHL7uDYKhufNK-j_E-S4ZELQy9DgHMd4lm-MLruINyTvCvoUZjX7CAGp8PXmssZzshYm9Weh6RBvjarWDTYTFntnATj-7ODGcc0VrSoYqyqdEwHSao0Hpl8F3c_8sZiDnmSJidDq_W66LFfvN6OHwug';								
+
+
+//---martef
+
+
+							
+
+//----rashi
+m1picStrct={sorc:merkazi1,wdth:170,hgt:170,lft:540,tp:280,rtt:45,picId:'m1pic'}; 
+m2picStrct={sorc:merkazi2,wdth:80,hgt:135,lft:770,tp:100,rtt:45,picId:'m2pic'}; 
+picsforRashi=[m1picStrct,m2picStrct];
+
+
+				
+rashiDrawing=  [
+       ["drawing_3",35,"drawing_3"],
+        ["knisa1",175,"knisa1"], 
+			  ["arrow1",160,"arrow1"],
+			  ["knisa2",660,"knisa2"], 
+			  ["arrow2",560,"arrow2"]     ];
+				
+				 
+
+					
+// ------------------root structures					
+
+										 
+	ulamRashiStructure ={ListArray:ListArray2,pics:picsforRashi,drawings:rashiDrawing};
+                      
+										 
+										 
+	
+
+var LastYear;
+var nextYear;
+
+
+// ----------------------------------------------------------------------------------------	
+                     
+
+var	positionInMsg={email:0,	addr:1,phone:2,	gvarimRoshHashana:3,gvarimKipur:4,nashimRoshHashana:5,nashimKipur:6,
+		                minyanMuadafNashim:7, esberNashim:8,minyanMuadafGvarim:9,esberGvarim:10,moreComments:11,
+									 requestedSeats:12,requestDate:13,assignedSeatsRosh:14,assignedSeatsKipur:15,tashlum:16,tashlumPaid:17,
+									 stsfctnInFlr2YRSAgoYrWmn:18,stsfctnInFlr2YRSAgoYrMen:19,TwoYRSAgoSeat:20,stsfctnInFlr3YRSAgoYrWmn:21,
+                   stsfctnInFlr3YRSAgoYrMen:22,ThreeYRSAgoSeat:23,memberShipStatus:24,stsfctnInFlrLastYrWmn:25,stsfctnInFlrLastYrMen:26,
+									 LastYrSeat:27,issueInFloorWmn:28,  issueinFloorMen:29,  issueBetweenFloors:30,nashimMuadaf:31,gvarimMuadaf:32
+									 };
+											  
+
+
+originalListOfAssigned= [];
+	 listOfAssignedSeats =[];		
+	 
+					 
+var toPrintCt;
+var password;
+
+
+
+
+var namesToAssign=new Array; 
+var requestorsNameList=new Array;  
+var listToUse=new Array; 
+  
+var currentNameIdx;
+var keyupListenerOn=false;
+ 
+var registrationClosed= false;
+
+var countAssignedMen;
+var countAssignedWomen;	 
+
+var displayYear;
+
+
+var firstPartOfURL ='http://ariel-seatselection.7e14.starter-us-west-2.openshiftapps.com:80';
+var isWoman = new Array;
+
+var blinkElmntList=[];
+var lastBlink=true;
+
+var listOfNames = new Array;
+var contentIdx=0;
+changeContent=0;
+
+var fullNames=[];
+var namesOptionDisplayed=false;
+
+var nameToJumpBackTo='';
+
+var printingNow=false;
+var printingMartef=false;
+var printingRashi=false;
+var printingNashim=false;
+
+var lastNameChecked='';
+
+var addinFirstName;
+
+var lastName='';
+
+var yearToDisplay='';
+
+var fmNmOnChangeDIsabled=false;
+
+waitForKeyUp=false;
+
+var autoComletionOn=true;
+
+var JumpToCandidate='';
+var lastKeyPressed='';
+var functionKeyList=[
+                     67,   // 'c' or 'ב'     toggle auto completion
+										 74,    // 'j' or 'ח'    jump to assigned
+										 76     // 'l' or 'ך,    jump to assign and refocus
+										 ];
+var reFocus;										 
+var focusElmnt;			
+
+
+var shurot=[];		
+var cellAttrbts=[[]];		
+
+var BG_indx;			 
+
+
+	
+
+
+
+// -------------------------------------------------------------------   
+  
+
+function initPage(){
+   
+	      var d = new Date();
+	     nextYear=d.getFullYear();
+			 currentMonth=Number(d.getMonth()); 
+			 if (currentMonth > 9 )nextYear=Number(nextYear)+1;
+			 LastYear=(nextYear-1).toString();
+			 nextYear=nextYear.toString();
+
+			
+			
+			
+			window.onkeydown = keydown;
+			window.onkeyup = keyup;
+
+     for (i=0;i<700;i++)listOfAssignedSeats[i]=-1;
+			
+
+}
+
+// -------------------------------------------------------------------   
+function keydown(evnt){
+var idx;
+var keyPressed;
+var bgColor;
+
+  reFocus=false;
+	
+	keyPressed=	evnt.keyCode;		//console.log('keyPressed='+keyPressed);
+	idx=	functionKeyList.indexOf(	keyPressed );				 
+  if(idx ==-1)return; 
+  if(waitForKeyUp)return;
+  
+  
+	                 
+	if ( ! evnt.altKey )return;  
+	waitForKeyUp=true;
+	lastKeyPressed=keyPressed;
+	
+
+	
+	 //   'c' == toggle auto completion
+				
+					autoComletionOn= ! autoComletionOn;   
+					if ( autoComletionOn){bgColor='white';} else bgColor='Lavender';  
+					document.getElementById("fmName").style.backgroundColor=bgColor;
+					
+					
+						}
+	
+	function keyup(evnt){
+
+	if(evnt.keyCode ==lastKeyPressed)waitForKeyUp=false;}
+
+
+
+
+
+
+// --------------------------------------------------------------------------
+
+function deleteOldChildren(id){
+   while (true) {
+   elmnt=document.getElementById(id);
+   if( !elmnt)break;
+	 elmnt.parentNode.removeChild(elmnt);
+	
+	}	
+	}	
+	
+// ---------------------------------------------------------------------------------	
+	
+	function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;   
+  var kkk=0;
+    while(element) {toPrint[toPrintCt]={k:kkk, offsttop:element.offsetTop, scrltp:element.scrollTop,cknttop:element.clientTop,nxtelmnt:element.offsetParent};
+		                                      kkk++; toPrintCt++;
+        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+     //   yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+		    yPosition += (element.offsetTop  + element.clientTop);  
+				
+        element = element.offsetParent;  
+			//	alert( 'offsettop='+element.offsetTop+' scrolltop='+element.scrollTop+' clienttop='+element.clientTop+' elmnt='+element);
+    }
+    return { x: xPosition, y: yPosition };
+}
+
+// ---------------------------------------------------------------------------------	
+
+function gensteps(){
+ var  Asteps1=document.getElementById("hall1");
+  LegendTextElement=document.getElementById("Hall1FrameTop"); 
+  tmpStartingTop=getPosition(LegendTextElement);
+	tmpStartingTop=tmpStartingTop.y;
+	deleteOldChildren("steps");
+  for(j=0;j<2;j++){
+	tempStartingLeft=295;
+     for (i=0; i<100; i=i+10){
+		   aStep= document.createElement("div");
+			 aStep.setAttribute("id","steps");
+			 Asteps1.appendChild(aStep);
+			 Asteps1.lastChild.style.top=(tmpStartingTop+35).toString()+"px";
+			 Asteps1.lastChild.style.left= (tempStartingLeft+100).toString()+"px";
+			 Asteps1.lastChild.setAttribute("class", "steps1");
+			 
+			 tempStartingLeft+=15; 
+			   }
+		tmpStartingTop+=50;
+		 };
+			 
+		} 
+
+	//--------------------------------------------------------------------------------
+	
+function genPicture(baseElement,sorc,wdth,hgt,lft,tp,rtt,LegendTextElement,picId){
+ deleteOldChildren(picId);
+
+  startingTop=getPosition(LegendTextElement);
+	startingTop=startingTop.y;
+	startingTop1=startingTop+ tp;
+	 var aPic= document.createElement("img");
+	     //      fullSorc="https://googledrive.com/host/0B3RY8t3CW8yEMzd1RlRsMmNJZnc/"+sorc;
+						 aPic.src=sorc; 
+						 aPic.style.width=wdth+"px";
+						 aPic.style.height=hgt+"px";
+				 		 aPic.style.left = lft+ "px";
+						 aPic.style.top = startingTop1 + "px";  
+						 aPic.setAttribute("id",picId); 
+				  	baseElement.appendChild(aPic);
+						
+					if(rtt!=0){
+						  rotateIt= 'rotate('+ rtt.toString()+'deg)';
+						   baseElement.lastChild.style.webkitTransform = rotateIt;
+							 baseElement.lastChild.style.transform = rotateIt;
+                       };  
+						  };
+							
+//--------------------------------------------------------------------------------
+
+function adjustElementTop(LTextElement,element,tp,styl){
+      
+           startingTopA=getPosition(LTextElement);
+					 startingTopA=startingTopA.y; 
+					 tmp1= document.getElementById(element);
+					 tmp1.setAttribute("class", styl);
+					 tmp1.style.top=(startingTopA+tp)+"px";
+	         tmp1.style.visibility='visible';
+              };
+					 
+//-------------------------------------------------------------------------------- 
+
+ function generate_list(LLst,baseElement,startingTop) {
+ 
+ 
+ rotations=['RotatedM45Div','RotatedM315Div','RotatedM135Div','RotatedM90DivSpecial','notRotatedDiv'];
+  var divE     = document.createElement("div");
+	divE.setAttribute("id","kk");
+	generateUl=true;
+  // creating all cells
+	  for (rownum=1; rownum<LLst.length; rownum++) {
+    // creates a list 
+		 if (generateUl ) { var ulst= document.createElement("ul");
+				 k=0;  
+				    }
+		if(notASpan(LLst[rownum]) )   { 
+    strt=LLst[rownum].firstInRow; 
+		endd=LLst[rownum].lastInRow;
+		 j=strt;
+		  while ( j<=endd){
+      var cell = document.createElement("li");
+			cell.className=LLst[1].cellClass;
+			var textSpan = document.createElement("span");
+			textSpan.className=LLst[1].textRotate;
+			//textSpan.style.opacity=1;
+		  textSpan.innerHTML='&nbsp';
+			
+				cell.appendChild(textSpan);  
+     
+			inh=j.toString(); 
+      pid='c'+inh+'_p'; 
+			cell.onclick=clk; 
+      cell.setAttribute("id", pid);
+ //     cell.className=LLst[1].cellClass;
+			// use quotes as indicator for div is rotated
+			dvCls=LLst[1].divClass;
+			divType=rotations.indexOf(dvCls)+1;
+			switch (divType){
+			  case 0:  cell.style.quotes="'$' '$'";  break;
+				case 1:  cell.style.quotes="'<' '$'";  break;
+				case 2:  cell.style.quotes="'#' '$'";  break;
+				case 3:  cell.style.quotes="'>' '$'";  break;
+				case 4:  cell.style.quotes="'_' '$'";  break;
+				case 5:  cell.style.quotes="'+' '$'";  break;
+				}
+			
+		
+			ulst.appendChild(cell); 
+    	j=j+LLst[0][k];
+			k++;
+			if (k>100)return;
+			generateUl=true;
+    }}
+		else {
+		  for(spncnt=0; spncnt < LLst[rownum].spnCount; spncnt++){
+		  spn=document.createElement("span");
+      spn.className=LLst[rownum].spnClass; 
+			
+   		ulst.appendChild(spn);
+			k++;   if (k>100)return;
+			    }
+			generateUl=false;;
+         };
+	 ulst.className+= LLst[1].uLstClass;
+	 divE.appendChild(ulst);
+	}
+	
+   divE.className=LLst[1].divClass;
+	baseElement.appendChild(divE);
+	llfft=(LLst[1].lft).toString()+"px"; 
+	baseElement.lastChild.style.left=llfft;
+	t1=(LLst[1].tp+startingTop).toString()+"px"; 
+	 baseElement.lastChild.style.top=t1;   
+  
+}
+
+function notASpan(list) { 
+   if (list.spn=="spn")
+            return false;
+     else 
+            return true;
+}
+//-------------------------------------------------------------------------- 
+	
+
+function clk(e){
+    var tmp;
+    var div_id = this.id;
+		elmnt=document.getElementById(div_id);
+		span_element=elmnt.children[0];
+		seatNumber=div_id.split('_')[0].substr(1); 
+		
+		seatNumber=Number(seatNumber); 
+		
+		if( listOfAssignedSeats[seatNumber] == -1){ 
+	
+		  // new assignment
+           tmp=document.myform.familyname.value;
+		      span_element.innerHTML=tmp;   console.log('tmp='+tmp);
+			   listOfAssignedSeats[seatNumber]=tmp;;
+				
+				
+				 
+			}
+			else { // clear assignment
+			nameInSpan=span_element.innerHTML;
+			if (nameInSpan != document.myform.familyname.value ) return; // can un-assign only current member
+			//originalInfo= Object.assign({}, seatOriginalInfo[seatNumber]);
+			 
+	    listOfAssignedSeats[seatNumber]= -1;
+		
+				span_element.innerHTML=' ';			 
+		
+		  }
+		}
+
+
+	
+// ---------------------------------------------------------------------------------	
+   function generateRashi(LegendTextElement,merkaziElement){
+
+   
+     
+		 rashiStructure=ulamRashiStructure;
+		 ListArray=rashiStructure.ListArray; 
+	   for(ull=0; ull<ListArray.length; ull++)  {
+		  generate_list(ListArray[ull],merkaziElement,startingTop);} 
+	
+	 pics=rashiStructure.pics;
+	 for (picnum=0; picnum<pics.length;picnum++) { 
+	      genPicture(merkaziElement,pics[picnum].sorc,pics[picnum].wdth,pics[picnum].hgt,pics[picnum].lft,
+				                           pics[picnum].tp, pics[picnum].rtt,LegendTextElement,pics[picnum].picId); }
+						 
+		 drwings=rashiStructure.drawings;
+
+	for (drw=0;drw<drwings.length;drw++)
+	           adjustElementTop(LegendTextElement,drwings[drw][0],drwings[drw][1],drwings[drw][2]); 						 	
+		
+		
+}
+
+
+
+ 
+ 
+//------------------------------------------------------------------------------	
+	
+function GenerateTables(){
+
+
+deleteOldChildren('kk'); // delete previous tables.
+
+   
+	 if ( ( ! printingNow) || printingRashi) document.getElementById("hall2").style.display='block';
+	 
+	
+ 
+	
+
+
+
+//------------------OOLAM RASHI--------------------------------------------------------
+      LegendTextElement=document.getElementById("Hall2FrameTop"); 
+     startingTop=getPosition(LegendTextElement); 
+	 startingTop=startingTop.y+20;  
+	 
+     merkaziElement=document.getElementById("hall2"); 
+		 generateRashi (LegendTextElement,merkaziElement);
+	  
+			 
+
+		 	 
+
+		
+		
+		
+	}   
+
+	
+
+// -------------------------------------------------------------------------------------
+  
+		function yesOrNo(dialog)		{
+        var winW = window.innerWidth;  
+        var winH = window.innerHeight; 
+        var dialogoverlay = document.getElementById('dialogoverlay');
+        var dialogbox = document.getElementById('dialogbox');
+        dialogoverlay.style.display = "block";
+        dialogoverlay.style.height = winH+"px";
+        dialogbox.style.left = (winW/2) - (550 * .5)+"px";
+        dialogbox.style.top = "100px";
+        dialogbox.style.display = "block";
+        document.getElementById('dialogboxbody').innerHTML = dialog;
+        document.getElementById('dialogboxfoot').innerHTML = '<button onclick="yesOrNo_yes()">&nbsp &nbsp &nbsp &nbsp כן</button>';
+		    document.getElementById('dialogboxfootLeft').innerHTML = '<button onclick="yesOrNo_no()">לא &nbsp &nbsp &nbsp &nbsp &nbsp</button>';
+    }
+	 function yesOrNo_yes(func){
+	
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+	   funcYes(); 
+		}
+		function yesOrNo_no(func){
+		
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+    funcNo(); 
+	}
+
+
+// -------------------------------------------------------------------------------------
+
+
+		function Alert(dialog){
+        var winW = window.innerWidth;  
+        var winH = window.innerHeight; 
+        var dialogoverlay = document.getElementById('dialogoverlay');
+        var dialogbox = document.getElementById('dialogbox');
+        dialogoverlay.style.display = "block";  
+				dialogoverlay.style.height = winH+"px";
+        dialogbox.style.left = (winW/2) - (550 * .5)+"px";
+        dialogbox.style.top = "100px";
+        dialogbox.style.display = "block";
+    
+        document.getElementById('dialogboxbody').innerHTML = dialog;
+				document.getElementById('dialogboxfootLeft').innerHTML = '';
+        document.getElementById('dialogboxfoot').innerHTML = '<button onclick="AlertOk()">OK</button>';
+    }
+	AlertOk = function(){
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+
+		
+	}
+
+// -----------------------------------------------------------------------------------------	
+  function inputCompletion(){
+	idxx=document.getElementById("prti").selectedIndex; 
+	if ( ! idxx) return; 
+	
+	document.getElementById("fmName").value=fullNames[idxx-1];  
+	tmp1= document.getElementById("prtitxt");
+	tmp1.style.display='none';
+	namesOptionDisplayed=false;
+	ckNameRtrvVlus(true);
+	}
+
+// -----------------------------------------------------------------------------------------	
+ function getNamesForCompletion(){
+ var reslt=[];
+ 
+  if ( ! autoComletionOn ) return;
+ var listToSearchFrom=[];
+    tmp1= document.getElementById("prtitxt");
+		tmp1.style.display='none';
+		namesOptionDisplayed=false;
+	//	document.myform.familyname.value=delLeadingBlnks(document.myform.familyname.value);	
+		if ( ! document.myform.familyname.value)return;
+		
+		 listToSearchFrom=requestorsNameList;
+		 
+		 srchArg=delLeadingBlnks(document.myform.familyname.value);
+	   if (srchArg.length > 1 ){
+		  for(i=1; i< srchArg.length-1; i++){
+		    shortArg=srchArg.substr(0,i);
+				reslt=searchName(shortArg,listToSearchFrom);
+				
+		    if( reslt.length==1){
+				     document.getElementById("fmName").value=reslt[0];
+		        
+						 window.setTimeout(activateOnChange,5);
+						 return;
+						 }   // if
+				} // for		 
+			}  //if			 
+		        
+	  fullNames=searchName(srchArg,listToSearchFrom);
+	  
+		 
+		 
+			idx=  fullNames.length;
+		  if ( idx){
+			    if ( idx > 1 ){
+			   
+		     
+			    var selectList = document.getElementById("prti");
+          var SLlength = selectList.options.length; 
+				
+          while (selectList.options.length > 1) selectList.options[1] = null; 
+
+					fullNames.sort(); 
+                    
+				  for (i=0; i<	fullNames.length; i++)document.myform.prti.options[i+1]=new Option(fullNames[i]);
+														
+				  tmp1= document.getElementById("prtitxt");
+		      tmp1.style.display='inline';
+					namesOptionDisplayed=true;
+				  focusId=document.getElementById('prti');
+					} else
+					   	document.getElementById("fmName").value=fullNames[0];						 
+              
+					window.setTimeout(activateOnChange,5);
+							 
+     } // if idx
+		 
+	}	 
+// -----------------------------------------------------------------------------------------
+ function searchName(arg,searchList){
+  var fullNmes=[];
+	var srchArgLength;
+	srchArgLength=arg.length;
+	   for (rn=0; rn<searchList.length; rn++){
+			   leftPartOfNameString=searchList[rn].substr(0,srchArgLength);
+	       if(arg == leftPartOfNameString) fullNmes.push(searchList[rn]); 
+			  }  // for 	
+ return fullNmes;
+ 
+ 
+ 
+ }
+
+
+
+// -----------------------------------------------------------------------------------------
+
+function activateOnChange(){	
+        document.getElementById('fmName').onchange(); 
+				
+	 	}
+// -----------------------------------------------------------------------------------------
+function activateRefocus(){
+if (focusElmnt) focusElmnt.focus();
+	}
+    
+
+
+  
+//---------------------------------------------------------------------------------			
+/*
+	positionInMsg.email   0
+	positionInMsg.addr   1
+		positionInMsg.phone   2
+			positionInMsg.gvarimRoshHashana   3
+				positionInMsg.gvarimKipur   4
+					positionInMsg.nashimRoshHashana   5
+						positionInMsg.nashimKipur   6
+							positionInMsg.minyanMuadafNashim   7
+								positionInMsg.esberNashim    8
+									positionInMsg.minyanMuadafGvarim    9
+										positionInMsg.esberGvarim   10
+											positionInMsg.moreComments   11
+									 	positionInMsg.requestedSeats    12
+											positionInMsg.requestDate    13
+												positionInMsg.assignedSeatsRosh   14
+													positionInMsg.assignedSeatsKipur    15
+														positionInMsg.tashlum    16
+															positionInMsg.tashlumPaid     17
+
+ 
+*/
+
+
+
+// --------------------------------------------------------------------------------  
+
+
+function creatMap(strArray){
+
+var i,j, seats,nam;
+ 
+    seats=strArray.split('+');  // seats array 
+	
+			
+			
+	 for (i=0; i< seats.length; i++){
+	 
+	    seatNVlu= seats[i].split('$');    
+	    nam=seatNVlu[0];
+			  for(j=1;j<seatNVlu.length;j++){
+				   seat=Number(seatNVlu[j]);
+					 listOfAssignedSeats[seat]=nam;  
+			     seatId='c'+seatNVlu[j]+'_p';  
+			     cell_element=document.getElementById(seatId); 
+		
+			     if(cell_element){                 // element was created
+	
+			          span_element=cell_element.children[0];	
+                cell_element.setAttribute("value", nam); 
+		    	      span_element.setAttribute('style',"padding:0"); // 
+						}  //if  cell element		
+	
+       }   // end for j
+	}  // end  for i loop  		 
+		
+
+	 
+}
+
+
+// ----------------------------------------------------------------------------------------- 
+
+
+function  sendConfig (){
+ var tmp, i,nam,indx,rslt;
+var ListToSend=[];
+
+for (i=0;i<requestorsNameList.length;i++)ListToSend[i]=requestorsNameList[i]+'@';
+
+for (i=0;i<700;i++){
+    nam=listOfAssignedSeats[i];
+		if(nam == -1)continue;
+		indx=requestorsNameList.indexOf(nam);
+		ListToSend[indx]=ListToSend[indx]+(i).toString()+'$';
+		};
+		
+		rslt='';
+		for (i=0;i<ListToSend.length;i++){
+		  ListToSend[i]=ListToSend[i].substr(0,ListToSend[i].length-1);
+			rslt=rslt+ListToSend[i]+'+';
+			};
+			
+			console.log(rslt);
+		
+		
+		
+
+
+
+
+
+}
+
+
+
+
+
+ // ----------------------------------------------------------------------------------------- 	
+		
+// delete leading blanks
+
+ function delLeadingBlnks (str){
+     str1=str;  if (! str1)return str1;
+		 while (str1.substr(0,1)==' '){str1= str1.substr(1); 	  if (! str1.length)break;}	
+		 while (str1.substr(str1.length-1,1)==' '){str1= str1.substr(0,str1.length-1); 	  if (! str1.length)break;}		
+		 return str1;
+		 }
+
+
+// -----------------------------------------------------------------------------------------	
+    function ckName(lMoed){ 
+		          if ( ! validPasswordEntered){
+							                          Alert('יש להכניס סיסמא נכונה לפני שימוש בטופס');
+																				document.myform.familyname.value='';
+																				document.getElementById("pasw").focus();
+																				return '999';
+																				}
+           		
+							moedStr=moedCodes[lMoed];
+						
+							url=encodeURI(firstPartOfURL+"/mngfmname/?"+moedStr+document.myform.familyname.value+'$'+'&'+password+'&'+yearToDisplay);
+           
+						  xhttp.open("GET", url, false);
+              xhttp.send();
+	            CNrspnsString = xhttp.responseText;
+							focusId=document.getElementById('fmName');
+							if(CNrspnsString.substr(0,3)=='999'){  
+							                        Alert('סיסמא שגויה. הכנס שוב סיסמא');
+																		  document.getElementById("paswDiv").style.display='block';  
+								       	              validPasswordEntered=false; 
+																		  };
+																			
+				if(CNrspnsString.substr(0,3)=='---'){
+				      Alert('שם לא מוכר. אנא הכנס שם שנית או הוסף שם למערכת');	
+							
+	          }
+	     			 return CNrspnsString;
+    }
+//----------------------------------------------------------------------------------------------------
+
+
+function prepareToPrint(reqUlam){
+/*
+  rotationTags=  notRotated:$   RotatedM45Div: <    RotatedM315Div: #      RotatedM135Div: >    
+
+  */
+										 
+										 
+										 
+
+var directnTags=['$','#','<','>','_','+'];
+var shura;
+var fromSeat;
+var toSeat;
+var minGroupSize;
+var seat;
+var seatCount;
+var innerLoopSeat;
+var  cell_id;
+var cell;
+var tempStr;
+var strParts=[];
+var tempAssigned;
+var assgndName;
+var candidateGroupName;
+var tmp;
+var jumpOne;
+var single;
+ 
+
+deleteOldChildren('envPrtFormt');
+deleteOldChildren('prtFormt');
+
+ 
+
+getShulConfig(); 
+
+BG_indx=0;
+
+cellAttrbts=[[],[]];
+
+for (shura=0; shura<shurot.length; shura++){  // find group of seats in each shura   --
+
+ulam=shurot[shura][3]; 
+if (ulam != reqUlam)continue;
+
+  fromSeat=shurot[shura][0];  
+	toSeat=shurot[shura][1];
+	inDbgRange=false;  if ( (fromSeat==681) || (fromSeat==681) )inDbgRange=true;//===========================================dbg switch
+
+
+	
+inDbgRange=false;
+//	if ( (toSeat - fromSeat +1) <  minGroupSize) continue;   // line too short  
+	
+	envlpDiv=document.createElement("div");
+	envlpDiv.setAttribute("id","envPrtFormt");
+	 divHight=0;
+	 divWidth=0;
+	 cellAttrbts[0][0]=0;
+	 cellAttrbts[0][1]=0;
+	 
+   firstSeatElmnt=document.getElementById('c'+fromSeat.toString()+'_p'); 
+	 getCellAttrbts(firstSeatElmnt,0);  
+	 baseHeight=cellAttrbts[0][2];
+	 baseWidth=cellAttrbts[0][3];  
+	 nxtStElmnt=document.getElementById('c'+(fromSeat+1).toString()+'_p');
+	 getCellAttrbts(nxtStElmnt,1);   // get info to determine type of row
+	 
+	 directionType=directnTags.indexOf(cellAttrbts[0][4]);
+	 
+	 ulam=shurot[shura][3];
+	if (ulam=='m'){
+	              base=document.getElementById("Hall1FrameTop");
+								startingTop=getPosition(document.getElementById("hall1"));
+								}
+	    else if (ulam=='n'){
+			          base=document.getElementById("Hall3FrameTop");
+								startingTop=getPosition(document.getElementById("hall3"));
+								}
+			  else {
+				       base=document.getElementById("Hall2FrameTop");
+							 startingTop=getPosition(document.getElementById("hall2"));
+							 }
+	startingTop=startingTop.y;						 
+	
+	ind= shurot[shura][4]; 
+	 if (ind ){ 
+       envlpX=ind;
+	     envlpY=shurot[shura][5]+startingTop;
+			 
+			 } else {  
+			    envlpX=cellAttrbts[0][0];  
+	        envlpY=cellAttrbts[0][1];   
+	             }
+		
+			
+		envlpDiv.style.zIndex = "10";
+		deltaHeight=0;
+		deltaWidth=0;
+		envWidth=0;
+		envHeight=0;
+		
+	
+	  minGroupSize=1;   ///////////////////////////////////////////   
+		
+	
+	
+	   seat=fromSeat;
+	     while ( seat < toSeat-minGroupSize+2){   // start looking from this seatNumber
+			
+			    seatCount=0;
+					jumpOne=0;
+					candidateGroupName='';//
+				
+          for (innerLoopSeat=seat;innerLoopSeat<toSeat+1;innerLoopSeat++){
+					
+					    cell_id='c'+innerLoopSeat.toString()+'_p';   
+					    cell=document.getElementById(cell_id);
+																			 
+				     	tempStr=cell.getAttribute('value'); 
+              tempStr=delLeadingBlnks (tempStr); 
+							
+              if(tempStr=='$/'){ jumpOne=1; break;}
+					    strParts=tempStr.split('/'); 
+					    tempAssigned=strParts[0].split('$');
+					    assgndName=tempAssigned[moed-1]; // moed=1 is rosh, =2 is kipur
+							if ( ! assgndName){ jumpOne=1; break;}
+				    	if ( ! seatCount) {
+							             seatCount=1; 
+													 candidateGroupName=assgndName;
+													 
+													  continue;
+													};
+				    	if ( candidateGroupName != assgndName)break;
+						 	
+							seatCount++;	
+					} // for innerLoopSeat
+		     
+		         tmp=innerLoopSeat;
+						 
+						// if (seatCount){tmp=tmp-1;}else {seatCount++; };
+						single=false;
+						if ( ! seatCount){seatCount=1; single=true;} 
+	
+			
+			
+	 switch 	(directionType) {
+		      case 0:
+					case 5:  
+								 	    
+											 if (cellAttrbts[0][0]==cellAttrbts[1][0]){ // second case ==> verical row; rotated 90
+						          heightBased=true;
+								      widthBased=false;
+							        height=baseWidth-2;
+							        width=(baseHeight)* seatCount-2;  
+								      DivClass='RotatedM90Div';
+				             }  else {
+								 
+			        // horizontal
+							           heightBased=false;
+								         widthBased=true;
+							           width=baseWidth * seatCount-2;
+								         height=baseHeight-2;
+								         DivClass='NoRotateDiv';
+									 							
+			        }  // else
+											 break;		 
+													 
+				  case 1: 
+									  	 DivClass='prtRotated45Div';
+										   heightBased=true;
+								       widthBased=false;
+							         width=baseWidth * seatCount-2;
+								       height=baseHeight-2;
+											 break;  
+												
+				  case 2: 
+									  	DivClass='prtRotated45Div';
+											heightBased=true;
+								      widthBased=false;
+							        height=baseWidth-2;
+							        width=(baseHeight)* seatCount-2; 
+											break;
+					case 3: 
+									  	DivClass='RotatedM135Div';
+								      heightBased=true;
+								      widthBased=false;
+							        width=baseWidth * seatCount-2;
+								      height=baseHeight-2;
+											break;
+					case 4: 
+									  	DivClass='RotatedM90DivSpecial';
+										  heightBased=false;
+								      widthBased=true;
+							        width=baseWidth * seatCount-2;  
+								      height=baseHeight-2;
+											break;	
+																			
+				  }  // switch
+			// coomon code
+			
+								
+								  newDiv= document.createElement("div");
+									newDiv.setAttribute("id","prtFormt");
+                 
+									newDiv.style.width=(width).toString()+'px';
+						
+									newDiv.style.height=height.toString()+'px';
+						     if(single)newDiv.style.background='white';
+						     envWidth=envWidth+width+2;
+									          
+									
+							  									
+							for (i=seat;i <innerLoopSeat;i++){
+									   cell_id='c'+(i).toString()+'_p';  
+					           cell=document.getElementById(cell_id);
+										 cell.style.backgroundColor = "White";
+										 cell.style.color='white';
+										 if ( seatCount>1 )cell.style.border=  '1px dotted  green';
+							 	 }  
+					if((directionType==0) || (directionType==5) ){ // if not slanted
+				envHeight=height;
+				if(widthBased){
+				        //envHeight=baseHeight-2;
+							 divX=envlpX-envWidth+baseWidth;  
+							  divY=envlpY;      
+							 }
+      	 if(heightBased){
+				// envHeight=baseHeight-2;
+				
+				   divX=envlpX-envWidth/2+envHeight/2;//+2;
+					 divY=envlpY+envWidth/2-envHeight/2;
+							}
+				 
+				}	;			 
+								 
+          formatName(newDiv,candidateGroupName,width,height,seatCount,widthBased,directionType);
+					 
+						envlpDiv.appendChild(newDiv);
+					   seat=seat+seatCount;   //jump over sub group;;  loop will add 1
+											
+        } // while seat
+				
+				envlpDiv.className=	DivClass;
+				
+				
+			  envlpDiv.style.position='absolute';
+				envlpDiv.style.border='1px black';
+				
+				
+				
+				if(  (directionType==0) || (directionType==4)  || (directionType==5) ) { // if not slanted
+				envHeight=height;
+				if(widthBased){
+				        //envHeight=baseHeight-2;
+							 envlpX=envlpX-envWidth+baseWidth;  
+							 						        
+							 }
+      	 if(heightBased){
+				// envHeight=baseHeight-2;
+				
+				   envlpX=envlpX-envWidth/2+envHeight/2;//+2;
+					 envlpY=envlpY+envWidth/2-envHeight/2;
+							}
+				
+				}	;
+				envlpDiv.setAttribute("value",fromSeat);	
+				
+				envlpDiv.style.left=envlpX.toString()+'px';
+	      envlpDiv.style.top=envlpY.toString()+'px';
+								
+				envlpDiv.style.height=	(envHeight).toString()+'px';
+				envlpDiv.style.width=	(envWidth).toString()+'px';					 
+				base.appendChild(envlpDiv);
+			
+   }  // for shura
+	 
+}
+//--------------------------------------------------------------------------------------------------------
+
+
+
+function hideFields(){
+
+
+	
+	 document.getElementById("headerDiv").style.display='none';
+	 document.getElementById("mainFieldset").style.display='none';
+	 document.getElementById("Buttons").style.display='none';
+	  deleteOldChildren('kk');
+	 GenerateTables();
+	
+
+}
+
+//-------------------------------------------------------------------------------------------------------- 
+
+
+
+function restoreFields(){
+
+
+	
+	 document.getElementById("headerDiv").style.display='block';
+	 document.getElementById("mainFieldset").style.display='block';
+	 document.getElementById("Buttons").style.display='block';
+   deleteOldChildren('kk');
+	 GenerateTables();
+	
+	elm=document.getElementById("hall2Button");
+  elm.onclick=prtPg;
+
+}
+// -------------------------------------------------------------------  
+
+ function formatName(div,name,width,height,seatCount,widthBased,directionType){
+ BGColors=['lightgray','gainsboro','mistyrose','lavender','lightyellow','beige'];
+//BGColors=['white']; //,'gainsboro','mistyrose','lavender','lightyellow','beige'];
+  var tmp;
+	var tmp2;
+	var hgt;
+	var tmp1=[];
+  var textSpan = document.createElement("span");
+	var nam;
+	var ind;
+	var line_hight_reduced;
+
+	nam=delLeadingBlnks(name);
+						
+  if (true){   // seatCount==1
+			 textSpan.style.color='black';
+			 textSpan.style.position='absolute'; 
+			textSpan.style.width=(Math.max(height,width)).toString()+'px';
+			hgt=Math.min(height,width);
+			textSpan.style.height=hgt;
+		
+			 textSpan.style.fontWeight = 'bold';
+			
+			 tmp1=calcFont(nam.length,width,height);
+			 ind_tmp=nam.indexOf(' '); ind=false; if (ind_tmp != -1)ind = true;
+			 line_hight_reduced=false;
+			 lnHgt=hgt;  if ( (tmp1[2]) || (ind) ){lnHgt=lnHgt/2; line_hight_reduced=true; /*console.log('tmp1[2]='+tmp1[2]+' ind='+ind);*/}
+			 if( (tmp1[1] <= 14) && ind)tmp1[1]=16; 
+			 textSpan.style.lineHeight =(lnHgt  ).toString()+'px';
+			 
+			 if(nam){textSpan.innerHTML=nam;} else textSpan.innerHTML='&nbsp';
+			 textSpan.style.fontSize=tmp1[1];
+	
+
+if ( (! tmp1[0] )  && (  directionType==2  ) && ( ! widthBased )){ textSpan.className='prtTextRotatedM90';	/* console.log('nnam='+nam);*/}
+if ( (! tmp1[0] )  && (  directionType==1  ) && ( ! widthBased )){ textSpan.className='prtTextRotatedM90';	/*console.log('nlam='+nam);*/}
+
+if ( ( tmp1[0] ) && ( ! directionType  )){ textSpan.className='prtRotate180';	}
+if ( ( ! tmp1[0] ) && (  directionType ==5 ))
+          { textSpan.className= 'prtNarrowTextRotated90';
+					// console.log('line_hight_reduced='+line_hight_reduced+'  DivClass='+DivClass+'  lnHgt='+lnHgt);
+					 if ( (line_hight_reduced)  && (lnHgt>18) )textSpan.className='prtNarrowTextRotated90_50_50';}  
+if ( (  tmp1[0] ) && (  directionType==5  )  && (! widthBased )  ){ textSpan.className= 'prtRotate180';}   
+if (	directionType==4  )		textSpan.className= 'prtRotate180';            
+										 
+//
+
+
+			div.appendChild(textSpan);
+			
+			 if (nam){
+			div.style.background=BGColors[BG_indx];
+			BG_indx++; if (BG_indx >= BGColors.length)BG_indx=0;
+			div.style.opacity = "0.7"
+			}
+			 return;
+			 }
+
+}
+
+
+
+//--------------------------------------------------------------------------------------------------------
+
+  function calcFont(namLength,width,height){
+	var rspns=[];
+	var tmp;
+	var tmp1;
+	var tmpMx;
+	var tmpMn;
+	
+	
+	rspns[2]=false; // one text line
+	tmpMx=Math.max(width,height);				
+	if (tmpMx == width){rspns[0]=true}else rspns[0]=false;
+	tmpMn=width+height-tmpMx; // console.log('mx='+tmpMx+'  namLength='+namLength);
+	tmp=Math.floor((tmpMx/namLength)*1.5);
+	
+	if (tmp>tmpMx)tmp=tmpMx;
+//	if (tmp<12)rspns[2]=true;     // probably 2 lines of text 
+	 if (tmp<14)tmp=14;     if (tmp>35)tmp=35;
+	rspns[1]=tmp;  
+	return rspns;
+	
+	
+
+}
+
+//--------------------------------------------------------------------------------------------------------
+
+function getCellAttrbts(cell,idx){
+
+var tmp=[];
+var kkk=[];
+
+tmp[0]=getPosition(cell).x;
+ tmp[1]=getPosition(cell).y; 
+ tmp[2]=cell.offsetHeight;
+ tmp[3]=cell.offsetWidth;
+ tmp[4]=(cell.style.quotes).substr(1,1);  // '#' is indication for rotation
+ cellAttrbts[idx]=tmp;
+ 
+ }
+
+
+
+
+//--------------------------------------------------------------------------------------------------------   
+  function getListOfNames(){
+	  var i,rn,textSpan;
+		var tempList=[];
+		var temp1List=[];
+			// get list of all requestors			 
+		url=encodeURI(firstPartOfURL+"/getPermanentSeatsList/?"+password);  
+              xhttp.open("GET", url, false);
+              xhttp.send();
+	            rqstorsString = xhttp.responseText; 
+						  if(rqstorsString.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
+					    
+					    strrratrs=delLeadingBlnks(rqstorsString.substr(3));
+							if(! strrratrs){Alert('רשימת שמות ריקה');  return;};
+
+							
+							tempList=strrratrs.split('$');
+			//		 requestorsNameList=strrratrs.split('$');
+					  for (rn=0; rn<tempList.length; rn++){	   // normelise names
+						   temp1List=tempList[rn].split('+');
+						   requestorsNameList[rn]=temp1List[0];
+       	       fnm=requestorsNameList[rn].split(' ');
+			         if (fnm.length>1)requestorsNameList[rn]=fnm.join(' '); 
+							 fnm='שמחה';   //dbg
+							 for (i=1;i<temp1List.length;i++){
+							 
+							 temp1List[i]=381;  //dbg
+							    seatId='c'+temp1List[i].toString()+'_p';
+									textSpan=document.getElementById("fmName").children[0];
+									textSpan.innerHTML=fnm;
+							 }  // for i
+			   	  }  // for 	rn
+					 
+					  
+				
+				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0)}
+					  else{
+					 currentNameIdx=0;
+					 document.myform.familyname.value=requestorsNameList[currentNameIdx];
+					    }
+				  	
+			
+			}			 
+
+
+
+//--------------------------------------------------------------------------------------------------------checkOnly
+  function  nextname(){ 
+	 
+	         kadem(1);
+					 
+	}
+	
+//----------------------------------	
+	function nxName(){ kadem(1)}
+	
+//--------------------------	
+ function svAndNext(){
+    saveSeatAssignment(true);
+		kadem(1);
+		}
+
+//-----------------------------
+	function kadem(zz){
+	if ( nameToJumpBackTo) {
+							    document.getElementById("fmName").value=nameToJumpBackTo;
+			            document.getElementById("fmNameFloat").value=nameToJumpBackTo;
+									nameToJumpBackTo='';
+                  document.getElementById('fmName').onchange();
+							    return;
+									}  
+									
+	
+	
+	   mvCnt=zz;
+	
+	   listToUse=requestorsNameList;
+		 
+	   currentNamefound=false;
+	   nameToSearch=delLeadingBlnks(document.myform.familyname.value);
+		 for (tryIt=0;tryIt<2;tryIt++){ 
+		  
+		   for(currentNameIdx=0; currentNameIdx <listToUse.length; currentNameIdx++ ){
+		     if (nameToSearch == delLeadingBlnks(listToUse[currentNameIdx])){
+				       currentNamefound=true;
+							 break;
+							 }
+			    }
+					if(currentNamefound){
+					    if( ! tryIt)lastName=nameToSearch;
+							break;
+							}
+							
+					mvCnt=0;		
+					nameToSearch=lastName;   
+					
+			}		
+			if( ! currentNamefound	){
+			     Alert('הוקלד שם שגוי');
+						}   else {
+			 
+		    
+				   if(currentNameIdx < listToUse.length-mvCnt) currentNameIdx=currentNameIdx+mvCnt;    
+				   document.myform.familyname.value=listToUse[currentNameIdx];
+					 
+					 }
+		}			       
+	
+	//--------------------------------------------------------------------------------------------------------
+  function  prvname(){
+	
+			 
+	               prvsname();
+					 
+	}
+	
+
+
+//-----------------------------     
+	function  prvsname(){
+	    
+
+		 
+		mvCnt=1;
+		 
+		 currentNamefound=false;
+		 
+	nameToSearch=delLeadingBlnks(document.myform.familyname.value);
+	for (tryIt=0;tryIt<2;tryIt++){ 	 
+		 for(currentNameIdx=0; currentNameIdx <listToUse.length; currentNameIdx++ ){
+		     if (nameToSearch == delLeadingBlnks(listToUse[currentNameIdx])){
+				       currentNamefound=true;
+							 break;
+							 }
+			   }
+				 if(currentNamefound){
+					    if( ! tryIt)lastName=nameToSearch;
+							break;
+							}
+					nameToSearch=lastName;
+					mvCnt=0;
+			}		
+			if( ! currentNamefound	){
+			     Alert('הוקלד שם שגוי');
+					//  document.addEventListener('keyup', checkArrowPress );	
+						}  else {
+			 
+		    
+				   if(currentNameIdx > 0) currentNameIdx=currentNameIdx-mvCnt;    
+				   document.myform.familyname.value=listToUse[currentNameIdx];
+
+					 
+					 }
+		}			       		
+
+
+
+
+
+//-------------------------------------------------------------------------------------------------------- 
+
+
+function empty(){};
+
+
+// ---------------------------------------------------------------------------------------- 
+
+function prtPg(){
+
+hideFields();
+
+
+elm=document.getElementById("hall2Button");
+elm.onclick=restoreFields;
+
+
+
+
+//prepareToPrint('r');
+
+
+ }
+ 
+       
+
+
+
+
+
+// -----------------------------------------------------------------------------------------
+
+function ckPassW(){
+   paswElement=document.getElementById("pasw");
+   password=delLeadingBlnks(paswElement.value);
+  
+
+ url=encodeURI(firstPartOfURL+"/ckpswMGMT/?"+password);
+            xhttp.open("GET", url, false);
+              xhttp.send();
+	            rspnsString = xhttp.responseText;
+							focusId=paswElement;
+							
+						
+						if(rspnsString.substr(0,3)=='---'){
+							
+							  Alert ('סיסמא שגויה'); return
+												         }
+					initPage();			
+		      document.getElementById("paswDiv").style.display='none';  
+		    	validPasswordEntered=true;
+					document.getElementById("hall2").style.display='block';
+					document.getElementById("mainFieldset").style.display='block';
+					GenerateTables();
+					document.getElementById("Buttons").style.display='block';	
+					getListOfNames();					
+	
+
+  }
+// -----------------------------------------------------------------------------------------
+ function ckInpVld(inpId,minV,maxV,isInt){
+ vlu=document.getElementById(inpId).value;
+ if(vlu<minV)vlu=minV;
+ if(vlu>maxV)vlu=maxV;
+ if(isInt)vlu=Math.floor(vlu);
+ document.getElementById(inpId).value=vlu;
+  
+ }
+// ----------------------------------------------------------------------------------------------	
+function clrFmName(){
+					 
+document.getElementById("fmName").value='';
+
+tmp1= document.getElementById("prtitxt");
+		tmp1.style.display='none';
+
+}
+
+// -----------------------------------------------------------------------------------------
+
+function explnArrows(onOrOff){
+var msgId;
+var tmp;
+if (document.getElementById("oprtion").selectedIndex == 2){msgId='explnArrow1';} else msgId='explnArrow2';
+tmp=document.getElementById(msgId);
+ if (onOrOff){tmp.style.visibility='visible';}else tmp.style.visibility='hidden';
+ }
+
+// -----------------------------------------------------------------------------------------
+function explnAddMember(onOrOff){
+var msgId;
+var tmp;
+ msgId='explnAddMember';  
+tmp=document.getElementById(msgId);
+ if (onOrOff){tmp.style.visibility='visible';}else tmp.style.visibility='hidden';
+ }
+
+
+
+
+// -----------------------------------------------------------------------------------------
+                			
+                			
+</script>
+</head>
+<body  >
+
+<div id="dialogoverlay"></div>
+<div id="dialogbox">
+  <div>
+    <div id="dialogboxhead"></div>
+    <div id="dialogboxbody"></div>
+    <div><span id="dialogboxfoot"> </span><span id ="dialogboxfootLeft" style='display:inline; float:left'></span>  </div>
+</div></div>
+
+<div id='dbg' style='position:fixed; top:10; left:20; direction:ltr;display:none; '> x= <span id='dbgx'></span> &nbsp &nbsp y= <span id='dbgy'></span></div>
+ 
+
+
+<form name="myform" id='myForm'     >
+
+
+
+
+
+
+<div id='headerDiv'>
+<h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
+<h1 style="font-size:150%;text-align:center"><b><u>סידור מקומות</u></b> </h1>
+<div id='paswDiv' >סיסמא:<input id='pasw' type="password" style="display:inline-block"  autofocus onchange='ckPassW()'> </div> <br>
+</div>
+
+ <fieldset style="width:500px; display:none; border:none " id='mainFieldset'   >   
+	<div>     
+                  <label for="familyname">שם משפחה</label>
+		<button  type="button" id='prvs1' onclick= 'prvname()' style='display:inline-block;height:30px;font-size:22px'> &#x2192 </button>
+	 <table id='FmNmT2'><tbody ><tr><td id='secondX' onclick='clrFmName()'>&nbsp x &nbsp</td><td><input type="text" name="familyname" id="fmName"  required onkeyup='getNamesForCompletion(true)' onchange='empty()' style='width:250px'> </td></tr><tbody></table>
+
+				  <button  type="button" id='next1' onclick= 'nextname()' style='display:inline-block;height:30px;font-size:22px'> &#x2190 </button>
+					
+<div id='prtitxt' style='display:none'> <span> &nbsp &nbsp &nbsp</span> 
+						<select id='prti'  name='prti' onchange="inputCompletion()">
+							                            <option value="0" >השלם </option>  
+																					<option value="0" > &nbsp </option>         
+																			    <option value="1" > &nbsp </option> 
+																				  <option value="2" > &nbsp </option> 	                                                                                                                                                        
+											</select>	
+											</div>	
+ 
+					
+					</div>
+					<div>
+                <span style='font-size:25px'> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp </span>
+								
+					</div>
+</fieldset>
+   <fieldset id="hall2" class="subframe" style='display:none' >
+	    <legend><big><b id="Hall2FrameTop"><button  type="button" id='hall2Button' style='font-size:30px' onclick= 'prtPg()'>>אולם ראשי</b></big></button></legend> 
+			<div id="drawing_3" style='visibility:hidden'> </div>
+			<div id="knisa1" style='visibility:hidden'> כניסה </div>
+			<div id="arrow1" style='visibility:hidden'> &#x27a0;</div>
+			<div id="knisa2" style='visibility:hidden'>  כניסה  </div>   
+      <div id="arrow2" style='visibility:hidden'> &#x27a8;</div>
+
+			
+  </fieldset> 
+  
+	<fieldset id='Buttons' style='display:none;border:none' >
+
+	<button name='sbmt' id='sbmt' type="button"  onclick= 'sendConfig()' style='display:block;width:80px;margin: auto;min-height:45px;'> <h2><span  >עדכן </span>
+	</h2></button>
+
+	
+	</fieldset>
+</form>
+
+<form name="hiddenForm" id='hiddenForm' style='display:none'>
+<div id='hiddenDiv'>  </div>
+<input type="text"  name='lastFamName'  value='' style='display:none'>
+
+</form>
+
+
+
+</body>
+</html>
+
