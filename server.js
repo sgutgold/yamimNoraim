@@ -4047,7 +4047,11 @@ app.get('/isRegistrationClosed', function(req, res) {
 		    row=member.toString(); 
 		   
 		    nam=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
-		    if (nam )tempList[k]=nam+'+'+delLeadingBlnks(requestedSeatsWorksheet[amudot.permanentSeats+row].v);
+		    if (nam ){
+				      if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
+				      tempList[k]=nam;
+							prm=delLeadingBlnks(requestedSeatsWorksheet[amudot.permanentSeats+row].v);
+							if (prm  )tempList[k]=tempList[k]+'+'+prm;
 				k++;
 				}
 		rspns='+++'+tempList.join('$');
