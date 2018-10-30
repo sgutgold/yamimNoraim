@@ -4052,8 +4052,9 @@ app.get('/isRegistrationClosed', function(req, res) {
 				      tempList[k]=nam;
 							prm=delLeadingBlnks(requestedSeatsWorksheet[amudot.permanentSeats+row].v);
 							if (prm  )tempList[k]=tempList[k]+'+'+prm;
+							}   // if nam
 				k++;
-				}
+				}  // for
 		rspns='+++'+tempList.join('$');
 	  res.send(rspns );						
 							
