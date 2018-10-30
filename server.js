@@ -4039,13 +4039,13 @@ app.get('/isRegistrationClosed', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 	var tempList=[];
 	 inputString=decodeURI(req.originalUrl).split('?')[1];  
-	 msgParts=inputString.split('$');
-	 if (msgParts[0] != mngmntPASSW){console.log('wrong password'); res.send('999' )}
+	 
+	 if (inputString != mngmntPASSW){console.log('wrong password'); res.send('999' )}
 	 else {
 	   k=0;
 	   for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
 		    row=member.toString(); 
-		    row=(i).toString();
+		   
 		    nam=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 		    if (nam )tempList[k]=nam+'+'+delLeadingBlnks(requestedSeatsWorksheet[amudot.permanentSeats+row].v);
 				k++;
