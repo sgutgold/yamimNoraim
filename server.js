@@ -4050,7 +4050,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 		    if (nam )tempList[k]=nam+'+'+delLeadingBlnks(requestedSeatsWorksheet[amudot.permanentSeats+row].v);
 				k++;
 				}
-		rspns='+++'+tempList.join)'$');
+		rspns='+++'+tempList.join('$');
 	  res.send(rspns );						
 							
 							
