@@ -4079,7 +4079,8 @@ app.get('/isRegistrationClosed', function(req, res) {
 				    entry=msgParts[i].split('@');
 				    nam=entry[0];
 						rowNum=knownName(nam)[0];
-						requestedSeatsWorksheet[amudot.permanentSeats+rowNum].v=entry[1]; 
+						ptr=amudot.permanentSeats+rowNum.toString();
+						requestedSeatsWorksheet[ptr].v=entry[1]; 
 			};			
 	   
 		xlsx.writeFile(workbook, XLSXfilename);  // update file
