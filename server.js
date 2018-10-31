@@ -4076,10 +4076,10 @@ app.get('/isRegistrationClosed', function(req, res) {
 	 if (msgParts[0] != mngmntPASSW){console.log('wrong password'); res.send('999' )}
 	 else {
 	      for (i=1; i<msgParts.length;i++){
-				    entry=msgParts[i].split('@');
-				    nam=entry[0];
+				    entry=msgParts[i].split('@');  console.log('i='+i+'  entry='+entry);
+				    nam=entry[0];  console.log('nam='+nam);
 						rowNum=knownName(nam)[0];
-						ptr=amudot.permanentSeats+rowNum.toString();
+						ptr=amudot.permanentSeats+rowNum.toString();   console.log('ptr='+ptr);
 						requestedSeatsWorksheet[ptr].v=entry[1]; 
 			};			
 	   
