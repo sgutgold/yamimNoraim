@@ -244,7 +244,8 @@
                      -webkit-transform: rotate(90deg);
 										 -moz-transform: rotate(90deg);
 										 -ms-transform: rotate(90deg);
-										  transform: rotate(90deg);  
+										  transform: rotate(90deg); 
+											transform-origin: 60% 80%; 
 						         }
 										 
 		.textRotated90Special	{  display:inline-block;  position:absolute; left:10;  bottom:40;
@@ -410,17 +411,20 @@ row393 = {firstInRow:393, lastInRow:683};
 row394 = {firstInRow:394, lastInRow:684};
 row395 = {firstInRow:395, lastInRow:685};
 row396 = {firstInRow:396, lastInRow:686};
-row397 = {firstInRow:397, lastInRow:687};
-row398 = {firstInRow:398, lastInRow:688};
-spn579={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
-row579 = {firstInRow:579, lastInRow:689};
-spn590={spn:"spn",  spnClass:"spnForW50H20",spnCount:2};
-row590 = {firstInRow:590, lastInRow:690};
-row591 = {firstInRow:591, lastInRow:691};
+spn397={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
+row397 = {firstInRow:577, lastInRow:687};
+spn398={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
+row398 = {firstInRow:578, lastInRow:688};
+spn579={spn:"spn",  spnClass:"spnForW50H20",spnCount:2};
+row579 = {firstInRow:589, lastInRow:689};
+spn590={spn:"spn",  spnClass:"spnForW50H20",spnCount:3};
+row590 = {firstInRow:610, lastInRow:690};
+spn591={spn:"spn",  spnClass:"spnForW50H20",spnCount:3};
+row591 = {firstInRow:611, lastInRow:691};
 spn391={spn:"spn",  spnClass:"spnForW50H20"};
 
-              List391T591 = [[180,10,20,20,40,20],row391,row392,row393,row394,row395,row396,row397,row398,spn579,row579,
-							               spn590,row590,spn590,row591];
+              List391T591 = [[180,10,20,20,40,20],row391,row392,row393,row394,row395,row396,  spn397,row397, spn398,row398,  spn579,row579,
+							               spn590,row590,spn591,row591];
  
  row301 = {firstInRow:301, lastInRow:371, lft:270, tp:16,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};
  row302 = {firstInRow:302, lastInRow:372};
@@ -446,11 +450,11 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
 								              row401,row411,row421,row431,row441,row451,row471,row491,row511,row541];
  
  
- row461 = {firstInRow:461, lastInRow:467, lft:338, tp:485,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+ row461 = {firstInRow:461, lastInRow:467, lft:458, tp:485,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
  row481 = {firstInRow:481, lastInRow:488};
  row501 = {firstInRow:501, lastInRow:510};
  row521 = {firstInRow:521, lastInRow:532};
- row548 = {firstInRow:548, lastInRow:565};
+ row548 = {firstInRow:548, lastInRow:560};
                List461T548=[[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],row461,row481,row501,row521,row548];
 							 
  row381={firstInRow:381, lastInRow:382, lft:670, tp:230,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"RotatedM135Div"};
@@ -775,6 +779,7 @@ function adjustElementTop(LTextElement,element,tp,styl){
 			textSpan.className=LLst[1].textRotate;
 			//textSpan.style.opacity=1;
 		  textSpan.innerHTML='&nbsp';
+			//textSpan.innerHTML=(j).toString();
 			
 				cell.appendChild(textSpan);  
      
@@ -1112,40 +1117,7 @@ if (focusElmnt) focusElmnt.focus();
 
 
 
-// --------------------------------------------------------------------------------  
 
-
-function creatMap(strArray){
-
-var i,j, seats,nam;
- 
-    seats=strArray.split('+');  // seats array 
-	
-			
-			
-	 for (i=0; i< seats.length; i++){
-	 
-	    seatNVlu= seats[i].split('$');    
-	    nam=seatNVlu[0];
-			  for(j=1;j<seatNVlu.length;j++){
-				   seat=Number(seatNVlu[j]);
-					 listOfAssignedSeats[seat]=nam;  
-			     seatId='c'+seatNVlu[j]+'_p';  
-			     cell_element=document.getElementById(seatId); 
-		
-			     if(cell_element){                 // element was created
-	
-			          span_element=cell_element.children[0];	
-                cell_element.setAttribute("value", nam); 
-		    	      span_element.setAttribute('style',"padding:0"); // 
-						}  //if  cell element		
-	
-       }   // end for j
-	}  // end  for i loop  		 
-		
-
-	 
-}
 
 
 // ----------------------------------------------------------------------------------------- 
@@ -1155,23 +1127,35 @@ function  sendConfig (){
  var tmp, i,nam,indx,rslt;
 var ListToSend=[];
 
-for (i=0;i<requestorsNameList.length;i++)ListToSend[i]=requestorsNameList[i]+'@';
+for (i=0;i<requestorsNameList.length;i++){ListToSend[i]=requestorsNameList[i]+'@';  console.log('ListToSend[i]='+ListToSend[i]);}
 
 for (i=0;i<700;i++){
     nam=listOfAssignedSeats[i];
 		if(nam == -1)continue;
-		indx=requestorsNameList.indexOf(nam);
-		ListToSend[indx]=ListToSend[indx]+(i).toString()+'$';
+		indx=requestorsNameList.indexOf(nam);  if (indx == -1)console.log('nam='+nam+'   i='+i);
+		ListToSend[indx]=ListToSend[indx]+(i).toString()+'+';
+		console.log('indx='+indx+'   ListToSend[indx]='+ListToSend[indx]+'   i='+i);
 		};
 		
 		rslt='';
 		for (i=0;i<ListToSend.length;i++){
 		  ListToSend[i]=ListToSend[i].substr(0,ListToSend[i].length-1);
-			rslt=rslt+ListToSend[i]+'+';
+			rslt=rslt+ListToSend[i]+'$';
 			};
-			
+			rslt=rslt.substr(0,rslt.length-1);
 			console.log(rslt);
 		
+		url=encodeURI(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);
+           
+						  xhttp.open("GET", url, false);
+              xhttp.send();
+	            CNrspnsString = xhttp.responseText;
+							
+							if(CNrspnsString.substr(0,3)!='+++'){  
+							                        Alert('בעיה בתהליך. נסה שנית');
+																		  
+																		  }
+																			else Alert('עדכון בוצע');
 		
 		
 
@@ -1520,7 +1504,7 @@ function hideFields(){
 	 document.getElementById("Buttons").style.display='none';
 	  deleteOldChildren('kk');
 	 GenerateTables();
-	
+	getListOfNames();
 
 }
 
@@ -1537,7 +1521,8 @@ function restoreFields(){
 	 document.getElementById("Buttons").style.display='block';
    deleteOldChildren('kk');
 	 GenerateTables();
-	
+	 getListOfNames();
+	 
 	elm=document.getElementById("hall2Button");
   elm.onclick=prtPg;
 
@@ -1661,6 +1646,7 @@ tmp[0]=getPosition(cell).x;
               xhttp.open("GET", url, false);
               xhttp.send();
 	            rqstorsString = xhttp.responseText; 
+							console.log('rqstorsString='+rqstorsString);
 						  if(rqstorsString.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
 					    
 					    strrratrs=delLeadingBlnks(rqstorsString.substr(3));
@@ -1668,19 +1654,27 @@ tmp[0]=getPosition(cell).x;
 
 							
 							tempList=strrratrs.split('$');
+							console.log ('tempList='+tempList);
 			//		 requestorsNameList=strrratrs.split('$');
 					  for (rn=0; rn<tempList.length; rn++){	   // normelise names
 						   temp1List=tempList[rn].split('+');
-						   requestorsNameList[rn]=temp1List[0];
+							 fnm1=temp1List[0];
+						   requestorsNameList[rn]=fnm1;
        	       fnm=requestorsNameList[rn].split(' ');
-			         if (fnm.length>1)requestorsNameList[rn]=fnm.join(' '); 
-							 fnm='שמחה';   //dbg
+			         if (fnm.length>1){
+							      fnm1=fnm.join(' ');
+										requestorsNameList[rn]=fnm1; 
+										};
+							
 							 for (i=1;i<temp1List.length;i++){
 							 
-							 temp1List[i]=381;  //dbg
-							    seatId='c'+temp1List[i].toString()+'_p';
-									textSpan=document.getElementById("fmName").children[0];
-									textSpan.innerHTML=fnm;
+							    seat=temp1List[i];
+									
+							    seatId='c'+seat.toString()+'_p';
+									textSpan=document.getElementById(seatId).children[0];
+									textSpan.innerHTML=fnm1;
+									seat=Number(seat); console.log('seat='+seat+'  fnm='+fnm);
+									listOfAssignedSeats[seat]=fnm1;
 							 }  // for i
 			   	  }  // for 	rn
 					 
