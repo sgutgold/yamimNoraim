@@ -55,7 +55,7 @@ var nodemailer = require('nodemailer');
 			  zcache['errPasswd'] = fs.readFileSync('./errPasswd.html');   
 				zcache['gizbar'] = fs.readFileSync('./gizbar.html');
 				zcache['okmsg'] = fs.readFileSync('./okmsg.html');
-			 zcache['real_index'] = fs.readFileSync('./index_real.html');
+	//		 zcache['real_index'] = fs.readFileSync('./index_real.html');
 			 zcache['moshavim'] = fs.readFileSync('./sidurUlamRahi.html');
 
 				
