@@ -56,6 +56,7 @@ var nodemailer = require('nodemailer');
 				zcache['gizbar'] = fs.readFileSync('./gizbar.html');
 				zcache['okmsg'] = fs.readFileSync('./okmsg.html');
 			 zcache['real_index'] = fs.readFileSync('./index_real.html');
+			 zcache['moshavim'] = fs.readFileSync('./sidurUlamRahi.html');
 
 				
     };
@@ -4076,10 +4077,10 @@ app.get('/isRegistrationClosed', function(req, res) {
 	 if (msgParts[0] != mngmntPASSW){console.log('wrong password'); res.send('999' )}
 	 else {
 	      for (i=1; i<msgParts.length;i++){
-				    entry=msgParts[i].split('@');  console.log('i='+i+'  entry='+entry);
-				    nam=entry[0];  console.log('nam='+nam);
+				    entry=msgParts[i].split('@');  
+				    nam=entry[0];  
 						rowNum=knownName(nam)[0];
-						ptr=amudot.permanentSeats+rowNum.toString();   console.log('ptr='+ptr);
+						ptr=amudot.permanentSeats+rowNum.toString();   
 						requestedSeatsWorksheet[ptr].v=entry[1]; 
 			};			
 	   
@@ -4120,6 +4121,13 @@ app.get('/keepAlive', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
             res.send('ok' );
         })	
+				
+//------------------------------------------------------------------------------	
+app.get('/moshavim', function(req, res) {
+	//res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+            res.send(cache_get('moshavim.html'));
+        })					
 //------------------------------------------------------------------------------							
 				
 	app.get('/iiiik', function(req, res) {
