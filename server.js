@@ -4096,7 +4096,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	 })
 	 
 
-//------------------------------------------------------------------------------					
+//------------------------------------------------------------------------------	ckpswMoshavim				
 				
 
 app.get('/ckpswGIZBAR', function(req, res) {
@@ -4108,6 +4108,18 @@ app.get('/ckpswGIZBAR', function(req, res) {
             res.send(rspns );
         })	
 
+//------------------------------------------------------------------------------					
+				
+
+   app.get('/ckpswMoshavim', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	 
+	 inputString=decodeURI(req.originalUrl).split('?')[1]; 
+	console.log('ck pass inputString='+inputString);
+	 if(inputString==moshavimPASSW){rspns='+++';} else rspns='---';
+            res.send(rspns );
+        })	
 //------------------------------------------------------------------------------					
 				
 	app.get('/', function(req, res) {
