@@ -771,6 +771,7 @@ var requestedSeatsWorksheet ;
 var passwordsWS;
 var	mngmntPASSW;
 var	gizbarPASSW;	
+var moshavimPASSW;
 var errCodeWS;	
 var seatToRowWS;
 var shulConfigerationWS;
@@ -890,7 +891,7 @@ console.log('5');
 	mngmntPASSW=passwordsWS['B1'].v;   
 	gizbarPASSW=	passwordsWS['B2'].v;	
 	debugPASSW=	passwordsWS['B3'].v;	
-
+  moshavimPASSW=passwordsWS['B4'].v;
 
 errCodeWS=supportWB.Sheets['errorCodes'];
 for (i=1; i<50; i++){
@@ -4041,7 +4042,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	var tempList=[];
 	 inputString=decodeURI(req.originalUrl).split('?')[1];  
 	 
-	 if (inputString != mngmntPASSW){console.log('wrong password'); res.send('999' )}
+	 if (inputString != moshavimPASSW){console.log('wrong password'); res.send('999' )}
 	 else {
 	   k=0;
 	   for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
@@ -4074,7 +4075,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	var tempList=[];
 	 inputString=decodeURI(req.originalUrl).split('?')[1];  
 	 msgParts=inputString.split('$');
-	 if (msgParts[0] != mngmntPASSW){console.log('wrong password'); res.send('999' )}
+	 if (msgParts[0] != moshavimPASSW){console.log('wrong password'); res.send('999' )}
 	 else {
 	      for (i=1; i<msgParts.length;i++){
 				    entry=msgParts[i].split('@');  
