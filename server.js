@@ -55,8 +55,8 @@ var nodemailer = require('nodemailer');
 			  zcache['errPasswd'] = fs.readFileSync('./errPasswd.html');   
 				zcache['gizbar'] = fs.readFileSync('./gizbar.html');
 				zcache['okmsg'] = fs.readFileSync('./okmsg.html');
-	//		 zcache['real_index'] = fs.readFileSync('./index_real.html');
-	//		 zcache['moshavim'] = fs.readFileSync('./sidurUlamRahi.html');
+        zcache['real_index'] = fs.readFileSync('./index_real.html');
+		    zcache['moshavim'] = fs.readFileSync('./sidurUlamRahi.html');
 
 				
     };
@@ -4126,7 +4126,7 @@ app.get('/keepAlive', function(req, res) {
 app.get('/moshavim', function(req, res) {
 	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
-            res.send(cache_get('moshavim.html'));
+            res.send(cache_get('moshavim'));
         })					
 //------------------------------------------------------------------------------							
 				
