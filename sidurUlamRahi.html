@@ -852,7 +852,7 @@ function clk(e){
 	
 		  // new assignment
            tmp=document.myform.familyname.value;
-		      span_element.innerHTML=tmp;   console.log('tmp='+tmp);
+		      span_element.innerHTML=tmp;  
 			   listOfAssignedSeats[seatNumber]=tmp;;
 				
 				
@@ -1127,14 +1127,14 @@ function  sendConfig (){
  var tmp, i,nam,indx,rslt;
 var ListToSend=[];
 
-for (i=0;i<requestorsNameList.length;i++){ListToSend[i]=requestorsNameList[i]+'@';  console.log('ListToSend[i]='+ListToSend[i]);}
+for (i=0;i<requestorsNameList.length;i++){ListToSend[i]=requestorsNameList[i]+'@'; }
 
 for (i=0;i<700;i++){
     nam=listOfAssignedSeats[i];
 		if(nam == -1)continue;
-		indx=requestorsNameList.indexOf(nam);  if (indx == -1)console.log('nam='+nam+'   i='+i);
+		indx=requestorsNameList.indexOf(nam);  //if (indx == -1)console.log('nam='+nam+'   i='+i);
 		ListToSend[indx]=ListToSend[indx]+(i).toString()+'+';
-		console.log('indx='+indx+'   ListToSend[indx]='+ListToSend[indx]+'   i='+i);
+	//	console.log('indx='+indx+'   ListToSend[indx]='+ListToSend[indx]+'   i='+i);
 		};
 		
 		rslt='';
@@ -1143,10 +1143,10 @@ for (i=0;i<700;i++){
 			rslt=rslt+ListToSend[i]+'$';
 			};
 			rslt=rslt.substr(0,rslt.length-1);
-			console.log(rslt);
+			
 		
 		url=encodeURI(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);
-           
+     //    console.log(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);  
 						  xhttp.open("GET", url, false);
               xhttp.send();
 	            CNrspnsString = xhttp.responseText;
@@ -1646,7 +1646,7 @@ tmp[0]=getPosition(cell).x;
               xhttp.open("GET", url, false);
               xhttp.send();
 	            rqstorsString = xhttp.responseText; 
-							console.log('rqstorsString='+rqstorsString);
+						//	console.log('rqstorsString='+rqstorsString);
 						  if(rqstorsString.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
 					    
 					    strrratrs=delLeadingBlnks(rqstorsString.substr(3));
@@ -1654,7 +1654,7 @@ tmp[0]=getPosition(cell).x;
 
 							
 							tempList=strrratrs.split('$');
-							console.log ('tempList='+tempList);
+					//		console.log ('tempList='+tempList);
 			//		 requestorsNameList=strrratrs.split('$');
 					  for (rn=0; rn<tempList.length; rn++){	   // normelise names
 						   temp1List=tempList[rn].split('+');
@@ -1673,7 +1673,7 @@ tmp[0]=getPosition(cell).x;
 							    seatId='c'+seat.toString()+'_p';
 									textSpan=document.getElementById(seatId).children[0];
 									textSpan.innerHTML=fnm1;
-									seat=Number(seat); console.log('seat='+seat+'  fnm='+fnm);
+									seat=Number(seat); //console.log('seat='+seat+'  fnm='+fnm);
 									listOfAssignedSeats[seat]=fnm1;
 							 }  // for i
 			   	  }  // for 	rn
@@ -1843,7 +1843,7 @@ function ckPassW(){
 
  url=encodeURI(firstPartOfURL+"/ckpswMGMT/?"+password);
             xhttp.open("GET", url, false);
-              xhttp.send();
+              xhttp.send(); //console.log(xhttp);
 	            rspnsString = xhttp.responseText;
 							focusId=paswElement;
 							
