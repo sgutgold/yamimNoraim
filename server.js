@@ -4042,7 +4042,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	var tempList=[];
 	 inputString=decodeURI(req.originalUrl).split('?')[1];  
 	 
-	 if (inputString != moshavimPASSW){console.log('wrong password'); res.send('999' )}
+	 if (inputString != moshavimPASSW){console.log('wrong password'); res.send('---' )}
 	 else {
 	   k=0;
 	   for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
@@ -4075,7 +4075,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	var tempList=[];
 	 inputString=decodeURI(req.originalUrl).split('?')[1];  
 	 msgParts=inputString.split('$');
-	 if (msgParts[0] != moshavimPASSW){console.log('wrong password'); res.send('999' )}
+	 if (msgParts[0] != moshavimPASSW){console.log('wrong password'); res.send('---' )}
 	 else {
 	      for (i=1; i<msgParts.length;i++){
 				    entry=msgParts[i].split('@');  
@@ -4116,7 +4116,7 @@ app.get('/ckpswGIZBAR', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 	 
 	 inputString=decodeURI(req.originalUrl).split('?')[1]; 
-	console.log('ck pass inputString='+inputString);
+	
 	 if(inputString==moshavimPASSW){rspns='+++';} else rspns='---';
             res.send(rspns );
         })	
