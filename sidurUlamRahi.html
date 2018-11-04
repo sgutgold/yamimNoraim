@@ -1147,15 +1147,21 @@ for (i=0;i<700;i++){
 		
 		url=encodeURI(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);
      //    console.log(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);  
+		 
+		 CNrspnsString='---';
+		 while(CNrspnsString.substr(0,3)  != '+++'){
 						  xhttp.open("GET", url, false);
               xhttp.send();
 	            CNrspnsString = xhttp.responseText;
 							
-							if(CNrspnsString.substr(0,3)!='+++'){  
+							if(CNrspnsString.substr(0,3)!='---'){  
 							                        Alert('בעיה בתהליך. נסה שנית');
-																		  
+																		  return;
 																		  }
-																			else Alert('עדכון בוצע');
+								} // while										
+																		
+																		
+																		 Alert('עדכון בוצע');
 		
 		
 
@@ -1642,13 +1648,16 @@ tmp[0]=getPosition(cell).x;
 		var tempList=[];
 		var temp1List=[];
 			// get list of all requestors			 
-		url=encodeURI(firstPartOfURL+"/getPermanentSeatsList/?"+password);  
+		url=encodeURI(firstPartOfURL+"/getPermanentSeatsList/?"+password);
+		
+		rqstorsString='---';
+		while (rqstorsString.substr(0,3) !='+++'){  
               xhttp.open("GET", url, false);
               xhttp.send();
 	            rqstorsString = xhttp.responseText; 
 						//	console.log('rqstorsString='+rqstorsString);
-						  if(rqstorsString.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
-					    
+						  if(rqstorsString.substr(0,3)=='---'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
+					    }
 					    strrratrs=delLeadingBlnks(rqstorsString.substr(3));
 							if(! strrratrs){Alert('רשימת שמות ריקה');  return;};
 
@@ -1839,19 +1848,23 @@ elm.onclick=restoreFields;
 function ckPassW(){
    paswElement=document.getElementById("pasw");
    password=delLeadingBlnks(paswElement.value);
-  
 
- url=encodeURI(firstPartOfURL+"/ckpswMoshavim/?"+password);
+focusId=paswElement; 
+url=encodeURI(firstPartOfURL+"/ckpswMoshavim/?"+password); 
+rspnsString='---';  
+while (rspnsString.substr(0,3)!='+++'){
+ 
             xhttp.open("GET", url, false);
               xhttp.send(); //console.log(xhttp);
 	            rspnsString = xhttp.responseText;
-							focusId=paswElement;
+							
 							
 						
 						if(rspnsString.substr(0,3)=='---'){
 							
 							  Alert ('סיסמא שגויה'); return
 												         }
+					}											 
 					initPage();			
 		      document.getElementById("paswDiv").style.display='none';  
 		    	validPasswordEntered=true;
