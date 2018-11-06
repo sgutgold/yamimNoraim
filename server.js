@@ -3979,7 +3979,7 @@ function getShulConfig(configWS){
 						while(configWS[amudotOfConfig.fromSeat+Istr].v != '$$$'){
 						  fromSt=configWS[amudotOfConfig.fromSeat+Istr].v;
 						 if( Number(fromSt) ){
-						 console.log('amudotOfConfig.ulam+Istr='+amudotOfConfig.ulam+Istr+'   fromSt='+fromSt););
+						 console.log('amudotOfConfig.ulam+Istr='+amudotOfConfig.ulam+Istr+'   fromSt='+fromSt);
 						    ulam=configWS[amudotOfConfig.ulam+Istr].v;
 							 if (ulam.substr(0,1) != 'n'){nashim=0;} else nashim=1; 
 							 itmp=ulam.indexOf(' ');
