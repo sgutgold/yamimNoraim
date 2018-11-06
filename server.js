@@ -4112,7 +4112,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 		    if (nam ){
 				      if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
 				      tempList[k]=nam;
-							console.log('nam='+nam+'   amudot.permanentSeats+row='+amudot.permanentSeats+row);
+							
 							prm=delLeadingBlnks(requestedSeatsWorksheet[amudot.permanentSeats+row].v);
 							if (prm  )tempList[k]=tempList[k]+'+'+prm;
 							}   // if nam
