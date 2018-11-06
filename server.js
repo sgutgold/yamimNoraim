@@ -3906,7 +3906,7 @@ function genNewYearSpportTblSheet(yearToCreate){
 app.get('/getShulConfigPerm', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
-    configWS=  supportWB.Sheets['shulConfigPerm'+yearToInitFrom];;
+    configWS=  supportWB.Sheets['shulConfigPerm'];
     respns=getShulConfig( configWS); 
 		res.send(rspns);	
 		})
