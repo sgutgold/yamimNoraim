@@ -3907,8 +3907,8 @@ app.get('/getShulConfigPerm', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
     configWS=  supportWB.Sheets['shulConfigPerm'+yearToInitFrom];;
-    getShulConfig( configWS); 
-		
+    respns=getShulConfig( configWS); 
+		res.send(rspns);	
 		})
 
 
@@ -3920,8 +3920,8 @@ app.get('/getShulConfigPerm', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
     configWS=  shulConfigerationWS;
-		 getShulConfig( configWS);  
-					
+		 rspns=getShulConfig( configWS);  
+				res.send(rspns);	
 					
 	/*				
 					  rspns='';
@@ -4002,7 +4002,7 @@ function getShulConfig(configWS){
 							Istr=(i).toString();  
 							};
         rspns=rspns.substr(0,rspns.length-1);  
-				res.send(rspns);		
+				return rspns;		
 
 
 
