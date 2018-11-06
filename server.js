@@ -4114,8 +4114,11 @@ app.get('/isRegistrationClosed', function(req, res) {
 				      if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
 				      tempList[k]=nam;
 							
-							prm=delLeadingBlnks(requestedSeatsWorksheet[amudot.permanentSeats+row].v);
+							prm=requestedSeatsWorksheet[amudot.permanentSeats+row];
+							if(prm){
+							prm=delLeadingBlnks(prm.v);
 							if (prm  )tempList[k]=tempList[k]+'+'+prm;
+							}  //if prm
 							}   // if nam
 				k++;
 				}  // for
