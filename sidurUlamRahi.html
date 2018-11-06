@@ -1154,7 +1154,7 @@ for (i=0;i<700;i++){
               xhttp.send();
 	            CNrspnsString = xhttp.responseText;
 							
-							if(CNrspnsString.substr(0,3)!='---'){  
+							if(CNrspnsString.substr(0,3)=='---'){  
 							                        Alert('בעיה בתהליך. נסה שנית');
 																		  return;
 																		  }
@@ -1216,6 +1216,37 @@ for (i=0;i<700;i++){
 	          }
 	     			 return CNrspnsString;
     }
+		
+//--------------------------------------------------------------------------------------------------------
+
+   function getShulConfig(){
+	 
+	 //amudotOfConfig={fromSeat:'A', toSeat:"B",reltvRowQual:'C',open_badSeats:'D',ezor:'E',ulam:'F',X_forSlantedRow:'H',Y_forSlantedRow:'I'};										
+
+	   url=encodeURI(firstPartOfURL+"/getShulConfigPerm");
+     xhttp.open("GET", url, false);
+       xhttp.send();
+	     rspnsString = xhttp.responseText;        
+			 shurot=[];
+			 var shura;
+			
+       var tbl1=	rspnsString.split('$'); 
+			 for (shura=0;shura<tbl1.length;shura++){
+			    tmp=tbl1[shura].split('@');
+					
+					shurot[shura]=new Array;
+					shurot[shura][0]=Number(tmp[0]);
+					shurot[shura][1]=Number(tmp[1]);
+					shurot[shura][2]=tmp[4];
+					shurot[shura][3]=tmp[7];
+					shurot[shura][4]=Number(tmp[5]);
+					shurot[shura][5]=Number(tmp[6]);
+					
+					}				
+	
+	
+	}
+
 //----------------------------------------------------------------------------------------------------
 
 
@@ -1289,19 +1320,10 @@ inDbgRange=false;
 	 
 	 directionType=directnTags.indexOf(cellAttrbts[0][4]);
 	 
-	 ulam=shurot[shura][3];
-	if (ulam=='m'){
-	              base=document.getElementById("Hall1FrameTop");
-								startingTop=getPosition(document.getElementById("hall1"));
-								}
-	    else if (ulam=='n'){
-			          base=document.getElementById("Hall3FrameTop");
-								startingTop=getPosition(document.getElementById("hall3"));
-								}
-			  else {
-				       base=document.getElementById("Hall2FrameTop");
-							 startingTop=getPosition(document.getElementById("hall2"));
-							 }
+	
+		base=document.getElementById("Hall2FrameTop");
+		startingTop=getPosition(document.getElementById("hall2"));
+							 
 	startingTop=startingTop.y;						 
 	
 	ind= shurot[shura][4]; 
@@ -1334,17 +1356,11 @@ inDbgRange=false;
 					candidateGroupName='';//
 				
           for (innerLoopSeat=seat;innerLoopSeat<toSeat+1;innerLoopSeat++){
-					
-					    cell_id='c'+innerLoopSeat.toString()+'_p';   
-					    cell=document.getElementById(cell_id);
-																			 
-				     	tempStr=cell.getAttribute('value'); 
-              tempStr=delLeadingBlnks (tempStr); 
-							
-              if(tempStr=='$/'){ jumpOne=1; break;}
-					    strParts=tempStr.split('/'); 
-					    tempAssigned=strParts[0].split('$');
-					    assgndName=tempAssigned[moed-1]; // moed=1 is rosh, =2 is kipur
+					  if (
+					    cell_id='c'+innerLoopSeat.toString()+'_p';   console.log('cell_id='+cell_id);
+					    spn=document.getElementById(cell_id).children[0];
+								
+					    assgndName=spn.innerHTML; console.log('spn='+spn);
 							if ( ! assgndName){ jumpOne=1; break;}
 				    	if ( ! seatCount) {
 							             seatCount=1; 
@@ -1663,7 +1679,7 @@ tmp[0]=getPosition(cell).x;
 
 							
 							tempList=strrratrs.split('$');
-					//		console.log ('tempList='+tempList);
+							console.log ('tempList='+tempList);
 			//		 requestorsNameList=strrratrs.split('$');
 					  for (rn=0; rn<tempList.length; rn++){	   // normelise names
 						   temp1List=tempList[rn].split('+');
@@ -1832,7 +1848,7 @@ elm.onclick=restoreFields;
 
 
 
-//prepareToPrint('r');
+prepareToPrint('r');
 
 
  }
