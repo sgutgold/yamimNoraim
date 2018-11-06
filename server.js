@@ -3901,6 +3901,17 @@ function genNewYearSpportTblSheet(yearToCreate){
 	 ws['!ref'] = xlsx.utils.encode_range(range);
 	return ws;
 }
+
+//----------------------------------------------------------	  
+app.get('/getShulConfigPerm', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+    configWS=  supportWB.Sheets['shulConfigPerm'+yearToInitFrom];;
+    getShulConfig( configWS); 
+		
+		})
+
+
   
 //----------------------------------------------------------	  
 		
@@ -3908,7 +3919,12 @@ function genNewYearSpportTblSheet(yearToCreate){
 	app.get('/getShulConfig', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
-            rspns='';
+    configWS=  shulConfigerationWS;
+		 getShulConfig( configWS);  
+					
+					
+	/*				
+					  rspns='';
 						i=firstConfigRow;
 						Istr=(i).toString();
 						
@@ -3939,16 +3955,60 @@ function genNewYearSpportTblSheet(yearToCreate){
 							};
         rspns=rspns.substr(0,rspns.length-1);  
 				res.send(rspns);			
-        })	
+   */    
+			 
+			  })	
 																	
 
 
 		 
 		
 		
-		  ind1=1;
-				 {  UlamOrMartef='u';  ind1=0;};
-		//----------------------------------------------------------
+	//	  ind1=1;
+		//		 {  UlamOrMartef='u';  ind1=0;};
+
+//----------------------------------------------------------
+		
+		
+function getShulConfig(configWS){
+
+ rspns='';
+						i=firstConfigRow;
+						Istr=(i).toString();
+						
+						while(configWS[amudotOfConfig.fromSeat+Istr].v != '$$$'){
+						  fromSt=configWS[amudotOfConfig.fromSeat+Istr].v;
+						 if( Number(fromSt) ){
+						    ulam=configWS[amudotOfConfig.ulam+Istr].v;
+							 if (ulam.substr(0,1) != 'n'){nashim=0;} else nashim=1; 
+							 itmp=ulam.indexOf(' ');
+		           tmp=ulam.substr(itmp+1,1);
+							 UlamOrMartef='m';
+							 if (tmp != 'm'){if (tmp=='e'){UlamOrMartef='n'} else UlamOrMartef='r'};  // 'e' == ezrat nashim
+							 slantedX=configWS[amudotOfConfig.X_forSlantedRow+Istr].v;
+							 if ( isNaN(slantedX) )slantedX='';
+							 slantedY=configWS[amudotOfConfig.Y_forSlantedRow+Istr].v;
+							 if ( isNaN(slantedY) )slantedY='';
+						  rspns=rspns+configWS[amudotOfConfig.fromSeat+Istr].v+'@'
+							+configWS[amudotOfConfig.toSeat+Istr].v+'@'
+							+configWS[amudotOfConfig.reltvRowQual+Istr].v+'@'
+							+configWS[amudotOfConfig.open_badSeats+Istr].v+'@'
+							+configWS[amudotOfConfig.ezor+Istr].v+'@'
+							+slantedX+'@'
+							+slantedY+'@'
+							+UlamOrMartef+	'$';  
+							}; 
+						  i++;
+							Istr=(i).toString();  
+							};
+        rspns=rspns.substr(0,rspns.length-1);  
+				res.send(rspns);		
+
+
+
+}
+
+//----------------------------------------------------------		
 		
 	
 	app.get('/gizbar', function(req, res) {
