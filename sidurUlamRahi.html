@@ -333,6 +333,19 @@
                       transform: rotate(180deg);  
 											    transform-origin: 50% 50%;  
                      }
+										 
+	.prtRotate90S55_100 {  
+                      
+	                     position:absolute; 
+		                 -webkit-transform: rotate(90deg);   
+										      -webkit-transform-origin: 55% 100%; 
+                     -moz-transform: rotate(90deg);
+										      -moz-transform-origin: 55% 100%; 
+                     -ms-transform: rotate(90deg);
+										     -ms-transform-origin: 55% 100%; 
+                      transform: rotate(90deg);  
+											    transform-origin: 55% 100%;  
+                     }
 	
 	#dialogoverlay{
 	display: none;
@@ -674,20 +687,23 @@ function deleteOldChildren(id){
 	}	
 	
 // ---------------------------------------------------------------------------------	
-	
+var 	debugpos;
 	function getPosition(element) {
     var xPosition = 0;
     var yPosition = 0;   
   var kkk=0;
+	
     while(element) {toPrint[toPrintCt]={k:kkk, offsttop:element.offsetTop, scrltp:element.scrollTop,cknttop:element.clientTop,nxtelmnt:element.offsetParent};
 		                                      kkk++; toPrintCt++;
-        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+       // xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+				 
      //   yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
 		    yPosition += (element.offsetTop  + element.clientTop);  
-				
+				xPosition += (element.offsetLeft + element.clientLeft);
         element = element.offsetParent;  
 			//	alert( 'offsettop='+element.offsetTop+' scrolltop='+element.scrollTop+' clienttop='+element.clientTop+' elmnt='+element);
     }
+		
     return { x: xPosition, y: yPosition };
 }
 
@@ -1132,9 +1148,9 @@ for (i=0;i<requestorsNameList.length;i++){ListToSend[i]=requestorsNameList[i]+'@
 for (i=0;i<700;i++){
     nam=listOfAssignedSeats[i];
 		if(nam == -1)continue;
-		indx=requestorsNameList.indexOf(nam);  //if (indx == -1)console.log('nam='+nam+'   i='+i);
+		indx=requestorsNameList.indexOf(nam);  
 		ListToSend[indx]=ListToSend[indx]+(i).toString()+'+';
-	//	console.log('indx='+indx+'   ListToSend[indx]='+ListToSend[indx]+'   i='+i);
+	
 		};
 		
 		rslt='';
@@ -1146,7 +1162,7 @@ for (i=0;i<700;i++){
 			
 		
 		url=encodeURI(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);
-     //    console.log(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);  
+    
 		 
 		 CNrspnsString='---';
 		 while(CNrspnsString.substr(0,3)  != '+++'){
@@ -1229,7 +1245,7 @@ for (i=0;i<700;i++){
 	     rspnsString = xhttp.responseText;        
 			 shurot=[];
 			 var shura;
-			
+	
        var tbl1=	rspnsString.split('$'); 
 			 for (shura=0;shura<tbl1.length;shura++){
 			    tmp=tbl1[shura].split('@');
@@ -1297,11 +1313,12 @@ if (ulam != reqUlam)continue;
 
   fromSeat=shurot[shura][0];  
 	toSeat=shurot[shura][1];
-	inDbgRange=false;  if ( (fromSeat==681) || (fromSeat==681) )inDbgRange=true;//===========================================dbg switch
-
-
+	inDbgRange=false;  if ( (fromSeat==401) || (fromSeat==411)|| (fromSeat==421) )inDbgRange=fromSeat;//===========================================dbg switch
+inDbgRange=false;     
+debugpos=inDbgRange;
+//if(inDbgRange) console.log('fromSeat='+fromSeat); 
 	
-inDbgRange=false;
+//
 //	if ( (toSeat - fromSeat +1) <  minGroupSize) continue;   // line too short  
 	
 	envlpDiv=document.createElement("div");
@@ -1312,6 +1329,7 @@ inDbgRange=false;
 	 cellAttrbts[0][1]=0;
 	 
    firstSeatElmnt=document.getElementById('c'+fromSeat.toString()+'_p'); 
+	
 	 getCellAttrbts(firstSeatElmnt,0);  
 	 baseHeight=cellAttrbts[0][2];
 	 baseWidth=cellAttrbts[0][3];  
@@ -1336,7 +1354,6 @@ inDbgRange=false;
 	        envlpY=cellAttrbts[0][1];   
 	             }
 		
-			
 		envlpDiv.style.zIndex = "10";
 		deltaHeight=0;
 		deltaWidth=0;
@@ -1357,11 +1374,11 @@ inDbgRange=false;
 				
           for (innerLoopSeat=seat;innerLoopSeat<toSeat+1;innerLoopSeat++){
 					 
-					    cell_id='c'+innerLoopSeat.toString()+'_p';   console.log('cell_id='+cell_id);
+					    cell_id='c'+innerLoopSeat.toString()+'_p';  
 					    spn=document.getElementById(cell_id).children[0];
 								
-					    assgndName=spn.innerHTML; console.log('spn='+spn);
-							if ( ! assgndName){ jumpOne=1; break;}
+					    assgndName=spn.innerHTML; 
+							if ( ! assgndName){  break;}
 				    	if ( ! seatCount) {
 							             seatCount=1; 
 													 candidateGroupName=assgndName;
@@ -1537,6 +1554,8 @@ function hideFields(){
 function restoreFields(){
 
 
+deleteOldChildren('envPrtFormt');
+deleteOldChildren('prtFormt');
 	
 	 document.getElementById("headerDiv").style.display='block';
 	 document.getElementById("mainFieldset").style.display='block';
@@ -1551,7 +1570,7 @@ function restoreFields(){
 }
 // -------------------------------------------------------------------  
 
- function formatName(div,name,width,height,seatCount,widthBased,directionType){
+ function formatName(div,nam1,width,height,seatCount,widthBased,directionType){
  BGColors=['lightgray','gainsboro','mistyrose','lavender','lightyellow','beige'];
 //BGColors=['white']; //,'gainsboro','mistyrose','lavender','lightyellow','beige'];
   var tmp;
@@ -1563,8 +1582,8 @@ function restoreFields(){
 	var ind;
 	var line_hight_reduced;
 
-	nam=delLeadingBlnks(name);
-						
+	nam=delLeadingBlnks(nam1);
+		
   if (true){   // seatCount==1
 			 textSpan.style.color='black';
 			 textSpan.style.position='absolute'; 
@@ -1594,7 +1613,8 @@ if ( ( ! tmp1[0] ) && (  directionType ==5 ))
 					// console.log('line_hight_reduced='+line_hight_reduced+'  DivClass='+DivClass+'  lnHgt='+lnHgt);
 					 if ( (line_hight_reduced)  && (lnHgt>18) )textSpan.className='prtNarrowTextRotated90_50_50';}  
 if ( (  tmp1[0] ) && (  directionType==5  )  && (! widthBased )  ){ textSpan.className= 'prtRotate180';}   
-if (	directionType==4  )		textSpan.className= 'prtRotate180';            
+if (	directionType==4  )		textSpan.className= 'prtRotate180';  
+if (	directionType==3  )		textSpan.className= 'prtRotate90S55_100';            
 										 
 //
 
@@ -1679,7 +1699,7 @@ tmp[0]=getPosition(cell).x;
 
 							
 							tempList=strrratrs.split('$');
-							console.log ('tempList='+tempList);
+						//	console.log ('tempList='+tempList);
 			//		 requestorsNameList=strrratrs.split('$');
 					  for (rn=0; rn<tempList.length; rn++){	   // normelise names
 						   temp1List=tempList[rn].split('+');
