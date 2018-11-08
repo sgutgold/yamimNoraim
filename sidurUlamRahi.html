@@ -87,7 +87,7 @@
 		
 		.W25H40  { width:25px; height:40px; position:relative; display:inline-block; margin:0; padding:25px 0px 0px 0px;}
 		.W40H25  { width:40px; height:25px; position:relative; display:inline-block; margin:0; padding:0;   }
-		.W22H37  { width:22px; height:37px; position:relative; display:inline-block; margin:0; padding:12px 0px 0px 0px;   }
+		.W22H37  { width:24px; height:37px; position:relative; display:inline-block; margin:0; padding:0px 0px 0px 0px;   }
 		.spnForW22H37   { width:24px; height:10px; position:relative; display:inline-block; margin:0; padding:0}
 
  		.W50H20  { width:50px; height:22px; position:relative; display:inline-block; margin:0; padding:0;   }
@@ -245,7 +245,7 @@
 										 -moz-transform: rotate(90deg);
 										 -ms-transform: rotate(90deg);
 										  transform: rotate(90deg); 
-											transform-origin: 60% 80%; 
+											transform-origin: 50% 70%; 
 						         }
 										 
 		.textRotated90Special	{  display:inline-block;  position:absolute; left:10;  bottom:40;
@@ -449,7 +449,7 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
               list301T316=[[10,10,10,10,10,10,10,10],row301,row302,row303,row304,row305,spn316,row316];
  
   
- row401 = {firstInRow:401, lastInRow:405, lft:770, tp:230,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+ row401 = {firstInRow:401, lastInRow:405, lft:778, tp:289,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
  row411 = {firstInRow:411, lastInRow:416};
  row421 = {firstInRow:421, lastInRow:426};
  row431 = {firstInRow:431, lastInRow:436};
@@ -463,7 +463,7 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
 								              row401,row411,row421,row431,row441,row451,row471,row491,row511,row541];
  
  
- row461 = {firstInRow:461, lastInRow:467, lft:458, tp:485,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+ row461 = {firstInRow:461, lastInRow:467, lft:440, tp:485,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
  row481 = {firstInRow:481, lastInRow:488};
  row501 = {firstInRow:501, lastInRow:510};
  row521 = {firstInRow:521, lastInRow:532};
@@ -858,8 +858,8 @@ function notASpan(list) {
 function clk(e){
     var tmp;
     var div_id = this.id;
-		elmnt=document.getElementById(div_id);
-		span_element=elmnt.children[0];
+		elmnt=document.getElementById(div_id); 
+		span_element=elmnt.children[0];   
 		seatNumber=div_id.split('_')[0].substr(1); 
 		
 		seatNumber=Number(seatNumber); 
@@ -868,15 +868,22 @@ function clk(e){
 	
 		  // new assignment
            tmp=document.myform.familyname.value;
+					 width=elmnt.offsetWidth;
+					 height=elmnt.offsetHeight;
+					 
+					  if(tmp.length==3)tmp=tmp+'&nbsp';
+					 if(tmp.length==2)tmp=tmp+'&nbsp'+'&nbsp';
+					 formatName_single(tmp,span_element,width,height);
+					
 		      span_element.innerHTML=tmp;  
-			   listOfAssignedSeats[seatNumber]=tmp;;
+			   listOfAssignedSeats[seatNumber]=document.myform.familyname.value;
 				
 				
 				 
 			}
 			else { // clear assignment
-			nameInSpan=span_element.innerHTML;
-			if (nameInSpan != document.myform.familyname.value ) return; // can un-assign only current member
+			nameInSpan=span_element.innerHTML;   
+			if (delLeadingBlnks(nameInSpan) != document.myform.familyname.value ) return; // can un-assign only current member
 			//originalInfo= Object.assign({}, seatOriginalInfo[seatNumber]);
 			 
 	    listOfAssignedSeats[seatNumber]= -1;
@@ -1014,7 +1021,7 @@ deleteOldChildren('kk'); // delete previous tables.
 	tmp1= document.getElementById("prtitxt");
 	tmp1.style.display='none';
 	namesOptionDisplayed=false;
-	ckNameRtrvVlus(true);
+	
 	}
 
 // -----------------------------------------------------------------------------------------	
@@ -1160,7 +1167,7 @@ for (i=0;i<700;i++){
 			};
 			rslt=rslt.substr(0,rslt.length-1);
 			
-		
+		 
 		url=encodeURI(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);
     
 		 
@@ -1191,47 +1198,31 @@ for (i=0;i<700;i++){
 
 
 
- // ----------------------------------------------------------------------------------------- 	
+ // ----------------------------------------------------------------------------------------- 	|| (str1.substr(0,6)=='&nbsp;') 
 		
 // delete leading blanks
 
  function delLeadingBlnks (str){
+ var stillToDel;
      str1=str;  if (! str1)return str1;
-		 while (str1.substr(0,1)==' '){str1= str1.substr(1); 	  if (! str1.length)break;}	
-		 while (str1.substr(str1.length-1,1)==' '){str1= str1.substr(0,str1.length-1); 	  if (! str1.length)break;}		
+		 
+		 stillToDel=true;
+		 while (stillToDel){ 
+		    if(str1.substr(0,1)==' ') {str1= str1.substr(1); 	  if (! str1.length)break; continue;}
+				if(str1.substr(0,6)=='&nbsp;')  {str1= str1.substr(6); 	  if (! str1.length)break; continue;}	
+					stillToDel=false;
+					}  // while
+					
+			stillToDel=true;		
+		 while ( stillToDel){ 
+		 		 if(str1.substr(str1.length-1,1)==' '){ str1= str1.substr(0,str1.length-1); if (! str1.length)break; continue };
+				 if(str1.substr(str1.length-6,6)=='&nbsp;'){str1= str1.substr(0,str1.length-6); 	  if (! str1.length)break;  continue;}	
+				 stillToDel=false;
+					}  // while	
 		 return str1;
 		 }
 
 
-// -----------------------------------------------------------------------------------------	
-    function ckName(lMoed){ 
-		          if ( ! validPasswordEntered){
-							                          Alert('יש להכניס סיסמא נכונה לפני שימוש בטופס');
-																				document.myform.familyname.value='';
-																				document.getElementById("pasw").focus();
-																				return '999';
-																				}
-           		
-							moedStr=moedCodes[lMoed];
-						
-							url=encodeURI(firstPartOfURL+"/mngfmname/?"+moedStr+document.myform.familyname.value+'$'+'&'+password+'&'+yearToDisplay);
-           
-						  xhttp.open("GET", url, false);
-              xhttp.send();
-	            CNrspnsString = xhttp.responseText;
-							focusId=document.getElementById('fmName');
-							if(CNrspnsString.substr(0,3)=='999'){  
-							                        Alert('סיסמא שגויה. הכנס שוב סיסמא');
-																		  document.getElementById("paswDiv").style.display='block';  
-								       	              validPasswordEntered=false; 
-																		  };
-																			
-				if(CNrspnsString.substr(0,3)=='---'){
-				      Alert('שם לא מוכר. אנא הכנס שם שנית או הוסף שם למערכת');	
-							
-	          }
-	     			 return CNrspnsString;
-    }
 		
 //--------------------------------------------------------------------------------------------------------
 
@@ -1631,6 +1622,42 @@ if (	directionType==3  )		textSpan.className= 'prtRotate90S55_100';
 
 }
 
+//--------------------------------------------------------------------------------------------------------
+function formatName_single(nam1,textSpan,width,height){
+ 
+  var tmp,tmpMx,tmpMn;
+	var tmp2,ind_tmp;
+	var hgt;
+	var tmp1=[];
+
+	var nam;
+	var ind;
+	var line_hight_reduced;
+	
+    hgt=Math.min(height,width);
+	  
+		nam=nam1;
+		
+			 tmpMx=Math.max(width,height);				
+	     tmpMn=width+height-tmpMx; // console.log('mx='+tmpMx+'  namLength='+namLength);
+	     tmp=Math.floor((tmpMx/nam.length)*1.5);
+	
+	     if (tmp>tmpMx)tmp=tmpMx;
+ 
+	     if (tmp<14)tmp=14;     if (tmp>16)tmp=16;
+	 
+	
+			 ind_tmp=nam.indexOf(' '); ind=false; if (ind_tmp != -1)ind = true;
+			 line_hight_reduced=false;
+			 lnHgt=hgt;  if ( ind){lnHgt=lnHgt/2; line_hight_reduced=true;   }
+			 if( (tmp <= 14) && ind)tmp=16; 
+			 textSpan.style.lineHeight =(lnHgt  ).toString()+'px';
+			 
+			 //if(nam){textSpan.innerHTML=nam;} else textSpan.innerHTML='&nbsp';
+			 textSpan.style.fontSize=tmp;
+			
+
+}
 
 
 //--------------------------------------------------------------------------------------------------------
@@ -1680,7 +1707,7 @@ tmp[0]=getPosition(cell).x;
 
 //--------------------------------------------------------------------------------------------------------   
   function getListOfNames(){
-	  var i,rn,textSpan;
+	  var i,rn,textSpan,elmnt;
 		var tempList=[];
 		var temp1List=[];
 			// get list of all requestors			 
@@ -1716,10 +1743,19 @@ tmp[0]=getPosition(cell).x;
 							    seat=temp1List[i];
 									
 							    seatId='c'+seat.toString()+'_p';
-									textSpan=document.getElementById(seatId).children[0];
-									textSpan.innerHTML=fnm1;
+									elmnt=document.getElementById(seatId);
+									textSpan=elmnt.children[0];
+									 
+					        width=elmnt.offsetWidth;
+					        height=elmnt.offsetHeight;
+									fnm2=fnm1;
+									 if(fnm2.length==3)fnm2=fnm2+'&nbsp';
+					         if(fnm2.length==2)fnm2=fnm2+'&nbsp'+'&nbsp';
+					        formatName_single(fnm2,textSpan,width,height);
+		     
+									textSpan.innerHTML=fnm2;
 									seat=Number(seat); //console.log('seat='+seat+'  fnm='+fnm);
-									listOfAssignedSeats[seat]=fnm1;
+									listOfAssignedSeats[seat]=fnm1; 
 							 }  // for i
 			   	  }  // for 	rn
 					 
