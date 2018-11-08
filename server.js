@@ -4145,7 +4145,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	      for (i=1; i<msgParts.length;i++){
 				    entry=msgParts[i].split('@');  
 				    nam=entry[0];  
-						rowNum=knownName(nam)[0];
+						rowNum=knownName(nam)[0]; if(rowNum==-1){console.log('in setPermanentSeatsList, not found name='+nam+'/'); continue;} 
 						ptr=amudot.permanentSeats+rowNum.toString();   
 						requestedSeatsWorksheet[ptr].v=entry[1]; 
 			};			
