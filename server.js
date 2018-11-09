@@ -3708,7 +3708,7 @@ function genNewYearRequestSheet(yearToCreate){
                             ptr1= amudot[key]+rww;
 														vlu=' ';
 														if( requestedSeatsWorksheet[ptr1]) vlu=requestedSeatsWorksheet[ptr1].v;
-									        
+									        console.log('ptr1='+ptr1+'   vlu='+vlu);
 														YrSheet[ptr1]={t:"s",v:vlu};
 														YrSheet[ptr1].v=(YrSheet[ptr1].v).toString();  //make sure it is of str attribute
 												
