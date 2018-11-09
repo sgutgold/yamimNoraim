@@ -87,7 +87,7 @@
 		
 		.W25H40  { width:25px; height:40px; position:relative; display:inline-block; margin:0; padding:25px 0px 0px 0px;}
 		.W40H25  { width:40px; height:25px; position:relative; display:inline-block; margin:0; padding:0;   }
-		.W22H37  { width:24px; height:37px; position:relative; display:inline-block; margin:0; padding:0px 0px 0px 0px;   }
+		.W22H37  { width:24px; height:44px; position:relative; display:inline-block; margin:0; padding:0px 0px 0px 0px;   }
 		.spnForW22H37   { width:24px; height:10px; position:relative; display:inline-block; margin:0; padding:0}
 
  		.W50H20  { width:50px; height:22px; position:relative; display:inline-block; margin:0; padding:0;   }
@@ -449,7 +449,7 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
               list301T316=[[10,10,10,10,10,10,10,10],row301,row302,row303,row304,row305,spn316,row316];
  
   
- row401 = {firstInRow:401, lastInRow:405, lft:778, tp:289,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+ row401 = {firstInRow:401, lastInRow:405, lft:778, tp:255,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
  row411 = {firstInRow:411, lastInRow:416};
  row421 = {firstInRow:421, lastInRow:426};
  row431 = {firstInRow:431, lastInRow:436};
@@ -1644,8 +1644,8 @@ function formatName_single(nam1,textSpan,width,height){
 	
 	     if (tmp>tmpMx)tmp=tmpMx;
  
-	     if (tmp<14)tmp=14;     if (tmp>16)tmp=16;
-	 
+	     //if (tmp<14)tmp=14;     if (tmp>16)tmp=16;
+	     tmp=16;
 	
 			 ind_tmp=nam.indexOf(' '); ind=false; if (ind_tmp != -1)ind = true;
 			 line_hight_reduced=false;
