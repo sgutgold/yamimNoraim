@@ -2217,6 +2217,18 @@ function memberdetails(resArray){
 						document.getElementById('seatcounters').style.display='none';
 }
 
+//-----------------------------------------------------------------------------------
+
+// stsfction vlus presentation in data base is 'calculated value' + '*' + 'modified balue.
+// this function returns the calculated value if not modified, else the modified value
+function getFinalStsfctnVlu(vl){
+  var tmp;
+	tmp=vl.split('*');
+	rslt=delLeadingBlnks(tmp[1]);
+	if (! rslt)rslt=delLeadingBlnks(tmp[0]);
+	return rslt;
+	}
+
 
 //-----------------------------------------------------------------------------------			
 	function getInfoForStsfction(){
@@ -2236,13 +2248,13 @@ function memberdetails(resArray){
 	//  	 if(numberOfSeatsRequested == 0 )return;  //   no  previous data exists
 		 
 	   	
-		 document.getElementById('gvr_m3').innerHTML=resArray[positionInMsg.stsfctnInFlr3YRSAgoYrMen];   
-		 document.getElementById('nashim_m3').innerHTML=resArray[positionInMsg.stsfctnInFlr3YRSAgoYrWmn];
-		 document.getElementById('mkishv_m3').innerHTML=resArray[positionInMsg.ThreeYRSAgoSeat];
-		 document.getElementById('gvr_m2').innerHTML=resArray[positionInMsg.stsfctnInFlr2YRSAgoYrMen];
-	   document.getElementById('nashim_m2').innerHTML=resArray[positionInMsg.stsfctnInFlr2YRSAgoYrWmn];
-		 document.getElementById('mkishv_m2').innerHTML=resArray[positionInMsg.TwoYRSAgoSeat];
-		 document.getElementById('vetek').innerHTML=resArray[positionInMsg.memberShipStatus];		
+		 document.getElementById('gvr_m3').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr3YRSAgoYrMen]);   
+		 document.getElementById('nashim_m3').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr3YRSAgoYrWmn]);
+		 document.getElementById('mkishv_m3').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.ThreeYRSAgoSeat]);
+		 document.getElementById('gvr_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr2YRSAgoYrMen]);
+	   document.getElementById('nashim_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr2YRSAgoYrWmn]);
+		 document.getElementById('mkishv_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.TwoYRSAgoSeat]);
+		 document.getElementById('vetek').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.memberShipStatus]);		
 		 
 	//   document.myform.beinKomot.value=Number(resArray[positionInMsg.issueBetweenFloors]);	
 	//	 document.myform.bekomaM.value=Number(resArray[positionInMsg.issueinFloorMen]);
