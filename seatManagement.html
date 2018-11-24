@@ -1110,6 +1110,7 @@ document.getElementById("hall1").style.display='none';
 	 document.getElementById("copyAssignment").style.display='none';
 	 document.getElementById("prsnlProblems").style.display='none';
 	 document.getElementById("reportAssgnmnts").style.display='none';
+	 document.getElementById("stsfctn").style.display='none';
 
 }
 // -------------------------------------------------------------------  
@@ -1129,7 +1130,7 @@ function getSeatsStructureForYear(yr){
 }	
 
 
-// -------------------------------------------------------------------
+// -------------------------------------------------------------------  
 
 function hideFieldSets(){
 
@@ -1145,6 +1146,7 @@ function hideFieldSets(){
 	 document.getElementById("copyAssignment").style.display='none';
 	 document.getElementById("prsnlProblems").style.display='none';
 	  document.getElementById("reportAssgnmnts").style.display='none';
+		  document.getElementById("stsfctn").style.display='none';
 
 
 
@@ -3571,11 +3573,11 @@ return;
 
 //--------------------------------------------------------------------------------------------------------
 
-function getUnFilteredNameList(){
+function getUnFilteredNameList(listType){
   yearToDisplay='';     //nextYear;  // the list of names that has to be handled is the most updated one
 
-	url=encodeURI(firstPartOfURL+"/getFullList/?$"+password+'$'+yearToDisplay+'$'+LastYear);		
-
+	url=encodeURI(firstPartOfURL+"/getFullList/?$"+password+'$'+yearToDisplay+'$'+LastYear+'$'+listType);		
+console.log('url='+url);
 
          xhttp.open("GET", url, false);
          xhttp.send();
@@ -4148,6 +4150,9 @@ function 	turnOffRishumButza(){
                           };
 	
   if(operationID == 'reportAssgnmnts')genAssgnmentReport();
+	if(operationID == 'prsnl'){
+	     stUpprsnlProblemsInput();
+			 return};
 
 
  operationID=document.getElementById("oprtion").value;
@@ -4203,10 +4208,10 @@ function genAssgnmentReport(){
 //--------------------------------------------------------------------------------------------------------createElement("div");  
 
 
-  function stUpStsfctionInput(){
+  function stUpStsfctionInput(listType){
 	simpleHideFieldSets();
 	document.getElementById('getstfction').style.display='block';
-	getUnFilteredNameList();
+	getUnFilteredNameList(listType);
 	
 	
 	}
@@ -4769,7 +4774,9 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 							                            <option value="notChosen">בחר/י פעולה</option> 
 																					<option value="reviww">סקירה</option>           
 																			    <option value="editt">עריכה</option> 
-																				  <option value="printt">הדפסה</option> 	
+																				  <option value="printt">הדפסה</option> 
+																					<option value="stsfctn">מלא נתוני שביעות רצון</option>
+																					<option value="prsnl">מלא נתוני בעיות אישיות</option>
 																					<option value="managing">נהול מערכת</option>
 																					<option value="reportAssgnmnts">דו"ח הקצאות לטיפול</option> 	
 																					
@@ -4808,6 +4815,12 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 	 <button  type="button" id='makeSelection' onclick= 'selectionMade("1")' style='display:inline;float:left'> <h3>החל בחירה </h3></button>&nbsp  
 							
 	</div>
+	
+	
+<div id=	"stsfctn"	style='display:none;width:1000px'>	
+<button  type="button" id='fullStsfctn' onclick= 'stUpStsfctionInput("all")' style='display:inline;float:left'> <h3>הצג רשימה מלאה </h3></button>&nbsp  
+<button  type="button" id='makeSelection' onclick= 'stUpStsfctionInput("problems")' style='display:inline;float:left'> <h3>הצג רק חברים עם בעיות אישיות </h3></button>&nbsp  
+</div>	
 	
 	
 <div id=	"editt"	style='display:none;width:1000px'>										
@@ -4868,10 +4881,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
  
 <button  type="button"  onclick= 'executeDownload()' style='display:inline-block;'> <h3>הורד קובץ  </h3></button> 
 <span> &nbsp &nbsp &nbsp &nbsp  </span>
-<button  type="button"  onclick= 'stUpStsfctionInput()' style='display:inline-block;'> <h3>מלא נתוני <br> שביעות רצון </h3></button> 
-<span> &nbsp &nbsp &nbsp &nbsp  </span>
-<button  type="button"  onclick= 'stUpprsnlProblemsInput()' style='display:inline-block;'> <h3>מלא נתוני <br> בעיות אישיות </h3></button> 
-<span> &nbsp &nbsp &nbsp &nbsp  </span>
+
 <button  type="button"  onclick= 'addANewMember()' style='display:inline-block;'> <h3>הוסף חבר </h3></button> 
  </span>
 </div>
