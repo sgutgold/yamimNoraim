@@ -733,7 +733,7 @@ var amudotForDebug ={name:'A',requestDate:'D',email:'G',
 							stsfctnInFlr3YRSAgoYrMen:'AP',ThreeYRSAgoSeat:'AQ',
 							memberShipStatus:'AU'
 						
-							};							
+							};							stsfctnInFlrLastYrWmn  stsfctnInFlrLastYrMen 
 	                       
 
 	var lastCol='AZ';													
@@ -2425,22 +2425,38 @@ app.get('/isThereSuchAName', function(req, res) {
             res.send(cache_get('mgmt') );
         })
 				
-//----------------------------------------------------------
+//----------------------------------------------------------    stsfctnInFlrLastYrMen 
 app.get('/getFullList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
    
-	 
+	 var name, ijk,ijl,inp,inpData,tmplist,listType,tmp;
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	inpData=inp.split('$');
-	 
+	
 	if(inpData[1] == mngmntPASSW){
 	initFromFiles(inpData[2]);
+	 listType=inpData[4]; console.log('listType='+listType);
 	tmplist=[];
-	for(ijk=0;ijk<familyNames.length;ijk++)tmplist[ijk]=familyNames[ijk];
-
-
+	ijl=0;
+	for(ijk=0;ijk<familyNames.length;ijk++){
+	  name = familyNames[ijk];		
+		if (listType=='problems'){
+			  row=knownName(name);
+				row=row.toString();
+				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]);
+				wmnCalculatedStsf=tmp.split('*')[0];
+				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row]);
+			  menCalculatedStsf=tmp.split('*')[0];
+				console.log('wmnCalculatedStsf='+wmnCalculatedStsf+'   menCalculatedStsf='+menCalculatedStsf);
+		    if (  wmnCalculatedStsf=='10') && (menCalculatedStsf=='10') )continue
+		  } // if listType=problems 
 	
+	    tmplist[ijl]=name;
+			ijl++;
+
+   };
+	console.log('tmplist='+tmplist);
 	tmplist=tmplist.sort();
 
 	 listOfnames='+++'+	tmplist.join('$');																														
