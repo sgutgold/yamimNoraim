@@ -37,9 +37,8 @@
   },
 
   "scripts": {
-    "start": "node server.js",
-    "build":"true"
-  },
+    "start": "node server.js"
+      },
   "main": "server.js"
   
   "dependencies": {
