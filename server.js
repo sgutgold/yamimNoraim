@@ -733,7 +733,7 @@ var amudotForDebug ={name:'A',requestDate:'D',email:'G',
 							stsfctnInFlr3YRSAgoYrMen:'AP',ThreeYRSAgoSeat:'AQ',
 							memberShipStatus:'AU'
 						
-							};							stsfctnInFlrLastYrWmn  stsfctnInFlrLastYrMen 
+							};						
 	                       
 
 	var lastCol='AZ';													
