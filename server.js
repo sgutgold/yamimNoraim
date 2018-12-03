@@ -2449,7 +2449,7 @@ app.get('/getFullList', function(req, res) {
 				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row]);
 			  menCalculatedStsf=tmp.split('*')[0];
 				console.log('wmnCalculatedStsf='+wmnCalculatedStsf+'   menCalculatedStsf='+menCalculatedStsf);
-		    if (  wmnCalculatedStsf=='10') && (menCalculatedStsf=='10') )continue
+		    if (  (wmnCalculatedStsf=='10') && (menCalculatedStsf=='10') )continue
 		  } // if listType=problems 
 	
 	    tmplist[ijl]=name;
