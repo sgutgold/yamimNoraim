@@ -682,6 +682,82 @@ warnings=[ 'oldAfterPaid','oldAfterToPay','oldBeforeAfterPaid','oldBeforeAfterTo
 
 // --------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------------------
+
+function send_msg_to_server(url,func1,func2){
+console.log('send_msg_to_server');
+   var oneSecond=1000;
+   var response_arrived;
+   response_arrived='unknown';
+	 var currentUrlToSend;
+	 currentUrlToSend=url;
+	 var nestingLevel=0;
+	 var timer_on=false;
+   var timerId;
+console.log( (send_msg_to_server.caller).toString()  );
+	 send_msg_to_server_internal();
+	 
+	 
+	
+// internal functions  
+    function send_msg_to_server_internal(){
+		console.log('send_msg_to_server_internal');
+			 nestingLevel++;
+		   if(response_arrived=='yes')return true;  // done
+							
+	     if(  response_arrived=='waiting' ){
+			            if ( timer_on) clearTimeout(timerId); timer_on=true;
+			            timerId=setTimeout(send_msg_to_server_internal, oneSecond);	
+									return false;
+									}   
+		    
+		// 		response_arrived is either 'failed' or 'unknown' -- in either case send msg	
+
+		    response_arrived='waiting';
+        d = new Date();
+        xhttp.open("GET", currentUrlToSend);
+		  console.log('get');
+			
+			  xhttp.onprogress = function () {  console.log('onprogress');
+				d = new Date();
+      	if ( xhttp.status != 200){
+				   response_arrived='failed';
+					 console.log('  Loading  server not responding at '+d+ ' after '+ nestingLevel +' seconds wait, for '+url);
+				  }  //if
+		    };  //function  onprogress
+
+      xhttp.onload = function () {console.log('onload');
+  	         d = new Date();
+		         if ( xhttp.status == 200){
+						    response_arrived='yes';
+							  console.log("onload at "+d+' after '+ nestingLevel +' seconds wait');
+								if ( timer_on) clearTimeout(timerId); timer_on=false;
+								xhttp.onload=doNothing;
+								xhttp.onprogress=doNothing;
+								func1(func2,xhttp.responseText);
+        	
+						}  //if		
+  	 		
+	   };   //function  onload
+
+	// coninue code
+	
+	
+	
+	d = new Date();
+	if ( timer_on) clearTimeout(timerId); timer_on=true;
+	timerId=setTimeout(send_msg_to_server_internal, oneSecond);	console.log('sending, timeout at  '+d+' for '+oneSecond);
+	  xhttp.send();	
+		 return false;
+   }  //function
+
+}
+
+//---
+function doNothing(){};
+
+//---------------------------------------------------------------
+
 
 
 function deleteOldChildren(id){
@@ -714,12 +790,14 @@ function clear_listOfIDsUp(e){
 		 }
 }
 // ---------------------------------------------------------------------------------	
- function setRegistrationClosedHeader(){
- if (  currentWarningID ) return;
+ function setRegistrationClosedHeader(func2){
+ if (  currentWarningID ){ func2(); return};
    url=encodeURI(firstPartOfURL+"/isRegistrationClosed");
-   xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText;
+   send_msg_to_server(url,setRegistrationClosedHeader_cont,func2);
+ }
+ //----
+ function setRegistrationClosedHeader_cont(func2,rslt){  
+	            rspnsString = rslt;   console.log('rslt='+rslt);
 							registrationIsClosed=false;	
 							tmp='newBefore';				
 							if(rspnsString.substr(0,3)=='+++') {
@@ -728,7 +806,7 @@ function clear_listOfIDsUp(e){
 											 };
 									
 							clearAndSetWarnings(tmp);			
-														
+							func2(rslt);							
 	 }
 	 			
 	// ---------------------------------------------------------------------------------				
@@ -742,11 +820,15 @@ function clear_listOfIDsUp(e){
 	
 	//-----------------------------------------------------------------------------------var =[-
 	
-	function getShulConfig(){
-	   url=encodeURI(firstPartOfURL+"/getShulConfig");
-     xhttp.open("GET", url, false);
-       xhttp.send();
-	     rspnsString = xhttp.responseText;        
+	function getShulConfig(func2){
+	   url=encodeURI(firstPartOfURL+"/getShulConfig");  console.log('getshulconfig');
+     send_msg_to_server(url,getShulConfig_cont,func2);
+		 
+	}
+	
+	//---------
+	function getShulConfig_cont(func2,rslt){
+	     rspnsString = rslt;    console.log('rslt='+rslt);    
 			 shurot=[];
 			 var i;
        var tbl1=	rspnsString.split('$'); 
@@ -758,13 +840,23 @@ function clear_listOfIDsUp(e){
 					shurot[i][2]=tmp[4];
 			}				
 	
-	
+	   func2(rslt);
 	}
 	// ---------------------------------------------------------------------------------  
 
 function GenerateTables(){
+setRegistrationClosedHeader(GenerateTables_cont1);
+}
 
+//-----
 
+function GenerateTables_cont1(rslt){
+getShulConfig(GenerateTables_cont2);
+
+}
+
+//-----
+function GenerateTables_cont2(rslt){
 hebrewYears=['תשע"ח','תשע"ט','תש"פ','תשפ"א','תשפ"ב','תשפ"ג','תשפ"ד','תשפ"ה','תשפ"ו','תשפ"ז','תשפ"ח','תשפ"ט','תש"צ'];
 document.onkeyup = clear_listOfIDsUp;
 document.onkeydown = clear_listOfIDsDown;
@@ -775,7 +867,7 @@ document.onkeydown = clear_listOfIDsDown;
 			 }  
 
 			 
-	getShulConfig();	
+	//getShulConfig();	
 	
 				 
   deleteOldChildren('kk'); // delete previous tables.
@@ -790,7 +882,7 @@ document.onkeydown = clear_listOfIDsDown;
 
 		 
 		 
-	setRegistrationClosedHeader();	
+		
 	
 													             	
 
@@ -1242,8 +1334,12 @@ function adjustElementTop(LegendTextElement,element,tp){
 
     function clearPrevsVlus(){
 		
-		setRegistrationClosedHeader();
-		
+		setRegistrationClosedHeader(clearPrevsVlus_cont);
+	}
+	
+	//-------
+	
+	function clearPrevsVlus_cont(rslt){	
 		 emailPassCode='';
 		// retrievedEmail='';
 		 
@@ -1313,8 +1409,12 @@ function adjustElementTop(LegendTextElement,element,tp){
          };
 				 if(   document.myform.familyname.value==''  ){ clearPrevsVlus();	return;};
 		 
-		 res= ckName(); 
-		 
+		 ckName(ckNameRtrvVlus_cont); 
+	}
+	
+	//-------
+	
+	function ckNameRtrvVlus_cont(res){	 
 		 if(res.substr(0,3)=='---')return;
 		  resArray=res.split('&');  // for (iii=0;iii<resArray.length;iii++) alert('iii='+iii+'    '+resArray[iii]);
 		 if(document.hiddenForm.lastFamName.value != document.myform.familyname.value)clearPrevsVlus();
@@ -1496,7 +1596,7 @@ function reconstructSeats(str){
 
 
 // -----------------------------------------------------------------------------------------	
-    function ckName(){ 
+    function ckName(func2){ 
 		          nnn=document.myform.familyname.value;
 							var prtiElmnt = document.getElementById("prti");
 							
@@ -1513,10 +1613,14 @@ function reconstructSeats(str){
 					    document.myform.familyname.value=nnn.substr(1);
 					
            		url=encodeURI(firstPartOfURL+"/famname/?"+document.myform.familyname.value);
+	            send_msg_to_server(url,ckName_cont,func2); 
+	
+	}
+	
+	//--- 
+	 function ckName_cont(func2,str){						
 							
-							xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText;  
+	            rspnsString = str;  
 							focusId=document.getElementById('fmName');
 							tmp1= document.getElementById("prtitxt");
 		                tmp1.style.display='none';	prtiDisplayed=false;						
@@ -1542,7 +1646,7 @@ function reconstructSeats(str){
 										}  
 										
 										
-										return rspnsString;
+										func2( rspnsString);
     }
 // -----------------------------------------------------------------------------------------				
 
@@ -1573,36 +1677,74 @@ function UnDisplayPassCodeRequest() {
 						return false;
 		}
 // -----------------------------------------------------------------------------------------					
-		function validateEmail() {
+		function validateEmail(func2) {
+		
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
 		 if(	document.myform.reqemail.value != delLeadingBlnks(document.myform.reqemail.value)){
 	       	document.myform.reqemail.value=delLeadingBlnks(document.myform.reqemail.value);	
          };
-		    
-	  if (! document.myform.reqemail.value)return true;
+			    
+	  if (! document.myform.reqemail.value) {func2(true); return  };
 		isValid= re.test(document.myform.reqemail.value);  
 		focusId=document.getElementById('reqemail');
 		if(isCurrentLanguageHebrew){alertText="כתובת המייל אינה חוקית";}	 else alertText='illegal mail address';
-			if (! isValid ){Alert(alertText,focusId); return false;}
-			if ( ( ! document.hiddenForm.retrievedEmail.value ) || (document.hiddenForm.retrievedEmail.value==document.myform.reqemail.value)  )return isValid;
-			
+			if (! isValid ){Alert(alertText,focusId); func2(false); return  };
+			if ( ( ! document.hiddenForm.retrievedEmail.value ) || (document.hiddenForm.retrievedEmail.value==document.myform.reqemail.value)  ){func2 (true); return  };
+		
 			
 			//  password is requied to change an existing email addr
 			
 			if (emailPassDisplayed){
-			 
+			    
 				url=encodeURI(firstPartOfURL+"/ckEmailCode/?"+document.myform.familyname.value+'$'+document.myform.passcode.value);
-							
-							xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText; 
+							send_msg_to_server(url,validateEmail_PassDisplayed,func2);
+							return ;
+		}   //if
+		
+	
+//		else
+         url=encodeURI(firstPartOfURL+"/genCodeSendEmail/?"+document.myform.familyname.value);
+					send_msg_to_server(url,validateEmail_requestPass,func2);
+					return ;
+				
+	}
+	
+	
+	//---------------------						
+
+	function 	validateEmail_requestPass(func2,rslt){					
+	            rspnsString = rslt; 
+			if (	rspnsString.substr(0,3) == '+++'){  // email sent to member		
+			    
+			    displayPassCodeRequest();
+					func2(false);
+					}
+					else {
+					   errCode=rspnsString.substr(3,1);
+				 		if(isCurrentLanguageHebrew){alertText="שם משפחה שגוי. אנא הכנס שוב";}	 else alertText='illegal surname; Please re-enter';
+            focusId=document.getElementById('fmName');
+						if (errCode == '1' )Alert(alertText,focusId); 
+						
+						if(isCurrentLanguageHebrew){alertText="שגיאת מערכת. אנא הכנס שוב לדף ההרשמה";}	 else alertText='system error; Please re-enter to registration page';
+            if (errCode == '2' )Alert(alertText,focusId); 
+			   
+				   func2( false);
+				 }  // else
+				
+}		
+
+// --------------
+		
+		
+		function validateEmail_PassDisplayed(func2, rslt){					
+	            rspnsString = rslt; 
 			       if (	rspnsString.substr(0,3) == '+++'){  // pass ok
 					       UnDisplayPassCodeRequest();
 							  
 								document.hiddenForm.retrievedEmail.value='';  // will not block changes
 								emailPassCode=document.myform.passcode.value;
-				        return true;
+				        func2( true);
 								}
 							else { // errors
 							    UnDisplayPassCodeRequest();
@@ -1624,36 +1766,15 @@ function UnDisplayPassCodeRequest() {
                 focusId=document.getElementById('passcode');
 						    if (errCode == '5' )Alert(alertText,focusId); 	
 								displayPassCodeRequest();
-								return false;
-						}		
+								func2( false);
+						}		// else
 				    
-			}
+	}
+	
+	//---------------		
 			
 			
 			
-			url=encodeURI(firstPartOfURL+"/genCodeSendEmail/?"+document.myform.familyname.value);
-							
-							xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText; 
-			if (	rspnsString.substr(0,3) == '+++'){  // email sent to member		
-			    
-			    displayPassCodeRequest();
-					return false;
-					}
-					else {
-					   errCode=rspnsString.substr(3,1);
-				 		if(isCurrentLanguageHebrew){alertText="שם משפחה שגוי. אנא הכנס שוב";}	 else alertText='illegal surname; Please re-enter';
-            focusId=document.getElementById('fmName');
-						if (errCode == '1' )Alert(alertText,focusId); 
-						
-						if(isCurrentLanguageHebrew){alertText="שגיאת מערכת. אנא הכנס שוב לדף ההרשמה";}	 else alertText='system error; Please re-enter to registration page';
-            if (errCode == '2' )Alert(alertText,focusId); 
-			   
-				   return false;
-				 }
-				
-}
 
 // -----------------------------------------------------------------------------------------
 	
@@ -1839,26 +1960,40 @@ function ckPitzulM() {
 	 ckValidity_1();
 	 }
 	
- 
+//-------- 
 	function ckValidity_1(){
 	 
 	document.myform.sbmt.disabled=true; 
 	
 // ck name				
 	 
-		 res=ckName();
+		 ckName(ckValidity_1_cont_1);
+		 
+ }
+ 
+ //------
+ 
+ function ckValidity_1_cont_1(res){
 		 if(res.substr(0,3)=='---'){
 		       					document.myform.sbmt.disabled=false; 
 										 return false};
 			dataToSend[0][1]=document.myform.familyname.value;		
 			
-			if (dataToSend[0][0] != 'familyname=')sendErrMail('a',dataToSend);
+			if (dataToSend[0][0] != 'familyname='){sendErrMail('a',dataToSend);  return false;};
 						 
 // ck email
+  validateEmail(ckValidity_1_cont_2);
+	return false;
+	
+}
+
+// ---------------------------------------------
+
+function ckValidity_1_cont_2(reslt){	
 
 
-if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;   };
-     dataToSend[1][1]=document.myform.reqemail.value+','+emailPassCode;
+if(! reslt) {   document.myform.sbmt.disabled=false;      return false;   };
+     dataToSend[1][1]=document.myform.reqemail.value+','+emailPassCode;   console.log('emailPassCode='+emailPassCode);
 	
 // ck phone	
 	if(! ckPhone()){   document.myform.sbmt.disabled=false;      return false;   };
@@ -1979,7 +2114,7 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	
 	
 	
-				if (dataToSend[0][0] != 'familyname=')sendErrMail('b',dataToSend);
+				if (dataToSend[0][0] != 'familyname='){sendErrMail('b',dataToSend); return false;};
 
 																																			
 // ck requested minyan  Men--------------
@@ -2060,7 +2195,7 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	  requiredPayment=calcPayment();
 		dataToSend[14][1]=requiredPayment.toString();			
 		
-					if (dataToSend[0][0] != 'familyname=')sendErrMail('c',dataToSend);
+					if (dataToSend[0][0] != 'familyname='){sendErrMail('c',dataToSend); return false;};
 
 		
 		if(isCurrentLanguageHebrew){dataToSend[15][1]='hebrew';} else dataToSend[15][1]='english';
@@ -2073,7 +2208,7 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	// debug   
 		inputPairss=stringToSend.split('&');                   }
 tmpNName=inputPairss[0].split('='); 
-if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
+if (tmpNName[0]!= 'familyname'){sendErrMail('d',dataToSend);return false;};
 	 
 	 
 	 
@@ -2090,9 +2225,14 @@ if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
 	
 	
 		url=encodeURI(firstPartOfURL+"/writeinfo/?"+stringToSend);
-        xhttp.open("GET", url, false);
-        xhttp.send();
-	      rspnsString = xhttp.responseText;
+		send_msg_to_server(url,ckValidity_1_cont_end,doNothing);
+		
+ }      
+			
+//------------------------------
+function ckValidity_1_cont_end(func2,reslt){				
+			
+			  rspnsString = reslt;
 				
 				tmp1= document.getElementById("myForm");
 		                tmp1.style.display='none';
@@ -2102,6 +2242,7 @@ if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
 		                tmp1.style.display='block';
 										tmp1= document.getElementById("shgia");
 		                tmp1.innerHTML=rspnsString.substr(3,3);
+										return false;
 										}
 				      else{  
 							      document.getElementById("tosefet").style.display='none';
@@ -2155,14 +2296,14 @@ if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
 	 for (iiii=0; iiii<arry.length; iiii++)arryStr=arryStr+arry[iiii];
    arryStr='err='+err+' --'+arryStr;
    url=encodeURI(firstPartOfURL+"/sendBrsrRprtedErr/?"+arryStr);
-        xhttp.open("GET", url, false);
-        xhttp.send();
-	      rspnsString = xhttp.responseText;
+	 
+	 send_msg_to_server(url,doNothing,doNothing);
+       
 				
 }
 
 
-// ----------------------------------------------------------------------------------------------sendErrMail
+// ----------------------------------------------------------------------------------------------
 
 
 function 	reDisplayMainForm(){
@@ -2490,10 +2631,10 @@ function changeMarqueeDirection(drction){
 					      <div><br><span id='lanDepndntStr10_HB'> אנא עדכן פרטים</span><span id='lanDepndntStr10_EN' >Please update contact information</span>  </div>
 		
 								<label for="reqemail"><span id='lanDepndntStr11_HB'>מייל:</span><span id='lanDepndntStr11_EN' >Email:</span> </label>
-		      <input type="email" name="reqemail" id='reqemail' style="direction:ltr" onchange='validateEmail()'>
+		      <input type="email" name="reqemail" id='reqemail' style="direction:ltr" onchange='validateEmail(doNothing)'>
           <span id='emailPass' style="display:none;color:red"> <span id='lanDepndntStr61_HB'> &nbsp שנוי כתובת מייל מצריך סיסמא. זו נשלחה למייל הקיים ותוקפה כ20 דקות:</span>
 					      <span id='lanDepndntStr61_EN'>&nbsp passcode to change existing email was sent to old mail addr and is valid for 20 minutes:</span>
-								<input type='text' id='passcode' name='passcode'  onchange='validateEmail()'>  </span><br><br>
+								<input type='text' id='passcode' name='passcode'  onchange='validateEmail(doNothing)'>  </span><br><br>
 	  
 		              <label for="reqPhone"><span id='lanDepndntStr12_HB'>טלפון או טלפון נייד (אנא מלא לפי אחד מהפורמטים הבאים: </span><span id='lanDepndntStr12_EN' > Home or mobile phone (please use one of these formats: </span> 0xx-xxxxxxx ; 0x-xxxxxxx) :</label>
 		      <input type="tel" name="reqPhone" id='reqPhone' style="direction:ltr" onchange='ckPhone()'> <br><br>
