@@ -172,10 +172,10 @@ var nodemailer = require('nodemailer');
 	  if ( email){ 
 		             crrrntEmail=delLeadingBlnks(requestedSeatsWorksheet[ptr].v);
 		             ptr=amudot.email+roww; 
-							   if(email != requestedSeatsWorksheet[ptr].v){
-								 passNotOK= ( ! emailPass)  || (forgetList[rowNum] != emailPass);
+							   if(email != requestedSeatsWorksheet[ptr].v){  console.log('forgetList[rowNum]='+forgetList[rowNum]);
+								 passNotOK= ( ! emailPass)  || (forgetList[rowNum].split('$')[0] != emailPass);
 								     if ( (crrrntEmail) && passNotOK ) { // changing email but password not supplied or wrong
-							          console.log('bad attempt to change passcose. row='+roww+ ' old email='+requestedSeatsWorksheet[ptr].v+
+							          console.log('bad attempt to change passcode. row='+roww+ ' old email='+requestedSeatsWorksheet[ptr].v+
 												          ' new attemted email='+email);
 												return false;					
 												 
@@ -1062,7 +1062,7 @@ function backupRequests(){
      for (iikk=firstSeatRow; i< lastSeatRow+1;i++){
     		 if (forgetList[iikk]){
 				      countr=Number(forgetList[iikk].split('$')[1]);
-							if (countr>0)countr--;              forgetList[iikk]= forgetList[iikk].split('$')[0]+countr.toString();
+							if (countr>0)countr--;              forgetList[iikk]= forgetList[iikk].split('$')[0]+'$'+countr.toString();
 							if( ! countr )forgetList[iikk]='';
 							}
 				}
