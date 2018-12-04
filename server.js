@@ -4103,6 +4103,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
 	 initFromFiles('');
+	 console.log('isRegistrationClosed');
 	 isWomanString=isWoman.join('+');
 	 rspns='---$ $'+isWomanString;
 	 ptr=amudot.registrationClosedDateNTime+'2';  
@@ -4204,7 +4205,7 @@ app.get('/ckpswGIZBAR', function(req, res) {
         })	
 //------------------------------------------------------------------------------					
 				
-	app.get('/', function(req, res) {
+	app.get('/', function(req, res) {  
 	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
        res.send(cache_get('index.html'));
