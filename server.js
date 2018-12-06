@@ -2445,9 +2445,9 @@ app.get('/getFullList', function(req, res) {
 			  row=knownName(name);
 				row=row.toString();
 				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]);
-				wmnCalculatedStsf=tmp.split('*')[0];
+				if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
 				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row]);
-			  menCalculatedStsf=tmp.split('*')[0];
+			  if ( ! tmp){menCalculatedStsf='10' } else menCalculatedStsf=tmp.split('*')[0];
 				console.log('wmnCalculatedStsf='+wmnCalculatedStsf+'   menCalculatedStsf='+menCalculatedStsf);
 		    if (  (wmnCalculatedStsf=='10') && (menCalculatedStsf=='10') )continue
 		  } // if listType=problems 
@@ -4103,7 +4103,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
 	 initFromFiles('');
-	 console.log('isRegistrationClosed');
+	 
 	 isWomanString=isWoman.join('+');
 	 rspns='---$ $'+isWomanString;
 	 ptr=amudot.registrationClosedDateNTime+'2';  
