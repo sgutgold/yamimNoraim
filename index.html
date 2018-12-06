@@ -650,12 +650,21 @@ var merkazi2='https://2uhvww-sn3301.files.1drv.com/y4mhqSP0p3XvoxW5hLJqpeZS47wJ4
 
 //-------------------------------------------------------------------------------------------------------------------								
 
+var waitForKeyUp=false;
+var lastKeyPressed;
+
+var debugState=false;
+
 
 var basePayment=1200;
  var paymentPerSeat=50;
  
  var Cancelling;
 
+var waiting_for_server=false; 
+var waitingForServerMsg_Elmnt;
+var timer_on=false;
+var timerId;
 									
 var toPrintCt;
 var shiftKeyIsPressed=false;
@@ -685,76 +694,113 @@ warnings=[ 'oldAfterPaid','oldAfterToPay','oldBeforeAfterPaid','oldBeforeAfterTo
 //---------------------------------------------------------------------------------------
 
 function send_msg_to_server(url,func1,func2){
-console.log('send_msg_to_server');
+
    var oneSecond=1000;
    var response_arrived;
-   response_arrived='unknown';
+   response_arrived='waiting';
 	 var currentUrlToSend;
 	 currentUrlToSend=url;
 	 var nestingLevel=0;
-	 var timer_on=false;
-   var timerId;
-console.log( (send_msg_to_server.caller).toString()  );
-	 send_msg_to_server_internal();
+	 var start_time;
+	 var chnge_color=false;
+	 var seconds_elapsed;
 	 
-	 
-	
-// internal functions  
-    function send_msg_to_server_internal(){
-		console.log('send_msg_to_server_internal');
-			 nestingLevel++;
-		   if(response_arrived=='yes')return true;  // done
-							
-	     if(  response_arrived=='waiting' ){
-			            if ( timer_on) clearTimeout(timerId); timer_on=true;
-			            timerId=setTimeout(send_msg_to_server_internal, oneSecond);	
-									return false;
-									}   
-		    
-		// 		response_arrived is either 'failed' or 'unknown' -- in either case send msg	
+	 if(isCurrentLanguageHebrew){waitingForServerMsg_Elmnt=document.getElementById('waitingForServerMSg_heb')} else waitingForServerMsg_Elmnt=document.getElementById('waitingForServerMSg_Eng');
 
-		    response_arrived='waiting';
-        d = new Date();
-        xhttp.open("GET", currentUrlToSend);
-		  console.log('get');
-			
-			  xhttp.onprogress = function () {  console.log('onprogress');
+
+  var w = window.innerWidth;
+  var h = window.innerHeight;		
+  var waitingForServerMsg_ElmntHight=80;
+	var waitingForServerMsg_ElmntWidth=300;	
+	waitingForServerMsg_Elmnt.style.height=waitingForServerMsg_ElmntHight;
+	waitingForServerMsg_Elmnt.style.width=waitingForServerMsg_ElmntWidth;
+	waitingForServerMsg_Elmnt.style.top=(h/2-waitingForServerMsg_ElmntHight-40).toString()+'px';
+	waitingForServerMsg_Elmnt.style.left=	((w-waitingForServerMsg_ElmntWidth-40)/2 ).toString()+'px';		
+	document.getElementById('waitingForServerMSg_heb').style.display='none';
+	document.getElementById('waitingForServerMSg_Eng').style.display='none';
+	
+	
+	 xhttp.abort();  // abort any previous ongoing activity
+	 	if ( timer_on) clearTimeout(timerId); timer_on=false;
+	 start_time = new Date();
+    xhttp.open("GET", currentUrlToSend);
+		xhttp.send();	
+		waiting_for_server=true;
+	 
+//------------------internal functions-----
+    	  xhttp.onprogress = function () {  
 				d = new Date();
       	if ( xhttp.status != 200){
-				   response_arrived='failed';
-					 console.log('  Loading  server not responding at '+d+ ' after '+ nestingLevel +' seconds wait, for '+url);
+			     seconds_elapsed=(d-start_time)/1000;
+					if(debugState) console.log('  Retry;  server not responding at '+d+ ' after '+ seconds_elapsed +' seconds wait, for '+url);
+					 
+           xhttp.open("GET", currentUrlToSend);
+					 xhttp.send();	
+		     
 				  }  //if
 		    };  //function  onprogress
-
-      xhttp.onload = function () {console.log('onload');
+//------------
+      xhttp.onload = function () {
   	         d = new Date();
 		         if ( xhttp.status == 200){
 						    response_arrived='yes';
-							  console.log("onload at "+d+' after '+ nestingLevel +' seconds wait');
+								seconds_elapsed=(d-start_time)/1000;
+							  if(debugState)console.log("onload at "+d+' after '+ seconds_elapsed +' seconds wait; nesting level is '+nestingLevel);
 								if ( timer_on) clearTimeout(timerId); timer_on=false;
-								xhttp.onload=doNothing;
+					    	xhttp.onload=doNothing;
 								xhttp.onprogress=doNothing;
+								turn_waitForServerMsg_on(false);
 								func1(func2,xhttp.responseText);
-        	
+        	      waiting_for_server=false;
 						}  //if		
   	 		
 	   };   //function  onload
+//----------------- end of internal functions---------------------------
+							
+	  if(debugState)console.log( (send_msg_to_server.caller).toString()  );
+	
+   turn_waitForServerMsg_on(true);
+	 send_msg_to_server_internal();
+	
+	
 
-	// coninue code
+ function send_msg_to_server_internal(){
+			 nestingLevel++;
+			 chnge_color= ! chnge_color;
+			 if(chnge_color){dspl='none'}else dspl='block';
+			 d = new Date();
+			 
+		   if(response_arrived=='yes')return true;  // done
+
+       waitingForServerMsg_Elmnt.style.display=dspl;
+			 
+	     if ( timer_on) clearTimeout(timerId); timer_on=true;
+			 timerId=setTimeout(send_msg_to_server_internal, oneSecond);	//console.log('sending, timeout at  '+d+' for '+oneSecond);
+			 return false;
 	
-	
-	
-	d = new Date();
-	if ( timer_on) clearTimeout(timerId); timer_on=true;
-	timerId=setTimeout(send_msg_to_server_internal, oneSecond);	console.log('sending, timeout at  '+d+' for '+oneSecond);
-	  xhttp.send();	
-		 return false;
    }  //function
 
-}
+	 
+//---------------------------------------------------------------
+function turn_waitForServerMsg_on(on){
+
+ 
+
+if (on) {displyStyle='block'} else displyStyle='none';
+
+
+waitingForServerMsg_Elmnt.style.display=displyStyle;
+
+}  // function
+
+}  // sendtoserver function
 
 //---
 function doNothing(){};
+
+
+
+
 
 //---------------------------------------------------------------
 
@@ -797,7 +843,7 @@ function clear_listOfIDsUp(e){
  }
  //----
  function setRegistrationClosedHeader_cont(func2,rslt){  
-	            rspnsString = rslt;   console.log('rslt='+rslt);
+	            rspnsString = rslt;  // console.log('rslt='+rslt);
 							registrationIsClosed=false;	
 							tmp='newBefore';				
 							if(rspnsString.substr(0,3)=='+++') {
@@ -821,14 +867,14 @@ function clear_listOfIDsUp(e){
 	//-----------------------------------------------------------------------------------var =[-
 	
 	function getShulConfig(func2){
-	   url=encodeURI(firstPartOfURL+"/getShulConfig");  console.log('getshulconfig');
+	   url=encodeURI(firstPartOfURL+"/getShulConfig");  //console.log('getshulconfig');
      send_msg_to_server(url,getShulConfig_cont,func2);
 		 
 	}
 	
 	//---------
 	function getShulConfig_cont(func2,rslt){
-	     rspnsString = rslt;    console.log('rslt='+rslt);    
+	     rspnsString = rslt;     
 			 shurot=[];
 			 var i;
        var tbl1=	rspnsString.split('$'); 
@@ -842,9 +888,18 @@ function clear_listOfIDsUp(e){
 	
 	   func2(rslt);
 	}
-	// ---------------------------------------------------------------------------------  
+// ===================================================================================
+
+
 
 function GenerateTables(){
+
+
+if(firstTimelanguageSetting){
+	     firstTimelanguageSetting=false;
+			 setCurrentLanguage();
+			 }  
+			
 setRegistrationClosedHeader(GenerateTables_cont1);
 }
 
@@ -861,10 +916,7 @@ hebrewYears=['תשע"ח','תשע"ט','תש"פ','תשפ"א','תשפ"ב','תשפ"ג','תשפ"ד','תשפ"ה','תשפ
 document.onkeyup = clear_listOfIDsUp;
 document.onkeydown = clear_listOfIDsDown;
  
-	if(firstTimelanguageSetting){
-	     firstTimelanguageSetting=false;
-			 setCurrentLanguage();
-			 }  
+	
 
 			 
 	//getShulConfig();	
@@ -1654,7 +1706,8 @@ function displayPassCodeRequest() {
   var tmp1;
 
  tmp1= document.getElementById("emailPass");
- tmp1.style.display='inline-block';  
+ tmp1.style.display='inline-block'; 
+ document.myform.passcode.value='';
   emailPassDisplayed=true;
 	} 
 	
@@ -1676,7 +1729,7 @@ function UnDisplayPassCodeRequest() {
 						Alert(alertText,focusId); 
 						return false;
 		}
-// -----------------------------------------------------------------------------------------					
+// -----------------------------------------------------------------------------------------			
 		function validateEmail(func2) {
 		
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -1684,7 +1737,7 @@ function UnDisplayPassCodeRequest() {
 		 if(	document.myform.reqemail.value != delLeadingBlnks(document.myform.reqemail.value)){
 	       	document.myform.reqemail.value=delLeadingBlnks(document.myform.reqemail.value);	
          };
-			    
+		document.getElementById('emailNotification').style.display='none';	    
 	  if (! document.myform.reqemail.value) {func2(true); return  };
 		isValid= re.test(document.myform.reqemail.value);  
 		focusId=document.getElementById('reqemail');
@@ -1741,8 +1794,9 @@ function UnDisplayPassCodeRequest() {
 	            rspnsString = rslt; 
 			       if (	rspnsString.substr(0,3) == '+++'){  // pass ok
 					       UnDisplayPassCodeRequest();
-							  
-								document.hiddenForm.retrievedEmail.value='';  // will not block changes
+							  document.getElementById('emailNotification').style.display='inline-block'; 
+								document.hiddenForm.retrievedEmail.value=document.myform.reqemail.value;   // this new email is confirmed;  // will not block changes  
+								
 								emailPassCode=document.myform.passcode.value;
 				        func2( true);
 								}
@@ -1993,7 +2047,7 @@ function ckValidity_1_cont_2(reslt){
 
 
 if(! reslt) {   document.myform.sbmt.disabled=false;      return false;   };
-     dataToSend[1][1]=document.myform.reqemail.value+','+emailPassCode;   console.log('emailPassCode='+emailPassCode);
+     dataToSend[1][1]=document.myform.reqemail.value+','+emailPassCode;  // console.log('emailPassCode='+emailPassCode);
 	
 // ck phone	
 	if(! ckPhone()){   document.myform.sbmt.disabled=false;      return false;   };
@@ -2445,10 +2499,12 @@ function changeLanguageTo(str){
 	//if (  elmnt)console.log(strId);	 // look for unused numbers
 		 elmnt= document.getElementById(strId+"HB"); 
 		 if (elmnt)elmnt.style.display='none';
-		 //if(elmnt)console.log('i='+i);
+		// if(elmnt)console.log('i='+i);
 		 elmnt= document.getElementById(strId+str);
 		 if (elmnt)elmnt.style.display='inline-block';
 		 }
+		 	 
+			 
 		 GenerateTables();
 		 if (document.myform.seatsString.value)reconstructSeats(document.myform.seatsString.value);
 		} 
@@ -2486,6 +2542,7 @@ function english(){
 	 document.myform.Reqddy.selectedIndex=ddd;
 	 document.myform.Reqmnth.selectedIndex=mmm; 
 	 
+	 waitingForServerMsg_Elmnt=document.getElementById('waitingForServerMSg_Eng');
 	 
 	  changeMarqueeDirection('left');
 	 }
@@ -2515,6 +2572,8 @@ function hebrew(){
 	 document.myform.Reqyr.selectedIndex=yyy;  
 	 document.myform.Reqddy.selectedIndex=ddd;
 	 document.myform.Reqmnth.selectedIndex=mmm; 
+	 
+	 waitingForServerMsg_Elmnt=document.getElementById('waitingForServerMSg_heb')
 	 
 	 changeMarqueeDirection('right');
 	 
@@ -2634,7 +2693,11 @@ function changeMarqueeDirection(drction){
 		      <input type="email" name="reqemail" id='reqemail' style="direction:ltr" onchange='validateEmail(doNothing)'>
           <span id='emailPass' style="display:none;color:red"> <span id='lanDepndntStr61_HB'> &nbsp שנוי כתובת מייל מצריך סיסמא. זו נשלחה למייל הקיים ותוקפה כ20 דקות:</span>
 					      <span id='lanDepndntStr61_EN'>&nbsp passcode to change existing email was sent to old mail addr and is valid for 20 minutes:</span>
-								<input type='text' id='passcode' name='passcode'  onchange='validateEmail(doNothing)'>  </span><br><br>
+								<input type='text' id='passcode' name='passcode'  onchange='validateEmail(doNothing)'>  </span>
+						<span id='emailNotification' style="display:none;color:red"> <span id='lanDepndntStr63_HB'> &nbsp אם כתובת המייל השתנתה, השנוי יהיה בתוקף רק לאחר שליחת הטופס</span>
+					      <span id='lanDepndntStr63_EN'>&nbsp if email addr was changed, the change will be effective only after form submit</span></span>		
+								
+								<br><br>
 	  
 		              <label for="reqPhone"><span id='lanDepndntStr12_HB'>טלפון או טלפון נייד (אנא מלא לפי אחד מהפורמטים הבאים: </span><span id='lanDepndntStr12_EN' > Home or mobile phone (please use one of these formats: </span> 0xx-xxxxxxx ; 0x-xxxxxxx) :</label>
 		      <input type="tel" name="reqPhone" id='reqPhone' style="direction:ltr" onchange='ckPhone()'> <br><br>
@@ -2859,7 +2922,9 @@ Note: For safety reasons, prams are not permitted in the prayer halls on the two
 			<div id="knisa4"> כניסה </div>
    		<div id="arrow4"> &#x27a8;</div>
 
-			
+	<div  id='waitingForServerMSg_heb'  style='display:none;border-style: solid;color:red; border-width: 2px;position:fixed;padding: 5px;z-index:11;' ><h1> המערכת ממתינה לשרת </h1></div>    
+<div  id='waitingForServerMSg_Eng'  style='display:none;border-style: solid; color:red; border-width: 2px;position:fixed;padding: 5px;z-index:11;' > <h1>waiting for server</h1> </div>    	 
+	 		
  </fieldset> <br><br>
 <fieldset id='Button' >
 
@@ -2874,6 +2939,7 @@ Note: For safety reasons, prams are not permitted in the prayer halls on the two
 <div id='hiddenDiv'>  </div>
 <input type="text"  name='lastFamName'  value='' style='display:none'>
 <input type="text"  name='retrievedEmail'  value='' style='display:none'>
+
 
 </form>
 
@@ -2904,8 +2970,10 @@ Note: For safety reasons, prams are not permitted in the prayer halls on the two
 
 </div></h2>
 
-      	 
-	 
+
+
+ 
+
 <div id='tosefet' style='display:none'; > <h2> 
 <span id='lanDepndntStr58_HB' style='display:inline-block;'>התשלום הנדרש מהווה תוספת של <span id='tashlum4'>0</span> ש"ח ביחס לרישום הקודם</span>
 	 <span id='lanDepndntStr58_EN' style='display:inline-block;'> The new required payment represents an increase of <span id='tashlum5'>0</span> shekalim over the previous one.</span> </h2></div>
