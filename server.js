@@ -2444,7 +2444,7 @@ app.get('/getFullList', function(req, res) {
 		if (listType=='problems'){
 			  row=knownName(name);
 				row=row.toString();
-				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]);  console.log('row='+row+' tmp='+tmp+'  ptr='+amudot.stsfctnInFlrLastYrWmn+row);
+				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]);  console.log('vlu='+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]+' tmp='+tmp+'  ptr='+amudot.stsfctnInFlrLastYrWmn+row);
 				if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
 				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row]);
 			  if ( ! tmp){menCalculatedStsf='10' } else menCalculatedStsf=tmp.split('*')[0];
