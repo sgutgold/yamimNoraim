@@ -3541,7 +3541,7 @@ app.get('/getRowValues', function(req, res) {
 									    listToSend='';
 											roww=nameToDebug[0].toString();
 											 Object.keys(amudot).forEach(function(key)  {   // copy all hdrs and values for row
-											    colmn=amudotForDebug[key];
+											    colmn=amudot[key];
 													if (   requestedSeatsWorksheet[ colmn+roww] )
 												      listToSend=listToSend+colmn+'&'   //key
 													      + requestedSeatsWorksheet[ colmn+'1'].v+'&'  //hdr
