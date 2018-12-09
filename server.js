@@ -2441,7 +2441,7 @@ app.get('/getFullList', function(req, res) {
 	
 	console.log('/'+inpData[2]+'/');     if( ! inpData[2] )console.log('lkjh');
 	console.log(requestedSeatsWorksheet['AI5']);// original
-	console.log(delLeadingBlnks(requestedSeatsWorksheet['AI5']));
+	console.log(delLeadingBlnks(requestedSeatsWorksheet['AI5'].v));
 	
 	
 	//end debug
@@ -2454,9 +2454,9 @@ app.get('/getFullList', function(req, res) {
 		if (listType=='problems'){
 			  row=knownName(name);
 				row=row.toString();
-				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]);  console.log('vlu='+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]+' tmp='+tmp+'  ptr='+amudot.stsfctnInFlrLastYrWmn+row);
+				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v);  console.log('vlu='+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]+' tmp='+tmp+'  ptr='+amudot.stsfctnInFlrLastYrWmn+row);
 				if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
-				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row]);
+				tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v);
 			  if ( ! tmp){menCalculatedStsf='10' } else menCalculatedStsf=tmp.split('*')[0];
 				console.log('wmnCalculatedStsf='+wmnCalculatedStsf+'   menCalculatedStsf='+menCalculatedStsf);
 		    if (  (wmnCalculatedStsf=='10') && (menCalculatedStsf=='10') )continue
