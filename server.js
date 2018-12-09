@@ -2436,6 +2436,11 @@ app.get('/getFullList', function(req, res) {
 	
 	if(inpData[1] == mngmntPASSW){
 	initFromFiles(inpData[2]);
+	
+	//debug
+	
+	
+	//end debug
 	 listType=inpData[4]; console.log('listType='+listType);
 	tmplist=[];
 	ijl=0;
@@ -3535,7 +3540,7 @@ app.get('/getRowValues', function(req, res) {
 								   else {  // name exists and isn unique
 									    listToSend='';
 											roww=nameToDebug[0].toString();
-											 Object.keys(amudotForDebug).forEach(function(key)  {   // copy all hdrs and values for row
+											 Object.keys(amudot).forEach(function(key)  {   // copy all hdrs and values for row
                          colmn=amudotForDebug[key];  
 												  listToSend=listToSend+colmn+'&'   //key
 													+ requestedSeatsWorksheet[ colmn+'1'].v+'&'  //hdr
