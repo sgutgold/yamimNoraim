@@ -1239,7 +1239,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 			
   
  requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
-  
+ console.log('AI3='+requestedSeatsWorksheet['AI3']; 
 	
 	for(i=0;i<200;i++) familyNames[i]='';  // clear the table
 	
@@ -2454,11 +2454,12 @@ app.get('/getFullList', function(req, res) {
 		if (listType=='problems'){
 			  row=knownName(name);
 				row=row.toString();
-				if ( typeof requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v !='undefined'){
+				
+				if ( typeof requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row] !='undefined'){
 				     tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v);  console.log('vlu='+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]+' tmp='+tmp+'  ptr='+amudot.stsfctnInFlrLastYrWmn+row);
 				     if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
 					} else 	wmnCalculatedStsf='10';
-				if (	typeof requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v != 'undefined' ){ 
+				if (	typeof requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row] != 'undefined' ){ 
 				    tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v);
 			      if ( ! tmp){menCalculatedStsf='10' } else menCalculatedStsf=tmp.split('*')[0];
 				  }else 	menCalculatedStsf='10';	
