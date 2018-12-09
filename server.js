@@ -2454,11 +2454,11 @@ app.get('/getFullList', function(req, res) {
 		if (listType=='problems'){
 			  row=knownName(name);
 				row=row.toString();
-				if ( requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]){
+				if ( typeof requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v !='undefined'){
 				     tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v);  console.log('vlu='+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]+' tmp='+tmp+'  ptr='+amudot.stsfctnInFlrLastYrWmn+row);
 				     if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
 					} else 	wmnCalculatedStsf='10';
-				if (	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row] ){ 
+				if (	typeof requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v != 'undefined' ){ 
 				    tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v);
 			      if ( ! tmp){menCalculatedStsf='10' } else menCalculatedStsf=tmp.split('*')[0];
 				  }else 	menCalculatedStsf='10';	
