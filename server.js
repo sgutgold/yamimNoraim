@@ -2439,11 +2439,16 @@ app.get('/getFullList', function(req, res) {
 	
 	//debug
 	
+	console.log('/'+inpData[2]+'/');     if( ! inpData[2] )console.log('lkjh');
+	console.log(requestedSeatsWorksheet['AI5']);// original
+	console.log(delLeadingBlnks(requestedSeatsWorksheet['AI5']));
+	
 	
 	//end debug
 	 listType=inpData[4]; console.log('listType='+listType);
 	tmplist=[];
 	ijl=0;
+	
 	for(ijk=0;ijk<familyNames.length;ijk++){
 	  name = familyNames[ijk];		
 		if (listType=='problems'){
