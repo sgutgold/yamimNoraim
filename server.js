@@ -1239,7 +1239,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 			
   
  requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
- console.log('AI3='+requestedSeatsWorksheet['AI3']; 
+ console.log('AI3='+requestedSeatsWorksheet['AI3']); 
 	
 	for(i=0;i<200;i++) familyNames[i]='';  // clear the table
 	
