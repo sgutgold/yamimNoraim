@@ -2440,8 +2440,10 @@ app.get('/getFullList', function(req, res) {
 	//debug
 	
 	console.log('/'+inpData[2]+'/');     if( ! inpData[2] )console.log('lkjh');
-	console.log(requestedSeatsWorksheet['AI5']);// original
-	console.log(delLeadingBlnks(requestedSeatsWorksheet['AI5'].v));
+	console.log(requestedSeatsWorksheet['AI3']);// original
+	console.log(typeof requestedSeatsWorksheet['AI3']);
+	console.log(typeof requestedSeatsWorksheet['AI5']);
+	console.log(delLeadingBlnks(requestedSeatsWorksheet['AI3'].v));
 	
 	
 	//end debug
