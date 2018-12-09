@@ -2461,7 +2461,7 @@ app.get('/getFullList', function(req, res) {
 				if (	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row] ){ 
 				    tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v);
 			      if ( ! tmp){menCalculatedStsf='10' } else menCalculatedStsf=tmp.split('*')[0];
-				else 	menCalculatedStsf='10';	
+				  }else 	menCalculatedStsf='10';	
 				console.log('wmnCalculatedStsf='+wmnCalculatedStsf+'   menCalculatedStsf='+menCalculatedStsf);
 		    if (  (wmnCalculatedStsf=='10') && (menCalculatedStsf=='10') )continue
 		  } // if listType=problems 
