@@ -2433,7 +2433,7 @@ app.get('/getFullList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
    
-	 var name, ijk,ijl,inp,inpData,tmplist,listType,tmp,tmp1;
+	 var name, ijk,ijl,inp,inpData,tmplist,listType,tmp,tmp1,ptr1;
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	inpData=inp.split('$');
 	
@@ -2457,11 +2457,11 @@ app.get('/getFullList', function(req, res) {
 	for(ijk=0;ijk<familyNames.length;ijk++){
 	  name = familyNames[ijk];		
 		if (listType=='problems'){
-			  row=knownName(name); 
+			  row=knownName(name); console.log('row='+row+'/');
 			
-				row=row.toString();   
+				row=row.toString(); console.log(  'row='+row+'/'+  'amudot.stsfctnInFlrLastYrWmn='+amudot.stsfctnInFlrLastYrWmn);
 					ptr1=amudot.stsfctnInFlrLastYrWmn+row;
-				 console.log('name='+name+' row='+row+  'ptr1='+ptr);
+				 console.log('name='+name+' row='+row+  'ptr1='+ptr1);
 				 console.log(' requestedSeatsWorksheet[ptr1]='+ requestedSeatsWorksheet[ptr1]);
 				 console.log(' typeof requestedSeatsWorksheet[ptr1]='+  typeof requestedSeatsWorksheet[ptr1]);
 				 if ( typeof requestedSeatsWorksheet[ptr1] =='undefined'){console.log('yes')}else console.log('no');
@@ -2472,7 +2472,7 @@ app.get('/getFullList', function(req, res) {
 					} else 	wmnCalculatedStsf='10';
 				
 				ptr1=amudot.stsfctnInFlrLastYrMen+row;
-				 console.log('name='+name+' row='+row+  'ptr1='+ptr);
+				 console.log('name='+name+' row='+row+  'ptr1='+ptr1);
 				 console.log(' requestedSeatsWorksheet[ptr1]='+ requestedSeatsWorksheet[ptr1]);
 				 console.log(' typeof requestedSeatsWorksheet[ptr1]='+  typeof requestedSeatsWorksheet[ptr1]);
 			//	 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);
