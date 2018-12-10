@@ -2457,7 +2457,7 @@ app.get('/getFullList', function(req, res) {
 	for(ijk=0;ijk<familyNames.length;ijk++){
 	  name = familyNames[ijk];		
 		if (listType=='problems'){
-			  row=knownName(name); console.log('row='+row+'/');
+			  row=knownName(name)[0]; console.log('row='+row+'/');
 			
 				row=row.toString(); console.log(  'row='+row+'/'+  'amudot.stsfctnInFlrLastYrWmn='+amudot.stsfctnInFlrLastYrWmn);
 					ptr1=amudot.stsfctnInFlrLastYrWmn+row;
