@@ -2433,7 +2433,7 @@ app.get('/getFullList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
    
-	 var name, ijk,ijl,inp,inpData,tmplist,listType,tmp;
+	 var name, ijk,ijl,inp,inpData,tmplist,listType,tmp,tmp1;
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	inpData=inp.split('$');
 	
@@ -2457,15 +2457,28 @@ app.get('/getFullList', function(req, res) {
 	for(ijk=0;ijk<familyNames.length;ijk++){
 	  name = familyNames[ijk];		
 		if (listType=='problems'){
-			  row=knownName(name);
-				row=row.toString();
-				
-				if ( typeof requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row] !='undefined'){
-				     tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v);  console.log('vlu='+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row]+' tmp='+tmp+'  ptr='+amudot.stsfctnInFlrLastYrWmn+row);
+			  row=knownName(name); 
+			
+				row=row.toString();   
+					ptr1=amudot.stsfctnInFlrLastYrWmn+row;
+				 console.log('name='+name+' row='+row+  'ptr1='+ptr);
+				 console.log(' requestedSeatsWorksheet[ptr1]='+ requestedSeatsWorksheet[ptr1]);
+				 console.log(' typeof requestedSeatsWorksheet[ptr1]='+  typeof requestedSeatsWorksheet[ptr1]);
+				 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);
+				if ( typeof requestedSeatsWorksheet[ptr1] !='undefined'){
+				     tmp=delLeadingBlnks(requestedSeatsWorksheet[ptr1].v);  console.log('vlu='+requestedSeatsWorksheet[ptr1]+' tmp='+tmp);
 				     if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
 					} else 	wmnCalculatedStsf='10';
-				if (	typeof requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row] != 'undefined' ){ 
-				    tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v);
+				
+				ptr1=amudot.stsfctnInFlrLastYrMen+row;
+				 console.log('name='+name+' row='+row+  'ptr1='+ptr);
+				 console.log(' requestedSeatsWorksheet[ptr1]='+ requestedSeatsWorksheet[ptr1]);
+				 console.log(' typeof requestedSeatsWorksheet[ptr1]='+  typeof requestedSeatsWorksheet[ptr1]);
+				 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);	
+					
+					
+				if (	typeof requestedSeatsWorksheet[ptr1] != 'undefined' ){ 
+				    tmp=delLeadingBlnks(requestedSeatsWorksheet[ptr1].v);
 			      if ( ! tmp){menCalculatedStsf='10' } else menCalculatedStsf=tmp.split('*')[0];
 				  }else 	menCalculatedStsf='10';	
 				console.log('wmnCalculatedStsf='+wmnCalculatedStsf+'   menCalculatedStsf='+menCalculatedStsf);
