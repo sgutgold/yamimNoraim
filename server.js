@@ -2464,7 +2464,8 @@ app.get('/getFullList', function(req, res) {
 				 console.log('name='+name+' row='+row+  'ptr1='+ptr);
 				 console.log(' requestedSeatsWorksheet[ptr1]='+ requestedSeatsWorksheet[ptr1]);
 				 console.log(' typeof requestedSeatsWorksheet[ptr1]='+  typeof requestedSeatsWorksheet[ptr1]);
-				 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);
+				 if ( typeof requestedSeatsWorksheet[ptr1] =='undefined'){console.log('yes')}else console.log('no');
+			//	 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);
 				if ( typeof requestedSeatsWorksheet[ptr1] !='undefined'){
 				     tmp=delLeadingBlnks(requestedSeatsWorksheet[ptr1].v);  console.log('vlu='+requestedSeatsWorksheet[ptr1]+' tmp='+tmp);
 				     if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
@@ -2474,7 +2475,8 @@ app.get('/getFullList', function(req, res) {
 				 console.log('name='+name+' row='+row+  'ptr1='+ptr);
 				 console.log(' requestedSeatsWorksheet[ptr1]='+ requestedSeatsWorksheet[ptr1]);
 				 console.log(' typeof requestedSeatsWorksheet[ptr1]='+  typeof requestedSeatsWorksheet[ptr1]);
-				 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);	
+			//	 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);
+			if ( typeof requestedSeatsWorksheet[ptr1] =='undefined'){console.log('yes')}else console.log('no');	
 					
 					
 				if (	typeof requestedSeatsWorksheet[ptr1] != 'undefined' ){ 
