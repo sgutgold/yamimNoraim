@@ -3602,8 +3602,8 @@ app.get('/manualUpdateValues', function(req, res) {
 		
 app.get('/getMembersInfo', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-	inputString=decodeURI(req.originalUrl).split('?')[1];
-	if (inputString[0] != mngmntPASSW){
+	inputString=decodeURI(req.originalUrl).split('?')[1];  console.log('inputString='+inputString);
+	if (inputString != mngmntPASSW){
 	   res.send('--- wrong  password');
 		 return;
 		 }
