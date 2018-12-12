@@ -3623,7 +3623,7 @@ app.get('/getMembersInfo', function(req, res) {
 				 Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
 											    colmn=amudot[key];
 													ptr=colmn+sMember;
-													vlu='';   if ( requestedSeatsWorksheet[ ptr] ) vlu=delLeadingBlnks(requestedSeatsWorksheet[ ptr].v);
+													vlu='';   if ( requestedSeatsWorksheet[ ptr] ) {vlu=requestedSeatsWorksheet[ ptr].v;} else console.log('ptr ='+ptr);
 													    listToSend=listToSend+vlu+'&';  
 													      
 													 }) // for each 
