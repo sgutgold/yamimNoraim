@@ -3604,8 +3604,8 @@ app.get('/getMembersInfo', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	inputString=decodeURI(req.originalUrl).split('?')[1];  console.log('inputString='+inputString);
 	if (inputString != mngmntPASSW){
-	   res.send('--- wrong  password');
-		 return;
+	   res.send('--- wrongg  password');
+		 console.log('mngmntPASSW='+mngmntPASSW+'/');
 		 }
 		 initFromFiles('');  // last year info  
 	listToSend='+++$';
