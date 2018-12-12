@@ -3624,6 +3624,7 @@ app.get('/getMembersInfo', function(req, res) {
 											    colmn=amudot[key];
 													ptr=colmn+sMember;
 													vlu='';   if ( requestedSeatsWorksheet[ ptr] ) {vlu=requestedSeatsWorksheet[ ptr].v;} else console.log('ptr ='+ptr);
+													if ( ! isNaN(vlu)  )vlu=vlu.toString();  vlu=delLeadingBlnks(vlu);
 													    listToSend=listToSend+vlu+'&';  
 													      
 													 }) // for each 
