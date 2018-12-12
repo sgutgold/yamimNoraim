@@ -3631,7 +3631,7 @@ app.get('/getMembersInfo', function(req, res) {
  });	
 
 
-/--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
 		
 app.get('/updateMembersInfo', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
