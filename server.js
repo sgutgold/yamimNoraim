@@ -3617,15 +3617,21 @@ app.get('/getMembersInfo', function(req, res) {
 													  listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
 											 console.log(' listToSend hdrs='+ listToSend);
 	  for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
+		temp1=listToSend.length;   // for console.log
 		    listToSend=listToSend+'$'		
 		    sMember=member.toString(); 
 				 Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
 											    colmn=amudot[key];
-													    listToSend=listToSend+delLeadingBlnks(requestedSeatsWorksheet[ colmn+sMember].v)+'&';  
+													ptr=colmn+sMember;
+													vlu='';   if ( requestedSeatsWorksheet[ ptr] ) vlu=delLeadingBlnks(requestedSeatsWorksheet[ ptr].v);
+													    listToSend=listToSend+vlu+'&';  
 													      
 													 }) // for each 
 					listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
-					console.log('smember='+sMember+ '  listToSend='+listToSend);
+					temp2=listToSend.length;   // for console.log
+					toPrint=listToSend.substr(temp1,temp2-temp1);
+					console.log('smember='+sMember+ '  nextOn_listToSend='+toPrint);
+					console.log('--------------------------');
 					} // for member								 
 	   res.send(listToSend);
  });	
