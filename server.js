@@ -172,7 +172,7 @@ var nodemailer = require('nodemailer');
 	  if ( email){ 
 		             crrrntEmail=delLeadingBlnks(requestedSeatsWorksheet[ptr].v);
 		             ptr=amudot.email+roww; 
-							   if(email != requestedSeatsWorksheet[ptr].v){  console.log('forgetList[rowNum]='+forgetList[rowNum]);
+							   if(email != requestedSeatsWorksheet[ptr].v){ // console.log('forgetList[rowNum]='+forgetList[rowNum]);
 								 passNotOK= ( ! emailPass)  || (forgetList[rowNum].split('$')[0] != emailPass);
 								     if ( (crrrntEmail) && passNotOK ) { // changing email but password not supplied or wrong
 							          console.log('bad attempt to change passcode. row='+roww+ ' old email='+requestedSeatsWorksheet[ptr].v+
@@ -727,14 +727,8 @@ var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',permanentS
 							stsfctnInFlr3ThisYrMen:'AY',ThisYRSSeat:'AZ'
 							};
 							
-var amudotForDebug ={name:'A',requestDate:'D',email:'G',
-              assignedSeatsRosh:'Z',assignedSeatsKipur:'AA',
-             	stsfctnInFlr2YRSAgoYrWmn:'AL',stsfctnInFlr2YRSAgoYrMen:'AM',TwoYRSAgoSeat:'AN',stsfctnInFlr3YRSAgoYrWmn:'AO',
-							stsfctnInFlr3YRSAgoYrMen:'AP',ThreeYRSAgoSeat:'AQ',
-							memberShipStatus:'AU'
-						
-							};						
-	                       
+var amudotForMemberInfo	 ={name:'A',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',	memberShipStatus:'AU'};						
+                       
 
 	var lastCol='AZ';													
 	
@@ -825,7 +819,7 @@ initialize();
 
 	localFileDir='/data/';
 	//localFileDir='D_';
-	console.log('1');			 
+		 
 XLSXfilename=localFileDir	+'membersRequests.xlsx';  
 EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';           
 seatsOrderedFileName=	localFileDir+'seatsOrdered.xlsx';
@@ -1240,10 +1234,7 @@ for(i=1; i<lastSeatNumber+1; i++){
   
  requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
  
- //debug
- console.log('AI3='+requestedSeatsWorksheet['AI3']);
- console.log('AI3_t='+requestedSeatsWorksheet['AI3'].t);  
-	// end debug
+ 
 	for(i=0;i<200;i++) familyNames[i]='';  // clear the table
 	
 	
@@ -2440,50 +2431,31 @@ app.get('/getFullList', function(req, res) {
 	if(inpData[1] == mngmntPASSW){
 	initFromFiles(inpData[2]);
 	
-	//debug
 	
-	console.log('/'+inpData[2]+'/');     if( ! inpData[2] )console.log('lkjh');
-	console.log(requestedSeatsWorksheet['AI3']);// original
-	console.log(typeof requestedSeatsWorksheet['AI3']);
-	console.log(typeof requestedSeatsWorksheet['AI5']);
-	console.log(delLeadingBlnks(requestedSeatsWorksheet['AI3'].v));
-	
-	
-	//end debug
-	 listType=inpData[4]; console.log('listType='+listType);
+	 listType=inpData[4]; 
 	tmplist=[];
 	ijl=0;
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
 	  name = familyNames[ijk];		
 		if (listType=='problems'){
-			  row=knownName(name)[0]; console.log('row='+row+'/');
-			
-				row=row.toString(); console.log(  'row='+row+'/'+  'amudot.stsfctnInFlrLastYrWmn='+amudot.stsfctnInFlrLastYrWmn);
+			  row=knownName(name)[0]; 
+				row=row.toString();
+				 
 					ptr1=amudot.stsfctnInFlrLastYrWmn+row;
-				 console.log('name='+name+' row='+row+  'ptr1='+ptr1);
-				 console.log(' requestedSeatsWorksheet[ptr1]='+ requestedSeatsWorksheet[ptr1]);
-				 console.log(' typeof requestedSeatsWorksheet[ptr1]='+  typeof requestedSeatsWorksheet[ptr1]);
-				 if ( typeof requestedSeatsWorksheet[ptr1] =='undefined'){console.log('yes')}else console.log('no');
-			//	 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);
+			
 				if ( typeof requestedSeatsWorksheet[ptr1] !='undefined'){
-				     tmp=delLeadingBlnks(requestedSeatsWorksheet[ptr1].v);  console.log('vlu='+requestedSeatsWorksheet[ptr1]+' tmp='+tmp);
+				     tmp=delLeadingBlnks(requestedSeatsWorksheet[ptr1].v);  
 				     if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
 					} else 	wmnCalculatedStsf='10';
 				
 				ptr1=amudot.stsfctnInFlrLastYrMen+row;
-				 console.log('name='+name+' row='+row+  'ptr1='+ptr1);
-				 console.log(' requestedSeatsWorksheet[ptr1]='+ requestedSeatsWorksheet[ptr1]);
-				 console.log(' typeof requestedSeatsWorksheet[ptr1]='+  typeof requestedSeatsWorksheet[ptr1]);
-			//	 console.log(' requestedSeatsWorksheet[ptr1].v='+ requestedSeatsWorksheet[ptr1].v);
-			if ( typeof requestedSeatsWorksheet[ptr1] =='undefined'){console.log('yes')}else console.log('no');	
-					
-					
+				
 				if (	typeof requestedSeatsWorksheet[ptr1] != 'undefined' ){ 
 				    tmp=delLeadingBlnks(requestedSeatsWorksheet[ptr1].v);
 			      if ( ! tmp){menCalculatedStsf='10' } else menCalculatedStsf=tmp.split('*')[0];
 				  }else 	menCalculatedStsf='10';	
-				console.log('wmnCalculatedStsf='+wmnCalculatedStsf+'   menCalculatedStsf='+menCalculatedStsf);
+			
 		    if (  (wmnCalculatedStsf=='10') && (menCalculatedStsf=='10') )continue
 		  } // if listType=problems 
 	
@@ -2491,7 +2463,7 @@ app.get('/getFullList', function(req, res) {
 			ijl++;
 
    };
-	console.log('tmplist='+tmplist);
+
 	tmplist=tmplist.sort();
 
 	 listOfnames='+++'+	tmplist.join('$');																														
@@ -3557,9 +3529,11 @@ app.get('/getRowValues', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 	 inputString=decodeURI(req.originalUrl).split('?')[1];
 	
-	 inputPrms=inputString.split('$');
+	 inputPrms=inputString.split('$');    name $   passw   $   req_year  $
 	 nameToDebug=[];
 	 if ( inputPrms[1]==debugPASSW){
+	     req_year=inputPrms[2];
+			 initFromFiles(req_year);
 	     nameToDebug=knownName(inputPrms[0]);  
 			 numberOfFirstnames=nameToDebug[1].split('$').length;
 			 if (numberOfFirstnames > 1) {
@@ -3624,8 +3598,68 @@ app.get('/manualUpdateValues', function(req, res) {
 
 })
 
+//--------------------------------------------------------------------------------
+		
+app.get('/getMembersInfo', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	inputString=decodeURI(req.originalUrl).split('?')[1];
+	if (inputString[0] != mngmntPASSW){
+	   res.send('--- wrong  password');
+		 return;
+		 }
+		 initFromFiles('');  // last year info  
+	listToSend='+++$';
+	 Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
+											    colmn=amudot[key];
+													    listToSend=listToSend+delLeadingBlnks(requestedSeatsWorksheet[ colmn+'1'].v)+'&';  //hdrs
+													      
+													 }) // for each
+													  listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
+											 console.log(' listToSend hdrs='+ listToSend);
+	  for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
+		    listToSend=listToSend+'$'		
+		    sMember=member.toString(); 
+				 Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
+											    colmn=amudot[key];
+													    listToSend=listToSend+delLeadingBlnks(requestedSeatsWorksheet[ colmn+sMember].v)+'&';  
+													      
+													 }) // for each 
+					listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
+					console.log('smember='+sMember+ '  listToSend='+listToSend);
+					} // for member								 
+	   res.send(listToSend);
+ });	
 
-				
+
+/--------------------------------------------------------------------------------
+		
+app.get('/updateMembersInfo', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	inputString=decodeURI(req.originalUrl).split('?')[1];
+	memberInfoTable=inputString.split('$');
+	if (memberInfoTable[0] != mngmntPASSW){
+	   res.send('--- wrong  password');
+		 return;
+		 }
+		 initFromFiles('');  // last year info  
+	
+	 for(member=1;member<memberInfoTable.length;member++){
+	     AMemberInfo=memberInfoTable[member].split('&');
+	     memberName= AMemberInfo[0];
+	     rowNum= knownName(memberName)[0];
+	     row=rowNum.toString();
+		   j=0;
+	     Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
+											    colmn=amudot[key];
+													if ( ! j )requestedSeatsWorksheet[ colmn+row].v=AMemberInfo[j];  // do not copy new name on existing name
+													console.log('colmn+row='+colmn+row+' AMemberInfo[j]='+AMemberInfo[j]);
+													j++;      
+													 }) // for each
+													  
+			xlsx.writeFile(workbook, XLSXfilename);  // write update								 
+						 
+	   res.send('+++');
+ });						
 //---------------------------------------------------------------------------------	 
 
 // initialize membersRequests.xlsx file
@@ -3760,7 +3794,7 @@ function genNewYearRequestSheet(yearToCreate){
                             ptr1= amudot[key]+rww;
 														vlu=' ';
 														if( requestedSeatsWorksheet[ptr1]) vlu=requestedSeatsWorksheet[ptr1].v;
-									        console.log('ptr1='+ptr1+'   vlu='+vlu);
+									        //console.log('ptr1='+ptr1+'   vlu='+vlu);
 														YrSheet[ptr1]={t:"s",v:vlu};
 														YrSheet[ptr1].v=(YrSheet[ptr1].v).toString();  //make sure it is of str attribute
 												
