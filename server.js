@@ -3529,7 +3529,7 @@ app.get('/getRowValues', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 	 inputString=decodeURI(req.originalUrl).split('?')[1];
 	
-	 inputPrms=inputString.split('$');    name $   passw   $   req_year  $
+	 inputPrms=inputString.split('$');  //  name $   passw   $   req_year  $
 	 nameToDebug=[];
 	 if ( inputPrms[1]==debugPASSW){
 	     req_year=inputPrms[2];
