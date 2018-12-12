@@ -3655,7 +3655,7 @@ app.get('/updateMembersInfo', function(req, res) {
 													console.log('colmn+row='+colmn+row+' AMemberInfo[j]='+AMemberInfo[j]);
 													j++;      
 													 }) // for each
-													  
+				} //for member			  
 			xlsx.writeFile(workbook, XLSXfilename);  // write update								 
 						 
 	   res.send('+++');
