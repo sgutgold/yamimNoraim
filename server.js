@@ -3658,7 +3658,11 @@ app.get('/updateMembersInfo', function(req, res) {
 		   j=0;
 	     Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
 											    colmn=amudot[key];
-													if ( ! j )requestedSeatsWorksheet[ colmn+row]={t:"s",v:AMemberInfo[j]};  // do not copy new name on existing name
+													if ( ! j ){                               // do not copy new name on existing name
+													      requestedSeatsWorksheet[ colmn+row]={t:"s",v:' '}; 
+																requestedSeatsWorksheet[ colmn+row].v= AMemberInfo[j];
+																console.log( colmn+row+'  done');
+																}
 													console.log('colmn+row='+colmn+row+' AMemberInfo[j]='+AMemberInfo[j]);
 													j++;      
 													 }) // for each
