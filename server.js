@@ -3602,11 +3602,10 @@ app.get('/manualUpdateValues', function(req, res) {
 		
 app.get('/getMembersInfo', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-	inputString=decodeURI(req.originalUrl).split('?')[1];  console.log('inputString='+inputString);
+	inputString=decodeURI(req.originalUrl).split('?')[1]; 
 	if (inputString != mngmntPASSW){
 	   res.send('--- wrongg  password');
-		 console.log('mngmntPASSW='+mngmntPASSW+'/');
-		 }
+	 }
 		 initFromFiles('');  // last year info  
 	listToSend='+++$';
 	 Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
@@ -3615,7 +3614,7 @@ app.get('/getMembersInfo', function(req, res) {
 													      
 													 }) // for each
 													  listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
-											 console.log(' listToSend hdrs='+ listToSend);
+											  
 	  for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
 		temp1=listToSend.length;   // for console.log
 		    listToSend=listToSend+'$'		
@@ -3658,7 +3657,7 @@ app.get('/updateMembersInfo', function(req, res) {
 		   j=0;
 	     Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
 											    colmn=amudot[key];
-													if ( ! j ){                               // do not copy new name on existing name
+													if (  j ){                               // do not copy new name on existing name
 													      requestedSeatsWorksheet[ colmn+row]={t:"s",v:' '}; 
 																requestedSeatsWorksheet[ colmn+row].v= AMemberInfo[j];
 																console.log( colmn+row+'  done');
