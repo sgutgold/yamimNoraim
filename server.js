@@ -3631,8 +3631,8 @@ app.get('/getMembersInfo', function(req, res) {
 					listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
 					temp2=listToSend.length;   // for console.log
 					toPrint=listToSend.substr(temp1,temp2-temp1);
-					console.log('smember='+sMember+ '  nextOn_listToSend='+toPrint);
-					console.log('--------------------------');
+				//	console.log('smember='+sMember+ '  nextOn_listToSend='+toPrint);
+			//		console.log('--------------------------');
 					} // for member								 
 	   res.send(listToSend);
  });	
@@ -3658,7 +3658,7 @@ app.get('/updateMembersInfo', function(req, res) {
 		   j=0;
 	     Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
 											    colmn=amudot[key];
-													if ( ! j )requestedSeatsWorksheet[ colmn+row].v=AMemberInfo[j];  // do not copy new name on existing name
+													if ( ! j )requestedSeatsWorksheet[ colmn+row]={t:"s",v:AMemberInfo[j]};  // do not copy new name on existing name
 													console.log('colmn+row='+colmn+row+' AMemberInfo[j]='+AMemberInfo[j]);
 													j++;      
 													 }) // for each
