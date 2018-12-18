@@ -85,12 +85,12 @@
 	 legend {color:red}
    textarea {width:560px; height:80px;  border:1px solid black; font-size:15px}
    #id1 {width:auto}
-    td   {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold;}
+    
 	 input {font-size:25px}
 	 .floatingDivColorTable  {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold;}
 	  
 		#FmNmT1 {display:inline-block; vertical-align:middle;border-collapse:collapse }
-		#FmNmT2 {display:inline-block; vertical-align:middle;border-collapse:collapse }
+		#FmNmT2 {display:inline-block; vertical-align:middle;border-collapse:collapse;border-style: solid }
 		#fmNameFloat  {	border-style: none}
 		#fmName {	border-style: none}
 	  img {position:absolute; z-index:-1}
@@ -267,7 +267,8 @@
                      -webkit-transform: rotate(90deg);
 										 -moz-transform: rotate(90deg);
 										 -ms-transform: rotate(90deg);
-										  transform: rotate(90deg);  
+										  transform: rotate(90deg);
+											transform-origin: 60% 70%;   
 						         }
 										 
 		.textRotated90Special	{  display:inline-block;  position:absolute; left:10;  bottom:40;
@@ -355,6 +356,19 @@
                       transform: rotate(180deg);  
 											    transform-origin: 50% 50%;  
                      }
+										 
+.prtRotate90S55_100 {  
+                      
+	                     position:absolute; 
+		                 -webkit-transform: rotate(90deg);   
+										      -webkit-transform-origin: 55% 100%; 
+                     -moz-transform: rotate(90deg);
+										      -moz-transform-origin: 55% 100%; 
+                     -ms-transform: rotate(90deg);
+										     -ms-transform-origin: 55% 100%; 
+                      transform: rotate(90deg);  
+											    transform-origin: 55% 100%;  
+                     }										 
 	
 	#dialogoverlay{
 	display: none;
@@ -598,6 +612,32 @@ spn391_2016={spn:"spn",  spnClass:"spnForW50H20"};
               List391T591_2016 = [[180,10,20],row391_2016,row392_2016,row393_2016,row394_2016,row395_2016,
 							     row396_2016,row397_2016,row398_2016,spn579_2016,row579_2016,spn590_2016,row590_2016,spn590_2016,row591_2016];
 														 
+//
+row391Mosh = {firstInRow:391, lastInRow:681, lft:50, tp:280,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};	
+row392Mosh = {firstInRow:392, lastInRow:682};
+row393Mosh = {firstInRow:393, lastInRow:683};
+row394Mosh = {firstInRow:394, lastInRow:684};
+row395Mosh = {firstInRow:395, lastInRow:685};
+row396Mosh = {firstInRow:396, lastInRow:686};
+spn397Mosh={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
+row397Mosh = {firstInRow:577, lastInRow:687};
+spn398Mosh={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
+row398Mosh = {firstInRow:578, lastInRow:688};
+spn579Mosh={spn:"spn",  spnClass:"spnForW50H20",spnCount:2};
+row579Mosh = {firstInRow:589, lastInRow:689};
+spn590Mosh={spn:"spn",  spnClass:"spnForW50H20",spnCount:3};
+row590Mosh = {firstInRow:610, lastInRow:690};
+spn591Mosh={spn:"spn",  spnClass:"spnForW50H20",spnCount:3};
+row591Mosh = {firstInRow:611, lastInRow:691};
+spn391Mosh={spn:"spn",  spnClass:"spnForW50H20"};
+
+              List391T591Mosh = [[180,10,20,20,40,20],row391Mosh,row392Mosh,row393Mosh,row394Mosh,row395Mosh,row396Mosh,  spn397Mosh,row397Mosh, spn398Mosh,row398Mosh,  spn579Mosh,row579Mosh,
+							               spn590Mosh,row590Mosh,spn591Mosh,row591Mosh];
+ 
+
+
+
+
 														 
 //
 row391 = {firstInRow:391, lastInRow:661, lft:140, tp:280,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};	
@@ -621,7 +661,7 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
  row301 = {firstInRow:301, lastInRow:371, lft:270, tp:16,textRotate:"textNotRotated", cellClass:"W50H20", uLstClass:"UlClass",divClass:"notRotatedDiv"};
  row302 = {firstInRow:302, lastInRow:372};
  row303 = {firstInRow:303, lastInRow:373};
- row304 = {firstInRow:304, lastInRow:374};
+ row304 = {firstInRow:304, lastInRow:374};9
  row305 = {firstInRow:305, lastInRow:375};
  spn316={spn:"spn",  spnClass:"spnForW50H20",spnCount:1};
  row316 = {firstInRow:316, lastInRow:376};
@@ -643,18 +683,23 @@ spn391={spn:"spn",  spnClass:"spnForW50H20"};
  
  
  row461 = {firstInRow:461, lastInRow:467, lft:338, tp:485,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+row461moshavim = {firstInRow:461, lastInRow:467, lft:458, tp:485,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"notRotatedDiv"};
+
  row481 = {firstInRow:481, lastInRow:488};
  row501 = {firstInRow:501, lastInRow:510};
  row521 = {firstInRow:521, lastInRow:532};
  row548 = {firstInRow:548, lastInRow:565};
+ row548Moshavim={firstInRow:548, lastInRow:560};
                List461T548=[[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],row461,row481,row501,row521,row548];
-							 
+			List461T548Moshavim=[[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],row461moshavim,row481,row501,row521,row548Moshavim];
+		 
  row381={firstInRow:381, lastInRow:382, lft:670, tp:230,textRotate:"textRotated90", cellClass:"W22H37", uLstClass:"UlClass",divClass:"RotatedM135Div"};
                List381=[[1,1],row381];
 
 
    ListArray2_2016=[List681T691_2016,List391T591_2016,list301T316,List401T541,List461T548,List381]							 
    ListArray2=[List681T681,List391T591,list301T316,List401T541,List461T548,List381];
+	 listArrayPermMoshavim=[List391T591Mosh,list301T316,List401T541,List461T548Moshavim,List381];
  
 // -----------EZRAT NASHIM-----------------------------------------------------------------
  
@@ -827,7 +872,13 @@ rashiDrawing=  [
 			  ["knisa2",660,"knisa2"], 
 			  ["arrow2",560,"arrow2"]     ];
 				
-				 
+moshavimRashiDrawing=  [
+       ["drawing_3",35,"drawing_3"],
+        
+			  ["knisa1",175,"knisa1"], 
+			  ["arrow1",160,"arrow1"],
+			  ["knisa2",660,"knisa2"], 
+			  ["arrow2",560,"arrow2"]     ];				 
 //------nashim
 nashimpicStrct={sorc:ezrat_nashim_pic,wdth:400,hgt:260,lft:460,tp:175,rtt:0,picId:'nashimpic'}; 
 picsforNashim=[nashimpicStrct];
@@ -842,8 +893,10 @@ nashimDrawing=[
 		      ["arrow4",400,"arrow4"]      ];
 					
 					
-// ------------------root structures					
-
+// ------------------root structures			yearlyDataStructureMoshavim		
+  moshavimDataStructure  ={ rashi:{ListArray:listArrayPermMoshavim,pics:picsforRashi,drawings:moshavimRashiDrawing}};
+                             
+										 
 										 
 	lastyearStructure  ={martef:{ ListArray:ListArray1,pics:picsForMartef,drawings:martefDrawing},
                      rashi:{ListArray:ListArray2,pics:picsforRashi,drawings:rashiDrawing},
@@ -880,7 +933,7 @@ var seatOriginalInfo= new Array;
 									 
 var toPrintCt;
 var password;
-
+var moshavim=false;
 
 var moed=0;
 var sidurUlam=0;
@@ -955,6 +1008,7 @@ var functionKeyList=[
 var reFocus;										 
 var focusElmnt;			
 
+var inDbgRange=false;
 
 var shurot=[];		
 var cellAttrbts=[[]];		
@@ -984,20 +1038,147 @@ var prsnlProblemsVlusFromServer= new Array;
 var newprsnlProblemsVlus= new Array;
 
 
-// -------------------------------------------------------------------   
+// -------------------------------------------------------------------  
+//var waiting_for_server=false; 
+var timer_on=false;
+var timerId;
+var funcStack=[];
+							
+var debugState=false;
+function send_msg_to_server(url){
+
+   var oneSecond=1000;
+   var response_arrived;
+   response_arrived='waiting';
+	 var currentUrlToSend;
+	 currentUrlToSend=url;
+	 var nestingLevel=0;
+	 var start_time;
+	 var chnge_color=false;
+	 var seconds_elapsed;
+	 
+	//document.getElementById('waitingForServerMSg').style.display='none';
+  var w = window.innerWidth;
+  var h = window.innerHeight;		
+  var waitingForServerMsg_ElmntHight=80;
+	var waitingForServerMsg_ElmntWidth=300;	
+	//waitingForServerMsg=document.getElementById('waitingForServerMsg');  console.log('ll='+waitingForServerMsg);
+	document.getElementById('waitingForServerMSg').style.height=waitingForServerMsg_ElmntHight;
+	document.getElementById('waitingForServerMSg').style.width=waitingForServerMsg_ElmntWidth;
+	document.getElementById('waitingForServerMSg').style.top=(h/2-waitingForServerMsg_ElmntHight-40).toString()+'px';
+	document.getElementById('waitingForServerMSg').style.left=	((w-waitingForServerMsg_ElmntWidth-40)/2 ).toString()+'px';		
+	document.getElementById('waitingForServerMSg').style.display='none';
+	
+	
+	
+	 xhttp.abort();  // abort any previous ongoing activity
+	 	if ( timer_on) clearTimeout(timerId); timer_on=false;
+	 start_time = new Date();
+    xhttp.open("GET", currentUrlToSend);
+		xhttp.send();	
+	//	waiting_for_server=true;
+	 
+//------------------internal functions-----
+    	  xhttp.onprogress = function () {  
+				d = new Date();
+      	if ( xhttp.status != 200){
+			     seconds_elapsed=(d-start_time)/1000;
+					if(debugState) console.log('  Retry;  server not responding at '+d+ ' after '+ seconds_elapsed +' seconds wait, for '+url);
+					 
+           xhttp.open("GET", currentUrlToSend);
+					 xhttp.send();	
+		     
+				  }  //if
+		    };  //function  onprogress
+//------------
+      xhttp.onload = function () {
+  	         d = new Date();
+		         if ( xhttp.status == 200){
+						    response_arrived='yes';
+								seconds_elapsed=(d-start_time)/1000;
+							  if(debugState)console.log("onload at "+d+' after '+ seconds_elapsed +' seconds wait; nesting level is '+nestingLevel);
+								if ( timer_on) clearTimeout(timerId); timer_on=false;
+					    	xhttp.onload=doNothing;
+								xhttp.onprogress=doNothing;
+								turn_waitForServerMsg_on(false);
+								rtrnFunc=funcStack.pop();
+								rtrnFunc(xhttp.responseText);
+  
+						}  //if		
+  	 		
+	   };   //function  onload
+//----------------- end of internal functions---------------------------
+							
+	  if(debugState)console.log( (send_msg_to_server.caller).toString()  );
+	
+   turn_waitForServerMsg_on(true);
+	 send_msg_to_server_internal();
+	
+	
+
+ function send_msg_to_server_internal(){
+			 nestingLevel++;
+			 chnge_color= ! chnge_color;
+			 if(chnge_color){dspl='none'}else dspl='block';
+			 d = new Date();
+			 
+		   if(response_arrived=='yes')return true;  // done
+
+       document.getElementById('waitingForServerMSg').style.display=dspl;
+			 
+	     if ( timer_on) clearTimeout(timerId); timer_on=true;
+			 timerId=setTimeout(send_msg_to_server_internal, oneSecond);	//console.log('sending, timeout at  '+d+' for '+oneSecond);
+			 return false;
+	
+   }  //function
+
+	 
+//---------------------------------------------------------------
+function turn_waitForServerMsg_on(on){
+
+ 
+
+if (on) {displyStyle='block'} else displyStyle='none';
+
+
+document.getElementById('waitingForServerMSg').style.display=displyStyle;
+
+}  // function
+
+}  // sendtoserver function
+
+//---
+function doNothing(){};
+
+
+
+
+
+//---------------------------------------------------------------
+
+ 
   
 
 function initPage(){
-   
+  
+  
+	 
+ // internal functions
+ 
+ function initPage_start(){ 
 	      var d = new Date();
 	     nextYear=d.getFullYear();
 			 currentMonth=Number(d.getMonth()); 
 			 if (currentMonth > 9 )nextYear=Number(nextYear)+1;
 			 LastYear=(nextYear-1).toString();
 			 nextYear=nextYear.toString();
-
+      funcStack.push(initPage_cont_1);
 			hideFieldSets();
 			
+}
+//   ---
+
+function initPage_cont_1(){			
 			document.getElementById("firstX").onmouseover=disableFmNmOnChange;;	
 			document.getElementById("firstX").onmouseout= enableFmNmOnChange;
 			
@@ -1006,11 +1187,22 @@ function initPage(){
 			
 			window.onkeydown = keydown;
 			window.onkeyup = keyup;
-
+      funcStack.push(initPage_cont_2);
       initListOfYears();
 			
-	getShulConfig();
+}
 
+//------------
+
+function initPage_cont_2(){			
+			funcStack=[doNothing];
+	    getShulConfig();
+
+}
+
+/// main init page
+
+initPage_start();
 }
 
 // -------------------------------------------------------------------   
@@ -1083,16 +1275,23 @@ function enableFmNmOnChange(){ fmNmOnChangeDIsabled=false;}
 			
 			
           // prepare year to review selection
-	    url=encodeURI(firstPartOfURL+"/getYearList");
-      xhttp.open("GET", url, false);
-      xhttp.send();
-	    rspnsString = xhttp.responseText.split('$');  
+					
+					url=encodeURI(firstPartOfURL+"/getYearList");
+		      funcStack.push(initListOfYears_cont);
+          send_msg_to_server(url);
+	}
+
+//------
+function 	initListOfYears_cont(rslt){
+	 
+	    rspnsString = rslt.split('$');  
 			
 			 
 					rspnsString.sort(); 
                     
 				  for (i=0; i<	rspnsString.length; i++)document.myform.dsplayYear.options[i+1]=new Option(rspnsString[i]);
-			
+			rtrnFunc=funcStack.pop();
+			rtrnFunc();
  
  }
 // -------------------------------------------------------------------  
@@ -1116,6 +1315,7 @@ document.getElementById("hall1").style.display='none';
 // -------------------------------------------------------------------  
 
 function getSeatsStructureForYear(yr){
+  if(moshavim)return moshavimDataStructure;
   if ( !yr )return yearlyDataStructure[0][1];
 	if (yearlyDataStructure.length==1) return yearlyDataStructure[0][1];
 	
@@ -1145,14 +1345,17 @@ function hideFieldSets(){
 	 document.getElementById("addNewMember").style.display='none';
 	 document.getElementById("copyAssignment").style.display='none';
 	 document.getElementById("prsnlProblems").style.display='none';
-	  document.getElementById("reportAssgnmnts").style.display='none';
-		  document.getElementById("stsfctn").style.display='none';
-
-
+	 document.getElementById("reportAssgnmnts").style.display='none';
+	 document.getElementById("stsfctn").style.display='none';
+      
+   funcStack.push(hideFieldSets_cont);
 
 	 
-			displayRegistrationClosedStatus();	
-  
+			displayRegistrationClosedStatus();
+}
+//---------------------------
+function 		hideFieldSets_cont(rslt){		
+      rspnsString=rslt; 
 			isWoman=rspnsString[2].split('+');  
 			
 			  originalInfo.occupancBGColor='White';  
@@ -1201,7 +1404,9 @@ function hideFieldSets(){
 	document.getElementById('pasw').focus();
 
 	
-	setTimeout(blinkRequested, 1000);		
+	setTimeout(blinkRequested, 1000);	
+	rtrnFunc=funcStack.pop();
+	rtrnFunc();	
 							
 	}
   
@@ -1210,11 +1415,19 @@ function displayRegistrationClosedStatus(){
 
 
     url=encodeURI(firstPartOfURL+"/isRegistrationClosed");
-   xhttp.open("GET", url, false);
-   xhttp.send();
+		funcStack.push(displayRegistrationClosedStatus_cont);
+    send_msg_to_server(url);
+		}
+
+//----------
+
+function displayRegistrationClosedStatus_cont(rslt){
+	
+// xhttp.open("GET", url, false);
+//   xhttp.send();
 	 tmp1= document.getElementById("openclose");   
 	 tmp2= document.getElementById("openclose_2");   
-	 rspnsString = xhttp.responseText.split('$');  
+	 rspnsString = rslt.split('$');  
 	 if ( rspnsString[0] == '+++'){ 
 	     registrationClosed = true;
 				 
@@ -1232,7 +1445,7 @@ function displayRegistrationClosedStatus(){
 						 dParts[1]=['01','02','03','04','05','06','07','08','09','10','11','12'][MonthNum];
 			 
 			 dclose=dParts[2]+' '+dParts[1]+' '+dParts[3]+' '+dParts[4];   
-			 
+			 if(debugState)console.log('txt1='+txt1);
 			 tmp1.innerHTML=	txt1;	
 			 tmp2.innerHTML=	dclose;	
 										}
@@ -1240,11 +1453,12 @@ function displayRegistrationClosedStatus(){
 				    					
 				else{ 
 				         registrationClosed = false;  
-				
+				if(debugState)console.log('kjhgf');
 			              tmp1.innerHTML=	'סגור הרשמה';	
 										tmp2.innerHTML=	' ';	
 										}
-			
+			rtrnFunc=funcStack.pop();							
+			rtrnFunc(rspnsString);  //continue
 
 }
  // --------------------------------------------------------------------------
@@ -1295,17 +1509,19 @@ function deleteOldChildren(id){
 // ---------------------------------------------------------------------------------	
 	
 	function getPosition(element) {
-    var xPosition = 0;
+    var xPosition = 0; 
     var yPosition = 0;
   var kkk=0;
     while(element) {toPrint[toPrintCt]={k:kkk, offsttop:element.offsetTop, scrltp:element.scrollTop,cknttop:element.clientTop,nxtelmnt:element.offsetParent};
 		                                      kkk++; toPrintCt++;
-        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+				     
+			// xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+			 xPosition += element.offsetLeft ;
      //   yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
 		    yPosition += (element.offsetTop  + element.clientTop);
 				
         element = element.offsetParent;  
-			//	alert( 'offsettop='+element.offsetTop+' scrolltop='+element.scrollTop+' clienttop='+element.clientTop+' elmnt='+element);
+			
     }
     return { x: xPosition, y: yPosition };
 }
@@ -1398,7 +1614,7 @@ function adjustElementTop(LTextElement,element,tp,styl){
 			textSpan.className=LLst[1].textRotate;
 			//textSpan.style.opacity=1;
 		  textSpan.innerHTML='&nbsp';
-			cond=(! mapForMember)&&(! printingNow); 
+			cond=(! mapForMember)&&(! printingNow)&& (! moshavim); 
 	    if ( cond)	textSpan.innerHTML=(j).toString();  			cell.appendChild(textSpan);  
      
 			inh=j.toString(); 
@@ -1649,12 +1865,12 @@ if(tempStr=='$/')return;
 	           adjustElementTop(LegendTextElement,drwings[drw][0],drwings[drw][1],drwings[drw][2]); 	
 }
 	
-// ---------------------------------------------------------------------------------	
+// ---------------------------------------------------------------------------------listArrayPermMoshavim;	
    function generateRashi(LegendTextElement,merkaziElement){
 
    startingTop=getPosition(LegendTextElement);
 	 startingTop=startingTop.y+20;  
-	 
+	    
      yearStructure=getSeatsStructureForYear(yearToDisplay);
 		 rashiStructure=yearStructure.rashi;
 		 ListArray=rashiStructure.ListArray; 
@@ -1713,9 +1929,10 @@ function GenerateTables(){
 
 deleteOldChildren('kk'); // delete previous tables.
 
-   if ( ( ! printingNow) || printingMartef) document.getElementById("hall1").style.display='block';
+
+   if ( ! moshavim) if ( ( ! printingNow) || printingMartef) document.getElementById("hall1").style.display='block';
 	 if ( ( ! printingNow) || printingRashi) document.getElementById("hall2").style.display='block';
-	 if ( ( ! printingNow) || printingNashim) document.getElementById("hall3").style.display='block';
+	 if ( ! moshavim) if ( ( ! printingNow) || printingNashim) document.getElementById("hall3").style.display='block';
 	
  //    ---------Martef---------------------------------------------------------------		
 	
@@ -1723,7 +1940,7 @@ deleteOldChildren('kk'); // delete previous tables.
 LegendTextElement=document.getElementById("Hall1FrameTop"); 
 MartefElement=document.getElementById("hall1"); 
 
-generateMartef(LegendTextElement,MartefElement);
+if ( ! moshavim)generateMartef(LegendTextElement,MartefElement);
 
 //------------------OOLAM RASHI--------------------------------------------------------
       LegendTextElement=document.getElementById("Hall2FrameTop"); 
@@ -1735,7 +1952,7 @@ generateMartef(LegendTextElement,MartefElement);
 //--------------------------EZRAT NASHIM----------------------------------------
      LegendTextElement=document.getElementById("Hall3FrameTop"); 
      nashimElement=document.getElementById("hall3");
-		 generateNashim (LegendTextElement,nashimElement);
+	if ( ! moshavim)	 generateNashim (LegendTextElement,nashimElement);
 		 	 
 //--------------------------------------------------------------------------------			
 	
@@ -2238,8 +2455,14 @@ function getFinalStsfctnVlu(vl){
 	   
 	   document.myform.familyname.value=document.myform.famyname.value; // needed there for ckName
 		yearToDisplay='';   // get info from this year
-		
-		 res= ckName(0);
+		funcStack=[getInfoForStsfction_cont1];
+		  ckName1(0);
+}
+
+//-----------------------------------------------------------
+		 
+	function getInfoForStsfction_cont1(rslt){	 
+	res=rslt;
 		  resArray=res.split('&'); 
  if(res.substr(0,3)=='---'){
         Object.keys(positionInMsg).forEach(function(key) {resArray[positionInMsg[key]]=''; 
@@ -2309,8 +2532,14 @@ function getFinalStsfctnVlu(vl){
 	// get info from previous year	
 	
 	yearToDisplay=LastYear;  
-	
-	    res= ckName(0);
+	   funcStack=[getInfoForStsfction_cont2];
+	    ckName1(0);
+			}
+			
+//----------------------------------------                      
+			
+function getInfoForStsfction_cont2(rslt){	
+      res=rslt;		
 		  resArray=res.split('&'); 
       if(res.substr(0,3)=='---'){
         Object.keys(positionInMsg).forEach(function(key) {resArray[positionInMsg[key]]=''; 
@@ -2980,6 +3209,43 @@ function inUlam(seat){
 	          }
 	     			 return CNrspnsString;
     }
+		
+// -----------------------------------------------------------------------------------------	
+    function ckName1(lMoed){ 
+		          if ( ! validPasswordEntered){
+							                          Alert('יש להכניס סיסמא נכונה לפני שימוש בטופס');
+																				document.myform.familyname.value='';
+																				document.getElementById("pasw").focus();
+																				return '999';
+																				}
+           		
+							moedStr=moedCodes[lMoed];
+						
+							url=encodeURI(firstPartOfURL+"/mngfmname/?"+moedStr+document.myform.familyname.value+'$'+'&'+password+'&'+yearToDisplay);
+              funcStack.push(ckName_cont);
+							send_msg_to_server(url);
+							
+	}
+	
+	//---------------------------------
+	function ckName_cont(rslt){
+	            					
+						  CNrspnsString = rslt;
+							focusId=document.getElementById('fmName');
+							if(CNrspnsString.substr(0,3)=='999'){  
+							                        Alert('סיסמא שגויה. הכנס שוב סיסמא');
+																		  document.getElementById("paswDiv").style.display='block';  
+								       	              validPasswordEntered=false; 
+																		  };
+																			
+				if(CNrspnsString.substr(0,3)=='---'){
+				      Alert('שם לא מוכר. אנא הכנס שם שנית או הוסף שם למערכת');	
+							nameToJumpBackTo='';														
+					    clearPrevsVlus();
+	          }
+						func=funcStack.pop();
+	     			 func( CNrspnsString);
+    }		
 //----------------------------------------------------------------------------------------------------
 
 function selectionMade(oprtion){
@@ -3037,7 +3303,21 @@ function prepareToPrint(reqUlam){
   */
 										 
 										 
-										 
+		
+deleteOldChildren('envPrtFormt');
+deleteOldChildren('prtFormt');
+funcStack.push(reqUlam); // move param to cont
+ funcStack.push(prepareToPrint_cont);
+ 
+
+getShulConfig(); 
+
+
+}
+
+//----------------
+
+function prepareToPrint_cont(){
 
 var directnTags=['$','#','<','>','_','+'];
 var shura;
@@ -3057,16 +3337,9 @@ var candidateGroupName;
 var tmp;
 var jumpOne;
 var single;
- 
-
-deleteOldChildren('envPrtFormt');
-deleteOldChildren('prtFormt');
-
- 
-
-getShulConfig(); 
-
 BG_indx=0;
+
+reqUlam=funcStack.pop();  
 
 cellAttrbts=[[],[]];
 
@@ -3077,7 +3350,7 @@ if (ulam != reqUlam)continue;
 
   fromSeat=shurot[shura][0];  
 	toSeat=shurot[shura][1];
-	inDbgRange=false;  if ( (fromSeat==681) || (fromSeat==681) )inDbgRange=true;//===========================================dbg switch
+	inDbgRange=false;  if ( (fromSeat==491) || (fromSeat==511) || (fromSeat==541) )inDbgRange=true;//===========================================dbg switch
 
 
 	
@@ -3090,9 +3363,9 @@ inDbgRange=false;
 	 divWidth=0;
 	 cellAttrbts[0][0]=0;
 	 cellAttrbts[0][1]=0;
-	 
+	 if(inDbgRange)console.log('-------------------------------------------');
    firstSeatElmnt=document.getElementById('c'+fromSeat.toString()+'_p'); 
-	 getCellAttrbts(firstSeatElmnt,0);  
+	 getCellAttrbts(firstSeatElmnt,0);  if(inDbgRange)console.log('fromSeat='+fromSeat+' envlpX='+shurot[shura][4]+' ind='+shurot[shura][4]);
 	 baseHeight=cellAttrbts[0][2];
 	 baseWidth=cellAttrbts[0][3];  
 	 nxtStElmnt=document.getElementById('c'+(fromSeat+1).toString()+'_p');
@@ -3116,6 +3389,7 @@ inDbgRange=false;
 	startingTop=startingTop.y;						 
 	
 	ind= shurot[shura][4]; 
+	
 	 if (ind ){ 
        envlpX=ind;
 	     envlpY=shurot[shura][5]+startingTop;
@@ -3124,6 +3398,7 @@ inDbgRange=false;
 			    envlpX=cellAttrbts[0][0];  
 	        envlpY=cellAttrbts[0][1];   
 	             }
+		if(inDbgRange)console.log('ind='+ind+' envlpX='+envlpX);
 		
 			
 		envlpDiv.style.zIndex = "10";
@@ -3148,14 +3423,17 @@ inDbgRange=false;
 					
 					    cell_id='c'+innerLoopSeat.toString()+'_p';   
 					    cell=document.getElementById(cell_id);
-																			 
-				     	tempStr=cell.getAttribute('value'); 
-              tempStr=delLeadingBlnks (tempStr); 
+							if (moshavim){
+							   				assgndName=cell.children[0].innerHTML;
+							} else	{												 
+				        	tempStr=cell.getAttribute('value'); 
+                  tempStr=delLeadingBlnks (tempStr); 
 							
-              if(tempStr=='$/'){ jumpOne=1; break;}
-					    strParts=tempStr.split('/'); 
-					    tempAssigned=strParts[0].split('$');
-					    assgndName=tempAssigned[moed-1]; // moed=1 is rosh, =2 is kipur
+                  if(tempStr=='$/'){ jumpOne=1; break;}
+					        strParts=tempStr.split('/'); 
+					        tempAssigned=strParts[0].split('$');
+					        assgndName=tempAssigned[moed-1]; // moed=1 is rosh, =2 is kipur
+							} //else		
 							if ( ! assgndName){ jumpOne=1; break;}
 				    	if ( ! seatCount) {
 							             seatCount=1; 
@@ -3283,12 +3561,12 @@ inDbgRange=false;
 				
 				if(  (directionType==0) || (directionType==4)  || (directionType==5) ) { // if not slanted
 				envHeight=height;
-				if(widthBased){
+				if(widthBased){if(inDbgRange)console.log('widthBased envlpX='+envlpX+' envWidth='+envWidth+' baseWidth='+baseWidth);
 				        //envHeight=baseHeight-2;
 							 envlpX=envlpX-envWidth+baseWidth;  
 							 						        
 							 }
-      	 if(heightBased){
+      	 if(heightBased){if(inDbgRange) console.log('heightBased envlpX='+envlpX+' envWidth='+envWidth+' envHeight='+envHeight);
 				// envHeight=baseHeight-2;
 				
 				   envlpX=envlpX-envWidth/2+envHeight/2;//+2;
@@ -3297,7 +3575,7 @@ inDbgRange=false;
 				
 				}	;
 				envlpDiv.setAttribute("value",fromSeat);	
-				
+				if(inDbgRange)console.log('envlpX3='+envlpX);
 				envlpDiv.style.left=envlpX.toString()+'px';
 	      envlpDiv.style.top=envlpY.toString()+'px';
 								
@@ -3349,17 +3627,7 @@ inDbgRange=false;
 			 
 			 if(nam){textSpan.innerHTML=nam;} else textSpan.innerHTML='&nbsp';
 			 textSpan.style.fontSize=tmp1[1];
-	/*	
-			if ( ! tmp1[0] ){
-			               if ( directionType  ){ txtClass='prtTextRotatedM90'; if( directionType==4)txtClass ='textRotated90';}   //prtTextRotatedM90_4
-										   else { 
-											    if(hgt<30) {txtClass='prtNarrowTextRotated90';}else txtClass='prtWideTextRotated90';
-													}
-			               textSpan.className=txtClass;
-			
-			   } else {
-				             if (directionType != 1) textSpan.className='prtRotate180';   };
-*/
+	                 
 
 //
 
@@ -3373,7 +3641,8 @@ if ( ( ! tmp1[0] ) && (  directionType ==5 ))
 					// console.log('line_hight_reduced='+line_hight_reduced+'  DivClass='+DivClass+'  lnHgt='+lnHgt);
 					 if ( (line_hight_reduced)  && (lnHgt>18) )textSpan.className='prtNarrowTextRotated90_50_50';}  
 if ( (  tmp1[0] ) && (  directionType==5  )  && (! widthBased )  ){ textSpan.className= 'prtRotate180';}   
-if (	directionType==4  )		textSpan.className= 'prtRotate180';            
+if (	directionType==4  )		textSpan.className= 'prtRotate180'; 
+if (	directionType==3  )		textSpan.className= 'prtRotate90S55_100';            
 										 
 //
 
@@ -3447,8 +3716,13 @@ tmp[0]=getPosition(cell).x;
 	 //amudotOfConfig={fromSeat:'A', toSeat:"B",reltvRowQual:'C',open_badSeats:'D',ezor:'E',ulam:'F',X_forSlantedRow:'H',Y_forSlantedRow:'I'};										
 
 	   url=encodeURI(firstPartOfURL+"/getShulConfig");
-     xhttp.open("GET", url, false);
-       xhttp.send();
+		 funcStack.push(getShulConfig_cont);
+     send_msg_to_server(url);
+}
+	
+//-------
+
+function 	getShulConfig_cont(rslt){ 
 	     rspnsString = xhttp.responseText;        
 			 shurot=[];
 			 var shura;
@@ -3467,7 +3741,8 @@ tmp[0]=getPosition(cell).x;
 					
 					}				
 	
-	
+	   func=funcStack.pop();
+		 func();
 	}
 
 //-------------------------------------------------------------------------- 
@@ -3577,11 +3852,14 @@ function getUnFilteredNameList(listType){
   yearToDisplay='';     //nextYear;  // the list of names that has to be handled is the most updated one
 
 	url=encodeURI(firstPartOfURL+"/getFullList/?$"+password+'$'+yearToDisplay+'$'+LastYear+'$'+listType);		
-console.log('url='+url);
-
-         xhttp.open("GET", url, false);
-         xhttp.send();
-	       rspnsString1 = xhttp.responseText; 
+  funcStack=[getUnFilteredNameList_cont];
+  send_msg_to_server(url);
+ }
+ 
+ //---------
+ function   getUnFilteredNameList_cont(rslt){  
+         console.log(' getUnFilteredNameList_cont rslt='+rslt);  
+	       rspnsString1 = rslt; 
          if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');}
 					 else {
 					 listOfNames=rspnsString1.substr(3).split('$');
@@ -3592,6 +3870,7 @@ console.log('url='+url);
 					 currentNameIdx=0;
 					 document.myform.famyname.value=listOfNames[currentNameIdx];
 					      }
+								
 					 		 getInfoForStsfction();			 		
 					 }
 return;
@@ -3772,7 +4051,7 @@ return;
 //--------------------------------------------------------------------------------------------------------			 
 
 function ckSaveAndMoveNextStsfction(){
-
+  if (funcStack.length)return; // busy with previous request
   saveStsfctionVlusToArray(newStsfctionVlus);
   eqArrays=true;
   for (ijk=0;ijk<3;ijk++){
@@ -3788,7 +4067,7 @@ function ckSaveAndMoveNextStsfction(){
 //--------------------------------------------------------------------------------------------------------			 
 
 function ckSaveAndMovePrvsStsfction(){
-
+   if (funcStack.length)return; // busy with previous request
   saveStsfctionVlusToArray(newStsfctionVlus);
   eqArrays=true;
   for (ijk=0;ijk<3;ijk++){
@@ -3839,12 +4118,24 @@ function ckSaveAndMovePrvsPrsnlProblems(){
 }
 //--------------------------------------------------------------------------------------------------------
   function saveAndMoveNext(){   
+	
+	  funcStack=[saveAndMoveNext_cont];
 	  saveStsfctn();
+}
+//-------------------
+function saveAndMoveNext_cont(){		
+		;
 		kademStsfction(1);
 		}
 //--------------------------------------------------------------------------------------------------------
- function saveAndMovePrvs(){   
+ function saveAndMovePrvs(){ 
+    funcStack=[saveAndMovePrvs_cont];  
 	  saveStsfctn();
+}
+
+//--------------------
+
+function saveAndMovePrvs_cont(){		
 		prvnameStsfction();
 		}
 //--------------------------------------------------------------------------------------------------------
@@ -3916,10 +4207,15 @@ function ckSaveAndMovePrvsPrsnlProblems(){
 		 url=url+'$'+lastYearStsfctnMen.toString()+'$'+lastYearStsfctnWmn.toString()+'$'+lastYearSeat.toString()
 		
 	   url=encodeURI(url); 
+		 funcStack.push(saveStsfctn_cont);
+		 send_msg_to_server(url);
+}
+
+//-----------------------
+
+function saveStsfctn_cont(rslt){		 
  
-     xhttp.open("GET", url, false);
-     xhttp.send();
-	   rspnsString1 = xhttp.responseText; 
+     rspnsString1 = rslt; 
      if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');}
 					 else {
 					    	elmnt=document.getElementById('mkishv_m1');        
@@ -3932,7 +4228,8 @@ function ckSaveAndMovePrvsPrsnlProblems(){
 					    Alert('נתונים נרשמו');
 					 }
 				
-				             
+				func=funcStack.pop();
+				func();             
 	 
 	 
 	 }
@@ -4398,13 +4695,28 @@ prepareToPrint('n');
  
 // ---------------------------------------------------------------------------------------- 
 
-function prtPg(){};   // do nthing
+function prtPg(){
+if (moshavim){
+        	   
+            deleteOldChildren('envPrtFormt');
+            deleteOldChildren('prtFormt');
+						document.getElementById("Buttons").style.display='none';	
+            funcStack=['r']; // move param to cont
+            funcStack.push(prepareToPrint_cont);
+ 
 
+             url=encodeURI(firstPartOfURL+"/getShulConfigPerm");
+		         funcStack.push(getShulConfig_cont);  // 2 levels of stack
+             send_msg_to_server(url); 
+
+				
+           };   // else do nthing
+}
 
 // ---------------------------------------------------------------------------------------- 
 
 function initNextYear(){
-
+ 
    if ( ! validPasswordEntered){
 							                          Alert('יש להכניס סיסמא נכונה לפני שימוש בטופס');
 																				return;
@@ -4416,24 +4728,30 @@ function initNextYear(){
 		yesOrNo("פעולה זו גורמת לסגירת השנה הנוכחית כך שאי אפשר יהיה לעדכן נתונים. האם להמשיך?");
 }
 function 	 initNextYearfiles(){
+       var funList=[];
+			 
        var d = new Date();
 	     nextYear=d.getFullYear();
 			 currentMonth=Number(d.getMonth()); 
 			 if (currentMonth > 9 )nextYear=Number(nextYear)+1;
 			 LastYear=(nextYear-1).toString();
 			 nextYear=nextYear.toString();
-			 
-		url=encodeURI(firstPartOfURL+'/initNextyearFiles/?'+password+'$'+nextYear);
-		xhttp.open("GET", url, false);
-		rspnsString='';
-    xhttp.send();   
+			 funcStack.push(initNextYearfiles_cont);
+		   url=encodeURI(firstPartOfURL+'/initNextyearFiles/?'+password+'$'+nextYear);
+			 send_msg_to_server(url)
 		
+	}
 	
-	  rspnsStrings = xhttp.responseText.split('$'); 
+	//---------
+	
+	function	initNextYearfiles_cont(funcLit,rslt){
+	
+	  rspnsStrings = rslt.split('$'); 
 		if(rspnsStrings[0]=='999'){ Alert('בקשה נדחתה. סיסמא לא תקינה');	return};
 		if ( rspnsStrings[0] == '900'){Alert('שנה זו כבר נפתחה בעבר'); return}
 	if ( (rspnsStrings[0] == '+++') && (rspnsStrings[1] == '+++') && (rspnsStrings[2] == '+++')  ){
 	             Alert('הקובץ אותחל');
+							 funcStack=[doNothing];
 							 initListOfYears();
 						  return;
 							} 
@@ -4507,7 +4825,7 @@ function 	 openClose(){
     xhttp.send();
 	  rspnsString = xhttp.responseText.substr(0,3);
 		if(rspnsString.substr(0,3)=='999'){ Alert('בקשה נדחתה. סיסמא לא תקינה');	}
-	if ( rspnsString = '+++')displayRegistrationClosedStatus();         
+	if ( rspnsString = '+++')displayRegistrationClosedStatus(doNothing);         
 
 
 }
@@ -4575,34 +4893,206 @@ document.body.removeChild(a);
 function ckPassW(){
    paswElement=document.getElementById("pasw");
    password=delLeadingBlnks(paswElement.value);
-  
+   moshavim=false;
 
- url=encodeURI(firstPartOfURL+"/ckpswMGMT/?"+password);
-            xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText;
-							focusId=paswElement;
+   url=encodeURI(firstPartOfURL+"/ckpswMGMT/?"+password);
+   funcStack=[ckPassW_cont1];
+	 send_msg_to_server(url);
+	}
+	//-------
+	function ckPassW_cont1(rslt){
+	            rspnsString = rslt;
 							
-						
-						if(rspnsString.substr(0,3)=='---'){
+							if(rspnsString.substr(0,3)=='---'){  // try sidur ulam rashi passw
+							     paswElement=document.getElementById("pasw");
+                   password=delLeadingBlnks(paswElement.value);     
+                   url=encodeURI(firstPartOfURL+"/ckpswMoshavim/?"+password); 
+									 funcStack=[ckPassW_cont2];
+                	 send_msg_to_server(url);
+						}else {			 
+									 document.getElementById("paswDiv").style.display='none';  
+								   validPasswordEntered=true;
+									 document.getElementById("ctrlFieldset").style.display='block';
+									 document.getElementById("oprtion").focus();
+									 }
+	}
+	//------------------------- 
+	
+function ckPassW_cont2(rslt){
+	            rspnsString = rslt;
 							
-							  Alert ('סיסמא שגויה'); return
-												         }
-								 else  {
-								       document.getElementById("paswDiv").style.display='none';  
-								       	validPasswordEntered=true;
-												document.getElementById("ctrlFieldset").style.display='block';
-												document.getElementById("oprtion").focus();
-	
-	
-	/*dbg
-	url=encodeURI(firstPartOfURL+'/testStsfction/?'+password+'$0$40');  
-		xhttp.open("GET", url, false);
-    xhttp.send();
-	  rspnsString = xhttp.responseText.substr(0,3);
-		*/						
-	                      }
+							if(rspnsString.substr(0,3)=='---'){									 
+									 Alert ('סיסמא שגויה'); return
+					    }
+							else  {  // sidur moshavim ulam rashi
+								 // initPage();		
+                  moshavim=true;
+									document.getElementById("hdrText"	).innerHTML='סידור מקומות אולם ראשי';
+		              document.getElementById("paswDiv").style.display='none';  
+		    	        validPasswordEntered=true;
+					        document.getElementById("hall2").style.display='block';
+		        			document.getElementById("mainFieldset").style.display='none';
+			        		GenerateTables();
+					        document.getElementById("Buttons").style.display='block';	
+					        getPrmnntListOfNames();     
+	             }
 	}   
+
+//--------------------------------------------------------------------------------------------------------   
+  function getPrmnntListOfNames(){
+	  var i,rn,textSpan,elmnt;
+		var tempList=[];
+		var temp1List=[];
+			// get list of all requestors			 
+		url=encodeURI(firstPartOfURL+"/getPermanentSeatsList/?"+password);
+		funcStack=[getPrmnntListOfNames_cont];
+		 send_msg_to_server(url);
+}
+
+//------------------------
+		
+function getPrmnntListOfNames_cont(rslt){
+              
+	            rqstorsString = rslt; 
+						
+						  if(rqstorsString.substr(0,3)=='---'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
+					 
+					    strrratrs=delLeadingBlnks(rqstorsString.substr(3));
+							if(! strrratrs){Alert('רשימת שמות ריקה');  return;};
+
+							
+							tempList=strrratrs.split('$');
+						
+			
+					  for (rn=0; rn<tempList.length; rn++){	   // normelise names
+						   temp1List=tempList[rn].split('+');
+							 fnm1=temp1List[0];
+						   requestorsNameList[rn]=fnm1;
+       	       fnm=requestorsNameList[rn].split(' ');
+			         if (fnm.length>1){
+							      fnm1=fnm.join(' ');
+										requestorsNameList[rn]=fnm1; 
+										};
+							
+							 for (i=1;i<temp1List.length;i++){
+							 
+							    seat=temp1List[i];
+									
+							    seatId='c'+seat.toString()+'_p';    
+									elmnt=document.getElementById(seatId);
+									textSpan=elmnt.children[0];
+									 
+					        width=elmnt.offsetWidth;
+					        height=elmnt.offsetHeight;  
+									fnm2=fnm1;
+									 if(fnm2.length==3)fnm2=fnm2+'&nbsp';
+					         if(fnm2.length==2)fnm2=fnm2+'&nbsp'+'&nbsp';  
+					        formatName_single(fnm2,textSpan,width,height);
+		     
+									textSpan.innerHTML=fnm2; 
+									seat=Number(seat); 
+									listOfAssignedSeats[seat]=fnm1; 
+							 }  // for i
+			   	  }  // for 	rn
+					 
+					  
+				
+				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0)}
+					  else{
+					 currentNameIdx=0;
+					 document.myform.familyname.value=requestorsNameList[currentNameIdx];
+					    }
+			
+			
+			}			 
+
+
+
+// ----------------------------------------------------------------------------------------- 
+
+
+function  sendConfig (){
+ var tmp, i,nam,indx,rslt;
+var ListToSend=[];
+
+for (i=0;i<requestorsNameList.length;i++){ListToSend[i]=requestorsNameList[i]+'@'; }
+
+for (i=0;i<700;i++){
+    nam=listOfAssignedSeats[i];
+		if(nam == -1)continue;
+		indx=requestorsNameList.indexOf(nam);  
+		ListToSend[indx]=ListToSend[indx]+(i).toString()+'+';
+	
+		};
+		
+		rslt='';
+		for (i=0;i<ListToSend.length;i++){
+		  ListToSend[i]=ListToSend[i].substr(0,ListToSend[i].length-1);
+			rslt=rslt+ListToSend[i]+'$';
+			};
+			rslt=rslt.substr(0,rslt.length-1);
+			
+		 
+		url=encodeURI(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);
+    funcStack=[sendConfig_cont];
+		send_msg_to_server(url);
+		
+	}	 
+		
+
+//-------------------
+function sendConfig_cont(rslt){
+				
+							if(rslt.substr(0,3)=='---'){  
+							                        Alert('בעיה בתהליך. נסה שנית');
+																		  return;
+																		  }
+																		
+																		
+																		
+																		 Alert('עדכון בוצע');
+		}
+
+
+			
+//--------------------------------------------------------------------------------------------------------
+function formatName_single(nam1,textSpan,width,height){
+ 
+  var tmp,tmpMx,tmpMn;
+	var tmp2,ind_tmp;
+	var hgt;
+	var tmp1=[];
+
+	var nam;
+	var ind;
+	var line_hight_reduced;
+	
+    hgt=Math.min(height,width);
+	  
+		nam=nam1;
+		
+			 tmpMx=Math.max(width,height);				
+	     tmpMn=width+height-tmpMx; // console.log('mx='+tmpMx+'  namLength='+namLength);
+	     tmp=Math.floor((tmpMx/nam.length)*1.5);
+	
+	     if (tmp>tmpMx)tmp=tmpMx;
+ 
+	     //if (tmp<14)tmp=14;     if (tmp>16)tmp=16;
+	     tmp=14;
+	
+			 ind_tmp=nam.indexOf(' '); ind=false; if (ind_tmp != -1)ind = true;
+			 line_hight_reduced=false;
+			 lnHgt=hgt;  if ( ind){lnHgt=lnHgt/2; line_hight_reduced=true;   }
+			 if( (tmp <= 14) && ind)tmp=16; 
+			 textSpan.style.lineHeight =(lnHgt  ).toString()+'px';
+			
+			 //if(nam){textSpan.innerHTML=nam;} else textSpan.innerHTML='&nbsp';
+			 textSpan.style.fontSize=tmp;
+			
+
+}
+
+
 	
 // ----------------------------------------------------------------------------------------- 
   function copyFamilyNameFloat(){
@@ -4680,6 +5170,7 @@ tmp=document.getElementById(msgId);
 
 <div id='dbg' style='position:fixed; top:10; left:20; direction:ltr;display:none; '> x= <span id='dbgx'></span> &nbsp &nbsp y= <span id='dbgy'></span></div>
  
+<div  id='waitingForServerMSg'  style='display:none;border-style: solid;color:red; border-width: 2px;position:fixed;padding: 5px;z-index:11;' ><h1> המערכת ממתינה לשרת </h1></div>    
 
 
 <form name="myform" id='myForm'     >
@@ -4763,7 +5254,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 
 <div id='headerDiv'>
 <h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
-<h1 style="font-size:150%;text-align:center"><b><u>הזמנת מקומות לימים נוראים תשע"ח</u></b> </h1>
+<h1 id='hdrText' style="font-size:150%;text-align:center"><b><u>הזמנת מקומות לימים נוראים תשע"ח</u></b> </h1>
 <div id='paswDiv' >סיסמא:<input id='pasw' type="password" style="display:inline-block"  autofocus onchange='ckPassW()'> </div> <br>
 </div>
 
@@ -4819,7 +5310,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 	
 <div id=	"stsfctn"	style='display:none;width:1000px'>	
 <button  type="button" id='fullStsfctn' onclick= 'stUpStsfctionInput("all")' style='display:inline;float:left'> <h3>הצג רשימה מלאה </h3></button>&nbsp  
-<button  type="button" id='makeSelection' onclick= 'stUpStsfctionInput("problems")' style='display:inline;float:left'> <h3>הצג רק חברים עם בעיות אישיות </h3></button>&nbsp  
+<button  type="button" id='partialStsfctn' onclick= 'stUpStsfctionInput("problems")' style='display:inline;float:left'> <h3>הצג רק חברים עם בעיות אישיות </h3></button>&nbsp  
 </div>	
 	
 	
@@ -4989,7 +5480,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 <div><h3  >ותק מעודכן: <span id='vetek' ></span></h3></div><br>
 
 <br><br>
-	<button  type="button" id='saveStsfct1' onclick= 'saveStsfctn()' style='display:block;height:30px;font-size:22px' > שמור ערכים</button>
+	<button  type="button" id='saveStsfct1' onclick= 'saveStsfctn(doNothing)' style='display:block;height:30px;font-size:22px' > שמור ערכים</button>
 
 
 
@@ -5075,7 +5566,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 	<div>     
                   <label for="familyname">שם משפחה</label>
 		<button  type="button" id='prvs1' onclick= 'prvname()' style='display:inline-block;height:30px;font-size:22px'> &#x2192 </button>
-	 <table id='FmNmT2'><tbody ><tr><td id='secondX' onclick='clrFmName()'>&nbsp x &nbsp</td><td><input type="text" name="familyname" id="fmName"  required onkeyup='getNamesForCompletion(true)' onchange='ckNameRtrvVlus(true)' style='width:250px'> </td></tr><tbody></table>
+	 <table id='FmNmT2'><tbody ><tr><td id='secondX' onclick='clrFmName()'>&nbsp x &nbsp </td><td> <input type="text" name="familyname" id="fmName"  required onkeyup='getNamesForCompletion(true)' onchange='ckNameRtrvVlus(true)' style='width:250px'> </td></tr><tbody></table>
 
 				  <button  type="button" id='next1' onclick= 'nextname()' style='display:inline-block;height:30px;font-size:22px'> &#x2190 </button>
 					<span style='font-size:22px;border:1px dotted' onmouseover="explnArrows(true)" onmouseout="explnArrows(false)"> &nbsp ? &nbsp </span>
@@ -5234,6 +5725,17 @@ RRed4='rgba(139,0,0,0.6)';  // dark red replacement
 	
 	<input type="text"  name='seatsString'  value='' style='display:none'> 
 	</fieldset>
+	
+ 
+	<fieldset id='Buttons' style='display:none;border:none' >
+
+	<button name='sbmt' id='sbmt' type="button"  onclick= 'sendConfig()' style='display:block;width:80px;margin: auto;min-height:45px;'> <h2><span  >עדכן </span>
+	</h2></button>
+
+	
+	</fieldset>
+	
+		
 </form>
 
 <form name="hiddenForm" id='hiddenForm' style='display:none'>
