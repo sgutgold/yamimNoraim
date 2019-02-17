@@ -830,7 +830,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 
 
 	
- /*debug code   1 
+ //debug code   1 
  
  
 
@@ -847,7 +847,7 @@ console.log('5');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	*/  //////// - end debug code  1
+	//  //////// - end debug code  1
 
 	
 	
@@ -3630,8 +3630,7 @@ app.get('/getMembersInfo', function(req, res) {
 					listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
 					temp2=listToSend.length;   // for console.log
 					toPrint=listToSend.substr(temp1,temp2-temp1);
-				//	console.log('smember='+sMember+ '  nextOn_listToSend='+toPrint);
-			//		console.log('--------------------------');
+				
 					} // for member								 
 	   res.send(listToSend);
  });	
@@ -3660,10 +3659,8 @@ app.get('/updateMembersInfo', function(req, res) {
 													if (  j ){                               // do not copy new name on existing name
 													      requestedSeatsWorksheet[ colmn+row]={t:"s",v:' '}; 
 																requestedSeatsWorksheet[ colmn+row].v= AMemberInfo[j];
-																console.log( colmn+row+'  done');
-																}
-													console.log('colmn+row='+colmn+row+' AMemberInfo[j]='+AMemberInfo[j]);
-													j++;      
+														}
+													 j++;      
 													 }) // for each
 				} //for member			  
 			xlsx.writeFile(workbook, XLSXfilename);  // write update								 
