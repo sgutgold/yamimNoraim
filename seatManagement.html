@@ -1756,6 +1756,12 @@ var elmnt, span_element,seatNumber,tmp,fnm1,fnm2,fnm;
     seatNumber=Number(seatNumber);
 		
 		fnm1=delLeadingBlnks(document.myform.familynameForPrmnnt.value);	
+		if ( ! fnm1){   // clear entry
+		   span_element.innerHTML='&nbsp';
+			 listOfAssignedSeats[seatNumber]='';
+			 return;
+			 }
+			 
 		fnm=fnm1.split(' ');
 		if (fnm.length>1)fnm1=fnm.join(' ');
 		
@@ -5936,10 +5942,10 @@ RRed4='rgba(139,0,0,0.6)';  // dark red replacement
  
 	<fieldset id='Buttons' style='display:none;border:none' >
 	
-	<button  type="button" id='prvs1' onclick= 'prvsname()' style='display:inline-block;height:30px;font-size:22px'> &#x2192 </button>
+	<button  type="button" id='prvs1Prm' onclick= 'prvsname()' style='display:inline-block;height:30px;font-size:22px'> &#x2192 </button>
 	 <table id='FmNmT2'><tbody ><tr><td id='secondX' onclick='clrFmName()'>&nbsp x &nbsp </td><td> <input type="text" name="familynameForPrmnnt" id="fmNameForPrmnnt"  required onkeyup='getNamesForCompletion(true)'  style='width:250px'> </td></tr><tbody></table>
 
-				  <button  type="button" id='next1' onclick= 'kadem(1)' style='display:inline-block;height:30px;font-size:22px'> &#x2190 </button>
+				  <button  type="button" id='next1Prm' onclick= 'kadem(1)' style='display:inline-block;height:30px;font-size:22px'> &#x2190 </button>
 					
 					<div id='prtitxtPrm' style='display:none'> <span> &nbsp &nbsp &nbsp</span> 
 						<select id='prtiPrm'  name='prtiPrm' onchange="inputCompletion()">
