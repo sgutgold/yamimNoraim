@@ -5155,8 +5155,9 @@ function ckPassW_cont2(rslt){
 	  var i,rn,textSpan,elmnt;
 		var tempList=[];
 		var temp1List=[];
+		var membershipLevel='3';
 			// get list of all requestors			 
-		url=encodeURI(firstPartOfURL+"/getPermanentSeatsList/?"+password);
+		url=encodeURI(firstPartOfURL+"/getPermanentSeatsList/?"+password+'$'+membershipLevel);
 		funcStack=[getPrmnntListOfNames_cont];
 		 send_msg_to_server(url);
 }
