@@ -5103,6 +5103,7 @@ document.body.removeChild(a);
 // -----------------------------------------------------------------------------------------
 
 function ckPassW(){
+
    paswElement=document.getElementById("pasw");
    password=delLeadingBlnks(paswElement.value);
    moshavim=false;
@@ -5186,7 +5187,7 @@ function getPrmnntListOfNames_cont(rslt){
 							      fnm1=fnm.join(' ');
 										requestorsNameList[rn]=fnm1; 
 										};
-							
+							//console.log(requestorsNameList[rn]);   use for printing list of permanent members
 							 for (i=1;i<temp1List.length;i++){
 							 
 							    seat=temp1List[i];
