@@ -4194,6 +4194,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 	app.get('/getPermanentSeatsList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
+	 var membershipLevel,tmp;
 	var tempList=[];
 	 inputString=decodeURI(req.originalUrl).split('?')[1];  
 	 inputString=inputString.split('$');
@@ -4206,6 +4207,8 @@ app.get('/isRegistrationClosed', function(req, res) {
 		   
 		    nam=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 		    if (nam ){
+				      tmp=requestedSeatsWorksheet[amudot.memberShipStatus+row].v;
+							console.log('tmp='+tmp+'  row='+row);
 				      membershipLevel=Number(delLeadingBlnks(requestedSeatsWorksheet[amudot.memberShipStatus+row].v)); //does not deserve permanent seat
 							if(membershipLevel < minMembershipLevel)continue;
 				      if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
