@@ -4196,15 +4196,18 @@ app.get('/isRegistrationClosed', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 	var tempList=[];
 	 inputString=decodeURI(req.originalUrl).split('?')[1];  
-	 
-	 if (inputString != moshavimPASSW){console.log('wrong password'); res.send('---' )}
+	 inputString=inputString.split('$');
+	 if (inputString[0] != moshavimPASSW){console.log('wrong password'); res.send('---' )}
 	 else {
 	   k=0;
+		 minMembershipLevel=Number(inputString[1]);
 	   for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
 		    row=member.toString(); 
 		   
 		    nam=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 		    if (nam ){
+				      membershipLevel=Number(delLeadingBlnks(requestedSeatsWorksheet[amudot.memberShipStatus+row].v)); //does not deserve permanent seat
+							if(membershipLevel < minMembershipLevel)continue;
 				      if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
 				      tempList[k]=nam;
 							
