@@ -4209,9 +4209,9 @@ app.get('/isRegistrationClosed', function(req, res) {
 		    if (nam ){
 				      tmp=requestedSeatsWorksheet[amudot.memberShipStatus+row].v;
 							tmp=tmp.toString(); //make sure it is a string before using delLeadingBlnks
-							console.log('tmp='+tmp+'  row='+row);
-				      membershipLevel=Number(delLeadingBlnks(tmp)); //does not deserve permanent seat
-							if(membershipLevel < minMembershipLevel)continue;
+							
+				      membershipLevel=Number(delLeadingBlnks(tmp)); 
+							if(membershipLevel < minMembershipLevel)continue;    //does not deserve permanent seat
 				      if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
 				      tempList[k]=nam;
 							
