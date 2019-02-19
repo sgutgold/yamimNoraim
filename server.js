@@ -1064,7 +1064,6 @@ function backupRequests(){
 				
 // end of forget list handling
 
-
 							 
 		 weekDay=d1.getDay();  
 		 if( weekDay == dayOfLastBackup) {    
