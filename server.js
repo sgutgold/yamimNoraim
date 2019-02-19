@@ -1073,7 +1073,7 @@ function backupRequests(){
 				}
 		
     if( (hour_Greenwich_Mean_Time == 0)
-		     || true
+		 //    || true    // for debug make it send every 10 minutes
 				 ){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
 		
     	 xlsx.writeFile(workbook, BackupFilename);
