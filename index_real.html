@@ -12,7 +12,8 @@
 
  span {width:auto}
 
-  
+ 
+ 
     .steps1 {width:15px; height:50px; border: 1px solid DarkGray; position:absolute;  }
 		#drawing_1 {width:220px; height:20px; position:absolute; left:330px; top:131px;
 		     background-color:green; border: 1px solid green;visibility:hidden}	
@@ -649,12 +650,21 @@ var merkazi2='https://2uhvww-sn3301.files.1drv.com/y4mhqSP0p3XvoxW5hLJqpeZS47wJ4
 
 //-------------------------------------------------------------------------------------------------------------------								
 
+var waitForKeyUp=false;
+var lastKeyPressed;
+
+var debugState=false;
+
 
 var basePayment=1200;
  var paymentPerSeat=50;
  
  var Cancelling;
 
+var waiting_for_server=false; 
+var waitingForServerMsg_Elmnt;
+var timer_on=false;
+var timerId;
 									
 var toPrintCt;
 var shiftKeyIsPressed=false;
@@ -675,11 +685,124 @@ var prtiDisplayed=false;
 var emailPassDisplayed=false;
 var emailPassCode='';
 
-var firstPartOfURL ='http://server-seatselection.7e14.starter-us-west-2.openshiftapps.com:80';
+var firstPartOfURL ='http://server-ariel-seats.1d35.starter-us-east-1.openshiftapps.com';
 
 warnings=[ 'oldAfterPaid','oldAfterToPay','oldBeforeAfterPaid','oldBeforeAfterToPay','oldBeforeBeforeToPay','newBefore','newAfter'];
 
 // --------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------
+
+function send_msg_to_server(url,func1,func2){
+
+   var oneSecond=1000;
+   var response_arrived;
+   response_arrived='waiting';
+	 var currentUrlToSend;
+	 currentUrlToSend=url;
+	 var nestingLevel=0;
+	 var start_time;
+	 var chnge_color=false;
+	 var seconds_elapsed;
+	 
+	 if(isCurrentLanguageHebrew){waitingForServerMsg_Elmnt=document.getElementById('waitingForServerMSg_heb')} else waitingForServerMsg_Elmnt=document.getElementById('waitingForServerMSg_Eng');
+
+
+  var w = window.innerWidth;
+  var h = window.innerHeight;		
+  var waitingForServerMsg_ElmntHight=80;
+	var waitingForServerMsg_ElmntWidth=300;	
+	waitingForServerMsg_Elmnt.style.height=waitingForServerMsg_ElmntHight;
+	waitingForServerMsg_Elmnt.style.width=waitingForServerMsg_ElmntWidth;
+	waitingForServerMsg_Elmnt.style.top=(h/2-waitingForServerMsg_ElmntHight-40).toString()+'px';
+	waitingForServerMsg_Elmnt.style.left=	((w-waitingForServerMsg_ElmntWidth-40)/2 ).toString()+'px';		
+	document.getElementById('waitingForServerMSg_heb').style.display='none';
+	document.getElementById('waitingForServerMSg_Eng').style.display='none';
+	
+	
+	 xhttp.abort();  // abort any previous ongoing activity
+	 	if ( timer_on) clearTimeout(timerId); timer_on=false;
+	 start_time = new Date();
+    xhttp.open("GET", currentUrlToSend);
+		xhttp.send();	
+		waiting_for_server=true;
+	 
+//------------------internal functions-----
+    	  xhttp.onprogress = function () {  
+				d = new Date();
+      	if ( xhttp.status != 200){
+			     seconds_elapsed=(d-start_time)/1000;
+					if(debugState) console.log('  Retry;  server not responding at '+d+ ' after '+ seconds_elapsed +' seconds wait, for '+url);
+					 
+           xhttp.open("GET", currentUrlToSend);
+					 xhttp.send();	
+		     
+				  }  //if
+		    };  //function  onprogress
+//------------
+      xhttp.onload = function () {
+  	         d = new Date();
+		         if ( xhttp.status == 200){
+						    response_arrived='yes';
+								seconds_elapsed=(d-start_time)/1000;
+							  if(debugState)console.log("onload at "+d+' after '+ seconds_elapsed +' seconds wait; nesting level is '+nestingLevel);
+								if ( timer_on) clearTimeout(timerId); timer_on=false;
+					    	xhttp.onload=doNothing;
+								xhttp.onprogress=doNothing;
+								turn_waitForServerMsg_on(false);
+								func1(func2,xhttp.responseText);
+        	      waiting_for_server=false;
+						}  //if		
+  	 		
+	   };   //function  onload
+//----------------- end of internal functions---------------------------
+							
+	  if(debugState)console.log( (send_msg_to_server.caller).toString()  );
+	
+   turn_waitForServerMsg_on(true);
+	 send_msg_to_server_internal();
+	
+	
+
+ function send_msg_to_server_internal(){
+			 nestingLevel++;
+			 chnge_color= ! chnge_color;
+			 if(chnge_color){dspl='none'}else dspl='block';
+			 d = new Date();
+			 
+		   if(response_arrived=='yes')return true;  // done
+
+       waitingForServerMsg_Elmnt.style.display=dspl;
+			 
+	     if ( timer_on) clearTimeout(timerId); timer_on=true;
+			 timerId=setTimeout(send_msg_to_server_internal, oneSecond);	//console.log('sending, timeout at  '+d+' for '+oneSecond);
+			 return false;
+	
+   }  //function
+
+	 
+//---------------------------------------------------------------
+function turn_waitForServerMsg_on(on){
+
+ 
+
+if (on) {displyStyle='block'} else displyStyle='none';
+
+
+waitingForServerMsg_Elmnt.style.display=displyStyle;
+
+}  // function
+
+}  // sendtoserver function
+
+//---
+function doNothing(){};
+
+
+
+
+
+//---------------------------------------------------------------
 
 
 
@@ -713,12 +836,14 @@ function clear_listOfIDsUp(e){
 		 }
 }
 // ---------------------------------------------------------------------------------	
- function setRegistrationClosedHeader(){
- if (  currentWarningID ) return;
+ function setRegistrationClosedHeader(func2){
+ if (  currentWarningID ){ func2(); return};
    url=encodeURI(firstPartOfURL+"/isRegistrationClosed");
-   xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText;
+   send_msg_to_server(url,setRegistrationClosedHeader_cont,func2);
+ }
+ //----
+ function setRegistrationClosedHeader_cont(func2,rslt){  
+	            rspnsString = rslt;  // console.log('rslt='+rslt);
 							registrationIsClosed=false;	
 							tmp='newBefore';				
 							if(rspnsString.substr(0,3)=='+++') {
@@ -727,7 +852,7 @@ function clear_listOfIDsUp(e){
 											 };
 									
 							clearAndSetWarnings(tmp);			
-														
+							func2(rslt);							
 	 }
 	 			
 	// ---------------------------------------------------------------------------------				
@@ -741,11 +866,15 @@ function clear_listOfIDsUp(e){
 	
 	//-----------------------------------------------------------------------------------var =[-
 	
-	function getShulConfig(){
-	   url=encodeURI(firstPartOfURL+"/getShulConfig");
-     xhttp.open("GET", url, false);
-       xhttp.send();
-	     rspnsString = xhttp.responseText;        
+	function getShulConfig(func2){
+	   url=encodeURI(firstPartOfURL+"/getShulConfig");  //console.log('getshulconfig');
+     send_msg_to_server(url,getShulConfig_cont,func2);
+		 
+	}
+	
+	//---------
+	function getShulConfig_cont(func2,rslt){
+	     rspnsString = rslt;     
 			 shurot=[];
 			 var i;
        var tbl1=	rspnsString.split('$'); 
@@ -757,23 +886,42 @@ function clear_listOfIDsUp(e){
 					shurot[i][2]=tmp[4];
 			}				
 	
-	
+	   func2(rslt);
 	}
-	// ---------------------------------------------------------------------------------  
+// ===================================================================================
+
+
 
 function GenerateTables(){
-document.onkeyup = clear_listOfIDsUp;
-document.onkeydown = clear_listOfIDsDown;
- 
-	if(firstTimelanguageSetting){
+
+
+if(firstTimelanguageSetting){
 	     firstTimelanguageSetting=false;
 			 setCurrentLanguage();
 			 }  
+			
+setRegistrationClosedHeader(GenerateTables_cont1);
+}
+
+//-----
+
+function GenerateTables_cont1(rslt){
+getShulConfig(GenerateTables_cont2);
+
+}
+
+//-----
+function GenerateTables_cont2(rslt){
+hebrewYears=['תשע"ח','תשע"ט','תש"פ','תשפ"א','תשפ"ב','תשפ"ג','תשפ"ד','תשפ"ה','תשפ"ו','תשפ"ז','תשפ"ח','תשפ"ט','תש"צ'];
+document.onkeyup = clear_listOfIDsUp;
+document.onkeydown = clear_listOfIDsDown;
+ 
+	
 
 			 
-	getShulConfig();	
-			 
-			 
+	//getShulConfig();	
+	
+				 
   deleteOldChildren('kk'); // delete previous tables.
 	
 // creat cost table; If basePayment or paymentPerSeat are changed, make sure to change them in the form
@@ -786,11 +934,11 @@ document.onkeydown = clear_listOfIDsDown;
 
 		 
 		 
-	setRegistrationClosedHeader();	
+		
 	
 													             	
 
-        //  set Years for baby birth date
+        //  set Years for baby birth date      
 	
 	  var d = new Date();
     var thisYear = d.getFullYear(); 
@@ -801,6 +949,10 @@ document.onkeydown = clear_listOfIDsDown;
 		document.myform.Reqyr.options[3]=new Option(PrvYear);
 	 
 	 document.myform.sbmt.disabled=false; 
+	 
+	 distFromBaseYear=thisYear-2017;
+	 if(distFromBaseYear < hebrewYears.length){document.getElementById('yearHebrewTitle').innerHTML=hebrewYears[distFromBaseYear]}else document.getElementById('yearHebrewTitle').innerHTML=' ';
+	 document.getElementById('yearEnglishTitle').innerHTML=(5778+distFromBaseYear).toString();
 	
 	 toPrintCt=0;
 	
@@ -1234,8 +1386,12 @@ function adjustElementTop(LegendTextElement,element,tp){
 
     function clearPrevsVlus(){
 		
-		setRegistrationClosedHeader();
-		
+		setRegistrationClosedHeader(clearPrevsVlus_cont);
+	}
+	
+	//-------
+	
+	function clearPrevsVlus_cont(rslt){	
 		 emailPassCode='';
 		// retrievedEmail='';
 		 
@@ -1305,8 +1461,12 @@ function adjustElementTop(LegendTextElement,element,tp){
          };
 				 if(   document.myform.familyname.value==''  ){ clearPrevsVlus();	return;};
 		 
-		 res= ckName(); 
-		 
+		 ckName(ckNameRtrvVlus_cont); 
+	}
+	
+	//-------
+	
+	function ckNameRtrvVlus_cont(res){	 
 		 if(res.substr(0,3)=='---')return;
 		  resArray=res.split('&');  // for (iii=0;iii<resArray.length;iii++) alert('iii='+iii+'    '+resArray[iii]);
 		 if(document.hiddenForm.lastFamName.value != document.myform.familyname.value)clearPrevsVlus();
@@ -1488,7 +1648,7 @@ function reconstructSeats(str){
 
 
 // -----------------------------------------------------------------------------------------	
-    function ckName(){ 
+    function ckName(func2){ 
 		          nnn=document.myform.familyname.value;
 							var prtiElmnt = document.getElementById("prti");
 							
@@ -1505,10 +1665,14 @@ function reconstructSeats(str){
 					    document.myform.familyname.value=nnn.substr(1);
 					
            		url=encodeURI(firstPartOfURL+"/famname/?"+document.myform.familyname.value);
+	            send_msg_to_server(url,ckName_cont,func2); 
+	
+	}
+	
+	//--- 
+	 function ckName_cont(func2,str){						
 							
-							xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText;  
+	            rspnsString = str;  
 							focusId=document.getElementById('fmName');
 							tmp1= document.getElementById("prtitxt");
 		                tmp1.style.display='none';	prtiDisplayed=false;						
@@ -1534,7 +1698,7 @@ function reconstructSeats(str){
 										}  
 										
 										
-										return rspnsString;
+										func2( rspnsString);
     }
 // -----------------------------------------------------------------------------------------				
 
@@ -1542,7 +1706,8 @@ function displayPassCodeRequest() {
   var tmp1;
 
  tmp1= document.getElementById("emailPass");
- tmp1.style.display='inline-block';  
+ tmp1.style.display='inline-block'; 
+ document.myform.passcode.value='';
   emailPassDisplayed=true;
 	} 
 	
@@ -1564,37 +1729,76 @@ function UnDisplayPassCodeRequest() {
 						Alert(alertText,focusId); 
 						return false;
 		}
-// -----------------------------------------------------------------------------------------					
-		function validateEmail() {
+// -----------------------------------------------------------------------------------------			
+		function validateEmail(func2) {
+		
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
 		 if(	document.myform.reqemail.value != delLeadingBlnks(document.myform.reqemail.value)){
 	       	document.myform.reqemail.value=delLeadingBlnks(document.myform.reqemail.value);	
          };
-		    
-	  if (! document.myform.reqemail.value)return true;
+		document.getElementById('emailNotification').style.display='none';	    
+	  if (! document.myform.reqemail.value) {func2(true); return  };
 		isValid= re.test(document.myform.reqemail.value);  
 		focusId=document.getElementById('reqemail');
 		if(isCurrentLanguageHebrew){alertText="כתובת המייל אינה חוקית";}	 else alertText='illegal mail address';
-			if (! isValid ){Alert(alertText,focusId); return false;}
-			if ( ( ! document.hiddenForm.retrievedEmail.value ) || (document.hiddenForm.retrievedEmail.value==document.myform.reqemail.value)  )return isValid;
-			
+			if (! isValid ){Alert(alertText,focusId); func2(false); return  };
+			if ( ( ! document.hiddenForm.retrievedEmail.value ) || (document.hiddenForm.retrievedEmail.value==document.myform.reqemail.value)  ){func2 (true); return  };
+		
 			
 			//  password is requied to change an existing email addr
 			
 			if (emailPassDisplayed){
-			 
+			    
 				url=encodeURI(firstPartOfURL+"/ckEmailCode/?"+document.myform.familyname.value+'$'+document.myform.passcode.value);
-							
-							xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText; 
+							send_msg_to_server(url,validateEmail_PassDisplayed,func2);
+							return ;
+		}   //if
+		
+	
+//		else
+         url=encodeURI(firstPartOfURL+"/genCodeSendEmail/?"+document.myform.familyname.value);
+					send_msg_to_server(url,validateEmail_requestPass,func2);
+					return ;
+				
+	}
+	
+	
+	//---------------------						
+
+	function 	validateEmail_requestPass(func2,rslt){					
+	            rspnsString = rslt; 
+			if (	rspnsString.substr(0,3) == '+++'){  // email sent to member		
+			    
+			    displayPassCodeRequest();
+					func2(false);
+					}
+					else {
+					   errCode=rspnsString.substr(3,1);
+				 		if(isCurrentLanguageHebrew){alertText="שם משפחה שגוי. אנא הכנס שוב";}	 else alertText='illegal surname; Please re-enter';
+            focusId=document.getElementById('fmName');
+						if (errCode == '1' )Alert(alertText,focusId); 
+						
+						if(isCurrentLanguageHebrew){alertText="שגיאת מערכת. אנא הכנס שוב לדף ההרשמה";}	 else alertText='system error; Please re-enter to registration page';
+            if (errCode == '2' )Alert(alertText,focusId); 
+			   
+				   func2( false);
+				 }  // else
+				
+}		
+
+// --------------
+		
+		
+		function validateEmail_PassDisplayed(func2, rslt){					
+	            rspnsString = rslt; 
 			       if (	rspnsString.substr(0,3) == '+++'){  // pass ok
 					       UnDisplayPassCodeRequest();
-							  
-								document.hiddenForm.retrievedEmail.value='';  // will not block changes
+							  document.getElementById('emailNotification').style.display='inline-block'; 
+								document.hiddenForm.retrievedEmail.value=document.myform.reqemail.value;   // this new email is confirmed;  // will not block changes  
+								
 								emailPassCode=document.myform.passcode.value;
-				        return true;
+				        func2( true);
 								}
 							else { // errors
 							    UnDisplayPassCodeRequest();
@@ -1616,36 +1820,15 @@ function UnDisplayPassCodeRequest() {
                 focusId=document.getElementById('passcode');
 						    if (errCode == '5' )Alert(alertText,focusId); 	
 								displayPassCodeRequest();
-								return false;
-						}		
+								func2( false);
+						}		// else
 				    
-			}
+	}
+	
+	//---------------		
 			
 			
 			
-			url=encodeURI(firstPartOfURL+"/genCodeSendEmail/?"+document.myform.familyname.value);
-							
-							xhttp.open("GET", url, false);
-              xhttp.send();
-	            rspnsString = xhttp.responseText; 
-			if (	rspnsString.substr(0,3) == '+++'){  // email sent to member		
-			    
-			    displayPassCodeRequest();
-					return false;
-					}
-					else {
-					   errCode=rspnsString.substr(3,1);
-				 		if(isCurrentLanguageHebrew){alertText="שם משפחה שגוי. אנא הכנס שוב";}	 else alertText='illegal surname; Please re-enter';
-            focusId=document.getElementById('fmName');
-						if (errCode == '1' )Alert(alertText,focusId); 
-						
-						if(isCurrentLanguageHebrew){alertText="שגיאת מערכת. אנא הכנס שוב לדף ההרשמה";}	 else alertText='system error; Please re-enter to registration page';
-            if (errCode == '2' )Alert(alertText,focusId); 
-			   
-				   return false;
-				 }
-				
-}
 
 // -----------------------------------------------------------------------------------------
 	
@@ -1831,26 +2014,40 @@ function ckPitzulM() {
 	 ckValidity_1();
 	 }
 	
- 
+//-------- 
 	function ckValidity_1(){
 	 
 	document.myform.sbmt.disabled=true; 
 	
 // ck name				
 	 
-		 res=ckName();
+		 ckName(ckValidity_1_cont_1);
+		 
+ }
+ 
+ //------
+ 
+ function ckValidity_1_cont_1(res){
 		 if(res.substr(0,3)=='---'){
 		       					document.myform.sbmt.disabled=false; 
 										 return false};
 			dataToSend[0][1]=document.myform.familyname.value;		
 			
-			if (dataToSend[0][0] != 'familyname=')sendErrMail('a',dataToSend);
+			if (dataToSend[0][0] != 'familyname='){sendErrMail('a',dataToSend);  return false;};
 						 
 // ck email
+  validateEmail(ckValidity_1_cont_2);
+	return false;
+	
+}
+
+// ---------------------------------------------
+
+function ckValidity_1_cont_2(reslt){	
 
 
-if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;   };
-     dataToSend[1][1]=document.myform.reqemail.value+','+emailPassCode;
+if(! reslt) {   document.myform.sbmt.disabled=false;      return false;   };
+     dataToSend[1][1]=document.myform.reqemail.value+','+emailPassCode;  // console.log('emailPassCode='+emailPassCode);
 	
 // ck phone	
 	if(! ckPhone()){   document.myform.sbmt.disabled=false;      return false;   };
@@ -1971,7 +2168,7 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	
 	
 	
-				if (dataToSend[0][0] != 'familyname=')sendErrMail('b',dataToSend);
+				if (dataToSend[0][0] != 'familyname='){sendErrMail('b',dataToSend); return false;};
 
 																																			
 // ck requested minyan  Men--------------
@@ -2052,7 +2249,7 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	  requiredPayment=calcPayment();
 		dataToSend[14][1]=requiredPayment.toString();			
 		
-					if (dataToSend[0][0] != 'familyname=')sendErrMail('c',dataToSend);
+					if (dataToSend[0][0] != 'familyname='){sendErrMail('c',dataToSend); return false;};
 
 		
 		if(isCurrentLanguageHebrew){dataToSend[15][1]='hebrew';} else dataToSend[15][1]='english';
@@ -2065,7 +2262,7 @@ if(! validateEmail()){   document.myform.sbmt.disabled=false;      return false;
 	// debug   
 		inputPairss=stringToSend.split('&');                   }
 tmpNName=inputPairss[0].split('='); 
-if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
+if (tmpNName[0]!= 'familyname'){sendErrMail('d',dataToSend);return false;};
 	 
 	 
 	 
@@ -2082,9 +2279,14 @@ if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
 	
 	
 		url=encodeURI(firstPartOfURL+"/writeinfo/?"+stringToSend);
-        xhttp.open("GET", url, false);
-        xhttp.send();
-	      rspnsString = xhttp.responseText;
+		send_msg_to_server(url,ckValidity_1_cont_end,doNothing);
+		
+ }      
+			
+//------------------------------
+function ckValidity_1_cont_end(func2,reslt){				
+			
+			  rspnsString = reslt;
 				
 				tmp1= document.getElementById("myForm");
 		                tmp1.style.display='none';
@@ -2094,6 +2296,7 @@ if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
 		                tmp1.style.display='block';
 										tmp1= document.getElementById("shgia");
 		                tmp1.innerHTML=rspnsString.substr(3,3);
+										return false;
 										}
 				      else{  
 							      document.getElementById("tosefet").style.display='none';
@@ -2147,14 +2350,14 @@ if (tmpNName[0]!= 'familyname')sendErrMail('d',dataToSend);
 	 for (iiii=0; iiii<arry.length; iiii++)arryStr=arryStr+arry[iiii];
    arryStr='err='+err+' --'+arryStr;
    url=encodeURI(firstPartOfURL+"/sendBrsrRprtedErr/?"+arryStr);
-        xhttp.open("GET", url, false);
-        xhttp.send();
-	      rspnsString = xhttp.responseText;
+	 
+	 send_msg_to_server(url,doNothing,doNothing);
+       
 				
 }
 
 
-// ----------------------------------------------------------------------------------------------sendErrMail
+// ----------------------------------------------------------------------------------------------
 
 
 function 	reDisplayMainForm(){
@@ -2296,10 +2499,12 @@ function changeLanguageTo(str){
 	//if (  elmnt)console.log(strId);	 // look for unused numbers
 		 elmnt= document.getElementById(strId+"HB"); 
 		 if (elmnt)elmnt.style.display='none';
-		 
+		// if(elmnt)console.log('i='+i);
 		 elmnt= document.getElementById(strId+str);
 		 if (elmnt)elmnt.style.display='inline-block';
 		 }
+		 	 
+			 
 		 GenerateTables();
 		 if (document.myform.seatsString.value)reconstructSeats(document.myform.seatsString.value);
 		} 
@@ -2337,6 +2542,7 @@ function english(){
 	 document.myform.Reqddy.selectedIndex=ddd;
 	 document.myform.Reqmnth.selectedIndex=mmm; 
 	 
+	 waitingForServerMsg_Elmnt=document.getElementById('waitingForServerMSg_Eng');
 	 
 	  changeMarqueeDirection('left');
 	 }
@@ -2366,6 +2572,8 @@ function hebrew(){
 	 document.myform.Reqyr.selectedIndex=yyy;  
 	 document.myform.Reqddy.selectedIndex=ddd;
 	 document.myform.Reqmnth.selectedIndex=mmm; 
+	 
+	 waitingForServerMsg_Elmnt=document.getElementById('waitingForServerMSg_heb')
 	 
 	 changeMarqueeDirection('right');
 	 
@@ -2425,8 +2633,8 @@ function changeMarqueeDirection(drction){
 <form name="myform" id='myForm'     > 
 
 <h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
-<h1 style="font-size:150%;text-align:center"><b><u><span id='lanDepndntStr0_HB'>הזמנת מקומות לימים נוראים תשע"ח</span>
-<span id='lanDepndntStr0_EN'> Seat requests for High Holydays 5778 </span></u></b> </h1>
+<h1 style="font-size:150%;text-align:center"><b><u><span id='lanDepndntStr0_HB'>הזמנת מקומות לימים נוראים <span id='yearHebrewTitle'> תשע"ח </span></span>
+<span id='lanDepndntStr0_EN'> Seat requests for High Holydays <span id='yearEnglishTitle'> 5778 </span></span></u></b> </h1>
 
 <h1 id='newBefore' style="font-size:150%;text-align:center;display:block;">  &nbsp &nbsp &nbsp </h1>
 <h1 id='newAfter' style="font-size:150%;text-align:center;display:none;color:red;"><marquee direction='right'; id='marq1'; width:  100%;
@@ -2451,7 +2659,21 @@ function changeMarqueeDirection(drction){
  
 
 	 <fieldset id='mainFieldset'  style="width:1200px;">
-	     
+	 <!-- ------------ Hebrew/English buttons -------------  -->			
+				<div style="float:right" id='lanDepndntStr9_EN' ><button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button> &nbsp 
+				<button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> 'עבר </button> </div> 
+				<div style="float:left" id='lanDepndntStr9_HB' ><button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> עבר' </button> &nbsp 
+				<button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button></div> 
+	<!-- ---------------------------------------------------- -->			
+	     <h2 id='gen_exp1' style="color:blue"><b><u>
+			                  <span id='lanDepndntStr62_HB'>  לאחר הכנסת כל הנתונים יש ללחוץ על כפתור"שלח". המערכת תציג אז דף שמכיל אישור הרשמה והפניה לאפשרויות תשלום באתר בית הכנסת</span>
+		                    <span id='lanDepndntStr62_EN' >After completing the form, click on "submit".  You will then be presented with a confirmation screen and a link to the synagogue web site as one of the options for payment</span>
+			 </u></b> </h2>
+			 <br><br><br>
+	     <div id='gen_exp2' style="color:blue"><b>
+			                  <span id='lanDepndntStr22_HB'>  יש להכניס שם משפחה בלבד. אם יש מתפללים נוספים בעלי אותו שם משפחה, המערכת תציג אפשרויות לבחירת שם פרטי</span>
+		                    <span id='lanDepndntStr22_EN' >Enter only the surname.  If there are other families in the congregation with the same surname, a menu will appear for choosing first name</span>
+			 </b> </div> 
                   <label for="familyname"><span id='lanDepndntStr7_HB'>שם משפחה</span><span id='lanDepndntStr7_EN' >Surname</span></label>
 		      <input type="text" name="familyname" id="fmName" required onchange='ckNameRtrvVlus()'> 
 					  <div id='prtitxt' style='display:none; color:brown'> <span id='lanDepndntStr8_HB'> &nbsp &nbsp &nbsp אנא השלם שם משפחה /  שם פרטי</span>
@@ -2463,20 +2685,19 @@ function changeMarqueeDirection(drction){
 																				  <option value="3" > &nbsp </option> 	
 											</select>	
 											</div>	  
-	<!-- ------------ Hebrew/English buttons -------------  -->			
-				<div style="float:right" id='lanDepndntStr9_EN' ><button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button> &nbsp 
-				<button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> 'עבר </button> </div> 
-				<div style="float:left" id='lanDepndntStr9_HB' ><button  type="button"  onclick= 'hebrew()' style='display:inline;font-size:22px;'> עבר' </button> &nbsp 
-				<button  type="button"  onclick= 'english()' style='display:inline;font-size:22px;'> EN </button></div> 
-	<!-- ---------------------------------------------------- -->			
+	
 							  <br>
 					      <div><br><span id='lanDepndntStr10_HB'> אנא עדכן פרטים</span><span id='lanDepndntStr10_EN' >Please update contact information</span>  </div>
 		
 								<label for="reqemail"><span id='lanDepndntStr11_HB'>מייל:</span><span id='lanDepndntStr11_EN' >Email:</span> </label>
-		      <input type="email" name="reqemail" id='reqemail' style="direction:ltr" onchange='validateEmail()'>
+		      <input type="email" name="reqemail" id='reqemail' style="direction:ltr" onchange='validateEmail(doNothing)'>
           <span id='emailPass' style="display:none;color:red"> <span id='lanDepndntStr61_HB'> &nbsp שנוי כתובת מייל מצריך סיסמא. זו נשלחה למייל הקיים ותוקפה כ20 דקות:</span>
 					      <span id='lanDepndntStr61_EN'>&nbsp passcode to change existing email was sent to old mail addr and is valid for 20 minutes:</span>
-								<input type='text' id='passcode' name='passcode'  onchange='validateEmail()'>  </span><br><br>
+								<input type='text' id='passcode' name='passcode'  onchange='validateEmail(doNothing)'>  </span>
+						<span id='emailNotification' style="display:none;color:red"> <span id='lanDepndntStr63_HB'> &nbsp אם כתובת המייל השתנתה, השנוי יהיה בתוקף רק לאחר שליחת הטופס</span>
+					      <span id='lanDepndntStr63_EN'>&nbsp if email addr was changed, the change will be effective only after form submit</span></span>		
+								
+								<br><br>
 	  
 		              <label for="reqPhone"><span id='lanDepndntStr12_HB'>טלפון או טלפון נייד (אנא מלא לפי אחד מהפורמטים הבאים: </span><span id='lanDepndntStr12_EN' > Home or mobile phone (please use one of these formats: </span> 0xx-xxxxxxx ; 0x-xxxxxxx) :</label>
 		      <input type="tel" name="reqPhone" id='reqPhone' style="direction:ltr" onchange='ckPhone()'> <br><br>
@@ -2701,7 +2922,9 @@ Note: For safety reasons, prams are not permitted in the prayer halls on the two
 			<div id="knisa4"> כניסה </div>
    		<div id="arrow4"> &#x27a8;</div>
 
-			
+	<div  id='waitingForServerMSg_heb'  style='display:none;border-style: solid;color:red; border-width: 2px;position:fixed;padding: 5px;z-index:11;' ><h1> המערכת ממתינה לשרת </h1></div>    
+<div  id='waitingForServerMSg_Eng'  style='display:none;border-style: solid; color:red; border-width: 2px;position:fixed;padding: 5px;z-index:11;' > <h1>waiting for server</h1> </div>    	 
+	 		
  </fieldset> <br><br>
 <fieldset id='Button' >
 
@@ -2716,6 +2939,7 @@ Note: For safety reasons, prams are not permitted in the prayer halls on the two
 <div id='hiddenDiv'>  </div>
 <input type="text"  name='lastFamName'  value='' style='display:none'>
 <input type="text"  name='retrievedEmail'  value='' style='display:none'>
+
 
 </form>
 
@@ -2746,8 +2970,10 @@ Note: For safety reasons, prams are not permitted in the prayer halls on the two
 
 </div></h2>
 
-      	 
-	 
+
+
+ 
+
 <div id='tosefet' style='display:none'; > <h2> 
 <span id='lanDepndntStr58_HB' style='display:inline-block;'>התשלום הנדרש מהווה תוספת של <span id='tashlum4'>0</span> ש"ח ביחס לרישום הקודם</span>
 	 <span id='lanDepndntStr58_EN' style='display:inline-block;'> The new required payment represents an increase of <span id='tashlum5'>0</span> shekalim over the previous one.</span> </h2></div>
