@@ -1072,7 +1072,10 @@ function backupRequests(){
 		    return;
 				}
 		
-    if( hour_Greenwich_Mean_Time == 0){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
+    if( (hour_Greenwich_Mean_Time == 0)
+		     || true
+				 ){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
+		
     	 xlsx.writeFile(workbook, BackupFilename);
 	 
 	     dayOfLastBackup=weekDay;
