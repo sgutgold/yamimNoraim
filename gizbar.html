@@ -60,11 +60,130 @@ var numberOfMembers;
 
 var xhttp = new XMLHttpRequest();
 
-var firstPartOfURL ='http://ariel-seatselection.7e14.starter-us-west-2.openshiftapps.com:80';
+var firstPartOfURL ='http://server-ariel-seats.1d35.starter-us-east-1.openshiftapps.com'';
 
 
 var validPasswordEntered=false;
 
+
+
+// -------------------------------------------------------------------  
+//var waiting_for_server=false; 
+var timer_on=false;
+var timerId;
+var funcStack=[];
+							
+var debugState=false;
+function send_msg_to_server(url){
+
+   var oneSecond=1000;
+   var response_arrived;
+   response_arrived='waiting';
+	 var currentUrlToSend;
+	 currentUrlToSend=url;
+	 var nestingLevel=0;
+	 var start_time;
+	 var chnge_color=false;
+	 var seconds_elapsed;
+	 
+	//document.getElementById('waitingForServerMSg').style.display='none';
+  var w = window.innerWidth;
+  var h = window.innerHeight;		
+  var waitingForServerMsg_ElmntHight=80;
+	var waitingForServerMsg_ElmntWidth=300;	
+	
+	document.getElementById('waitingForServerMSg').style.height=waitingForServerMsg_ElmntHight;
+	document.getElementById('waitingForServerMSg').style.width=waitingForServerMsg_ElmntWidth;
+	document.getElementById('waitingForServerMSg').style.top=(h/2-waitingForServerMsg_ElmntHight-40).toString()+'px';
+	document.getElementById('waitingForServerMSg').style.left=	((w-waitingForServerMsg_ElmntWidth-40)/2 ).toString()+'px';		
+	document.getElementById('waitingForServerMSg').style.display='none';
+	
+	
+	
+	 xhttp.abort();  // abort any previous ongoing activity
+	 	if ( timer_on) clearTimeout(timerId); timer_on=false;
+	 start_time = new Date();
+    xhttp.open("GET", currentUrlToSend);
+		xhttp.send();	
+	//	waiting_for_server=true;
+	 
+//------------------internal functions-----
+    	  xhttp.onprogress = function () {  
+				d = new Date();
+      	if ( xhttp.status != 200){
+			     seconds_elapsed=(d-start_time)/1000;
+					if(debugState) console.log('  Retry;  server not responding at '+d+ ' after '+ seconds_elapsed +' seconds wait, for '+url);
+					 
+           xhttp.open("GET", currentUrlToSend);
+					 xhttp.send();	
+		     
+				  }  //if
+		    };  //function  onprogress
+//------------
+      xhttp.onload = function () {
+  	         d = new Date();
+		         if ( xhttp.status == 200){
+						    response_arrived='yes';
+								seconds_elapsed=(d-start_time)/1000;
+							  if(debugState)console.log("onload at "+d+' after '+ seconds_elapsed +' seconds wait; nesting level is '+nestingLevel);
+								if ( timer_on) clearTimeout(timerId); timer_on=false;
+					    	xhttp.onload=doNothing;
+								xhttp.onprogress=doNothing;
+								turn_waitForServerMsg_on(false);
+								rtrnFunc=funcStack.pop();
+								rtrnFunc(xhttp.responseText);
+  
+						}  //if		
+  	 		
+	   };   //function  onload
+//----------------- end of internal functions---------------------------
+							
+	  if(debugState)console.log( (send_msg_to_server.caller).toString()  );
+	
+   turn_waitForServerMsg_on(true);
+	 send_msg_to_server_internal();
+	
+	
+
+ function send_msg_to_server_internal(){
+			 nestingLevel++;
+			 chnge_color= ! chnge_color;
+			 if(chnge_color){dspl='none'}else dspl='block';
+			 d = new Date();
+			 
+		   if(response_arrived=='yes')return true;  // done
+
+       document.getElementById('waitingForServerMSg').style.display=dspl;
+			 
+	     if ( timer_on) clearTimeout(timerId); timer_on=true;
+			 timerId=setTimeout(send_msg_to_server_internal, oneSecond);	
+			 return false;
+	
+   }  //function
+
+	 
+//---------------------------------------------------------------
+function turn_waitForServerMsg_on(on){
+
+ 
+
+if (on) {displyStyle='block'} else displyStyle='none';
+
+
+document.getElementById('waitingForServerMSg').style.display=displyStyle;
+
+}  // function
+
+}  // sendtoserver function
+
+//---
+function doNothing(){};
+
+
+
+
+
+//---------------------------------------------------------------
 
 // -------------------------------------------------------------------------------------
   
@@ -145,7 +264,7 @@ function empty(){};
 //-------------------------------------------------------------------------------------------------------------
 function buildTable(rspnsString){
 
-console.log(rspnsString);
+//console.log(rspnsString);
 	          
 							tbodyElement=document.getElementById("tableBody");
 							memberInfoList=rspnsString.split('$');
@@ -235,9 +354,16 @@ function ckPassW(){
    password=delLeadingBlnks(paswElement.value);
  
    url=encodeURI(firstPartOfURL+"/tashlumim/?"+password);
-              xhttp.open("GET", url, false);
-              xhttp.send();
-              rspnsString = xhttp.responseText;
+	 funcStack=[ckPassW_cont];
+	 send_msg_to_server(url);
+              
+}
+
+//-----------
+
+function 	ckPassW_cont(rspnsString){						
+							
+						
 							focusId=paswElement;
 							
 						
@@ -268,9 +394,15 @@ function updateTashlumim(){
 	
 	
   url=encodeURI(firstPartOfURL+"/UPDtashlumim/?"+'$'+password+rspns);
-              xhttp.open("GET", url, false);
-              xhttp.send();
-              rspnsString = xhttp.responseText.substr(0,3);
+	      funcStack=[updateTashlumim_cont];
+					 send_msg_to_server(url);
+}
+
+//--------------
+
+function updateTashlumim_cont(rspns){
+              
+              rspnsString = rspns.substr(0,3);
 							if(rspnsString=='999'){Alert('עדכון נכשל, בעיה בסיסמא')}
 							  else Alert('נתונים עודכנו');
               
@@ -291,6 +423,7 @@ function updateTashlumim(){
 </div></div>
 
 
+<div  id='waitingForServerMSg'  style='display:none;border-style: solid;color:red; border-width: 2px;position:fixed;padding: 5px;z-index:11;' ><h1> המערכת ממתינה לשרת </h1></div>    
 
 
 
