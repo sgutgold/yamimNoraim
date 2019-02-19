@@ -862,7 +862,7 @@ console.log('5');
    
 
     var transporter = nodemailer.createTransport({
-        service: 'outlook.com',
+        service: 'hotmail.com',
         auth: {
             user: 'kehilatarielseats@outlook.com', // Your email id
             pass: 'kehila11' // Your password
