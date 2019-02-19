@@ -862,9 +862,9 @@ console.log('5');
    
 
     var transporter = nodemailer.createTransport({
-        service: 'Gmail',
+        service: 'outlook.com',
         auth: {
-            user: 'kehilatarielseats@gmail.com', // Your email id
+            user: 'kehilatarielseats@outlook.com', // Your email id
             pass: 'kehila11' // Your password
         }
     });
@@ -1080,7 +1080,7 @@ function backupRequests(){
 	 
 	     dayOfLastBackup=weekDay;
 	     var mailOptions = {
-            from: 'kehilatarielseats@gmail.com', // sender address
+            from: 'kehilatarielseats@outlook.com', // sender address
             to: 'kehilatarielseats@gmail.com', // list of receivers
             subject: 'backupCreated', // Subject line
             text: 'backup',  // plaintext body
@@ -1108,7 +1108,7 @@ setTimeout(backupRequests, 600000);	//check every 10 minutes
  function sendMail(addr,subj,txt){
       
       var mailOptions = {
-            from: 'kehilatarielseats@gmail.com', // sender address
+            from: 'kehilatarielseats@outlook.com', // sender address
             to: addr, // list of receivers
             subject: subj, // Subject line
             text: txt,  // plaintext body
@@ -1806,7 +1806,7 @@ function saveActionLog(inpStr){
 	function sendMsgToKehilatArielSeatsGmail(titl,Msg){
 	
 		 var mailOptions = {
-    from: 'kehilatarielseats@gmail.com', // sender address
+    from: 'kehilatarielseats@outlook.com', // sender address
     to: 'kehilatarielseats@gmail.com', // list of receivers
     subject: titl, // Subject line
     text: Msg //, // plaintext body
