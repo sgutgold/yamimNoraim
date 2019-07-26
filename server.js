@@ -830,7 +830,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 
 
 	
- /*debug code   1 
+ //debug code   1 
  
  
 
@@ -847,7 +847,7 @@ console.log('5');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	*/  //////// - end debug code  1
+	//  //////// - end debug code  1
 
 	
 	
@@ -3636,7 +3636,7 @@ app.get('/getMembersInfo', function(req, res) {
  });	
 
 
-//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------updateMembersInfo
 		
 app.get('/updateMembersInfo', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
