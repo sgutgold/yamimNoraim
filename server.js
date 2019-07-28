@@ -1124,7 +1124,7 @@ function initValuesOutOfSupportTablesXLSX_file(yearToInitFrom){
  var badList=[];
  
 //read Seat to Row from supportTables.xlsx  
-
+console.log('yearToInitFrom='+yearToInitFrom);
    maxCountSeats=[[0,0],[0,0]]; // rashi-martef  /  gvarim-nashim
 		
 	lastSeatNumber=0;    
