@@ -685,7 +685,7 @@ var prtiDisplayed=false;
 var emailPassDisplayed=false;
 var emailPassCode='';
 
-var firstPartOfURL ='http://server-ariel-seats.1d35.starter-us-east-1.openshiftapps.com';
+var firstPartOfURL ='http://seatselection-seatselection.apps.us-east-1.online-starter.openshift.com';
 
 warnings=[ 'oldAfterPaid','oldAfterToPay','oldBeforeAfterPaid','oldBeforeAfterToPay','oldBeforeBeforeToPay','newBefore','newAfter'];
 
@@ -2698,13 +2698,13 @@ function changeMarqueeDirection(drction){
 					      <span id='lanDepndntStr63_EN'>&nbsp if email addr was changed, the change will be effective only after form submit</span></span>		
 								
 								<br><br>
-	  
+	  <div style='display:none'>
 		              <label for="reqPhone"><span id='lanDepndntStr12_HB'>טלפון או טלפון נייד (אנא מלא לפי אחד מהפורמטים הבאים: </span><span id='lanDepndntStr12_EN' > Home or mobile phone (please use one of these formats: </span> 0xx-xxxxxxx ; 0x-xxxxxxx) :</label>
 		      <input type="tel" name="reqPhone" id='reqPhone' style="direction:ltr" onchange='ckPhone()'> <br><br>
  
                   <label for="reqaddress" ><span id='lanDepndntStr13_HB'>כתובת:</span><span id='lanDepndntStr13_EN' >Address</span></label>
                       <textarea  name="reqaddress" id='reqaddress' onchange='ckAddress()'></textarea> <br>
-	
+	</div>
 	
 	<br><h2><span id='lanDepndntStr45_HB'> עלויות </span><span id='lanDepndntStr45_EN'>Payment</span> </h2> 
 	
