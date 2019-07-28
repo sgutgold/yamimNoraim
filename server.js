@@ -830,7 +830,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 
 
 	
- //debug code   1 
+ /*debug code   1 
  
  
 
@@ -847,9 +847,8 @@ console.log('5');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	//  //////// - end debug code  1
+	*/  //////// - end debug code  1
 
-	
 	
 	
 	
@@ -1124,7 +1123,7 @@ function initValuesOutOfSupportTablesXLSX_file(yearToInitFrom){
  var badList=[];
  
 //read Seat to Row from supportTables.xlsx  
-console.log('yearToInitFrom='+yearToInitFrom);
+//console.log('yearToInitFrom='+yearToInitFrom);
    maxCountSeats=[[0,0],[0,0]]; // rashi-martef  /  gvarim-nashim
 		
 	lastSeatNumber=0;    
