@@ -817,7 +817,7 @@ initialize();
 
          /*     init new files in debug  */
 
-	localFileDir='data';    
+	localFileDir='seatselectionstorage/';    
 	//localFileDir='D_';
 		 
 XLSXfilename=localFileDir	+'membersRequests.xlsx';  
