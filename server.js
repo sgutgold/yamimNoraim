@@ -719,12 +719,13 @@ var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',permanentS
 							notAssignedMarkedSeatsKipur:'W',NumberOfNotAssignedMarkedSeatsMen:'X', NumberOfNotAssignedMarkedSeatsWomen:'Y',
 							assignedSeatsRosh:'Z',assignedSeatsKipur:'AA',numberOfAssignedSeatsRoshMen:'AB',numberOfAssignedSeatsRoshWomen:'AC',
 							numberOfAssignedSeatsKipurMen:'AD',numberOfAssignedSeatsKipurWomen:'AE',tashlum:'AF',tashlumPaid:'AG',
-							stsfctnInFlrLastYrWmn:'AI',stsfctnInFlrLastYrMen:'AJ',lstYrSeat:'AK',
-							stsfctnInFlr2YRSAgoYrWmn:'AL',stsfctnInFlr2YRSAgoYrMen:'AM',TwoYRSAgoSeat:'AN',stsfctnInFlr3YRSAgoYrWmn:'AO',
-							stsfctnInFlr3YRSAgoYrMen:'AP',ThreeYRSAgoSeat:'AQ',
-							issueInFloorWmn:'AR',  issueinFloorMen:'AS',  issueBetweenFloors:'AT',   
-							memberShipStatus:'AU',nashimMuadaf:'AV',gvarimMuadaf:'AW',stsfctnInFlrThisYrWmn:'AX',
-							stsfctnInFlr3ThisYrMen:'AY',ThisYRSSeat:'AZ'
+							stsfctnInFlrThisYrWmn:'AI',
+							stsfctnInFlrThisYrMen:'AJ',ThisYRSSeat:'AK'
+							stsfctnInFlrLastYrWmn:'AL',stsfctnInFlrLastYrMen:'AM',lstYrSeat:'AN',
+							stsfctnInFlr2YRSAgoYrWmn:'AO',stsfctnInFlr2YRSAgoYrMen:'AP',TwoYRSAgoSeat:'AQ',stsfctnInFlr3YRSAgoYrWmn:'AR',
+							stsfctnInFlr3YRSAgoYrMen:'AS',ThreeYRSAgoSeat:'AT',
+							issueInFloorWmn:'AU',  issueinFloorMen:'AV',  issueBetweenFloors:'AW',   
+							memberShipStatus:'AX',nashimMuadaf:'AY',gvarimMuadaf:'AZ'
 							};
 							
 var amudotForMemberInfo	 ={name:'A',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',	memberShipStatus:'AU'};						
@@ -758,7 +759,12 @@ var sortWeightsPtr={vetek:'F1',personalIssue:'F2',satisfactionHistory:'F3',satis
                     lastYearVS2YearsAgo:'F6',numberOfRequestedSeats:'F7',requestedSeatsPerFamilySize:'F8',Baby:'F10'}	
 										
 
-var amudotOfConfig={fromSeat:'A', toSeat:"B",reltvRowQual:'C',open_badSeats:'D',ezor:'E',ulam:'F',X_forSlantedRow:'H',Y_forSlantedRow:'I'};										
+var amudotOfConfig={fromSeat:'A', toSeat:"B",reltvRowQual:'C',open_badSeats:'D',ezor:'E',ulam:'F',X_forSlantedRow:'H',Y_forSlantedRow:'I'};		
+
+var amudotForStsfctn=[	amudot.stsfctnInFlrThisYrWmn,amudot.stsfctnInFlrThisYrMen,amudot.ThisYRSSeat,
+							          amudot.stsfctnInFlrLastYrWmn,amudot.stsfctnInFlrLastYrMen,amudot.lstYrSeat,
+							          amudot.stsfctnInFlr2YRSAgoYrWmn,amudot.stsfctnInFlr2YRSAgoYrMen,amudot.TwoYRSAgoSeat,
+												amudot.stsfctnInFlr3YRSAgoYrWmn,amudot.stsfctnInFlr3YRSAgoYrMen,amudot.ThreeYRSAgoSeat];							
 		
 var seatOcuupationLevel = new Array;			
 var requestedSeatsWorksheet ;
@@ -3317,7 +3323,17 @@ app.get('/updateAssignedSeats', function(req, res) {
 		    }
 		 CountAssignedPerMoed_PerUlam();
 			 xlsx.writeFile(workbook, XLSXfilename);
-			 res.send('+++' );
+			 
+			 if (
+			     (requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v == Number(requestedSeatsWorksheet[amudot.menRosh+row].v)   )
+					 && (requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v == Number(requestedSeatsWorksheet[amudot.womenRosh+row].v ) )
+					 && (requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+row].v == Number(requestedSeatsWorksheet[amudot.menKipur+row].v))
+					 && (requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v == Number(requestedSeatsWorksheet[amudot.womenKipur+row].v ) )
+					 ){
+					   msg=calculate_crnt_assnmnt_stsfctn(row);
+						 res.send('***%'+msg)
+						 }
+				else  res.send('+++' );
 			 }
 			 else res.send('---' );
 			
@@ -3327,7 +3343,33 @@ app.get('/updateAssignedSeats', function(req, res) {
 	      
 
     })
+//----------------------------------------------------------stsfctnInFlrThisYrWmn:'AI',stsfctnInFlrThisYrMen:'AJ',ThisYRSSeat:'AK'
+							
+
+function calculate_crnt_assnmnt_stsfctn(row){
+var tmp, str,i,colmn;
+  stsfctionColction=[];
+	analyseRqstVSAssgnd(row);
 		
+		
+	tmp=stsfctionColction[0].split('$');
+	
+  requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v=tmp[1]+'*';;
+	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v=tmp[2]+'*';
+	requestedSeatsWorksheet[amudot.lstYrSeat+row].v=tmp[3]+'*';
+	}
+		
+		xlsx.writeFile(workbook, XLSXfilename);		
+	  str='';
+		for (i=0;i<amudotForStsfctn.length;i++){
+		    colmn=amudotForStsfctn[i];
+				str=str+requestedSeatsWorksheet[colmn+row]+'$';
+				}
+				str=str.substr(0,str.length-1);
+				console.log('calculate_crnt_assnmnt_stsfctn     str='+str);
+				return str;
+}		
+	
 //----------------------------------------------------------
  function updateRowForNewSelection(roww){
  
