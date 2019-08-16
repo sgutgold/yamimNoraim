@@ -3348,7 +3348,9 @@ app.get('/updateAssignedSeats', function(req, res) {
 
 function calculate_crnt_assnmnt_stsfctn(row){
 var tmp, str,i,colmn;
-  stsfctionColction=[];
+  
+	
+	stsfctionColction=[];
 	analyseRqstVSAssgnd(row);
 		
 		
@@ -3357,7 +3359,7 @@ var tmp, str,i,colmn;
   requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v=tmp[1]+'*';;
 	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v=tmp[2]+'*';
 	requestedSeatsWorksheet[amudot.lstYrSeat+row].v=tmp[3]+'*';
-	}
+	
 		
 		xlsx.writeFile(workbook, XLSXfilename);		
 	  str='';
