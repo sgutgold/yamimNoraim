@@ -3365,7 +3365,7 @@ var tmp, str,i,colmn;
 	  str='';
 		for (i=0;i<amudotForStsfctn.length;i++){
 		    colmn=amudotForStsfctn[i];
-				str=str+requestedSeatsWorksheet[colmn+row]+'$';
+				str=str+requestedSeatsWorksheet[colmn+row].v+'$';
 				}
 				str=str.substr(0,str.length-1);
 				console.log('calculate_crnt_assnmnt_stsfctn     str='+str);
