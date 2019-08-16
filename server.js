@@ -3345,7 +3345,14 @@ app.get('/updateAssignedSeats', function(req, res) {
     })
 //----------------------------------------------------------stsfctnInFlrThisYrWmn:'AI',stsfctnInFlrThisYrMen:'AJ',ThisYRSSeat:'AK'
 							
+/*
 
+ amudotForStsfctn=[	amudot.stsfctnInFlrThisYrWmn,amudot.stsfctnInFlrThisYrMen,amudot.ThisYRSSeat,
+							          amudot.stsfctnInFlrLastYrWmn,amudot.stsfctnInFlrLastYrMen,amudot.lstYrSeat,
+							          amudot.stsfctnInFlr2YRSAgoYrWmn,amudot.stsfctnInFlr2YRSAgoYrMen,amudot.TwoYRSAgoSeat,
+												amudot.stsfctnInFlr3YRSAgoYrWmn,amudot.stsfctnInFlr3YRSAgoYrMen,amudot.ThreeYRSAgoSeat];	
+*/												
+												
 function calculate_crnt_assnmnt_stsfctn(row){
 var tmp, str,i,colmn;
   
@@ -3356,9 +3363,9 @@ var tmp, str,i,colmn;
 		
 	tmp=stsfctionColction[0].split('$');
 	
-  requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v=tmp[1]+'*';;
-	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v=tmp[2]+'*';
-	requestedSeatsWorksheet[amudot.lstYrSeat+row].v=tmp[3]+'*';
+  requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrMen+row].v=tmp[1]+'*';;
+	requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrWmn+row].v=tmp[2]+'*';
+	requestedSeatsWorksheet[amudot.ThisYRSSeat+row].v=tmp[3]+'*';
 	
 		
 		xlsx.writeFile(workbook, XLSXfilename);		
