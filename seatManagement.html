@@ -2600,7 +2600,7 @@ function getFinalStsfctnVlu(vl){
 		 document.getElementById('mkishv_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.TwoYRSAgoSeat]);
 		 
 		 
-		 document.getElementById('vetek'+typ).innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.memberShipStatus]);		
+		 document.getElementById('vetek').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.memberShipStatus]);		
 		 
 	//   document.myform.beinKomot.value=Number(resArray[positionInMsg.issueBetweenFloors]);	
 	//	 document.myform.bekomaM.value=Number(resArray[positionInMsg.issueinFloorMen]);
@@ -4349,6 +4349,11 @@ function saveAndMovePrvs_cont(){
 					 }
 		}			       		
 
+//--------------------------------------------------------------------------------------------------------  
+function saveStsfctn_button(){  
+  funcStack=[doNothing];
+  saveStsfctn();
+	}
 
 //--------------------------------------------------------------------------------------------------------  
    function saveStsfctn(){  
@@ -4766,8 +4771,7 @@ function 	turnOffRishumButza(){
 	 document.getElementById("prsnlProblems").style.display='none';
 	  document.getElementById("reportAssgnmnts").style.display='none';
 		
-		elm=document.getElementById("savestsfctn_1");
-     elm.onclick='doNothing()';
+		
 	
 	if (document.getElementById("oprtion").selectedIndex < 3)document.getElementById("mainFieldset").style.display='block';
 	if (document.getElementById("oprtion").selectedIndex == 2)document.getElementById("floatingDiv").style.display='block';
@@ -5875,7 +5879,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 <div><h3  >ותק מעודכן: <span id='vetek' ></span></h3></div><br>
 
 <br><br>
-	<button  type="button" id='saveStsfct1' onclick= 'saveStsfctn(doNothing)' style='display:block;height:30px;font-size:22px' > שמור ערכים</button>
+	<button  type="button" id='saveStsfct1' onclick= 'saveStsfctn_button()' style='display:block;height:30px;font-size:22px' > שמור ערכים</button>
 
 
 
