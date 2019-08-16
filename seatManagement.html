@@ -60,7 +60,8 @@
 	  .knisa4		{position:absolute; left:980px; top:400px;font-size:30px;visibility:hidden} 		
 		
 		
-		#calculatedStsfctn {position:absolute; left:600px; top:730px; }
+		#calculatedStsfctn {position:absolute; left:600px; top:730px;  }
+		#calculatedStsfctn_1 {position:absolute; left:900px; top:730px;  }
 		
 		#explnArrow1 { width:720px;border:1px solid; position:absolute; left:50px; top:330px;visibility:hidden; background:white}
 		#explnArrow2 { width:720px;border:1px solid; position:absolute; left:50px; top:330px;visibility:hidden; background:white}
@@ -1057,7 +1058,7 @@ function send_msg_to_server(url){
 	 var chnge_color=false;
 	 var seconds_elapsed;
 	 
-	//document.getElementById('waitingForServerMSg').style.display='none';
+	
   var w = window.innerWidth;
   var h = window.innerHeight;		
   var waitingForServerMsg_ElmntHight=80;
@@ -2395,6 +2396,7 @@ function memberdetails(resArray){
 		        document.getElementById('rCmnts').innerHTML=resArray[positionInMsg.moreComments];
 		        document.getElementById("RmoreComments").style.display='block';
 						 }
+			document.getElementById('stsfctnNow').style.visibility='hidden';			 
 						 
 		index=Number(resArray[positionInMsg.minyanMuadafNashim ]);  
 		tmp=resArray[positionInMsg.esberNashim]; 
@@ -2564,20 +2566,24 @@ function getFinalStsfctnVlu(vl){
 
 //-----------------------------------------------------------------------------------			
 	function getInfoForStsfction(){
-	if ( ! ( delLeadingBlnks (document.myform.famyname.value) ))return;
+	var tmp;
+	tmp=document.myform.famyname.value;  
+	if ( ! ( delLeadingBlnks (tmp) ))return;
 	   
-	   document.myform.familyname.value=document.myform.famyname.value; // needed there for ckName
+	   document.myform.familyname.value=tmp; // needed there for ckName
 		yearToDisplay='';   // get info from this year
 		funcStack=[getInfoForStsfction_cont1];
+		 
 		  ckName(0);
 }
 
-//-----------------------------------------------------------
+//----------------------------------------------------------- 
 		 
-	function getInfoForStsfction_cont1(rslt){	 
+	function getInfoForStsfction_cont1(rslt){	
+	typ=funcStack.pop(); 
 	res=rslt;
 		  resArray=res.split('&'); 
- if(res.substr(0,3)=='---'){
+     if(res.substr(0,3)=='---'){
         Object.keys(positionInMsg).forEach(function(key) {resArray[positionInMsg[key]]=''; 
      									                     });	
 		    };                                          
@@ -2592,7 +2598,9 @@ function getFinalStsfctnVlu(vl){
 		 document.getElementById('gvr_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr2YRSAgoYrMen]);
 	   document.getElementById('nashim_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr2YRSAgoYrWmn]);
 		 document.getElementById('mkishv_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.TwoYRSAgoSeat]);
-		 document.getElementById('vetek').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.memberShipStatus]);		
+		 
+		 
+		 document.getElementById('vetek'+typ).innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.memberShipStatus]);		
 		 
 	//   document.myform.beinKomot.value=Number(resArray[positionInMsg.issueBetweenFloors]);	
 	//	 document.myform.bekomaM.value=Number(resArray[positionInMsg.issueinFloorMen]);
@@ -2637,7 +2645,7 @@ function getFinalStsfctnVlu(vl){
 			elmnt.style.color=clr;
 			document.getElementById('calcMkishv_m1').innerHTML=tmp1[0];
 		  	
-	
+	 
 		 saveStsfctionVlusToArray(stsfctionVlusFromServer);   
 		 
 		 
@@ -2649,7 +2657,7 @@ function getFinalStsfctnVlu(vl){
 	    ckName(0);
 			}
 			
-//----------------------------------------                      
+//----------------------------------------                    
 			
 function getInfoForStsfction_cont2(rslt){	
       res=rslt;		
@@ -2785,6 +2793,8 @@ function getInfoForStsfction_cont2(rslt){
 		 ckName(0);
 		 
  }
+
+
  //-----------------------------
  function getInfoForPrsnlPrblm_cont1(res){
 		  resArray=res.split('&'); 
@@ -2948,7 +2958,22 @@ function getInfoForStsfction_cont2(rslt){
 	elmnt.style.display='none';
 	}
 
-
+// --------------------------------------------------------------------------------  	
+	function showCalcStsf_1(){
+	var elmnt;
+	elmnt=document.getElementById('calculatedStsfctn_1');
+	elmnt.style.display='block';
+	}
+	
+//----------------------------------
+  function hideCalcStsf_1(){
+	var elmnt;
+	elmnt=document.getElementById('calculatedStsfctn_1');
+	elmnt.style.display='none';
+	}
+//-----------------------------------------------------------------------------------			
+ 
+ 
 // --------------------------------------------------------------------------------   
   function saveStsfctionVlusToArray(arr){
 	
@@ -3257,7 +3282,18 @@ function updateCountAssigned(seat,delta){
 			};	
 			if(delLeadingBlnks(document.myform.familyname.value)){
 			if( (! stillToAssignMen ) && ( ! stillToAssignWomen) ){ // assignment done
-			     			document.getElementById("hakzaamleaa").style.display='inline';  }
+			     			document.getElementById("hakzaamleaa").style.display='inline';
+								//dbg
+								
+								resArray[positionInMsg.stsfctnInFlr3YRSAgoYrMen]='1';
+								resArray[positionInMsg.stsfctnInFlr3YRSAgoYrWmn]='2';
+								resArray[positionInMsg.ThreeYRSAgoSeat]='3';
+								
+								//end dbg
+								
+								funcStack=[doNothing]; 
+								
+								  }
 				else { if (	(	stillToAssignMen <0 ) || (	stillToAssignWomen < 0 ) ) {
 				           document.getElementById("yotermidai").style.display='inline';   }
 									 else document.getElementById("adainloukzu").style.display='inline';
@@ -3973,7 +4009,7 @@ function getUnFilteredNameList(listType){
 					 document.myform.famyname.value=listOfNames[currentNameIdx];
 					      }
 								
-					 		 getInfoForStsfction();			 		
+					 		 getInfoForStsfction('');			 		
 					 }
 return;
 
@@ -4284,7 +4320,7 @@ function saveAndMovePrvs_cont(){
 		    
 				   if(currentNameIdx < listOfNames.length-zz) currentNameIdx=currentNameIdx+zz;    
 				   document.myform.famyname.value=listOfNames[currentNameIdx];
-					 getInfoForStsfction();
+					 getInfoForStsfction('');
 					 } 
 		}			 
 
@@ -4309,13 +4345,13 @@ function saveAndMovePrvs_cont(){
 		    
 				   if(currentNameIdx > 0) currentNameIdx--;    
 				   document.myform.famyname.value=listOfNames[currentNameIdx];
-					 getInfoForStsfction();
+					 getInfoForStsfction('');
 					 }
 		}			       		
 
 
 //--------------------------------------------------------------------------------------------------------  
-   function saveStsfctn(){
+   function saveStsfctn(){  
 	 
 	 nam=delLeadingBlnks(document.myform.famyname.value);
 	 
@@ -4356,6 +4392,55 @@ function saveStsfctn_cont(rslt){
 	 
 	 }
 //------------------------------------------------------------------------------------------------------ 
+ function saveStsfctn_1_button(){
+  funcStack=[doNothing];
+	saveStsfctn_1();
+	}
+//--------------------------------------------------------------------------------------------------------  
+   function saveStsfctn_1(){  
+	 
+	 nam=delLeadingBlnks(document.myform.familyname.value);
+	 
+	 thisYearStsfctnMen=document.myform.gvr_m0_1.value;
+	 thisYearStsfctnWmn=document.myform.nashim_m0_1.value;
+	 thisYearSeat=document.myform.mkishv_m0_1.value;
+	 
+	   if(   	( !thisYearStsfctnMen) || (!thisYearStsfctnWmn) || (!thisYearSeat)  )
+				  { Alert('אנא מלא את בל השדות כמבוקש');return;} 
+	   url=firstPartOfURL+'/saveStsfctionParams/?'+password+'$'+nam;
+		 url=url+'$'+thisYearStsfctnMen.toString()+'$'+thisYearStsfctnWmn.toString()+'$'+thisYearSeat.toString()
+		
+	   url=encodeURI(url); 
+		 funcStack.push(saveStsfctn_cont_1);
+		 send_msg_to_server(url);
+}
+
+//-----------------------
+
+function saveStsfctn_cont_1(rslt){		 
+ 
+     rspnsString1 = rslt; 
+     if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');}
+					 else {
+					    	elmnt=document.getElementById('mkishv_m0_1');        
+                elmnt.style.color='black';
+								elmnt=document.getElementById('gvr_m0_1');           
+                elmnt.style.color='black';
+								elmnt=document.getElementById('nashim_m0_1');       
+                elmnt.style.color='black';
+//// saveStsfctionVlusToArray(stsfctionVlusFromServer);   //////////////////////////////////
+		           stsfctionVlusFromServer[0]= document.myform.gvr_m0_1.value;		
+	             stsfctionVlusFromServer[1]= document.myform.nashim_m0_1.value;		
+	             stsfctionVlusFromServer[2]= document.myform.mkishv_m0_1.value;	
+
+					    Alert('נתונים נרשמו');
+					 }
+				
+				func=funcStack.pop();
+				func();             
+	 
+	 
+	 }
 //-------------------------------------------------------------------------------------------------------- 
  function saveAndMoveNextPP(){  
  funcStack= [saveAndMoveNextPP_cont];
@@ -4467,7 +4552,11 @@ function 	savePrsnlPrblms_cont(res){
 				func2=funcStack.pop();            
 	       func2();
 	 
-	 }
+	}
+	
+	//--------------------------------------------------------------------------------------------------------  
+
+	
 //-------------------------------------------------------------------------------------------------------- 
 function saveSeatAssignment_fromHTML(prm){
   funcStack=[doNothing];
@@ -4514,16 +4603,19 @@ function svSeatAssignment(checkOnly,showPositiveConfirmation){
 				 
 				 
 }
-//-------------------------
+//------------------------- 
 function svSeatAssignment_cont(	rspnsString1){			 
-				 
+		var tmp;		 
 	 var func2;
 	var showPositiveConfirmation;
 	showPositiveConfirmation=funcStack.pop(); 
-	       
-         if(rspnsString1.substr(0,3)=='999'){Alert('סיסמא שגויה. אנא הכנס סיסמא נכונה');}
-				   else { if(rspnsString1.substr(0,3)=='---'){Alert('שגיאת מערכת. אנא נסה לצאת ולהכנס שוב')} 
-					 else {
+         
+				  tmp=rspnsString1.substr(0,3);
+         if (tmp == '***'){displayStsfction(rspnsString1)}
+			      
+         if(tmp =='999'){Alert('סיסמא שגויה. אנא הכנס סיסמא נכונה');}
+				   else { if(tmp =='---'){Alert('שגיאת מערכת. אנא נסה לצאת ולהכנס שוב')} 
+						 else  {
 					    rishumButzaHight=60;
               rishumButzaWidth=200;		
 	            w = window.innerWidth;
@@ -4539,13 +4631,98 @@ function svSeatAssignment_cont(	rspnsString1){
 									 }	
 	
 					  //  Alert(' רישום בוצע');
-							originalListOfAssigned=listOfAssignedSeats.slice(); 	
+							originalListOfAssigned=listOfAssignedSeats.slice(); 
+								          
 							          } //second else	
 					 	}		;   // first else
 					 func2=funcStack.pop(); 
 					 func2(true);
 					 return true;			 				 
   }
+//--------------------------------------------------------------------------------------------------------
+
+/*
+var amudotForStsfctn=[	amudot.stsfctnInFlrThisYrWmn,amudot.stsfctnInFlrThisYrMen,amudot.ThisYRSSeat,
+							          amudot.stsfctnInFlrLastYrWmn,amudot.stsfctnInFlrLastYrMen,amudot.lstYrSeat,
+							          amudot.stsfctnInFlr2YRSAgoYrWmn,amudot.stsfctnInFlr2YRSAgoYrMen,amudot.TwoYRSAgoSeat,
+												amudot.stsfctnInFlr3YRSAgoYrWmn,amudot.stsfctnInFlr3YRSAgoYrMen,amudot.ThreeYRSAgoSeat];							
+*/
+		
+function displayStsfction(rspns){
+   var  tmp, i,j,rspnsArray;
+	 tmp=rspns.split('%')[1];
+	 rspnsArray=tmp.split('$');
+  //getInfoForStsfction('_1');
+	   document.getElementById('gvr_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[10]);   
+		 document.getElementById('nashim_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[9]);
+		 document.getElementById('mkishv_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[11]);
+		 document.getElementById('gvr_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[7]);
+	   document.getElementById('nashim_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[6]);
+		 document.getElementById('mkishv_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[8]);
+		 document.getElementById('gvr_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[4]);
+	   document.getElementById('nashim_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[3]);
+		 document.getElementById('mkishv_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[5]);
+		 
+		 document.getElementById('vetek_1').innerHTML=rspnsArray[12];
+		 
+      lstYrMn=delLeadingBlnks(rspnsArray[1]);
+		 tmp1=lstYrMn.split('*');  
+		 if ( !tmp1[1] ){ 
+		      tmp2=Number(tmp1[0]);
+					clr='red';}
+					else {
+					tmp2=Number(tmp1[1]);
+					clr='black'};
+			elmnt=document.getElementById('gvr_m0_1');
+			elmnt.value=tmp2;
+			elmnt.style.color=clr;
+		 	document.getElementById('calcGvr_m0_1').innerHTML=tmp1[0];
+		
+		 lstYrWmn=delLeadingBlnks(rspnsArray[0]);
+		 tmp1=lstYrWmn.split('*');
+		 if ( !tmp1[1] ){
+		      tmp2=Number(tmp1[0]);
+					clr='red';}
+					else {
+					tmp2=Number(tmp1[1]);
+					clr='black'};
+			elmnt=document.getElementById('nashim_m0_1');
+			elmnt.value=tmp2;
+			elmnt.style.color=clr;
+	 	  document.getElementById('calcNashim_m0_1').innerHTML=tmp1[0];
+		 			 
+	   lstYrSt=delLeadingBlnks(rspnsArray[2]);
+		 tmp1=lstYrSt.split('*');
+		 if ( !tmp1[1] ){
+		      tmp2=Number(tmp1[0]);
+					clr='red';}
+					else {
+					tmp2=Number(tmp1[1]);
+					clr='black'};
+			elmnt=document.getElementById('mkishv_m0_1');
+			elmnt.value=tmp2;
+			elmnt.style.color=clr;
+			document.getElementById('calcMkishv_m0_1').innerHTML=tmp1[0];
+		  
+			elmnt=document.getElementById('stsfctnTbl_1'); 
+		  elmnt.onmouseover=showCalcStsf_1;	
+		  elmnt.onmouseout= hideCalcStsf_1;
+			
+		//// saveStsfctionVlusToArray(stsfctionVlusFromServer);   //////////////////////////////////
+		 stsfctionVlusFromServer[0]= document.myform.gvr_m0_1.value;		
+	   stsfctionVlusFromServer[1]= document.myform.nashim_m0_1.value;		
+	   stsfctionVlusFromServer[2]= document.myform.mkishv_m0_1.value;	
+     
+	//	 elm=document.getElementById("savestsfctn_1");
+ //    elm.onclick='saveStsfctn_1_button()';
+		 
+		 document.getElementById('stsfctnNow').style.visibility='visible';
+		 document.getElementById('gvr_m0_1').focus();
+		 
+			return;
+			};
+
+
 //--------------------------------------------------------------------------------------------------------
 function 	turnOffRishumButza(){
    document.getElementById("rishumButza").style.display='none';
@@ -4588,6 +4765,9 @@ function 	turnOffRishumButza(){
 	 document.getElementById("getstfction").style.display='none';
 	 document.getElementById("prsnlProblems").style.display='none';
 	  document.getElementById("reportAssgnmnts").style.display='none';
+		
+		elm=document.getElementById("savestsfctn_1");
+     elm.onclick='doNothing()';
 	
 	if (document.getElementById("oprtion").selectedIndex < 3)document.getElementById("mainFieldset").style.display='block';
 	if (document.getElementById("oprtion").selectedIndex == 2)document.getElementById("floatingDiv").style.display='block';
@@ -5652,7 +5832,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 <div>
   <label for="famyname">שם משפחה</label>
 									<button  type="button" id='prvs' onclick= 'ckSaveAndMovePrvsStsfction()' style='display:inline-block;height:30px;font-size:22px'> &#x2192 </button>
-		      <input type="text" name="famyname" id="fmName1" required onchange='getInfoForStsfction()'> 
+		      <input type="text" name="famyname" id="fmName1" required onchange='getInfoForStsfction("")'> 
 					<button  type="button" id='next' onclick= 'ckSaveAndMoveNextStsfction()' style='display:inline-block;height:30px;font-size:22px'> &#x2190 </button>
  </div>  
 	<br>
@@ -5806,10 +5986,10 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 	<div style='font-size:19px' id='details'>				      
 								<label for="reqemail">מייל:</label>
 		      <div name="reqemail" id='reqemail' style="display:inline-block" ></div> <span> &nbsp &nbsp &nbsp &nbsp </span>
-                  <label for="reqmobile">טלפון  :</label>
-		      <div name="reqmobile" id='reqmobile' style="display:inline-block" ></div> <span> &nbsp &nbsp &nbsp &nbsp </span>
-                  <label for="reqaddress" >כתובת:</label>
-          <div  name="reqaddress" id='reqaddress' style="display:inline-block"></div> 
+                  <label for="reqmobile" style="display:none">טלפון  :</label>
+		      <div name="reqmobile" id='reqmobile' style="display:none" ></div> <span> &nbsp &nbsp &nbsp &nbsp </span>
+                  <label for="reqaddress" style="display:none" >כתובת:</label>
+          <div  name="reqaddress" id='reqaddress' style="display:none"></div> 
 								
 	<br>
 	<div> <h3> סכום לתשלום: <span id ='letashlum'></span> </h3> </div>
@@ -5838,6 +6018,44 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 		
 		      <div  id='RmoreComments' style='display:none' ><u>הערות ובקשות נוספות: </u>&nbsp &nbsp &nbsp <span id='rCmnts'  ></span></div><br>
 		</div>	
+	<div id='stsfctnNow' name=	'stsfctnNow' >
+	<div><h2> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp טבלת שביעות רצון</h2></div>
+<table id='stsfctnTbl_1' >
+			 <thead> <tr> <th> &nbsp &nbsp &nbsp &nbsp </th> <th> &nbsp גברים &nbsp  &nbsp   </th> <th> &nbsp &nbsp נשים &nbsp &nbsp </th> 
+			 <th> &nbsp מקום ישיבה &nbsp &nbsp </th>    </tr></thead>
+			 <tbody>
+			
+			 <tr> <td > לפני 3 שנים </td>  <td id='gvr_m3_1'> &nbsp </td> <td id='nashim_m3_1'> &nbsp </td> <td id='mkishv_m3_1'> &nbsp </td></tr>
+			 <tr> <td > לפני 2 שנים </td>  <td id='gvr_m2_1'> &nbsp </td> <td id='nashim_m2_1'> &nbsp </td> <td id='mkishv_m2_1'> &nbsp </td></tr>
+			 <tr> <td > לפני שנה </td>  <td id='gvr_m1_1'> &nbsp </td> <td id='nashim_m1_1'> &nbsp </td> <td id='mkishv_m1_1'> &nbsp </td></tr>
+			 <tr height:'5px'> <td > הקצאה נוכחית </td>  <td > <input id='gvr_m0_1' name='gvr_m0_1' style='background:lightBlue;font-size:16px;width:56px;padding:0px;text-align:center' type="number" onchange='ckInpVld("gvr_m0_1",0,10,false)'  >
+			          </td> <td ><input id='nashim_m0_1' name='nashim_m0_1' style='background:lightBlue;font-size:16px;width:60px;padding:0px;text-align:center'   type="number" onchange='ckInpVld("nashim_m0_1",0,10,false)'  >
+								</td> <td > <input id='mkishv_m0_1' name='mkishv_m0_1' style='background:lightBlue;font-size:16px;width:90px;padding:0px;text-align:center'   type="number" onchange='ckInpVld("mkishv_m0_1",0,1,false)'  > </td>
+														</tr>
+			 </tbody>  </table>
+<div><h3  >ותק מעודכן: <span id='vetek_1' ></span></h3></div>
+<button  type="button" id='savestsfctn_1' name='savestsfctn_1' onclick= 'saveStsfctn_1_button()' style='display:block;height:30px;font-size:22px' > שמור ערכים</button><br>
+
+
+
+<div id='calculatedStsfctn_1' style='display:none'>
+<div><h3> &nbsp &nbsp ערכי  שביעות רצון מחושבים</h3></div>
+<table> 
+<thead> <tr>  <th> &nbsp גברים &nbsp  &nbsp   </th> <th> &nbsp &nbsp נשים &nbsp &nbsp </th> 
+			 <th> &nbsp מקום ישיבה &nbsp &nbsp </th>    </tr></thead>
+<tbody>
+<tr height:'5px'>   <td  id='calcGvr_m0_1'  style='background:LightSlateGray;font-size:16px;width:56px;padding:0px;text-align:center'   >5 </td>
+			              <td  id='calcNashim_m0_1'  style='background:LightSlateGray;font-size:16px;width:60px;padding:0px;text-align:center'   > 6</td>
+								    <td  id='calcMkishv_m0_1'  style='background:LightSlateGray;font-size:16px;width:90px;padding:0px;text-align:center'    > 7</td>
+														</tr>		
+	</tbody>  </table>	 
+</div>
+
+</div>
+
+
+
+</div>  	
 		<div id='colorMap'   style='display:none'>
 		
 		   <h3> מפתח צבעים </h3>
