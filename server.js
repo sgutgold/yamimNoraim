@@ -3868,10 +3868,15 @@ function genNewYearRequestSheet(yearToCreate){
 	 requestedSeatsWorksheet[amudot.stsfctnInFlr3YRSAgoYrWmn+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrWmn+rww];
 	 requestedSeatsWorksheet[amudot.stsfctnInFlr3YRSAgoYrMen+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrMen+rww];
 	 requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+rww]=requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+rww];
+	 
 	 requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrWmn+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+rww];
 	 requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrMen+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+rww];
 	 requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+rww]=requestedSeatsWorksheet[amudot.lstYrSeat+rww];
-							
+	 
+	 requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrWmn+rww];
+	 requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrMen+rww];
+	 requestedSeatsWorksheet[amudot.lstYrSeat+rww]=requestedSeatsWorksheet[amudot.ThisYRSSeat+rww];
+		
 			
 								  	// update membership status   
 									ptr1=amudot.memberShipStatus+rww;
@@ -3898,7 +3903,7 @@ function genNewYearRequestSheet(yearToCreate){
 	 	
 							
 							initValuesOutOfHtmlRequestsXLSX_file('');
-							
+	/*  // function moved to assignment process						
 			// initialize proposed values for satisfaction
 			
 			// get refernce year woek sheet
@@ -3932,7 +3937,7 @@ function genNewYearRequestSheet(yearToCreate){
 	}
 		
 		xlsx.writeFile(workbook, XLSXfilename);					 	
-					
+	*/				
 		return '+++';
 									
 	}
