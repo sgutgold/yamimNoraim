@@ -3375,7 +3375,7 @@ var tmp, str,i,colmn;
 				str=str+requestedSeatsWorksheet[colmn+row].v+'$';
 				}
 				str=str+requestedSeatsWorksheet[amudot.memberShipStatus+row].v;
-				console.log('calculate_crnt_assnmnt_stsfctn     str='+str);
+			//	console.log('calculate_crnt_assnmnt_stsfctn     str='+str);
 				return str;
 }		
 	
