@@ -3367,7 +3367,7 @@ var tmp, str,i,colmn;
 		    colmn=amudotForStsfctn[i];
 				str=str+requestedSeatsWorksheet[colmn+row].v+'$';
 				}
-				str=str.substr(0,str.length-1);
+				str=str+requestedSeatsWorksheet[amudot.memberShipStatus+row].v;
 				console.log('calculate_crnt_assnmnt_stsfctn     str='+str);
 				return str;
 }		
