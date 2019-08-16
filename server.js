@@ -720,7 +720,7 @@ var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',permanentS
 							assignedSeatsRosh:'Z',assignedSeatsKipur:'AA',numberOfAssignedSeatsRoshMen:'AB',numberOfAssignedSeatsRoshWomen:'AC',
 							numberOfAssignedSeatsKipurMen:'AD',numberOfAssignedSeatsKipurWomen:'AE',tashlum:'AF',tashlumPaid:'AG',
 							stsfctnInFlrThisYrWmn:'AI',
-							stsfctnInFlrThisYrMen:'AJ',ThisYRSSeat:'AK'
+							stsfctnInFlrThisYrMen:'AJ',ThisYRSSeat:'AK',
 							stsfctnInFlrLastYrWmn:'AL',stsfctnInFlrLastYrMen:'AM',lstYrSeat:'AN',
 							stsfctnInFlr2YRSAgoYrWmn:'AO',stsfctnInFlr2YRSAgoYrMen:'AP',TwoYRSAgoSeat:'AQ',stsfctnInFlr3YRSAgoYrWmn:'AR',
 							stsfctnInFlr3YRSAgoYrMen:'AS',ThreeYRSAgoSeat:'AT',
