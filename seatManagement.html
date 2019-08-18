@@ -4420,7 +4420,7 @@ function saveStsfctn_cont(rslt){
 	 
 	   if(   	( !thisYearStsfctnMen) || (!thisYearStsfctnWmn) || (!thisYearSeat)  )
 				  { Alert('אנא מלא את בל השדות כמבוקש');return;} 
-	   url=firstPartOfURL+'/saveStsfctionParams/?'+password+'$'+nam;
+	   url=firstPartOfURL+'/saveStsfctionParams_thisYear/?'+password+'$'+nam;
 		 url=url+'$'+thisYearStsfctnMen.toString()+'$'+thisYearStsfctnWmn.toString()+'$'+thisYearSeat.toString()
 		
 	   url=encodeURI(url); 
