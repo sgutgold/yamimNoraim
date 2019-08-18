@@ -922,7 +922,8 @@ var	positionInMsg={email:0,	addr:1,phone:2,	gvarimRoshHashana:3,gvarimKipur:4,na
 									 requestedSeats:12,requestDate:13,assignedSeatsRosh:14,assignedSeatsKipur:15,tashlum:16,tashlumPaid:17,
 									 stsfctnInFlr2YRSAgoYrWmn:18,stsfctnInFlr2YRSAgoYrMen:19,TwoYRSAgoSeat:20,stsfctnInFlr3YRSAgoYrWmn:21,
                    stsfctnInFlr3YRSAgoYrMen:22,ThreeYRSAgoSeat:23,memberShipStatus:24,stsfctnInFlrLastYrWmn:25,stsfctnInFlrLastYrMen:26,
-									 LastYrSeat:27,issueInFloorWmn:28,  issueinFloorMen:29,  issueBetweenFloors:30,nashimMuadaf:31,gvarimMuadaf:32
+									 LastYrSeat:27,issueInFloorWmn:28,  issueinFloorMen:29,  issueBetweenFloors:30,nashimMuadaf:31,gvarimMuadaf:32,
+									 stsfctnInFlrThisYrWmn:33,stsfctnInFlrThisYrMen:34,ThisYrSeat:35
 									 };
 											  
 
@@ -2347,6 +2348,10 @@ genTables=funcStack.pop();
 					
 		      creatColoredMap(genTables,resArray);
 					
+	
+		//if (	resArray[	positionInMsg.stsfctnInFlrThisYrWmn].indexOf('*') != -1)displayStsfction(resArray,positionInMsg_indices)	// if info available display stsfction vlus
+		
+					
 					if(delLeadingBlnks (document.myform.familyname.value))   // if there is a family name then
 				                      	updateCountAssigned(1,0); // force "number-of-assgnments-left" msg 
 					{fnc= funcStack.pop();  fnc(); return;} ;	
@@ -2354,7 +2359,8 @@ genTables=funcStack.pop();
 					
 	}
 	
-//---------------------------------------------------------------------------------			
+
+//---------------------------------------------------------------------------------				
 /*
 	positionInMsg.email   0
 	positionInMsg.addr   1
@@ -4612,11 +4618,16 @@ function svSeatAssignment(checkOnly,showPositiveConfirmation){
 function svSeatAssignment_cont(	rspnsString1){			 
 		var tmp;		 
 	 var func2;
+	 var tmp1,vlusArr;
 	var showPositiveConfirmation;
 	showPositiveConfirmation=funcStack.pop(); 
          
 				  tmp=rspnsString1.substr(0,3);
-         if (tmp == '***'){displayStsfction(rspnsString1)}
+         if (tmp == '***'){
+				       tmp1=rspnsString1.split('%')[1];
+							 vlusArr= tmp1.split('$');
+				       displayStsfction(vlusArr,after_saveStsfction_indices);
+							 };
 			      
          if(tmp =='999'){Alert('סיסמא שגויה. אנא הכנס סיסמא נכונה');}
 				   else { if(tmp =='---'){Alert('שגיאת מערכת. אנא נסה לצאת ולהכנס שוב')} 
@@ -4644,7 +4655,7 @@ function svSeatAssignment_cont(	rspnsString1){
 					 func2(true);
 					 return true;			 				 
   }
-//--------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------- displayStsfction(rspnsArray,positionInMsg_indices)
 
 /*
 var amudotForStsfctn=[	amudot.stsfctnInFlrThisYrWmn,amudot.stsfctnInFlrThisYrMen,amudot.ThisYRSSeat,
@@ -4652,25 +4663,36 @@ var amudotForStsfctn=[	amudot.stsfctnInFlrThisYrWmn,amudot.stsfctnInFlrThisYrMen
 							          amudot.stsfctnInFlr2YRSAgoYrWmn,amudot.stsfctnInFlr2YRSAgoYrMen,amudot.TwoYRSAgoSeat,
 												amudot.stsfctnInFlr3YRSAgoYrWmn,amudot.stsfctnInFlr3YRSAgoYrMen,amudot.ThreeYRSAgoSeat];							
 */
-		
-function displayStsfction(rspns){
-   var  tmp, i,j,rspnsArray;
-	 tmp=rspns.split('%')[1];
-	 rspnsArray=tmp.split('$');
-  //getInfoForStsfction('_1');
-	   document.getElementById('gvr_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[10]);   
-		 document.getElementById('nashim_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[9]);
-		 document.getElementById('mkishv_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[11]);
-		 document.getElementById('gvr_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[7]);
-	   document.getElementById('nashim_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[6]);
-		 document.getElementById('mkishv_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[8]);
-		 document.getElementById('gvr_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[4]);
-	   document.getElementById('nashim_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[3]);
-		 document.getElementById('mkishv_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[5]);
+
+after_saveStsfction_indices={gvr_m3_1_idx:10,nashim_m3_1_idx:9,mkishv_m3_1_idx:11,
+                             gvr_m2_1_idx:7, nashim_m2_1_idx:6,mkishv_m2_1_idx:8,
+														 gvr_m1_1_idx:4,nashim_m1_1_idx:3,mkishv_m1_1_idx:5,
+														 gvr_m0_1_idx:1,nashim_m0_1_idx:0,mkishv_m0_1_idx:2,
+														 vtk_idx:12
+														 };
+														 
+positionInMsg_indices={nashim_m2_1_idx:18,gvr_m2_1_idx:19,mkishv_m2_1_idx:20,
+                       nashim_m3_1_idx:21,gvr_m3_1_idx:22,mkishv_m3_1_idx:23,
+											 nashim_m1_1_idx:25,gvr_m1_1_idx:26,mkishv_m1_1_idx:27,
+											 nashim_m0_1_idx:33,gvr_m0_1_idx:34,mkishv_m0_1_idx:35,
+											 vtk_idx:24												 
+		                   };
+function displayStsfction(rspnsArray,arr_indices){
+   var  tmp, i,j;
+	
+	   document.getElementById('gvr_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.gvr_m3_1_idx]);   
+		 document.getElementById('nashim_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.nashim_m3_1_idx]);
+		 document.getElementById('mkishv_m3_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.mkishv_m3_1_idx]);
+		 document.getElementById('gvr_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.gvr_m2_1_idx]);
+	   document.getElementById('nashim_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.nashim_m2_1_idx]);
+		 document.getElementById('mkishv_m2_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.mkishv_m2_1_idx]);
+		 document.getElementById('gvr_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.gvr_m1_1_idx]);
+	   document.getElementById('nashim_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.nashim_m1_1_idx]);
+		 document.getElementById('mkishv_m1_1').innerHTML=getFinalStsfctnVlu(rspnsArray[arr_indices.mkishv_m1_1_idx]);
 		 
-		 document.getElementById('vetek_1').innerHTML=rspnsArray[12];
+		 document.getElementById('vetek_1').innerHTML=rspnsArray[arr_indices.vtk_idx];
 		 
-      lstYrMn=delLeadingBlnks(rspnsArray[1]);
+      lstYrMn=delLeadingBlnks(rspnsArray[arr_indices.gvr_m0_1_idx]);
 		 tmp1=lstYrMn.split('*');  
 		 if ( !tmp1[1] ){ 
 		      tmp2=Number(tmp1[0]);
@@ -4683,7 +4705,7 @@ function displayStsfction(rspns){
 			elmnt.style.color=clr;
 		 	document.getElementById('calcGvr_m0_1').innerHTML=tmp1[0];
 		
-		 lstYrWmn=delLeadingBlnks(rspnsArray[0]);
+		 lstYrWmn=delLeadingBlnks(rspnsArray[arr_indices.nashim_m0_1_idx]);
 		 tmp1=lstYrWmn.split('*');
 		 if ( !tmp1[1] ){
 		      tmp2=Number(tmp1[0]);
@@ -4696,7 +4718,7 @@ function displayStsfction(rspns){
 			elmnt.style.color=clr;
 	 	  document.getElementById('calcNashim_m0_1').innerHTML=tmp1[0];
 		 			 
-	   lstYrSt=delLeadingBlnks(rspnsArray[2]);
+	   lstYrSt=delLeadingBlnks(rspnsArray[arr_indices.mkishv_m0_1_idx]);
 		 tmp1=lstYrSt.split('*');
 		 if ( !tmp1[1] ){
 		      tmp2=Number(tmp1[0]);
