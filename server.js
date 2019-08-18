@@ -2675,7 +2675,44 @@ app.get('/getlist', function(req, res) {
 	else res.send('999' );
 	 
         })
-
+//----------------------------------------------------------:'AI',
+							:'AJ',:'AK',
+ app.get('/saveStsfctionParams_thisYear', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+   var tmp;
+	 inp=decodeURI(req.originalUrl).split('?')[1];
+	 inpData=inp.split('$');
+	 
+	if(inpData[0] == mngmntPASSW){
+	   initFromFiles('');
+	   rowNum= knownName(inpData[1])[0];   
+		 if(rowNum == -1 ){res.send('---')}
+		 else {
+		 row=rowNum.toString();
+		 
+		 
+		 ptr= amudot.stsfctnInFlrThisYrMen + row; 
+		 tmp= (requestedSeatsWorksheet[ptr].v).split('*');
+		 requestedSeatsWorksheet[ptr].v=tmp[0]+'*'+inpData[2];   //lastYearStsfctnMen
+		
+		 ptr= amudot.stsfctnInFlrThisYrWmn + row; 
+		 tmp= (requestedSeatsWorksheet[ptr].v).split('*');  
+		 requestedSeatsWorksheet[ptr].v=tmp[0]+'*'+inpData[3];   //lastYearStsfctnWmn
+		 
+		 ptr= amudot.ThisYRSSeat + row;
+		 tmp= (requestedSeatsWorksheet[ptr].v).split('*');
+		 requestedSeatsWorksheet[ptr].v=tmp[0]+'*'+inpData[4]; //lastYearSeat
+		 
+		
+		
+		  xlsx.writeFile(workbook, XLSXfilename);																													
+	   res.send('+++');
+	   }
+	}
+	else res.send('999' );
+	 
+        })
 //----------------------------------------------------------
 function analyseRqstVSAssgnd(rowp){
 
