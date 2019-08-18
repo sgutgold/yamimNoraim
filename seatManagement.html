@@ -2308,9 +2308,11 @@ function ckNameRtrvVlus_cont1(res){
 		 document.hiddenForm.lastFamName.value = document.myform.familyname.value;
 		 
 		 numberOfSeatsRequested=resArray[3]+resArray[4]+resArray[5]+resArray[6];
-		
-		 if(numberOfSeatsRequested )memberdetails(resArray);  //  not first time,  previous data exists
-     
+				
+		 if(numberOfSeatsRequested ){
+		         memberdetails(resArray);  //  not first time,  previous data exists
+						 if (	resArray[	positionInMsg.stsfctnInFlrThisYrWmn].indexOf('*') != -1)displayStsfction(resArray,positionInMsg_indices)	// if info available display stsfction vlus
+              }
 		 ckNameRtrvVlus_cont2();
 		 
 		}
@@ -2347,9 +2349,9 @@ genTables=funcStack.pop();
 					
 					
 		      creatColoredMap(genTables,resArray);
-					
+		
 	
-		//if (	resArray[	positionInMsg.stsfctnInFlrThisYrWmn].indexOf('*') != -1)displayStsfction(resArray,positionInMsg_indices)	// if info available display stsfction vlus
+		
 		
 					
 					if(delLeadingBlnks (document.myform.familyname.value))   // if there is a family name then
