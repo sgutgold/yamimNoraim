@@ -3348,7 +3348,7 @@ app.get('/updateAssignedSeats', function(req, res) {
 				      res.send('+++' );
 			      };
 			
-			} 
+			} )
 	 
 	 
 	      
