@@ -634,18 +634,26 @@ function  memberInfo(requestor,inputString){
 						 respnArray[positionInMsg.stsfctnInFlr2YRSAgoYrWmn]=requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrWmn+Row].v;
 						 respnArray[positionInMsg.stsfctnInFlr2YRSAgoYrMen]=requestedSeatsWorksheet[amudot.stsfctnInFlr2YRSAgoYrMen+Row].v;
 						 respnArray[positionInMsg.TwoYRSAgoSeat]=requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+Row].v;
+						 
 						 respnArray[positionInMsg.stsfctnInFlr3YRSAgoYrWmn]=requestedSeatsWorksheet[amudot.stsfctnInFlr3YRSAgoYrWmn+Row].v;
 						 respnArray[positionInMsg.stsfctnInFlr3YRSAgoYrMen]=requestedSeatsWorksheet[amudot.stsfctnInFlr3YRSAgoYrMen+Row].v;
 						 respnArray[positionInMsg.ThreeYRSAgoSeat]=requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+Row].v;
+						 
 						 respnArray[positionInMsg.memberShipStatus]=requestedSeatsWorksheet[amudot.memberShipStatus+Row].v;
+						 
 						 respnArray[positionInMsg.stsfctnInFlrLastYrWmn]=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+Row].v;
 						 respnArray[positionInMsg.stsfctnInFlrLastYrMen]=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+Row].v;
 						 respnArray[positionInMsg.LastYrSeat]=requestedSeatsWorksheet[amudot.lstYrSeat+Row].v;
+						 
 						 respnArray[positionInMsg.issueInFloorWmn]=requestedSeatsWorksheet[amudot.issueInFloorWmn+Row].v;
 						 respnArray[positionInMsg.issueinFloorMen]=requestedSeatsWorksheet[amudot.issueinFloorMen+Row].v;
 						 respnArray[positionInMsg.issueBetweenFloors]=requestedSeatsWorksheet[amudot.issueBetweenFloors+Row].v;
 						 respnArray[positionInMsg.nashimMuadaf]=requestedSeatsWorksheet[amudot.nashimMuadaf+Row].v;
 						 respnArray[positionInMsg.gvarimMuadaf]=requestedSeatsWorksheet[amudot.gvarimMuadaf+Row].v;
+						 
+						 respnArray[positionInMsg.stsfctnInFlrThisYrWmn]=requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrWmn+Row].v;
+						 respnArray[positionInMsg.stsfctnInFlrThisYrMen]=requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrMen+Row].v;
+						 respnArray[positionInMsg.ThisYrSeat]=requestedSeatsWorksheet[amudot.ThisYRSSeat+Row].v;
 						 
 						 respns=respnArray.join('&');
 			}		 
@@ -658,8 +666,7 @@ function  memberInfo(requestor,inputString){
 }
 //
 
-		           
-											  
+		 
 //------------------------------------------------------------------------------------------------
 
 /*
@@ -751,7 +758,8 @@ var	positionInMsg={email:0,	addr:1,phone:2,	gvarimRoshHashana:3,gvarimKipur:4,na
 									 requestedSeats:12,requestDate:13,assignedSeatsRosh:14,assignedSeatsKipur:15,tashlum:16,tashlumPaid:17,
 									 stsfctnInFlr2YRSAgoYrWmn:18,stsfctnInFlr2YRSAgoYrMen:19,TwoYRSAgoSeat:20,stsfctnInFlr3YRSAgoYrWmn:21,
                    stsfctnInFlr3YRSAgoYrMen:22,ThreeYRSAgoSeat:23,memberShipStatus:24,stsfctnInFlrLastYrWmn:25,stsfctnInFlrLastYrMen:26,
-									 LastYrSeat:27,issueInFloorWmn:28,  issueinFloorMen:29,  issueBetweenFloors:30,nashimMuadaf:31,gvarimMuadaf:32
+									 LastYrSeat:27,issueInFloorWmn:28,  issueinFloorMen:29,  issueBetweenFloors:30,nashimMuadaf:31,gvarimMuadaf:32,
+									 stsfctnInFlrThisYrWmn:33,stsfctnInFlrThisYrMen:34,ThisYrSeat:35
 									 };
 											  
 	
@@ -3292,15 +3300,15 @@ app.get('/updateAssignedSeats', function(req, res) {
 	 
 	 inputString=decodeURI(req.originalUrl).split('?')[1];
 	 inputParams=inputString.split('$'); 
-	 if (inputParams[0] != mngmntPASSW){res.send('999' )}
-	 else{ 
+	 if (inputParams[0] != mngmntPASSW){res.send('999' ); return};
+	 
 	 initFromFiles('');
 	   moed=inputParams[1]; 
 	   nameToUpdate=inputParams[2];  
 	   strSeatsToUpdate=inputParams[3];  
 	 
 	   rowNum= knownName(nameToUpdate)[0];   
-		 if(rowNum != -1 ){
+		 if(rowNum == -1 ){res.send('---' ); return};
 		 row=rowNum.toString();
 		 
 		 if( (moed=='rosh') || (moed=='all') ){
@@ -3333,9 +3341,12 @@ app.get('/updateAssignedSeats', function(req, res) {
 					   msg=calculate_crnt_assnmnt_stsfctn(row);
 						 res.send('***%'+msg)
 						 }
-				else  res.send('+++' );
-			 }
-			 else res.send('---' );
+				else {
+				      requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrMen+row].v=' ';
+	            requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrWmn+row].v=' ';
+	            requestedSeatsWorksheet[amudot.ThisYRSSeat+row].v=' ';
+				      res.send('+++' );
+			      };
 			
 			} 
 	 
@@ -3343,7 +3354,7 @@ app.get('/updateAssignedSeats', function(req, res) {
 	      
 
     })
-//----------------------------------------------------------stsfctnInFlrThisYrWmn:'AI',stsfctnInFlrThisYrMen:'AJ',ThisYRSSeat:'AK'
+//----------------------------------------------------------
 							
 /*
 
@@ -3876,6 +3887,11 @@ function genNewYearRequestSheet(yearToCreate){
 	 requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrWmn+rww];
 	 requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+rww]=requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrMen+rww];
 	 requestedSeatsWorksheet[amudot.lstYrSeat+rww]=requestedSeatsWorksheet[amudot.ThisYRSSeat+rww];
+	 
+	 requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrWmn+rww].v=' ';
+	 requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrMen+rww].v=' ';
+	 requestedSeatsWorksheet[amudot.ThisYRSSeat+rww].v=' ';
+	 
 		
 			
 								  	// update membership status   
