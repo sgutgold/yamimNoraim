@@ -2675,8 +2675,8 @@ app.get('/getlist', function(req, res) {
 	else res.send('999' );
 	 
         })
-//----------------------------------------------------------:'AI',
-							:'AJ',:'AK',
+//----------------------------------------------------------
+						
  app.get('/saveStsfctionParams_thisYear', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
