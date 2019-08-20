@@ -1048,7 +1048,7 @@ var funcStack=[];
 							
 var debugState=false;
 function send_msg_to_server(url){
-
+//console.log("caller is " + arguments.callee.caller.toString());
    var oneSecond=1000;
    var response_arrived;
    response_arrived='waiting';
@@ -1103,7 +1103,9 @@ function send_msg_to_server(url){
 					    	xhttp.onload=doNothing;
 								xhttp.onprogress=doNothing;
 								turn_waitForServerMsg_on(false);
+								//console.log('funcStack='+funcStack);
 								rtrnFunc=funcStack.pop();
+								//console.log('xhttp.responseText='+xhttp.responseText);
 								rtrnFunc(xhttp.responseText);
   
 						}  //if		
@@ -2290,7 +2292,7 @@ ckNameRtrvVlus(p);
 		 
 		 funcStack.push(genTables);//save param
 		 funcStack.push(ckNameRtrvVlus_cont1);
-		 
+		 //console.log('funcStack='+funcStack);
 		 ckName(0);
 	}	 
 }
@@ -3352,15 +3354,18 @@ function inUlam(seat){
 							moedStr=moedCodes[lMoed];
 						
 							url=encodeURI(firstPartOfURL+"/mngfmname/?"+moedStr+document.myform.familyname.value+'$'+'&'+password+'&'+yearToDisplay);
-              funcStack.push(ckName_cont);
+              funcStack.push(ckName_cont);  // console.log('funcStack='+funcStack);
+						
 							send_msg_to_server(url);
 							
 	}
-	
+ 
 	//---------------------------------
 	function ckName_cont(rslt){
-	            					
-						  CNrspnsString = rslt;
+	//console.log("caller is " + arguments.callee.caller.toString());
+
+	        	
+						  CNrspnsString = rslt;  
 							focusId=document.getElementById('fmName');
 							if(CNrspnsString.substr(0,3)=='999'){  
 							                        Alert('סיסמא שגויה. הכנס שוב סיסמא');
@@ -3913,6 +3918,8 @@ function 	getShulConfig_cont(rslt){
 }
 //----------------------
 function 	getListOfNames_cont(rspnse){	
+//console.log("caller is " + arguments.callee.caller.toString());
+
              var param,func2;
               rqstorsString = rspnse; 
 						  if(rqstorsString.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
@@ -3928,11 +3935,12 @@ function 	getListOfNames_cont(rspnse){
 					 
 					  
 				
-				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0)}
+				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0);return;}
 					  else{
 					 currentNameIdx=0;
 					 document.myform.familyname.value=requestorsNameList[currentNameIdx];
 					    }
+//				console.log('funcStack='+funcStack);			
 				func2=funcStack.pop(); 
 				param=funcStack.pop();			
 			  func2(param);
