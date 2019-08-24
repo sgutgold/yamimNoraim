@@ -1524,7 +1524,7 @@ function calcSortParam(row){
  var calcResult=[];
  var tmp;
  var  tmp1;
- var tmp2;
+ var tmp2, tmp3;;
  //   calc family sort calue
  
 // part personal problem family between floors
@@ -1535,26 +1535,29 @@ part2=vetekWeight*Number(requestedSeatsWorksheet[amudot.memberShipStatus+row].v)
 
 //part mishkal koma in the past
 //MakomMinus3Yrs=Number(requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v);
-tmp=requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v;
-if (isNaN(tmp)){ 
-         tmp=tmp.split('*');
+tmp3=requestedSeatsWorksheet[amudot.ThreeYRSAgoSeat+row].v;
+if (isNaN(tmp3)){ 
+         tmp=tmp3.split('*');
          if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
-			else tmp1=tmp;	 
+			else tmp1=tmp;	
+			if( ! delLeadingBlnks(tmp3) )tmp1=0; 
 MakomMinus3Yrs=tmp1;
 
 //MakomMinus2Yrs=lastYearVS2YearsAgoWeight*Number(requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v);
-tmp=requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v;
-if (isNaN(tmp)){ 
-         tmp=tmp.split('*');
+tmp3=requestedSeatsWorksheet[amudot.TwoYRSAgoSeat+row].v;
+if (isNaN(tmp3)){ 
+         tmp=tmp3.split('*');
          if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
 			else tmp1=tmp;	
+			if( ! delLeadingBlnks(tmp3) )tmp1=0;
 MakomMinus2Yrs=lastYearVS2YearsAgoWeight*tmp1;
 
-tmp=requestedSeatsWorksheet[amudot.lstYrSeat+row].v;
-if (isNaN(tmp)){ 
-         tmp=tmp.split('*');
+tmp3=requestedSeatsWorksheet[amudot.lstYrSeat+row].v;
+if (isNaN(tmp3)){ 
+         tmp=tmp3.split('*');
          if ( !tmp[1]){tmp1=Number(tmp[0])} else tmp1=Number(tmp[1]);}
 			else tmp1=tmp;
+			if( ! delLeadingBlnks(tmp3) )tmp1=0;
 MakomMinus1Yrs=lastYearVS2YearsAgoWeight*lastYearVS2YearsAgoWeight*tmp1;
 
 part3=satisfactionHistoryWeight*(MakomMinus3Yrs+MakomMinus2Yrs+MakomMinus1Yrs);
@@ -1620,8 +1623,11 @@ return calcResult;
 function getStsfctnVlu(cellPtr){
 var tmp=[];
 var tmp1;
+			
 
 tmp1=(requestedSeatsWorksheet[cellPtr].v).toString();
+if( ! delLeadingBlnks(tmp1) )return 10;
+ 
 if (tmp1.indexOf('*')== -1)return Number(tmp1);
 tmp=tmp1.split('*');
 if (tmp[1])return Number(tmp[1]);
@@ -4124,39 +4130,7 @@ app.get('/getShulConfigPerm', function(req, res) {
 		 rspns=getShulConfig( configWS);  
 				res.send(rspns);	
 					
-	/*				
-					  rspns='';
-						i=firstConfigRow;
-						Istr=(i).toString();
-						
-						while(shulConfigerationWS[amudotOfConfig.fromSeat+Istr].v != '$$$'){
-						  fromSt=shulConfigerationWS[amudotOfConfig.fromSeat+Istr].v;
-						 if( Number(fromSt) ){
-						    ulam=shulConfigerationWS[amudotOfConfig.ulam+Istr].v;
-							 if (ulam.substr(0,1) != 'n'){nashim=0;} else nashim=1; 
-							 itmp=ulam.indexOf(' ');
-		           tmp=ulam.substr(itmp+1,1);
-							 UlamOrMartef='m';
-							 if (tmp != 'm'){if (tmp=='e'){UlamOrMartef='n'} else UlamOrMartef='r'};  // 'e' == ezrat nashim
-							 slantedX=shulConfigerationWS[amudotOfConfig.X_forSlantedRow+Istr].v;
-							 if ( isNaN(slantedX) )slantedX='';
-							 slantedY=shulConfigerationWS[amudotOfConfig.Y_forSlantedRow+Istr].v;
-							 if ( isNaN(slantedY) )slantedY='';
-						  rspns=rspns+shulConfigerationWS[amudotOfConfig.fromSeat+Istr].v+'@'
-							+shulConfigerationWS[amudotOfConfig.toSeat+Istr].v+'@'
-							+shulConfigerationWS[amudotOfConfig.reltvRowQual+Istr].v+'@'
-							+shulConfigerationWS[amudotOfConfig.open_badSeats+Istr].v+'@'
-							+shulConfigerationWS[amudotOfConfig.ezor+Istr].v+'@'
-							+slantedX+'@'
-							+slantedY+'@'
-							+UlamOrMartef+	'$';  
-							}; 
-						  i++;
-							Istr=(i).toString();  
-							};
-        rspns=rspns.substr(0,rspns.length-1);  
-				res.send(rspns);			
-   */    
+	
 			 
 			  })	
 																	
@@ -4165,8 +4139,7 @@ app.get('/getShulConfigPerm', function(req, res) {
 		 
 		
 		
-	//	  ind1=1;
-		//		 {  UlamOrMartef='u';  ind1=0;};
+	
 
 //----------------------------------------------------------
 		
