@@ -2462,7 +2462,7 @@ app.get('/getFullList', function(req, res) {
 		 row=knownName(name)[0]; 
 		 row=row.toString();
 	   ptr1=amudot.ThisYRSSeat+row;
-		 if ( typeof requestedSeatsWorksheet[ptr1] != 'undefined' )  { if ( delLeadingBlnks(requestedSeatsWorksheet[ptr1].v)numberOfCalculatedStsfction++;}
+		 if ( typeof requestedSeatsWorksheet[ptr1] != 'undefined' )  { if ( delLeadingBlnks(requestedSeatsWorksheet[ptr1].v))numberOfCalculatedStsfction++;}
 	
 	  	
 		 if (listType=='problems'){
