@@ -2583,14 +2583,14 @@ function getFinalStsfctnVlu(vl){
 	   document.myform.familyname.value=tmp; // needed there for ckName
 		yearToDisplay='';   // get info from this year
 		funcStack=[getInfoForStsfction_cont1];
-		 
+		
 		  ckName(0);
 }
 
 //----------------------------------------------------------- 
 		 
 	function getInfoForStsfction_cont1(rslt){	
-	typ=funcStack.pop(); 
+	//typ=funcStack.pop(); 
 	res=rslt;
 		  resArray=res.split('&'); 
      if(res.substr(0,3)=='---'){
@@ -2605,18 +2605,25 @@ function getFinalStsfctnVlu(vl){
 		 document.getElementById('gvr_m3').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr3YRSAgoYrMen]);   
 		 document.getElementById('nashim_m3').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr3YRSAgoYrWmn]);
 		 document.getElementById('mkishv_m3').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.ThreeYRSAgoSeat]);
+		 
 		 document.getElementById('gvr_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr2YRSAgoYrMen]);
 	   document.getElementById('nashim_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlr2YRSAgoYrWmn]);
 		 document.getElementById('mkishv_m2').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.TwoYRSAgoSeat]);
 		 
-		 
+		 document.getElementById('gvr_m1').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlrLastYrMen]);
+	   document.getElementById('nashim_m1').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.stsfctnInFlrLastYrWmn]);
+		 document.getElementById('mkishv_m1').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.LastYrSeat]);
+		
 		 document.getElementById('vetek').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.memberShipStatus]);		
 		 
 	//   document.myform.beinKomot.value=Number(resArray[positionInMsg.issueBetweenFloors]);	
 	//	 document.myform.bekomaM.value=Number(resArray[positionInMsg.issueinFloorMen]);
 	//	 document.myform.bekomaW.value=Number(resArray[positionInMsg.issueInFloorWmn]);
-		
-		 lstYrMn=delLeadingBlnks(resArray[positionInMsg.stsfctnInFlrLastYrMen]);
+	/*
+	
+									 :33,:34,:35
+	*/	
+		 lstYrMn=delLeadingBlnks(resArray[positionInMsg.stsfctnInFlrThisYrMen]);
 		 tmp1=lstYrMn.split('*');  
 		 if ( !tmp1[1] ){ 
 		      tmp2=Number(tmp1[0]);
@@ -2624,12 +2631,12 @@ function getFinalStsfctnVlu(vl){
 					else {
 					tmp2=Number(tmp1[1]);
 					clr='black'};
-			elmnt=document.getElementById('gvr_m1');
+			elmnt=document.getElementById('gvr_m0');
 			elmnt.value=tmp2;
 			elmnt.style.color=clr;
-		 	document.getElementById('calcGvr_m1').innerHTML=tmp1[0];
+		 	document.getElementById('calcGvr_m0').innerHTML=tmp1[0];
 		
-		 lstYrWmn=delLeadingBlnks(resArray[positionInMsg.stsfctnInFlrLastYrWmn]);
+		 lstYrWmn=delLeadingBlnks(resArray[positionInMsg.stsfctnInFlrThisYrWmn]);
 		 tmp1=lstYrWmn.split('*');
 		 if ( !tmp1[1] ){
 		      tmp2=Number(tmp1[0]);
@@ -2637,12 +2644,12 @@ function getFinalStsfctnVlu(vl){
 					else {
 					tmp2=Number(tmp1[1]);
 					clr='black'};
-			elmnt=document.getElementById('nashim_m1');
+			elmnt=document.getElementById('nashim_m0');
 			elmnt.value=tmp2;
 			elmnt.style.color=clr;
-	 	  document.getElementById('calcNashim_m1').innerHTML=tmp1[0];
+	 	  document.getElementById('calcNashim_m0').innerHTML=tmp1[0];
 		 			 
-	   lstYrSt=delLeadingBlnks(resArray[positionInMsg.LastYrSeat]);
+	   lstYrSt=delLeadingBlnks(resArray[positionInMsg.ThisYrSeat]);
 		 tmp1=lstYrSt.split('*');
 		 if ( !tmp1[1] ){
 		      tmp2=Number(tmp1[0]);
@@ -2650,15 +2657,15 @@ function getFinalStsfctnVlu(vl){
 					else {
 					tmp2=Number(tmp1[1]);
 					clr='black'};
-			elmnt=document.getElementById('mkishv_m1');
+			elmnt=document.getElementById('mkishv_m0');
 			elmnt.value=tmp2;
 			elmnt.style.color=clr;
-			document.getElementById('calcMkishv_m1').innerHTML=tmp1[0];
+			document.getElementById('calcMkishv_m0').innerHTML=tmp1[0];
 		  	
 	 
 		 saveStsfctionVlusToArray(stsfctionVlusFromServer);   
-		 
-		 
+	/*	 
+	return;	 
 		 
 	// get info from previous year	
 	
@@ -2676,7 +2683,7 @@ function getInfoForStsfction_cont2(rslt){
         Object.keys(positionInMsg).forEach(function(key) {resArray[positionInMsg[key]]=''; 
      									                     });	
 		    };                                         
-	
+	*/
 	   document.getElementById('menRoshStsfctn').innerHTML=resArray[positionInMsg.gvarimRoshHashana];
 		 document.getElementById('menkipurStsfctn').innerHTML=resArray[positionInMsg.gvarimKipur];
 		 document.getElementById('womenRoshStsfctn').innerHTML=resArray[positionInMsg.nashimRoshHashana];
@@ -2988,8 +2995,8 @@ function getInfoForStsfction_cont2(rslt){
   function saveStsfctionVlusToArray(arr){
 	
 	
-	   arr[0]= document.myform.gvr_m1.value;		
-	   arr[1]= document.myform.nashim_m1.value;		
+	   arr[0]= document.myform.gvr_m0.value;		
+	   arr[1]= document.myform.nashim_m0.value;		
 	   arr[2]= document.myform.mkishv_m1.value;	
 
 	
@@ -3351,9 +3358,11 @@ function inUlam(seat){
 																				return '999';
 																				}
            		
-							moedStr=moedCodes[lMoed];
-						
-							url=encodeURI(firstPartOfURL+"/mngfmname/?"+moedStr+document.myform.familyname.value+'$'+'&'+password+'&'+yearToDisplay);
+							moedStr=moedCodes[lMoed]; 
+							//console.log('urlll='+moedStr+document.myform.familyname.value+'$'+'&'+password+'&'+yearToDisplay);
+					//	console.log("caller is " + arguments.callee.caller.toString());
+							url=encodeURI(firstPartOfURL+"/mngfmname/?"+moedStr+document.myform.familyname.value+'$'+'&'+password+'&'+yearToDisplay); 
+							//console.log('url='+url);
               funcStack.push(ckName_cont);  // console.log('funcStack='+funcStack);
 						
 							send_msg_to_server(url);
@@ -3362,7 +3371,7 @@ function inUlam(seat){
  
 	//---------------------------------
 	function ckName_cont(rslt){
-	//console.log("caller is " + arguments.callee.caller.toString());
+	
 
 	        	
 						  CNrspnsString = rslt;  
@@ -4014,8 +4023,10 @@ function getUnFilteredNameList(listType){
  function   getUnFilteredNameList_cont(rslt){  
          if(debugState)console.log(' getUnFilteredNameList_cont rslt='+rslt);  
 	       rspnsString1 = rslt; 
-         if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');}
-					 else {
+         if(rspnsString1.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');return;}
+				 
+				 if(rspnsString1.substr(0,3)=='---'){Alert('אין נתונים להצגה');return;}
+				 	
 					 listOfNames=rspnsString1.substr(3).split('$');
 				   listOfNames.sort();      
 				   if( delLeadingBlnks(document.myform.famyname.value)){kademStsfction(0);}
@@ -4026,7 +4037,7 @@ function getUnFilteredNameList(listType){
 					      }
 								
 					 		 getInfoForStsfction('');			 		
-					 }
+					 
 return;
 
 }
@@ -4037,7 +4048,7 @@ return;
 function getUnFilteredNameListForPP(){
   yearToDisplay='';     //nextYear;  // the list of names that has to be handled is the most updated one
  
-	url=encodeURI(firstPartOfURL+"/getFullList/?$"+password+'$'+yearToDisplay+'$'+LastYear);		
+	url=encodeURI(firstPartOfURL+"/getFullList/?$"+password+'$'+yearToDisplay+'$'+LastYear+'$PP');		
 
 	       funcStack=[getUnFilteredNameListForPP_cont]
           send_msg_to_server(url);
@@ -4829,7 +4840,11 @@ function 	turnOffRishumButza(){
 	if(operationID == 'prsnl'){
 	     stUpprsnlProblemsInput();
 			 return};
-	
+if (operationID   ='stsfctn'){ // check if database already moved to next year	
+
+
+
+}
 
  operationID=document.getElementById("oprtion").value;
  document.getElementById(operationID).style.display='inline-block';
@@ -5900,9 +5915,10 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 			
 			 <tr> <td > לפני 3 שנים </td>  <td id='gvr_m3'> &nbsp </td> <td id='nashim_m3'> &nbsp </td> <td id='mkishv_m3'> &nbsp </td></tr>
 			 <tr> <td > לפני 2 שנים </td>  <td id='gvr_m2'> &nbsp </td> <td id='nashim_m2'> &nbsp </td> <td id='mkishv_m2'> &nbsp </td></tr>
-			 <tr height:'5px'> <td > לפני שנה </td>  <td > <input id='gvr_m1' name='gvr_m1' style='background:lightBlue;font-size:16px;width:56px;padding:0px;text-align:center' type="number" onchange='ckInpVld("gvr_m1",0,10,false)'  >
-			          </td> <td ><input id='nashim_m1' name='nashim_m1' style='background:lightBlue;font-size:16px;width:60px;padding:0px;text-align:center'   type="number" onchange='ckInpVld("nashim_m1",0,10,false)'  >
-								</td> <td > <input id='mkishv_m1' name='mkishv_m1' style='background:lightBlue;font-size:16px;width:90px;padding:0px;text-align:center'   type="number" onchange='ckInpVld("mkishv_m1",0,1,false)'  > </td>
+			 <tr> <td > לפני שנה </td>  <td id='gvr_m1'> &nbsp </td> <td id='nashim_m1'> &nbsp </td> <td id='mkishv_m1'> &nbsp </td></tr>
+			 <tr height:'5px'> <td > השנה </td>  <td > <input id='gvr_m0' name='gvr_m0' style='background:lightBlue;font-size:16px;width:56px;padding:0px;text-align:center' type="number" onchange='ckInpVld("gvr_m0",0,10,false)'  >
+			          </td> <td ><input id='nashim_m0' name='nashim_m0' style='background:lightBlue;font-size:16px;width:60px;padding:0px;text-align:center'   type="number" onchange='ckInpVld("nashim_m0",0,10,false)'  >
+								</td> <td > <input id='mkishv_m0' name='mkishv_m0' style='background:lightBlue;font-size:16px;width:90px;padding:0px;text-align:center'   type="number" onchange='ckInpVld("mkishv_m0",0,1,false)'  > </td>
 														</tr>
 			 </tbody>  </table>
 
@@ -5924,9 +5940,9 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 <thead> <tr>  <th> &nbsp גברים &nbsp  &nbsp   </th> <th> &nbsp &nbsp נשים &nbsp &nbsp </th> 
 			 <th> &nbsp מקום ישיבה &nbsp &nbsp </th>    </tr></thead>
 <tbody>
-<tr height:'5px'>   <td  id='calcGvr_m1'  style='background:LightSlateGray;font-size:16px;width:56px;padding:0px;text-align:center'   >5 </td>
-			              <td  id='calcNashim_m1'  style='background:LightSlateGray;font-size:16px;width:60px;padding:0px;text-align:center'   > 6</td>
-								    <td  id='calcMkishv_m1'  style='background:LightSlateGray;font-size:16px;width:90px;padding:0px;text-align:center'    > 7</td>
+<tr height:'5px'>   <td  id='calcGvr_m0'  style='background:LightSlateGray;font-size:16px;width:56px;padding:0px;text-align:center'   >5 </td>
+			              <td  id='calcNashim_m0'  style='background:LightSlateGray;font-size:16px;width:60px;padding:0px;text-align:center'   > 6</td>
+								    <td  id='calcMkishv_m0'  style='background:LightSlateGray;font-size:16px;width:90px;padding:0px;text-align:center'    > 7</td>
 														</tr>		
 	</tbody>  </table>	 
 </div>
