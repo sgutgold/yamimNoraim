@@ -844,7 +844,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 
 
 	
- //debug code   1 
+ /*debug code   1 
  
  
 
@@ -861,7 +861,7 @@ console.log('5');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	//  //////// - end debug code  1
+	*/  //////// - end debug code  1
 
 	
 	
