@@ -1035,6 +1035,7 @@ minyanMevukashM= [ 'מעדיפים את בית המדרש במרתף',
 	
 var stsfctionVlusFromServer= new Array;
 var newStsfctionVlus= new Array;
+var noStsfctionToDsply=false;
 
 var prsnlProblemsVlusFromServer= new Array;
 var newprsnlProblemsVlus= new Array;
@@ -1319,7 +1320,7 @@ document.getElementById("hall1").style.display='none';
 	 document.getElementById("prsnlProblems").style.display='none';
 	 document.getElementById("reportAssgnmnts").style.display='none';
 	 document.getElementById("stsfctn").style.display='none';
-	
+	  document.getElementById("stsfctnNow").style.visibilty='hidden';
 
 }
 // -------------------------------------------------------------------  
@@ -1358,6 +1359,7 @@ function hideFieldSets(){
 	 document.getElementById("prsnlProblems").style.display='none';
 	 document.getElementById("reportAssgnmnts").style.display='none';
 	 document.getElementById("stsfctn").style.display='none';
+	  document.getElementById("stsfctnNow").style.visibility='hidden';
       
    funcStack.push(hideFieldSets_cont);
 
@@ -2995,9 +2997,9 @@ function getInfoForStsfction_cont2(rslt){
   function saveStsfctionVlusToArray(arr){
 	
 	
-	   arr[0]= document.myform.gvr_m0.value;		
-	   arr[1]= document.myform.nashim_m0.value;		
-	   arr[2]= document.myform.mkishv_m1.value;	
+	   arr[0]= document.getElementById('gvr_m0').value;		
+	   arr[1]= document.getElementById('nashim_m0').value;		
+	   arr[2]= document.getElementById('mkishv_m1').value;	
 
 	
 	}
@@ -3006,12 +3008,12 @@ function getInfoForStsfction_cont2(rslt){
 // --------------------------------------------------------------------------------   
   function savePrsnlProblemsVlusToArray(arr){
 	
-	  arr[0]=document.myform.beinKomot.value;	
-		 arr[1]=document.myform.bekomaM.value;		
-	   arr[2]= document.myform.bekomaW.value;		
+	  arr[0]=document.getElementById('beinKomot').value;	
+		 arr[1]=document.getElementById('bekomaM').value;		
+	   arr[2]= document.getElementById('bekomaW').value;		
 	   
-		 arr[3]= document.myform.nashimMuadaf.value;	
-		 arr[4]= document.myform.gvarimMuadaf.value;
+		 arr[3]= document.getElementById('nashimMuadaf').value;	
+		 arr[4]= document.getElementById('gvarimMuadaf').value;
 	   
 	
 	}
@@ -4020,13 +4022,14 @@ function getUnFilteredNameList(listType){
  }
  
  //---------
- function   getUnFilteredNameList_cont(rslt){  
+ function   getUnFilteredNameList_cont(rslt){ 
+          noStsfctionToDsply=true; 
          if(debugState)console.log(' getUnFilteredNameList_cont rslt='+rslt);  
 	       rspnsString1 = rslt; 
          if(rspnsString1.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');return;}
 				 
-				 if(rspnsString1.substr(0,3)=='---'){Alert('אין נתונים להצגה');return;}
-				 	
+				 if(rspnsString1.substr(0,3)=='---'){Alert('אין נתונים להצגה');   return;}
+				 	noStsfctionToDsply=false;
 					 listOfNames=rspnsString1.substr(3).split('$');
 				   listOfNames.sort();      
 				   if( delLeadingBlnks(document.myform.famyname.value)){kademStsfction(0);}
@@ -4236,6 +4239,7 @@ function 		svAndPrvs_cont(){
 //--------------------------------------------------------------------------------------------------------			 
 
 function ckSaveAndMoveNextStsfction(){
+if ( noStsfctionToDsply)return;
   if (funcStack.length)return; // busy with previous request
   saveStsfctionVlusToArray(newStsfctionVlus);
   eqArrays=true;
@@ -4252,6 +4256,7 @@ function ckSaveAndMoveNextStsfction(){
 //--------------------------------------------------------------------------------------------------------			 
 
 function ckSaveAndMovePrvsStsfction(){
+if ( noStsfctionToDsply)return;
    if (funcStack.length)return; // busy with previous request
   saveStsfctionVlusToArray(newStsfctionVlus);
   eqArrays=true;
