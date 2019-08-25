@@ -2438,7 +2438,8 @@ app.get('/isThereSuchAName', function(req, res) {
             res.send(cache_get('mgmt') );
         })
 				
-//----------------------------------------------------------    stsfctnInFlrLastYrMen 
+//----------------------------------------------------------   
+							
 app.get('/getFullList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
@@ -2449,26 +2450,32 @@ app.get('/getFullList', function(req, res) {
 	
 	if(inpData[1] == mngmntPASSW){
 	initFromFiles(inpData[2]);
-	
+	numberOfCalculatedStsfction=0;
 	
 	 listType=inpData[4]; 
 	tmplist=[];
 	ijl=0;
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
-	  name = familyNames[ijk];		
-		if (listType=='problems'){
-			  row=knownName(name)[0]; 
-				row=row.toString();
+	   
+		 name = familyNames[ijk];	
+		 row=knownName(name)[0]; 
+		 row=row.toString();
+	   ptr1=amudot.ThisYRSSeat+row;
+		 if ( typeof requestedSeatsWorksheet[ptr1] != 'undefined' )  { if ( delLeadingBlnks(requestedSeatsWorksheet[ptr1].v)numberOfCalculatedStsfction++;}
+	
+	  	
+		 if (listType=='problems'){
+			  
 				 
-					ptr1=amudot.stsfctnInFlrLastYrWmn+row;
+					ptr1=amudot.stsfctnInFlrThisYrWmn+row;
 			
 				if ( typeof requestedSeatsWorksheet[ptr1] !='undefined'){
 				     tmp=delLeadingBlnks(requestedSeatsWorksheet[ptr1].v);  
 				     if ( ! tmp){wmnCalculatedStsf='10' } else wmnCalculatedStsf=tmp.split('*')[0];
 					} else 	wmnCalculatedStsf='10';
 				
-				ptr1=amudot.stsfctnInFlrLastYrMen+row;
+				ptr1=amudot.stsfctnInFlrThisYrMen+row;
 				
 				if (	typeof requestedSeatsWorksheet[ptr1] != 'undefined' ){ 
 				    tmp=delLeadingBlnks(requestedSeatsWorksheet[ptr1].v);
@@ -2476,13 +2483,19 @@ app.get('/getFullList', function(req, res) {
 				  }else 	menCalculatedStsf='10';	
 			
 		    if (  (wmnCalculatedStsf=='10') && (menCalculatedStsf=='10') )continue
+				
+				
 		  } // if listType=problems 
-	
+	  
+		
+		 
+			
 	    tmplist[ijl]=name;
 			ijl++;
 
    };
-
+   if ((listType != 'pp') && ( ! numberOfCalculatedStsfction)){res.send('---');return;} // this year satisfection values not avaiable yet
+	 if ((listType != 'pp') && ( ! ijl)){res.send('---');return;} // empty list
 	tmplist=tmplist.sort();
 
 	 listOfnames='+++'+	tmplist.join('$');																														
