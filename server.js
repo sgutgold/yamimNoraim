@@ -2150,14 +2150,39 @@ app.get('/getCountOfSeats', function(req, res) {
 	var gvarimRashi=0;
 	var famsNotFullyAssgnRosh=0;
 	var famsNotFullyAssgnKipur=0;
+	
+	var rosh_nashim_martef=0;
+	var rosh_gvarim_martef=0;
+	var rosh_nashim_rashi=0;
+	var rosh_gvarim_rashi=0;
+	var kipur_nashim_martef=0;
+	var kipur_gvarim_martef=0;
+	var kipur_nashim_rashi=0;
+	var kipur_gvarim_rashi=0;
+	
+	var rosh_nasim_total=0;
+	var rosh_gvarim_total=0;
+	var kipur_nashim_total=0;
+	var kipur_gvarim_total=0;
 
 	for (i=firstSeatRow ; i<lastSeatRow+1   ; i++){
 	  row=i.toString();
+	 
+	var	nashim_rosh=Number(requestedSeatsWorksheet[amudot.womenRosh+row].v);
+	var	nashim_kipur=Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
+	var	gvarim_rosh=Number(requestedSeatsWorksheet[amudot.menRosh+row].v);
+	var	gvarim_kipur=Number(requestedSeatsWorksheet[amudot.menKipur+row].v);
 				
-	  if(Number(requestedSeatsWorksheet[amudot.nashimMuadaf+row].v) == 1)nashimRashi++;
-		if(Number(requestedSeatsWorksheet[amudot.nashimMuadaf+row].v) == 2)nasimMartef++;
-	  if(Number(requestedSeatsWorksheet[amudot.gvarimMuadaf+row].v) == 1)gvarimRashi++;
-	  if(Number(requestedSeatsWorksheet[amudot.gvarimMuadaf+row].v) == 2)gvarimMartef++;
+	  if(Number(requestedSeatsWorksheet[amudot.nashimMuadaf+row].v) == 1){nashimRashi++; rosh_nashim_rashi+=nashim_rosh  ;  kipur_nashim_rashi+=nashim_kipur;};
+		if(Number(requestedSeatsWorksheet[amudot.nashimMuadaf+row].v) == 2){nasimMartef++; rosh_nashim_martef+=nashim_rosh;  kipur_nashim_martef+=nashim_kipur;};
+	  if(Number(requestedSeatsWorksheet[amudot.gvarimMuadaf+row].v) == 1){gvarimRashi++; rosh_gvarim_rashi+=gvarim_rosh;  kipur_gvarim_rashi+=gvarim_kipur;};
+	  if(Number(requestedSeatsWorksheet[amudot.gvarimMuadaf+row].v) == 2){gvarimMartef++; rosh_gvarim_martef+=gvarim_rosh;  kipur_gvarim_martef+=gvarim_kipur;};
+		
+		rosh_nasim_total+=nashim_rosh;
+	  rosh_gvarim_total+=gvarim_rosh;
+	  kipur_nashim_total+=nashim_kipur;
+	  kipur_gvarim_total+=gvarim_kipur ;
+		
 		
 		if ( ! compareAssgndVSRqstd(row,1) )famsNotFullyAssgnRosh++;
 		if ( ! compareAssgndVSRqstd(row,2) )famsNotFullyAssgnKipur++;
@@ -2167,8 +2192,9 @@ app.get('/getCountOfSeats', function(req, res) {
 	rspns=rspns+gvarimMartef.toString()+'$'+nasimMartef.toString()+'$'+gvarimRashi.toString()+'$'+nashimRashi.toString();
 	
 	rspns=rspns+'$'+famsNotFullyAssgnRosh.toString()+'$'+famsNotFullyAssgnKipur.toString();
-	
-
+	rspns=rspns+'$'+ rosh_nashim_martef.toString+'$'+rosh_gvarim_martef.toString()+'$'+rosh_nashim_rashi.toString()+'$'+rosh_gvarim_rashi.toString;
+	rspns=rspns+'$'+ kipur_nashim_martef.toString+'$'+kipur_gvarim_martef.toString()+'$'+kipur_nashim_rashi.toString()+'$'+kipur_gvarim_rashi.toString;
+  rspns=rspns+'$'+rosh_nasim_total.toString()+'$'+rosh_gvarim_total.toString()+'$'+kipur_nashim_total.toString+'$'+kipur_gvarim_total.toString();
   
 	 res.send(rspns);  
 	
