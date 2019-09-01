@@ -693,7 +693,7 @@ var alreadyAssignedSeatsRosh = new Array;
 var alreadyAssignedSeatsKipur = new Array;
 var combinedAlreadyAssigned= new Array;
 
-var debugIsOn = false;
+var debugRequests = new Array;;
 var debugparam=''; 
 
 var startingRowstsfction=6 ;
@@ -2318,16 +2318,19 @@ app.get('/UPDtashlumim', function(req, res) {
 	 });
 
 
-//---------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------   		
 	 
 
 
 // get request to write member's input
    var inputArray = new Array;
   app.get('/writeinfo', function(req, res) {
+	var dbg;
 	res.header("Access-Control-Allow-Origin", "*");
 	fullInpString=decodeURI(req.originalUrl);
-	inputString=fullInpString.split('?')[1];   
+	inputString=fullInpString.split('?')[1]; 
+	dbg=searchDebugParam('writeinfo');
+	if (  dbg != -1) )console.log('write info inputString='+inputString);
 	initFromFiles('');
 //	inputString=inputString.substr(12); 
 	inputPairs=inputString.split('&'); 
@@ -3627,19 +3630,38 @@ var tmp;
 		} //for ii	 																						
 }		
 	
-//----------------------------------------------------------
-app.get('/setdebug123', function(req, res) {
-	//res.header("Access-Control-Allow-Origin", "*");
+//---------------------------------------------------------- 
+app.get('/setDebugOn', function(req, res) {
+	 res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
-	 inputString=req.originalUrl.substr(13);   
-	 debugprms=inputString.split('$');  
-	 if(debugprms[0]=='on'){  debugIsOn=true; debugparam=debugprms[1]};
-	  if(debugprms[0]=='off'){  debugIsOn=false; debugparam=''};
-	
-  res.send(cache_get('okmsg') );
+	 
+	 var tmp=new Array;
+	 var i;
+	 
+	 inputString=req.originalUrl.split('?')[1];   
+	 debugparam=inputString.split('$'); 
+	 if  ( debugparam[0] != debugPASSW){ res.send('wrong password'); return};
+	 if(debugparam[1]=='on'){  
+	      tmp=[debugparam[2],inputString];
+				debugRequests.push(tmp);
+				console.log('searchDebugParam after push='+searchDebugParam);
+				}
+	  if(debugparam[1]=='off'){  
+		 i=searchDebugParam(debugparam[2]);
+		 if (i == -1)return;
+		 debugRequests.splice(i,1);
+		 console.log('searchDebugParam after splice='+searchDebugParam);
+		 };
+	res.send('inputString='+inputString);
+  //res.send(cache_get('okmsg') );
         })	
 				
-			
+//---------------------------------------------------------------------------------	
+function searchDebugParam(param){
+   var i;
+	 for (i=0; i<	debugRequests.length;i++)if (		debugRequests[i,0] == param )return i;
+	 return -1;
+	 }
 //---------------------------------------------------------------------------------	
 app.get('/getRowValues', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -4381,12 +4403,20 @@ app.get('/ckpswGIZBAR', function(req, res) {
 	 if(inputString==moshavimPASSW){rspns='+++';} else rspns='---';
             res.send(rspns );
         })	
-//------------------------------------------------------------------------------					
+//------------------------------------------------------------------------------			
 				
 	app.get('/', function(req, res) {  
 	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
-       res.send(cache_get('index.html'));
+    
+		var dbg;
+		
+		dbg=searchDebugParam('index');
+		if (  dbg != -1 ){
+		          res.send(cache_get('real_index'));
+							return;
+							}
+		   res.send(cache_get('index.html'));
         })			
 
 //------------------------------------------------------------------------------	
