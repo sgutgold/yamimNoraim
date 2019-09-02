@@ -3674,11 +3674,11 @@ app.get('/setDebugOn', function(req, res) {
 	 if(debugparam[1]=='on'){  // if a request is on put it in
 	      tmp=[debugparam[2],inputString];
 				debugRequests.push(tmp);
-				console.log('searchDebugParam after push='+searchDebugParam);
+				console.log('debugRequests after push='+debugRequests);
 				}
 	  if(debugparam[1]=='off'){  // already removed
 		 
-		 console.log('searchDebugParam after splice='+searchDebugParam);
+		 console.log('debugRequests after splice='+debugRequests);
 		 };
 	res.send('inputString='+inputString);
   //res.send(cache_get('okmsg') );
@@ -4439,7 +4439,7 @@ app.get('/ckpswGIZBAR', function(req, res) {
     
 		var dbg;
 		
-		dbg=searchDebugParam('index');
+		dbg=searchDebugParam('index');  console.log('is "dbg" == "index" : dbg='+dbg+'  debugRequests='+debugRequests); 
 		if (  dbg != -1 ){
 		          res.send(cache_get('real_index'));
 							return;
