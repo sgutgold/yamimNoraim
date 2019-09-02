@@ -2356,7 +2356,7 @@ app.get('/UPDtashlumim', function(req, res) {
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1]; 
 	dbg=searchDebugParam('writeinfo');
-	if (  dbg != -1) )console.log('write info inputString='+inputString);
+	if (  dbg != -1) console.log('write info inputString='+inputString);
 	initFromFiles('');
 //	inputString=inputString.substr(12); 
 	inputPairs=inputString.split('&'); 
