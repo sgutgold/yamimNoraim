@@ -1152,7 +1152,7 @@ function initValuesOutOfSupportTablesXLSX_file(yearToInitFrom){
  badSeats=[];
  
  for (firstConfigRow=1;firstConfigRow<20;firstConfigRow++){
-         ptr=amudotOfConfig.fromSeat+firstConfigRow.toString(); 
+         ptr=amudotOfConfig.fromSeat+firstConfigRow.toString(); console.log('ptr='+ptr);
 				 tmp=shulConfigerationWS[ptr].v;    
 				 if ( ! isNaN(tmp) )break;
 			}
@@ -2192,9 +2192,9 @@ app.get('/getCountOfSeats', function(req, res) {
 	rspns=rspns+gvarimMartef.toString()+'$'+nasimMartef.toString()+'$'+gvarimRashi.toString()+'$'+nashimRashi.toString();
 	
 	rspns=rspns+'$'+famsNotFullyAssgnRosh.toString()+'$'+famsNotFullyAssgnKipur.toString();
-	rspns=rspns+'$'+ rosh_nashim_martef.toString+'$'+rosh_gvarim_martef.toString()+'$'+rosh_nashim_rashi.toString()+'$'+rosh_gvarim_rashi.toString;
-	rspns=rspns+'$'+ kipur_nashim_martef.toString+'$'+kipur_gvarim_martef.toString()+'$'+kipur_nashim_rashi.toString()+'$'+kipur_gvarim_rashi.toString;
-  rspns=rspns+'$'+rosh_nasim_total.toString()+'$'+rosh_gvarim_total.toString()+'$'+kipur_nashim_total.toString+'$'+kipur_gvarim_total.toString();
+	rspns=rspns+'$'+ rosh_nashim_martef.toString()+'$'+rosh_gvarim_martef.toString()+'$'+rosh_nashim_rashi.toString()+'$'+rosh_gvarim_rashi.toString();
+	rspns=rspns+'$'+ kipur_nashim_martef.toString()+'$'+kipur_gvarim_martef.toString()+'$'+kipur_nashim_rashi.toString()+'$'+kipur_gvarim_rashi.toString();
+  rspns=rspns+'$'+rosh_nasim_total.toString()+'$'+rosh_gvarim_total.toString()+'$'+kipur_nashim_total.toString()+'$'+kipur_gvarim_total.toString();
   
 	 res.send(rspns);  
 	
