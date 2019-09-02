@@ -1152,7 +1152,7 @@ function initValuesOutOfSupportTablesXLSX_file(yearToInitFrom){
  badSeats=[];
  
  for (firstConfigRow=1;firstConfigRow<20;firstConfigRow++){
-         ptr=amudotOfConfig.fromSeat+firstConfigRow.toString(); console.log('ptr='+ptr);
+         ptr=amudotOfConfig.fromSeat+firstConfigRow.toString(); 
 				 tmp=shulConfigerationWS[ptr].v;    
 				 if ( ! isNaN(tmp) )break;
 			}
@@ -3664,18 +3664,20 @@ app.get('/setDebugOn', function(req, res) {
 	 var tmp=new Array;
 	 var i;
 	 
-	 inputString=req.originalUrl.split('?')[1];   
-	 debugparam=inputString.split('$'); 
+	 inputString=decodeURI(req.originalUrl).split('?')[1];   
+	 debugparam=inputString.split('$'); console.log('debugparam='+debugparam);
 	 if  ( debugparam[0] != debugPASSW){ res.send('wrong password'); return};
-	 if(debugparam[1]=='on'){  
+	 // if request is already there - remove it.(not to have the same request twice and to make sure that current params are kept
+	 i=searchDebugParam(debugparam[2]);
+		 if (i != -1) debugRequests.splice(i,1);
+	 
+	 if(debugparam[1]=='on'){  // if a request is on put it in
 	      tmp=[debugparam[2],inputString];
 				debugRequests.push(tmp);
 				console.log('searchDebugParam after push='+searchDebugParam);
 				}
-	  if(debugparam[1]=='off'){  
-		 i=searchDebugParam(debugparam[2]);
-		 if (i == -1)return;
-		 debugRequests.splice(i,1);
+	  if(debugparam[1]=='off'){  // already removed
+		 
 		 console.log('searchDebugParam after splice='+searchDebugParam);
 		 };
 	res.send('inputString='+inputString);
