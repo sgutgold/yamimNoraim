@@ -1405,8 +1405,8 @@ function 		hideFieldSets_cont(rslt){
 	shortFloatingElmnt.style.top=(h-floatingElmntHight-10).toString()+'px';
 	shortFloatingElmnt.style.left=	((w-shortFloatingElmntWidth)/2 ).toString()+'px';		
 	
-	var seatcountersElmntHight=140;
-	var seatcountersElmntWidth=1000;	
+	var seatcountersElmntHight=205;
+	var seatcountersElmntWidth=1100;	
 	seatcountersElmnt=document.getElementById("seatcounters"); 
 	seatcountersElmnt.style.height=seatcountersElmntHight;
 	seatcountersElmnt.style.width=seatcountersElmntWidth;
@@ -1476,13 +1476,19 @@ function displayRegistrationClosedStatus_cont(rslt){
  // --------------------------------------------------------------------------
 
 function blinkRequested(){
+var errcnt;
    lastBlink= ! lastBlink;
 	 contentIdx++;  if(contentIdx==4){ changeContent=1- changeContent;  contentIdx=0} ; 
 	 if(lastBlink){borderStyle='1px solid Red';} else borderStyle='1px solid White';
 	 for (jjj=0; jjj<blinkElmntList.length; jjj++){
+	     
 	      blinkParts=blinkElmntList[jjj].split('_');
-				blinkElmntSeatId='c'+blinkParts[0]+'_p'; 
+				blinkElmntSeatId='c'+blinkParts[0]+'_p';// console.log('blinkElmntSeatId='+blinkElmntSeatId);
+				
 				blinkElmnt=document.getElementById(blinkElmntSeatId); 
+				
+				if (  errcnt)console.log('errcnt='+errcnt+' blinkElmntSeatId='+blinkElmntSeatId);
+				
 				spanBlinkElement=blinkElmnt.children[0];
 				if (blinkParts.length==2){  // first time here
 				          blinkParts[2]=blinkElmnt.style.backgroundColor;
@@ -2549,8 +2555,9 @@ function memberdetails(resArray){
 function 	displayAssignmentCounters_cont( countersString){			 
 	      
          seatCounters=countersString.split('$');  
-				 for(counterNumber=0;counterNumber<18;counterNumber++){
-				   counterId='avlblSeats'+counterNumber.toString(); 
+				 for(counterNumber=0;counterNumber<30;counterNumber++){   //<30
+				   counterId='avlblSeats'+counterNumber.toString();
+					
 					 document.getElementById(counterId).innerHTML=seatCounters[counterNumber];
 					}
 					document.getElementById('seatcounters').style.display='block';
@@ -3407,6 +3414,8 @@ if ( ! validPasswordEntered){
 			document.getElementById("yotermidai").style.display='none';
 			document.getElementById("hakzaamleaa").style.display='none';
 			document.getElementById("holidayMixup").style.display='none';																		
+			
+			blinkElmntList=[];
 																			
   chooseOperation(); // in case that this was not preceding selectionmade
 	switch 	(oprtion) {  
@@ -5699,6 +5708,12 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
  לאולם הראשי כוונו    &nbsp <span id='avlblSeats14'></span> מקומות לגברים ו-<span id='avlblSeats15'></span> &nbsp לנשים.</div>
  
  <div> &nbsp &nbsp  עדין לא הושלמה הקצאה לראש השנה ל- <span id='avlblSeats16'></span>  &nbsp משפחות, וליום כפור ל- <span id='avlblSeats17'></span>  &nbsp משפחות</div>
+  <div> &nbsp &nbsp בראש השנה  הדרישה למרתף נשים היא: <span id='avlblSeats18'></span>, &nbsp &nbsp  הדרישה למרתף גברים היא:<span id='avlblSeats19'></span> 
+	      , &nbsp &nbsp  הדרישה לאולם ראשי נשים היא: <span id='avlblSeats20'></span>, &nbsp &nbsp  הדרישה לאולם ראשי גברים היא: <span id='avlblSeats21'></span></div>
+ <div> &nbsp &nbsp ביום כפור  הדרישה למרתף נשים היא: <span id='avlblSeats22'></span>, &nbsp &nbsp  הדרישה למרתף גברים היא:<span id='avlblSeats23'></span> 
+	      , &nbsp &nbsp  הדרישה לאולם ראשי נשים היא: <span id='avlblSeats24'></span>, &nbsp &nbsp  הדרישה לאולם ראשי גברים היא: <span id='avlblSeats25'></span></div>
+				<div> &nbsp &nbsp סה"כ בראש השנה  הדרישה לנשים היא: <span id='avlblSeats26'></span>, &nbsp &nbsp  ולגברים היא:<span id='avlblSeats27'></span> 
+				,&nbsp &nbsp סה"כ ביום כפור  הדרישה לנשים היא: <span id='avlblSeats28'></span>, &nbsp &nbsp  ולגברים היא:<span id='avlblSeats29'></span></div> 
  <div>&nbsp <br> </div>
 </div>
 
