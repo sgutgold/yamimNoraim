@@ -3679,25 +3679,23 @@ app.get('/setDebugOn', function(req, res) {
 	 var i;
 	 
 	 inputString=decodeURI(req.originalUrl).split('?')[1];   
-	 debugparam=inputString.split('$'); //console.log('debugparam='+debugparam);
+	 debugparam=inputString.split('$'); 
 	 if  ( debugparam[0] != debugPASSW){ res.send('wrong password'); return};
 	 
-	console.log('debugRequests before handling='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] );
+	
 	
 	 // if request is already there - remove it.(not to have the same request twice and to make sure that current params are kept
 	 i=searchDebugParam(debugparam[2]);
 		 if (i != -1) debugRequests[i]=['$$$','$$$']; // ['$$$','$$$] is empty slot in array
 	 
 	 if(debugparam[1]=='on'){  // if a request is on put it in
-	      i=searchDebugParam('$$$'); // find emty slot
+	      i=searchDebugParam('$$$'); // find empty slot
 				if (i == -1){ res.send('too  many debug commands'); return};
 	      tmp=[debugparam[2],inputString];
 				debugRequests[i]=tmp;
-				console.log('debugRequests after push='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] );
-				}
+			}
 	  if(debugparam[1]=='off'){  // already removed
-		console.log('debugRequests after splice='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] );
-		 
+		// do nothing
 		 };
 		 for (i=0;i<20;i++){
 		    tmp=debugRequests[i];
