@@ -1242,7 +1242,15 @@ for(i=1; i<lastSeatNumber+1; i++){
       seatOcuupationLevel[i]=0;    // clear and set array size 
 			namesForSeat[i]='$/';
 			};
-			
+
+
+//
+shNames=workbook.SheetNames;  
+	 for (i=0; i<shNames.length;i++)console.log('i='+i+' shNames[i]='+shNames[i]);  
+	    
+				
+				 
+				 			
 	// reload debug requests		
   debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
 	for(i=0;i<20;i++){
