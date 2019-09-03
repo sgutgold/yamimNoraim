@@ -1236,7 +1236,7 @@ BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 }
 //-------------------------------------------------------------
 function initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom){
-var i, tmp.tmp1,tmp2;
+var i, tmp,tmp1,tmp2;
 
 for(i=1; i<lastSeatNumber+1; i++){
       seatOcuupationLevel[i]=0;    // clear and set array size 
