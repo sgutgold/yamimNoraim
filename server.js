@@ -1244,24 +1244,18 @@ for(i=1; i<lastSeatNumber+1; i++){
 			};
 
 
-//
-shNames=workbook.SheetNames;  
-	 for (i=0; i<shNames.length;i++)console.log('i='+i+' shNames[i]='+shNames[i]);  
-	    
-				
-				 
 				 			
-	// reload debug requests		            debugRequests
+	// reload debug requests		           
   debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
 	for(i=0;i<20;i++){
-	   ptr='A'+(i+1).toString(); console.log('ptrA='+ptr);
+	   ptr='A'+(i+1).toString(); //console.log('ptrA='+ptr);
 	   tmp1==debugRequestsWorkSheet[ptr].v;
-		 ptr='B'+(i+1).toString(); console.log('ptrB='+ptr);
+		 ptr='B'+(i+1).toString(); //console.log('ptrB='+ptr);
 	   tmp2==debugRequestsWorkSheet[ptr].v;
 		 tmp=[tmp1,tmp2];
 		 debugRequests.push(tmp);
 		 };
-	
+	for(i=0;i<debugRequests.length;i++)console.log('debugRequests.length='+debugRequests.length+'  i='+i+'debugRequests[i]='+debugRequests[i]);
  requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
  
  
@@ -3684,6 +3678,8 @@ app.get('/setDebugOn', function(req, res) {
 	 inputString=decodeURI(req.originalUrl).split('?')[1];   
 	 debugparam=inputString.split('$'); //console.log('debugparam='+debugparam);
 	 if  ( debugparam[0] != debugPASSW){ res.send('wrong password'); return};
+	 
+	console.log('debugRequests before handling='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] );
 	
 	 // if request is already there - remove it.(not to have the same request twice and to make sure that current params are kept
 	 i=searchDebugParam(debugparam[2]);
