@@ -1244,7 +1244,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 			};
 			
 	// reload debug requests		
-  debugRequestsWorkSheet=workbook.Sheets['debugRequests');
+  debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
 	for(i=0;i<20;i++){
 	   tmp1==debugRequestsWorkSheet['A'+i.toString()].v;
 	   tmp2==debugRequestsWorkSheet['B'+i.toString()].v;
