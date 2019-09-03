@@ -1236,15 +1236,22 @@ BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 }
 //-------------------------------------------------------------
 function initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom){
-
+var i, tmp.tmp1,tmp2;
 
 for(i=1; i<lastSeatNumber+1; i++){
       seatOcuupationLevel[i]=0;    // clear and set array size 
 			namesForSeat[i]='$/';
 			};
 			
-			
-  
+	// reload debug requests		
+  debugRequestsWorkSheet=workbook.Sheets['debugRequests');
+	for(i=0;i<20;i++){
+	   tmp1==debugRequestsWorkSheet['A'+i.toString()].v;
+	   tmp2==debugRequestsWorkSheet['B'+i.toString()].v;
+		 tmp=[tmp1,tmp2];
+		 debugRequests.push(tmp);
+		 };
+	
  requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
  
  
@@ -3667,21 +3674,30 @@ app.get('/setDebugOn', function(req, res) {
 	 inputString=decodeURI(req.originalUrl).split('?')[1];   
 	 debugparam=inputString.split('$'); //console.log('debugparam='+debugparam);
 	 if  ( debugparam[0] != debugPASSW){ res.send('wrong password'); return};
+	
 	 // if request is already there - remove it.(not to have the same request twice and to make sure that current params are kept
 	 i=searchDebugParam(debugparam[2]);
-		 if (i != -1) debugRequests.splice(i,1);
+		 if (i != -1) debugRequests[i]=['$$$','$$$']; // ['$$$','$$$] is empty slot in array
 	 
 	 if(debugparam[1]=='on'){  // if a request is on put it in
+	      i=searchDebugParam('$$$'); // find emty slot
+				if (i == -1){ res.send('too  many debug commands'); return};
 	      tmp=[debugparam[2],inputString];
-				debugRequests.push(tmp);
+				debugRequests[i]=tmp;
 				console.log('debugRequests after push='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] );
 				}
 	  if(debugparam[1]=='off'){  // already removed
-		 if(debugRequests.length){console.log('debugRequests after splice='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] )}else console.log('debugRequests is empty');
-		 //console.log('debugRequests after ='+debugRequests);
+		console.log('debugRequests after splice='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] )};
+		 
 		 };
+		 for (i=0;i<20;i++){
+		    tmp=debugRequests[i];
+				debugRequestsWorkSheet['A'+i.toString()].v=tmp[0];
+	      debugRequestsWorkSheet['B'+i.toString()].v=tmp[1];
+				}
+			xlsx.writeFile(workbook, XLSXfilename);	
 	res.send('ok');
-  //res.send(cache_get('okmsg') );
+  
         })	
 				
 //---------------------------------------------------------------------------------	
