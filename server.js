@@ -844,7 +844,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 
 
 	
- //debug code   1 
+ /*debug code   1 
  
  
 
@@ -861,7 +861,7 @@ console.log('5');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	// //////// - end debug code  1
+	*/ //////// - end debug code  1
 
 	
 	
@@ -1248,15 +1248,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 	// reload debug requests		           
   debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
 	
-	/*for(i=0;i<20;i++){
-	   ptrA='A'+(i+1).toString();
-	   debugRequestsWorkSheet[ptrA]={t:"s",v:'$$$'};
-		 ptrB='B'+(i+1).toString(); 
-	   debugRequestsWorkSheet[ptrB]={t:"s",v:'$$$'};  console.log('ptrB='+ptrB+' debugRequestsWorkSheet[ptrB].v='+debugRequestsWorkSheet[ptrB].v);
-		} 
-			xlsx.writeFile(workbook, XLSXfilename);
-			
-	*/		 
+	 
 	
 	for(i=0;i<20;i++){
 	   ptrA='A'+(i+1).toString(); 
@@ -1264,10 +1256,9 @@ for(i=1; i<lastSeatNumber+1; i++){
 		 ptrB='B'+(i+1).toString(); 
 	   tmp2=debugRequestsWorkSheet[ptrB].v;
 		 tmp=[tmp1,tmp2];
-		 console.log('ptrA='+ptrA+' ptrB='+ptrB+' tmp1='+tmp1+' tmp2='+tmp2+' tmp='+tmp );
 		 debugRequests.push(tmp);
 		 };
-	for(i=0;i<debugRequests.length;i++)console.log('debugRequests.length='+debugRequests.length+'  i='+i+'  debugRequests[i]='+debugRequests[i]);
+	
  requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
  
  
