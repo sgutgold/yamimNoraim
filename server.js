@@ -1246,7 +1246,18 @@ for(i=1; i<lastSeatNumber+1; i++){
 
 				 			
 	// reload debug requests		           
-  debugRequestsWorkSheet=workbook.Sheets['debugRequests'];console.log('debugRequestsWorkSheet='+debugRequestsWorkSheet);
+  debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
+	
+	for(i=0;i<20;i++){
+	   ptrA='A'+(i+1).toString();
+	   debugRequestsWorkSheet[ptrA].v='$$$';;
+		 ptrB='B'+(i+1).toString(); 
+	   debugRequestsWorkSheet[ptrB].v='$$$';
+		} 
+			xlsx.writeFile(workbook, XLSXfilename);
+			
+			 
+	
 	for(i=0;i<20;i++){
 	   ptrA='A'+(i+1).toString(); console.log('ptrA='+ptrA+' debugRequestsWorkSheet[ptrA]='+debugRequestsWorkSheet[ptrA]);
 	   tmp1==debugRequestsWorkSheet[ptrA].v;
