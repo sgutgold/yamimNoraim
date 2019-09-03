@@ -1250,9 +1250,9 @@ for(i=1; i<lastSeatNumber+1; i++){
 	
 	for(i=0;i<20;i++){
 	   ptrA='A'+(i+1).toString();
-	   debugRequestsWorkSheet[ptrA].v='$$$';;
+	   debugRequestsWorkSheet[ptrA]={t:"s",v:'$$$};
 		 ptrB='B'+(i+1).toString(); 
-	   debugRequestsWorkSheet[ptrB].v='$$$';
+	   debugRequestsWorkSheet[ptrB]={t:"s",v:'$$$};
 		} 
 			xlsx.writeFile(workbook, XLSXfilename);
 			
