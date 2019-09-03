@@ -3687,7 +3687,7 @@ app.get('/setDebugOn', function(req, res) {
 				console.log('debugRequests after push='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] );
 				}
 	  if(debugparam[1]=='off'){  // already removed
-		console.log('debugRequests after splice='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] )};
+		console.log('debugRequests after splice='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] );
 		 
 		 };
 		 for (i=0;i<20;i++){
