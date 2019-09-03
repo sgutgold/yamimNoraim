@@ -1252,7 +1252,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 	   ptrA='A'+(i+1).toString();
 	   debugRequestsWorkSheet[ptrA]={t:"s",v:'$$$'};
 		 ptrB='B'+(i+1).toString(); 
-	   debugRequestsWorkSheet[ptrB]={t:"s",v:'$$$'};
+	   debugRequestsWorkSheet[ptrB]={t:"s",v:'$$$'};  console.log('ptrB='+ptrB+' ebugRequestsWorkSheet[ptrB].v='+ebugRequestsWorkSheet[ptrB].v);
 		} 
 			xlsx.writeFile(workbook, XLSXfilename);
 			
