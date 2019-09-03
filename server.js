@@ -3674,20 +3674,20 @@ app.get('/setDebugOn', function(req, res) {
 	 if(debugparam[1]=='on'){  // if a request is on put it in
 	      tmp=[debugparam[2],inputString];
 				debugRequests.push(tmp);
-				console.log('debugRequests after push='+debugRequests);
+				console.log('debugRequests after push='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] );
 				}
 	  if(debugparam[1]=='off'){  // already removed
-		 
-		 console.log('debugRequests after splice='+debugRequests);
+		 if(debugRequests.length){console.log('debugRequests after splice='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] )}else console.log('debugRequests is empty');
+		 //console.log('debugRequests after ='+debugRequests);
 		 };
-	res.send('inputString='+inputString);
+	res.send('+++');
   //res.send(cache_get('okmsg') );
         })	
 				
 //---------------------------------------------------------------------------------	
 function searchDebugParam(param){
    var i;
-	 for (i=0; i<	debugRequests.length;i++)if (		debugRequests[i,0] == param )return i;
+	 for (i=0; i<	debugRequests.length;i++)if (		debugRequests[i][0] == param )return i;
 	 return -1;
 	 }
 //---------------------------------------------------------------------------------	
