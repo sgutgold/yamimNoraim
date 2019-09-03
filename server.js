@@ -1236,8 +1236,8 @@ BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 }
 //-------------------------------------------------------------
 function initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom){
-var i, tmp,tmp1,tmp2;
-
+var i, tmp,tmp1,tmp2,ptrA,ptrB;
+tmp=new Array;
 for(i=1; i<lastSeatNumber+1; i++){
       seatOcuupationLevel[i]=0;    // clear and set array size 
 			namesForSeat[i]='$/';
@@ -1248,14 +1248,15 @@ for(i=1; i<lastSeatNumber+1; i++){
 	// reload debug requests		           
   debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
 	for(i=0;i<20;i++){
-	   ptr='A'+(i+1).toString(); //console.log('ptrA='+ptr);
-	   tmp1==debugRequestsWorkSheet[ptr].v;
-		 ptr='B'+(i+1).toString(); //console.log('ptrB='+ptr);
-	   tmp2==debugRequestsWorkSheet[ptr].v;
+	   ptrA='A'+(i+1).toString(); 
+	   tmp1==debugRequestsWorkSheet[ptrA].v;
+		 ptrB='B'+(i+1).toString(); 
+	   tmp2==debugRequestsWorkSheet[ptrB].v;
 		 tmp=[tmp1,tmp2];
+		 console.log('ptrA='+ptrA+' ptrB='+ptrB+' tmp1='+tmp1+' tmp2='+tmp2+'tmp='+tmp );
 		 debugRequests.push(tmp);
 		 };
-	for(i=0;i<debugRequests.length;i++)console.log('debugRequests.length='+debugRequests.length+'  i='+i+'debugRequests[i]='+debugRequests[i]);
+	for(i=0;i<debugRequests.length;i++)console.log('debugRequests.length='+debugRequests.length+'  i='+i+'  debugRequests[i]='+debugRequests[i]);
  requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
  
  
