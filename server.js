@@ -3665,7 +3665,7 @@ app.get('/setDebugOn', function(req, res) {
 	 var i;
 	 
 	 inputString=decodeURI(req.originalUrl).split('?')[1];   
-	 debugparam=inputString.split('$'); console.log('debugparam='+debugparam);
+	 debugparam=inputString.split('$'); //console.log('debugparam='+debugparam);
 	 if  ( debugparam[0] != debugPASSW){ res.send('wrong password'); return};
 	 // if request is already there - remove it.(not to have the same request twice and to make sure that current params are kept
 	 i=searchDebugParam(debugparam[2]);
@@ -3680,7 +3680,7 @@ app.get('/setDebugOn', function(req, res) {
 		 if(debugRequests.length){console.log('debugRequests after splice='); for(i=0; i<debugRequests.length;i++)console.log('i='+i+' debugRequests[i]='+debugRequests[i] )}else console.log('debugRequests is empty');
 		 //console.log('debugRequests after ='+debugRequests);
 		 };
-	res.send('+++');
+	res.send('ok');
   //res.send(cache_get('okmsg') );
         })	
 				
@@ -4439,7 +4439,7 @@ app.get('/ckpswGIZBAR', function(req, res) {
     
 		var dbg;
 		
-		dbg=searchDebugParam('index');  console.log('is "dbg" == "index" : dbg='+dbg+'  debugRequests='+debugRequests); 
+		dbg=searchDebugParam('index');  
 		if (  dbg != -1 ){
 		          res.send(cache_get('real_index'));
 							return;
