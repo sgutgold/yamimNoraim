@@ -3701,8 +3701,8 @@ app.get('/setDebugOn', function(req, res) {
 		 };
 		 for (i=0;i<20;i++){
 		    tmp=debugRequests[i];
-				debugRequestsWorkSheet['A'+i.toString()].v=tmp[0];
-	      debugRequestsWorkSheet['B'+i.toString()].v=tmp[1];
+				debugRequestsWorkSheet['A'+(i+1).toString()].v=tmp[0];
+	      debugRequestsWorkSheet['B'+(i+1).toString()].v=tmp[1];
 				}
 			xlsx.writeFile(workbook, XLSXfilename);	
 	res.send('ok');
