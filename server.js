@@ -844,7 +844,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 
 
 	
- /*debug code   1 
+ //debug code   1 
  
  
 
@@ -861,7 +861,7 @@ console.log('5');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	*/ //////// - end debug code  1
+	// //////// - end debug code  1
 
 	
 	
@@ -1248,7 +1248,7 @@ for(i=1; i<lastSeatNumber+1; i++){
 	// reload debug requests		           
   debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
 	
-	for(i=0;i<20;i++){
+	/*for(i=0;i<20;i++){
 	   ptrA='A'+(i+1).toString();
 	   debugRequestsWorkSheet[ptrA]={t:"s",v:'$$$'};
 		 ptrB='B'+(i+1).toString(); 
@@ -1256,10 +1256,10 @@ for(i=1; i<lastSeatNumber+1; i++){
 		} 
 			xlsx.writeFile(workbook, XLSXfilename);
 			
-			 
+	*/		 
 	
 	for(i=0;i<20;i++){
-	   ptrA='A'+(i+1).toString(); console.log('ptrA='+ptrA+' debugRequestsWorkSheet[ptrA]='+debugRequestsWorkSheet[ptrA]);
+	   ptrA='A'+(i+1).toString(); 
 	   tmp1=debugRequestsWorkSheet[ptrA].v;
 		 ptrB='B'+(i+1).toString(); 
 	   tmp2=debugRequestsWorkSheet[ptrB].v;
