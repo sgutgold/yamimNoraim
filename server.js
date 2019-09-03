@@ -844,7 +844,7 @@ BackupFilename= localFileDir+'BackupMembersRequests.xlsx';
 
 
 	
- //debug code   1 
+ /*debug code   1 
  
  
 
@@ -861,7 +861,7 @@ console.log('5');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	//  //////// - end debug code  1
+	*/ //////// - end debug code  1
 
 	
 	
@@ -1251,11 +1251,13 @@ shNames=workbook.SheetNames;
 				
 				 
 				 			
-	// reload debug requests		
+	// reload debug requests		            debugRequests
   debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
 	for(i=0;i<20;i++){
-	   tmp1==debugRequestsWorkSheet['A'+i.toString()].v;
-	   tmp2==debugRequestsWorkSheet['B'+i.toString()].v;
+	   ptr='A'+(i+1).toString(); console.log('ptrA='+ptr);
+	   tmp1==debugRequestsWorkSheet[ptr].v;
+		 ptr='B'+(i+1).toString(); console.log('ptrB='+ptr);
+	   tmp2==debugRequestsWorkSheet[ptr].v;
 		 tmp=[tmp1,tmp2];
 		 debugRequests.push(tmp);
 		 };
