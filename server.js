@@ -1260,9 +1260,9 @@ for(i=1; i<lastSeatNumber+1; i++){
 	
 	for(i=0;i<20;i++){
 	   ptrA='A'+(i+1).toString(); console.log('ptrA='+ptrA+' debugRequestsWorkSheet[ptrA]='+debugRequestsWorkSheet[ptrA]);
-	   tmp1==debugRequestsWorkSheet[ptrA].v;
+	   tmp1=debugRequestsWorkSheet[ptrA].v;
 		 ptrB='B'+(i+1).toString(); 
-	   tmp2==debugRequestsWorkSheet[ptrB].v;
+	   tmp2=debugRequestsWorkSheet[ptrB].v;
 		 tmp=[tmp1,tmp2];
 		 console.log('ptrA='+ptrA+' ptrB='+ptrB+' tmp1='+tmp1+' tmp2='+tmp2+' tmp='+tmp );
 		 debugRequests.push(tmp);
