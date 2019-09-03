@@ -1246,14 +1246,14 @@ for(i=1; i<lastSeatNumber+1; i++){
 
 				 			
 	// reload debug requests		           
-  debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
+  debugRequestsWorkSheet=workbook.Sheets['debugRequests'];console.log('debugRequestsWorkSheet='+debugRequestsWorkSheet);
 	for(i=0;i<20;i++){
-	   ptrA='A'+(i+1).toString(); 
+	   ptrA='A'+(i+1).toString(); console.log('ptrA='+ptrA+' debugRequestsWorkSheet[ptrA]='+debugRequestsWorkSheet[ptrA]);
 	   tmp1==debugRequestsWorkSheet[ptrA].v;
 		 ptrB='B'+(i+1).toString(); 
 	   tmp2==debugRequestsWorkSheet[ptrB].v;
 		 tmp=[tmp1,tmp2];
-		 console.log('ptrA='+ptrA+' ptrB='+ptrB+' tmp1='+tmp1+' tmp2='+tmp2+'tmp='+tmp );
+		 console.log('ptrA='+ptrA+' ptrB='+ptrB+' tmp1='+tmp1+' tmp2='+tmp2+' tmp='+tmp );
 		 debugRequests.push(tmp);
 		 };
 	for(i=0;i<debugRequests.length;i++)console.log('debugRequests.length='+debugRequests.length+'  i='+i+'  debugRequests[i]='+debugRequests[i]);
