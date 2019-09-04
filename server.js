@@ -2272,7 +2272,7 @@ app.get('/shira1807', function(req, res) {
 	alreadyAssignedSeatsRosh[i]=' '; 
   alreadyAssignedSeatsKipur[i]=' ';
 	 };
-	 
+	 lastYearInit='-';
 	 initFromFiles('');
 	
  console.log('membersRequests file was HARD initialized');
