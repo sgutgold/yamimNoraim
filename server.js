@@ -1264,7 +1264,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		 k++;
 		
 		 };
-	
+	console.log('initvalues length='+debugRequestsKeys.length);
  
  
  
@@ -3710,10 +3710,10 @@ app.get('/setDebugOn', function(req, res) {
 	         debugRequestsAll.splice(i,1);
 					 }
 	     if(debugparam[1]=='on'){  // if a request is on put it in
-	      
+	      console.log('setdebug length='+debugRequestsKeys.length);
 				if (debugRequestsKeys.length > 20 ){ res.send('too  many debug commands'); return};
 	      debugRequestsKeys[debugRequestsKeys.length]=debugparam[2];
-			  debugRequestsAll[debugRequestsAll.legth]=inputString;
+			  debugRequestsAll[debugRequestsAll.length]=inputString;
 		}
 	 
 	  if(debugparam[1]=='off'){  // already removed
