@@ -693,7 +693,8 @@ var alreadyAssignedSeatsRosh = new Array;
 var alreadyAssignedSeatsKipur = new Array;
 var combinedAlreadyAssigned= new Array;
 
-var debugRequests = new Array;;
+var debugRequestsKeys = new Array;;
+var debugRequestsAll = new Array;
 var debugparam=''; 
 
 var startingRowstsfction=6 ;
@@ -732,7 +733,7 @@ var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',permanentS
 							stsfctnInFlr2YRSAgoYrWmn:'AO',stsfctnInFlr2YRSAgoYrMen:'AP',TwoYRSAgoSeat:'AQ',stsfctnInFlr3YRSAgoYrWmn:'AR',
 							stsfctnInFlr3YRSAgoYrMen:'AS',ThreeYRSAgoSeat:'AT',
 							issueInFloorWmn:'AU',  issueinFloorMen:'AV',  issueBetweenFloors:'AW',   
-							memberShipStatus:'AX',nashimMuadaf:'AY',gvarimMuadaf:'AZ'
+							memberShipStatus:'AX',nashimMuadaf:'AY',gvarimMuadaf:'AZ',debugRequestsKeys:'BA',debugRequestsAll:'BB'
 							};
 							
 var amudotForMemberInfo	 ={name:'A',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',	memberShipStatus:'AU'};						
@@ -861,7 +862,9 @@ console.log('5');
 	workbook = xlsx.readFile(XLSXfilename);
 	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
 	
-	*/ //////// - end debug code  1
+	requestedSeatsWorksheet[amudot.debugRequests].v=' '; // on loading  anew database all debugs are reset
+	
+	*/ //////// - end debug code  1   
 
 	
 	
@@ -1243,23 +1246,26 @@ for(i=1; i<lastSeatNumber+1; i++){
 			namesForSeat[i]='$/';
 			};
 
-
+requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 				 			
 	// reload debug requests		           
-  debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
+ // debugRequestsWorkSheet=workbook.Sheets['debugRequests'];
 	
-	 
-	
+ debugRequestsKeys-[];
+ debugRequestsAll=[];
+ k=0; 
 	for(i=0;i<20;i++){
-	   ptrA='A'+(i+1).toString(); 
-	   tmp1=debugRequestsWorkSheet[ptrA].v;
-		 ptrB='B'+(i+1).toString(); 
-	   tmp2=debugRequestsWorkSheet[ptrB].v;
-		 tmp=[tmp1,tmp2];
-		 debugRequests.push(tmp);
+	   ptrA=amudot.debugRequestsKeys+(i+3).toString(); // first row is 3
+	   tmp=requestedSeatsWorksheet[ptrA].v;
+		 if (tmp == '$$$')continue;
+		 debugRequestsKeys[k]=tmp;
+		 ptrB=amudot.debugRequestsAll+(i+3).toString(); 
+	   debugRequestsAll[k]=requestedSeatsWorksheet[ptrB].v;
+		 k++;
+		
 		 };
 	
- requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
+ 
  
  
 	for(i=0;i<200;i++) familyNames[i]='';  // clear the table
@@ -2370,7 +2376,7 @@ app.get('/UPDtashlumim', function(req, res) {
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1]; 
 	dbg=searchDebugParam('writeinfo');
-	if (  dbg != -1) console.log('write info inputString='+inputString);
+	if (  dbg != -1) console.log('write_info inputString='+inputString);
 	initFromFiles('');
 //	inputString=inputString.substr(12); 
 	inputPairs=inputString.split('&'); 
@@ -3675,42 +3681,69 @@ app.get('/setDebugOn', function(req, res) {
 	 res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
 	 
-	 var tmp=new Array;
+	 
 	 var i;
 	 
 	 inputString=decodeURI(req.originalUrl).split('?')[1];   
 	 debugparam=inputString.split('$'); 
 	 if  ( debugparam[0] != debugPASSW){ res.send('wrong password'); return};
 	 
+	 if(debugparam[1]=='query'){
+	      res.send('ok %'+debugRequestsAll.join('*'));
+				return};
+	     
+		 
+	 if(debugparam[1]=='reset'){
+	   
+	          debugRequestsKeys=[];
+						debugRequestsAll=[];
+				}
+					
+	   
+		    
 	
 	
 	 // if request is already there - remove it.(not to have the same request twice and to make sure that current params are kept
 	 i=searchDebugParam(debugparam[2]);
-		 if (i != -1) debugRequests[i]=['$$$','$$$']; // ['$$$','$$$] is empty slot in array
+		 if (i != -1){
+		       debugRequestsKeys.splice(i,1);
+	         debugRequestsAll.splice(i,1);
+					 }
+	     if(debugparam[1]=='on'){  // if a request is on put it in
+	      
+				if (debugRequestsKeys.length > 20 ){ res.send('too  many debug commands'); return};
+	      debugRequestsKeys[debugRequestsKeys.length]=debugparam[2];
+			  debugRequestsAll[debugRequestsAll.legth]=inputString;
+		}
 	 
-	 if(debugparam[1]=='on'){  // if a request is on put it in
-	      i=searchDebugParam('$$$'); // find empty slot
-				if (i == -1){ res.send('too  many debug commands'); return};
-	      tmp=[debugparam[2],inputString];
-				debugRequests[i]=tmp;
-			}
 	  if(debugparam[1]=='off'){  // already removed
 		// do nothing
 		 };
-		 for (i=0;i<20;i++){
-		    tmp=debugRequests[i];
-				debugRequestsWorkSheet['A'+(i+1).toString()].v=tmp[0];
-	      debugRequestsWorkSheet['B'+(i+1).toString()].v=tmp[1];
+		
+	for (i=0;i<debugRequestsKeys.length;i++){	
+		 ptrA=amudot.debugRequestsKeys+(i+3).toString(); // first row is 3
+	   requestedSeatsWorksheet[ptrA].v=debugRequestsKeys[i];
+		 ptrB=amudot.debugRequestsAll+(i+3).toString(); 
+	   requestedSeatsWorksheet[ptrB].v=debugRequestsAll[i];
+		
+		 };
+		 
+		 
+		 for (j=i;j<20;j++){
+		   ptrA=amudot.debugRequestsKeys+(j+3).toString(); // first row is 3
+	     requestedSeatsWorksheet[ptrA].v='$$$';  // $$$ == empty slot
+		   ptrB=amudot.debugRequestsAll+(j+3).toString(); 
+	     requestedSeatsWorksheet[ptrB].v='$$$';
 				}
 			xlsx.writeFile(workbook, XLSXfilename);	
-	res.send('ok');
+	res.send('ok %'+debugRequestsAll.join('*'));
   
         })	
 				
 //---------------------------------------------------------------------------------	
 function searchDebugParam(param){
    var i;
-	 for (i=0; i<	debugRequests.length;i++)if (		debugRequests[i][0] == param )return i;
+	 for (i=0; i<	debugRequestsKeys.length;i++)if (		debugRequestsKeys[i] == param )return i;
 	 return -1;
 	 }
 //---------------------------------------------------------------------------------	
