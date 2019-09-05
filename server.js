@@ -1264,7 +1264,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		 k++;
 		
 		 };
-	console.log('initvalues length='+debugRequestsKeys.length);
+	//console.log('initvalues length='+debugRequestsKeys.length);
  
  
  
@@ -2781,11 +2781,22 @@ app.get('/getlist', function(req, res) {
 	else res.send('999' );
 	 
         })
-//----------------------------------------------------------
+//---------------------------------------------------------- 
+					
 function analyseRqstVSAssgnd(rowp){
 
+var dbgIdx, tmp
+debugRows=[];
+dbgIdx=searchDebugParam('stsfctn');
+if(dbgIdx != -1){
+   tmp=debugRequestsAll[dbgIdx];
+	 tmp=tmp.split('%')[1];  // leave only real params
+	 tmp=tmp.split('$');   
+	 debugRows=tmp[3].split('+');  // [3] is list of rows seperated by '+'
+	 }
+
   	dbgStsfction=false; if(debugRows.indexOf(rowp) != -1 )dbgStsfction=true;
-		dbg1=false;
+		
 		if( [].indexOf(rowp) != -1)dbg1=true;
   var tmp,tmp0, tmp1, tmp2, tmp3;		
 	var i;
@@ -3710,7 +3721,7 @@ app.get('/setDebugOn', function(req, res) {
 	         debugRequestsAll.splice(i,1);
 					 }
 	     if(debugparam[1]=='on'){  // if a request is on put it in
-	      console.log('setdebug length='+debugRequestsKeys.length);
+	     // console.log('setdebug length='+debugRequestsKeys.length);
 				if (debugRequestsKeys.length > 20 ){ res.send('too  many debug commands'); return};
 	      debugRequestsKeys[debugRequestsKeys.length]=debugparam[2];
 			  debugRequestsAll[debugRequestsAll.length]=inputString;
