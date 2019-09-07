@@ -840,7 +840,7 @@ EmptyXLSXfilename=	localFileDir+'EmptymembersRequests.xlsx';
 seatsOrderedFileName=	localFileDir+'seatsOrdered.xlsx';
 errPasswFilename=localFileDir+'empty.xlsx';
 supportTblsFilename=	localFileDir+'supportTables.xlsx';  
-
+registeredListFilename=localFileDir+'registeredList.xlsx';
 BackupFilename= localFileDir+'BackupMembersRequests.xlsx';     
 
 
@@ -2040,7 +2040,80 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 xlsx.writeFile(tmpfile, seatsOrderedFileName);
 	 
 	 }
+//---------------------------------------------------------------------------------------- seatsOrdered
 
+function generate_registeredList_XLS(){
+	 initFromFiles('');
+	 var firstRowInHazmanot=12;
+	 var memberDataName =new Array; 
+	 memberDataName=[];
+	 var k=0;
+	 var amudotHazmana=['A','B','C','D'];
+	 var nameslist = new Array;
+	 
+	 for(ijk=0;ijk<familyNames.length;ijk++)nameslist[ijk]=familyNames[ijk];
+	 nameslist= nameslist.sort();
+	 for (ik=0; ik<nameslist.length;ik++){
+	     
+			 rowNum=knownName(nameslist[ik])[0];
+	     roww=rowNum.toString();
+			 if(delLeadingBlnks(requestedSeatsWorksheet[amudot.tashlum+roww].v)){
+			     memberDataName[k]=nameslist[ik];
+					 k++;
+			 	}
+			
+	
+			//read empty xls file
+		
+		tmpfile=xlsx.readFile('registeredListEmpty.xlsx');  
+		hazmanotSheet= tmpfile.Sheets['mekomot'];
+		currentRow=	firstRowInHazmanot-1;
+	 // fill it with info
+	    fourth=Math.round(memberDataName.length/4+0.3);
+	    for (ik=0; ik<fourth;ik++){
+			   currentRow++;
+				 roww=currentRow.toString();
+			   nextColNum=0;
+	        for (ikk=ik; ikk<memberDataName.length;ikk=ikk+fourth){
+		         
+					  ptr=amudotHazmana[nextColNum]+roww;
+					  nextColNum++;
+					  hazmanotSheet[ptr].v=memberDataName[ikk];
+					
+					
+					 }  // for ikk
+			} // for ik		 
+		
+		
+		// update report date	
+		offset=0;
+		var d= Date();
+		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
+		var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];	 
+			var n = new Date; 	
+			dParts=n.toString().split(' ');  
+			localTimeZoneDiffToZero= Number(dParts[5].substr(3,3));
+			offset=2-localTimeZoneDiffToZero; //  Israel is GMT+2
+			HR=Number(dParts[4].substr(0,2))+offset;
+			dy=Number(dParts[2]);
+			mnth=monthNames.indexOf(dParts[1])+1;
+			yr=Number(dParts[3]);
+			if (yr/4 == Math.round(yr/4)){mnthLngth[1]=29} else mnthLngth[1]=28;
+			
+			if (HR > 23){   HR=HR-24;   Dy++};
+			if(dy > mnthLngth[mnth-1] ) {dy=1; mnth++};
+			if (mnth>12){mnth=1; yr++};
+			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
+			
+			
+			hazmanotSheet['B4'].v=newDate;
+			
+			
+	 // write the data into a new file
+	 
+	 xlsx.writeFile(tmpfile, registeredListFilename);
+	 
+	 }
 
 
 //---------------------------------------------------------------------------------	  
@@ -3901,7 +3974,25 @@ app.get('/updateMembersInfo', function(req, res) {
 						 
 	   res.send('+++');
  });						
+//---------------------------------------------------------------------------------	  
+app.get('/getListOfRegistered', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+   inputString=decodeURI(req.originalUrl); 
+  passW=inputString.split('-')[1];
+	 if (passW == mngmntPASSW){  fileToSendName= 'registerdList.xlsx';  fileToRead=registeredListFilename; generate_registeredList_XLS();}
+				else {fileToSendName='empty.xlsx'; fileToRead='empty.xlsx'};
+	 
+     res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=' + fileToSendName);
+	      var fileR = fs.readFileSync(fileToRead, 'binary');
+        res.setHeader('Content-Length', fileR.length);
+        res.write(fileR, 'binary');
+        res.end();
+      
+ 
+});
 //---------------------------------------------------------------------------------	 
+ 
 
 // initialize membersRequests.xlsx file
 
