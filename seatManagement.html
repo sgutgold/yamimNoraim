@@ -5233,6 +5233,9 @@ switch 	(selctdIndx) {
 							case 3:
 							      download_membersRequests();
 						        break;
+					    case 3:
+							      download_registerdList();
+						        break;
 						}													
 							  	
   }
@@ -5287,7 +5290,13 @@ function 		 openClose_cont(rspns){
 
 }
 
-
+//-----------------------------------------------------------------------------------------
+	
+function download_registerdList(){
+  url=firstPartOfURL+'/getListOfRegistered/?'+'-'+password;
+    downloadFile(url,'registerdList.xlsx');
+		}
+		
 
 //-----------------------------------------------------------------------------------------
 	
@@ -5832,7 +5841,8 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 							                            <option value="notChosen">בחר/י קובץ להורדה</option> 
 																					<option value="supportTables">קובץ נתונים בסיסיים</option>          
 																			    <option value="seatsOrdered">קובץ רשימת הזמנות</option> 
-																				  <option value="membersRequests">קובץ בקשות</option> 	
+																				  <option value="membersRequests">קובץ בקשות</option> 
+																					 <option value="registeredList">רשימת נרשמים</option> 		
 													</select>	
  
  
