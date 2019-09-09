@@ -2120,7 +2120,7 @@ function generate_registeredList_XLS(){
 					
 					
 					 }  // for ikk
-			} /
+			} 
 			
 			
 		// update report date	
