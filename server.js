@@ -2046,7 +2046,7 @@ function generate_registeredList_XLS(){
 	 initFromFiles('');
 	 var firstRowInRegistered=12;
 	 var firstRowInNotRegistered=80;
-	 var memberDataName =new Array; 
+	
 	 registeredMembersName=[];
 	 not_registeredMembersName=[];
 	 var k=0;
@@ -2116,7 +2116,7 @@ function generate_registeredList_XLS(){
 		         
 					  ptr=amudotRegistered[nextColNum]+roww;
 					  nextColNum++;
-					  registeredSheet[ptr].v=memberDataName[ikk];
+					  registeredSheet[ptr].v=not_registeredMembersName[ikk];
 					
 					
 					 }  // for ikk
