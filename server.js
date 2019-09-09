@@ -2144,7 +2144,7 @@ function generate_registeredList_XLS(){
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
 			
 			
-			hazmanotSheet['B4'].v=newDate;
+			registeredSheet['B4'].v=newDate;
 			
 			
 	 // write the data into a new file
