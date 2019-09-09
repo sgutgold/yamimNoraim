@@ -2060,7 +2060,7 @@ function generate_registeredList_XLS(){
 	 nameslist= nameslist.sort();
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
-		 name=(nameslist[ik];
+		 name=nameslist[ik];
 		 rowNum=knownName(nameslist[ik])[0];
 	   roww=rowNum.toString();
 		 
