@@ -5219,7 +5219,7 @@ function 	 initNextYearfiles(){
 
 function executeDownload(){
    simpleHideFieldSets();
-   selctdIndx=document.getElementById("downld").selectedIndex;
+   selctdIndx=document.getElementById("downld").selectedIndex;    
 switch 	(selctdIndx) {  
 				     				 
 				     case 0:  
@@ -5233,7 +5233,7 @@ switch 	(selctdIndx) {
 							case 3:
 							      download_membersRequests();
 						        break;
-					    case 3:
+					    case 4:
 							      download_registerdList();
 						        break;
 						}													
@@ -5292,7 +5292,7 @@ function 		 openClose_cont(rspns){
 
 //-----------------------------------------------------------------------------------------
 	
-function download_registerdList(){
+function download_registerdList(){console.log('lll');
   url=firstPartOfURL+'/getListOfRegistered/?'+'-'+password;
     downloadFile(url,'registerdList.xlsx');
 		}
