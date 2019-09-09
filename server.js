@@ -2044,47 +2044,85 @@ app.get('/seatsOrderedXLS', function(req, res) {
 
 function generate_registeredList_XLS(){
 	 initFromFiles('');
-	 var firstRowInHazmanot=12;
+	 var firstRowInRegistered=12;
+	 var firstRowInNotRegistered=80;
 	 var memberDataName =new Array; 
-	 memberDataName=[];
+	 registeredMembersName=[];
+	 not_registeredMembersName=[];
 	 var k=0;
-	 var amudotHazmana=['A','B','C','D'];
+	 var l=0;
+	 var amudotRegistered=['A','B','C','D'];
 	 var nameslist = new Array;
+	 var name;
 	 
 	 for(ijk=0;ijk<familyNames.length;ijk++)nameslist[ijk]=familyNames[ijk];
+	 
 	 nameslist= nameslist.sort();
 	 for (ik=0; ik<nameslist.length;ik++){
-	     
-			 rowNum=knownName(nameslist[ik])[0];
-	     roww=rowNum.toString();
-			 if(delLeadingBlnks(requestedSeatsWorksheet[amudot.tashlum+roww].v)){
-			     memberDataName[k]=nameslist[ik];
-					 k++;
-			 	}
+	  
+		 name=(nameslist[ik];
+		 rowNum=knownName(nameslist[ik])[0];
+	   roww=rowNum.toString();
+		 
+		
+		 if(name.substr(name.length-1,1) == '*')name=name.subster(0,name.kength-1);
+		 
+		  
+	   if(Number( delLeadingBlnks(requestedSeatsWorksheet[amudot.tashlum+roww].v) ) ){  // tashlum not zero meand he has registered
+		    registeredMembersName[k]=name;
+				k++}
+			else {	
+			  not_registeredMembersName[l]=name;
+			  l++;
+			}
+	 
+	    
+		} // for ik
 			
 	
 			//read empty xls file
 		
 		tmpfile=xlsx.readFile('registeredListEmpty.xlsx');  
-		hazmanotSheet= tmpfile.Sheets['mekomot'];
-		currentRow=	firstRowInHazmanot-1;
+		registeredSheet= tmpfile.Sheets['mekomot'];
+		currentRow=	firstRowInRegistered-1;
+		
 	 // fill it with info
-	    fourth=Math.round(memberDataName.length/4+0.3);
-	    for (ik=0; ik<fourth;ik++){
+	    fourth=Math.round(registeredMembersName.length/4+0.3);
+			
+
+	    for (ik=0; ik<fourth;ik++){  // fill registered
 			   currentRow++;
 				 roww=currentRow.toString();
 			   nextColNum=0;
-	        for (ikk=ik; ikk<memberDataName.length;ikk=ikk+fourth){
+	        for (ikk=ik; ikk<registeredMembersName.length;ikk=ikk+fourth){
 		         
-					  ptr=amudotHazmana[nextColNum]+roww;
+					  ptr=amudotRegistered[nextColNum]+roww;
 					  nextColNum++;
-					  hazmanotSheet[ptr].v=memberDataName[ikk];
+					  registeredSheet[ptr].v=registeredMembersName[ikk];
 					
 					
 					 }  // for ikk
 			} // for ik		 
-		
-		
+
+
+		// now fill not registered
+		currentRow=	firstRowInNotRegistered-1;
+		fourth=Math.round(not_registeredMembersName.length/4+0.3);
+		for (ik=0; ik<fourth;ik++){  
+			   currentRow++;
+				 roww=currentRow.toString();
+			   nextColNum=0;
+	        for (ikk=ik; ikk<not_registeredMembersName.length;ikk=ikk+fourth){
+		         
+					  ptr=amudotRegistered[nextColNum]+roww;
+					  nextColNum++;
+					  registeredSheet[ptr].v=memberDataName[ikk];
+					
+					
+					 }  // for ikk
+			} /
+			
+			
 		// update report date	
 		offset=0;
 		var d= Date();
