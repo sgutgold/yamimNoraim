@@ -994,7 +994,7 @@ lastCol='AZ';
 var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
 var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
 
-console.log('init done');
+console.log('init done at  '+getPritableDate());
 
 initDone=true;
 
@@ -2011,7 +2011,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 			} // for ik		 
 		
 		
-		// update report date	
+		/* update report date	
 		offset=0;
 		var d= Date();
 		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
@@ -2031,9 +2031,9 @@ app.get('/seatsOrderedXLS', function(req, res) {
 			if (mnth>12){mnth=1; yr++};
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
 			
-			
-			hazmanotSheet['B4'].v=newDate;
-			
+		*/		
+			hazmanotSheet['B4'].v=getPritableDate();
+		
 			
 	 // write the data into a new file
 	 
@@ -2123,7 +2123,7 @@ function generate_registeredList_XLS(){
 			} 
 			
 			
-		// update report date	
+		/* update report date	
 		offset=0;
 		var d= Date();
 		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
@@ -2142,9 +2142,9 @@ function generate_registeredList_XLS(){
 			if(dy > mnthLngth[mnth-1] ) {dy=1; mnth++};
 			if (mnth>12){mnth=1; yr++};
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
+	*/		
 			
-			
-			registeredSheet['B4'].v=newDate;
+			registeredSheet['B4'].v=getPritableDate();
 			
 			
 	 // write the data into a new file
@@ -2154,7 +2154,30 @@ function generate_registeredList_XLS(){
 	 }
 
 
-//---------------------------------------------------------------------------------	  
+//---------------------------------------------------------------------------------	 
+ function getPritableDate(){
+   var offset=0;
+	 var localTimeZoneDiffToZero,dParts,HR,dy,mnth,yr,newDate;
+		var d= Date();
+		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
+		var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];	 
+			var n = new Date; 	
+			dParts=n.toString().split(' ');  
+			localTimeZoneDiffToZero= Number(dParts[5].substr(3,3));
+			offset=2-localTimeZoneDiffToZero; //  Israel is GMT+2
+			HR=Number(dParts[4].substr(0,2))+offset;
+			dy=Number(dParts[2]);
+			mnth=monthNames.indexOf(dParts[1])+1;
+			yr=Number(dParts[3]);
+			if (yr/4 == Math.round(yr/4)){mnthLngth[1]=29} else mnthLngth[1]=28;
+			
+			if (HR > 23){   HR=HR-24;   Dy++};
+			if(dy > mnthLngth[mnth-1] ) {dy=1; mnth++};
+			if (mnth>12){mnth=1; yr++};
+			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
+			return newDate;
+	}
+//---------------------------------------------------------------------------------	   
 
 app.get('/addMember', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
