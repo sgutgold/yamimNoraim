@@ -994,7 +994,7 @@ lastCol='AZ';
 var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
 var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
 
-console.log('init done at  '+getPritableDate());
+console.log('init done at  '+getPritableDateTime());  // [2] is date + time
 
 initDone=true;
 
@@ -2032,7 +2032,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
 			
 		*/		
-			hazmanotSheet['B4'].v=getPritableDate();
+			hazmanotSheet['B4'].v=getPritableDateTime();
 		
 			
 	 // write the data into a new file
@@ -2144,7 +2144,7 @@ function generate_registeredList_XLS(){
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
 	*/		
 			
-			registeredSheet['B4'].v=getPritableDate();
+			registeredSheet['B4'].v=getPritableDateTime();
 			
 			
 	 // write the data into a new file
@@ -2155,9 +2155,9 @@ function generate_registeredList_XLS(){
 
 
 //---------------------------------------------------------------------------------	 
- function getPritableDate(){
+ function getPritableDateTime(){
    var offset=0;
-	 var localTimeZoneDiffToZero,dParts,HR,dy,mnth,yr,newDate;
+	 var localTimeZoneDiffToZero,dParts,HR,dy,mnth,yr,newDate,newTime;
 		var d= Date();
 		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
 		var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];	 
@@ -2175,7 +2175,8 @@ function generate_registeredList_XLS(){
 			if(dy > mnthLngth[mnth-1] ) {dy=1; mnth++};
 			if (mnth>12){mnth=1; yr++};
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
-			return newDate;
+			newTime=HR.toString()+dParts[4].substr(2);
+			return newDate+' '+newTime;
 	}
 //---------------------------------------------------------------------------------	   
 
