@@ -2510,7 +2510,7 @@ app.get('/UPDtashlumim', function(req, res) {
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1]; 
 	dbg=searchDebugParam('writeinfo');
-	if (  dbg != -1) console.log('write_info inputString='+inputString);
+	if (  dbg != -1) console.log('write_info at '+getPritableDate()+ ' of inputString='+inputString);
 	initFromFiles('');
 //	inputString=inputString.substr(12); 
 	inputPairs=inputString.split('&'); 
