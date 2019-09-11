@@ -2523,7 +2523,7 @@ app.get('/UPDtashlumim', function(req, res) {
 					 break;
 				} // if
 		} // for			 
-	
+	xlsx.writeFile(workbook, XLSXfilename);
 	
 //	inputString=inputString.substr(12); 
 	inputPairs=inputString.split('&'); 
@@ -2543,7 +2543,7 @@ app.get('/getNextTransaction', function(req, res) {
 	if(i>299){res.send('---');  return}; // idx to big
 	row=(transactionHistoryFirstRow+idx).toString();
 	ptr='A'+row;
-	msg=requestedSeatsWorksheet[transactionPtr].v;
+	msg=requestedSeatsWorksheet[ptr].v;
   res.send(msg);
 	 return;
 });
@@ -4265,6 +4265,11 @@ function genNewYearRequestSheet(yearToCreate){
 													 });				 
 									}	// for
 								requestedSeatsWorksheet['C2']= {t:"s",v:' '};	// clear closing date and time
+								
+								for (i=0;i<300;i++){   // init transaction history
+								  ptr1='A'+(transactionHistoryFirstRow+i).toString();
+									requestedSeatsWorksheet[ptr1].v='$$$';
+							}		
 							
 							xlsx.writeFile(workbook, XLSXfilename);	
 							workbook = xlsx.readFile(XLSXfilename);  
