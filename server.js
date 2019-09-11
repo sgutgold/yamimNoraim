@@ -2512,14 +2512,14 @@ app.get('/UPDtashlumim', function(req, res) {
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1]; 
 	dbg=searchDebugParam('writeinfo');
-	if (  dbg != -1) console.log('write_info at '+getPritableDate()+ ' of inputString='+inputString);
+	if (  dbg != -1) console.log('write_info at '+getPrintableDateTime()+ ' of inputString='+inputString);
 	initFromFiles('');
 	
 	// save transaction history
 	for (i=0;i<300;i++){
 	  transactionPtr='A'+(transactionHistoryFirstRow+i).toString();
 		if (delLeadingBlnks(requestedSeatsWorksheet[transactionPtr].v)  == '$$$'){ //empty slot found
-		       requestedSeatsWorksheet[transactionPtr].v='write_info at '+getPritableDate()+ ' of inputString====='+inputString;
+		       requestedSeatsWorksheet[transactionPtr].v='write_info at '+getPritableDateTime()+ ' of inputString====='+inputString;
 					 break;
 				} // if
 		} // for			 
