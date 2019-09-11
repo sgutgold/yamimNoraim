@@ -995,7 +995,7 @@ lastCol='AZ';
 var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
 var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
 
-console.log('init done at  '+getPritableDateTime());  // [2] is date + time
+console.log('init done at  '+getPrintableDate());  // [2] is date + time
 
 initDone=true;
 
@@ -2033,7 +2033,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
 			
 		*/		
-			hazmanotSheet['B4'].v=getPritableDateTime();
+			hazmanotSheet['B4'].v=getPrintableDate();
 		
 			
 	 // write the data into a new file
@@ -2145,7 +2145,7 @@ function generate_registeredList_XLS(){
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
 	*/		
 			
-			registeredSheet['B4'].v=getPritableDateTime();
+			registeredSheet['B4'].v=getPrintableDate();
 			
 			
 	 // write the data into a new file
@@ -2156,7 +2156,7 @@ function generate_registeredList_XLS(){
 
 
 //---------------------------------------------------------------------------------	 
- function getPritableDateTime(){
+ function getPrintableDate(){
    var offset=0;
 	 var localTimeZoneDiffToZero,dParts,HR,dy,mnth,yr,newDate,newTime;
 		var d= Date();
@@ -2512,14 +2512,14 @@ app.get('/UPDtashlumim', function(req, res) {
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1]; 
 	dbg=searchDebugParam('writeinfo');
-	if (  dbg != -1) console.log('write_info at '+getPrintableDateTime()+ ' of inputString='+inputString);
+	if (  dbg != -1) console.log('write_info at '+getPrintableDate()+ ' of inputString='+inputString);
 	initFromFiles('');
 	
 	// save transaction history
 	for (i=0;i<300;i++){
 	  transactionPtr='A'+(transactionHistoryFirstRow+i).toString();
 		if (delLeadingBlnks(requestedSeatsWorksheet[transactionPtr].v)  == '$$$'){ //empty slot found
-		       requestedSeatsWorksheet[transactionPtr].v='write_info at '+getPritableDateTime()+ ' of inputString====='+inputString;
+		       requestedSeatsWorksheet[transactionPtr].v='write_info at '+getPrintableDate()+ ' of inputString====='+inputString;
 					 break;
 				} // if
 		} // for			 
@@ -2539,7 +2539,9 @@ app.get('/getNextTransaction', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1];
-	idx=Number( inputString);
+	inputArr=inputString.split('$');
+	if  ( inputArr[0] != debugPASSW){ res.send('???'); return};
+	idx=Number( inputArr[1]);
 	if(i>299){res.send('---');  return}; // idx to big
 	row=(transactionHistoryFirstRow+idx).toString();
 	ptr='A'+row;
