@@ -2506,13 +2506,24 @@ app.get('/UPDtashlumim', function(req, res) {
 // get request to write member's input
    var inputArray = new Array;
   app.get('/writeinfo', function(req, res) {
-	var dbg;
+	var dbg,i;
 	res.header("Access-Control-Allow-Origin", "*");
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1]; 
 	dbg=searchDebugParam('writeinfo');
 	if (  dbg != -1) console.log('write_info at '+getPritableDate()+ ' of inputString='+inputString);
 	initFromFiles('');
+	
+	// save transaction history
+	for (i=0;i<300;i++){
+	  transactionPtr='A'+(transactionHistoryFirstRow+i).toString();
+		if (delLeadingBlnks(requestedSeatsWorksheet[transactionPtr].v)  == '$$$'){ //empty slot found
+		       requestedSeatsWorksheet[transactionPtr].v='write_info at '+getPritableDate()+ ' of inputString====='+inputString;
+					 break;
+				} // if
+		} // for			 
+	
+	
 //	inputString=inputString.substr(12); 
 	inputPairs=inputString.split('&'); 
 	namTitl=inputPairs[0].split('=')[1];
@@ -2521,6 +2532,21 @@ app.get('/UPDtashlumim', function(req, res) {
 	 if(handleInput(inputPairs)){res.send('+++'+incompatibilty+'$'+hasStillToPay.toString()+afterClosingDate)}else { res.send('---'+errorNumber);};
 	 
 	 });
+//---------------------------------------------------------------------------------
+app.get('/getNextTransaction', function(req, res) {
+ var msg,i,idx,row;
+	res.header("Access-Control-Allow-Origin", "*");
+	fullInpString=decodeURI(req.originalUrl);
+	inputString=fullInpString.split('?')[1];
+	idx=Number( inputString);
+	if(i>299){res.send('---');  return}; // idx to big
+	row=(transactionHistoryFirstRow+idx).toString();
+	ptr='A'+row;
+	msg=requestedSeatsWorksheet[transactionPtr].v;
+  res.send(msg);
+	 return;
+});
+
 //---------------------------------------------------------------------------------
 app.get('/isThereSuchAName', function(req, res) {
   var rNmA = new Array();  
