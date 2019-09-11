@@ -170,8 +170,9 @@ var nodemailer = require('nodemailer');
 		email=delLeadingBlnks(emailAr[0]);
 		emailPass=emailAr[1];
 	  if ( email){ 
-		             crrrntEmail=delLeadingBlnks(requestedSeatsWorksheet[ptr].v);
 		             ptr=amudot.email+roww; 
+								 crrrntEmail=delLeadingBlnks(requestedSeatsWorksheet[ptr].v);
+		             
 							   if(email != requestedSeatsWorksheet[ptr].v){ // console.log('forgetList[rowNum]='+forgetList[rowNum]);
 								 passNotOK= ( ! emailPass)  || (forgetList[rowNum].split('$')[0] != emailPass);
 								     if ( (crrrntEmail) && passNotOK ) { // changing email but password not supplied or wrong
