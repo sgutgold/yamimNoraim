@@ -810,8 +810,9 @@ var originalReqSeats=[];
 var originalReqSeatPriority=[];
 var priorityFactorConst=0.95;
 
-var dbgStsfction=false;
+var transactionHistoryFirstRow=250;
 
+var dbgStsfction=false;
 var aChagRslts=[];									
 rqstdSeats=[[],[]];  // men list and women list
 var rqstdRows=[[],[]];
