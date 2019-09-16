@@ -900,7 +900,7 @@ console.log('5');
 
 
 	passwordsWS=supportWB.Sheets['passwords'];
-	mngmntPASSW=passwordsWS['B1'].v;   console.log("passwordsWS['B1'].v="+mngmntPASSW);
+	mngmntPASSW=passwordsWS['B1'].v;  
 	gizbarPASSW=	passwordsWS['B2'].v;	
 	debugPASSW=	passwordsWS['B3'].v;	
   moshavimPASSW=passwordsWS['B4'].v;
@@ -2661,9 +2661,9 @@ app.get('/getFullList', function(req, res) {
 	 var name,i, ijk,ijl,inp,inpData,tmplist,listType,tmp,tmp1,ptr1;
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	inpData=inp.split('$');
-	for(i=0;i<inpData.length;i++) console.log('inpData['+i+']='+inpData[i]+'/'  );
-	console.log('mngmntPASSW='+mngmntPASSW);
-	if(true){   //if(inpData[1] == mngmntPASSW)
+	//for(i=0;i<inpData.length;i++) console.log('inpData['+i+']='+inpData[i]+'/'  );
+	
+	if(inpData[1] == mngmntPASSW){  
 	initFromFiles(inpData[2]);
 	numberOfCalculatedStsfction=0;
 	
@@ -2710,7 +2710,7 @@ app.get('/getFullList', function(req, res) {
 
    };
 	 
-	 console.log('listType='+listType+' numberOfCalculatedStsfction='+numberOfCalculatedStsfction+' ijl='+ijl);  
+	 //console.log('listType='+listType+' numberOfCalculatedStsfction='+numberOfCalculatedStsfction+' ijl='+ijl);  
    if ((listType != 'pp') && ( ! numberOfCalculatedStsfction)){res.send('---');return;} // this year satisfection values not avaiable yet
 	 if ((listType != 'pp') && ( ! ijl)){res.send('---');return;} // empty list
 	tmplist=tmplist.sort();
