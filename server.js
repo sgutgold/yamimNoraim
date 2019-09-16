@@ -2658,10 +2658,11 @@ app.get('/getFullList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
    
-	 var name, ijk,ijl,inp,inpData,tmplist,listType,tmp,tmp1,ptr1;
+	 var name,i, ijk,ijl,inp,inpData,tmplist,listType,tmp,tmp1,ptr1;
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	inpData=inp.split('$');
-	console.log('inpData[0]='+inpData[0]+'/  inpData[1]='+inpData[1]+'/  inpData[2]='+inpData[2]);
+	for(i=0;i<inpData.length;i++) console.log('inpData['+i+']='+inpData[i]+'/'  );
+	console.log('mngmntPASSW='+mngmntPASSW);
 	if(true){   //if(inpData[1] == mngmntPASSW)
 	initFromFiles(inpData[2]);
 	numberOfCalculatedStsfction=0;
@@ -2708,6 +2709,8 @@ app.get('/getFullList', function(req, res) {
 			ijl++;
 
    };
+	 
+	 console.log('listType='+listType+' numberOfCalculatedStsfction='+numberOfCalculatedStsfction+' ijl='+ijl);  
    if ((listType != 'pp') && ( ! numberOfCalculatedStsfction)){res.send('---');return;} // this year satisfection values not avaiable yet
 	 if ((listType != 'pp') && ( ! ijl)){res.send('---');return;} // empty list
 	tmplist=tmplist.sort();
