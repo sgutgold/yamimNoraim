@@ -900,7 +900,7 @@ console.log('5');
 
 
 	passwordsWS=supportWB.Sheets['passwords'];
-	mngmntPASSW=passwordsWS['B1'].v;   console.log('passwordsWS['B1'].v='+mngmntPASSW);
+	mngmntPASSW=passwordsWS['B1'].v;   console.log("passwordsWS['B1'].v="+mngmntPASSW);
 	gizbarPASSW=	passwordsWS['B2'].v;	
 	debugPASSW=	passwordsWS['B3'].v;	
   moshavimPASSW=passwordsWS['B4'].v;
