@@ -2661,7 +2661,7 @@ app.get('/getFullList', function(req, res) {
 	 var name, ijk,ijl,inp,inpData,tmplist,listType,tmp,tmp1,ptr1;
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	inpData=inp.split('$');
-	
+	console.log('inpData[0]='+inpData[0]+'/  inpData[1]='+inpData[1]+'/  inpData[2]='+inpData[2]);
 	if(inpData[1] == mngmntPASSW){
 	initFromFiles(inpData[2]);
 	numberOfCalculatedStsfction=0;
