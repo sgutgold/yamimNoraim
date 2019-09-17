@@ -820,7 +820,9 @@ var rqstdRows=[[],[]];
 var assgndRows= [ [[],[]], [[],[]] ];
 
 var badSeats=[];
-			
+
+
+var shiras_backup=false;			
 									
  app=express();
  
@@ -1069,16 +1071,19 @@ function colNametoNumber(col){
 function backupRequests(){
     var d1 = new Date();  
     var hour_Greenwich_Mean_Time = Number(d1.getHours());
-		
+
+
+if (   ! shiras_backup){		// do the following only for scheduled backups
 // handle forgetList
-     for (iikk=firstSeatRow; i< lastSeatRow+1;i++){
+
+     for (iikk=firstSeatRow; iikk< lastSeatRow+1;iikk++){
     		 if (forgetList[iikk]){
 				      countr=Number(forgetList[iikk].split('$')[1]);
 							if (countr>0)countr--;              forgetList[iikk]= forgetList[iikk].split('$')[0]+'$'+countr.toString();
 							if( ! countr )forgetList[iikk]='';
 							}
 				}
-				
+			
 				
 // end of forget list handling
 
@@ -1088,8 +1093,9 @@ function backupRequests(){
 		    setTimeout(backupRequests, 600000);	//check every 10 minutes
 		    return;
 				}
+	} // if shiras_backup
 		
-    if( hour_Greenwich_Mean_Time == 0 ){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
+    if( (hour_Greenwich_Mean_Time == 0 ) || (shiras_backup)){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
 		
     	 xlsx.writeFile(workbook, BackupFilename);
 	 
@@ -1108,13 +1114,14 @@ function backupRequests(){
 					};
 								    
      transporter.sendMail(mailOptions, function(error, info){
-         if(error)  console.log('send backup mail reported an error=='+error);
+         if(error)  console.log('send backup mail reported an error=='+error+'  at '+d1);
 	    })
 	 console.log('backup created at '+d1);
 	 
 	 }
-setTimeout(backupRequests, 600000);	//check every 10 minutes
+if (! shiras_backup)setTimeout(backupRequests, 600000);	//check every 10 minutes
 
+shiras_backup=false;
 
 }	 
 
@@ -2399,6 +2406,10 @@ countassnd=[0,0];
 
 app.get('/shira1807', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
+	
+	shiras_backup=true;           backupRequests();  // backup before every thing
+	
+	
 	tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(EmptyXLSXfilename, tmpfile);
 	fs.writeFileSync(XLSXfilename, tmpfile);
