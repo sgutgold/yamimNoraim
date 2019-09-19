@@ -3991,28 +3991,34 @@ function getNameList(){
          send_msg_to_server(url);
 }
 
-//---------namesAlreadyAsigned
+//--------------------------------
 function getNameList_cont(rspnsString1){				 
-	    var tmp1,tmp2;  
+	    var tmp1,tmp2, realNamesCounter;  
          if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');}
 					 else { 
 					 strr=delLeadingBlnks(rspnsString1.substr(3));
 					 if( !strr) {Alert('אין מתפללים שעונים למאפייני הסינון'); return};
 					 namesToAssign=strr.split('$'); 
+					 realNamesCounter=0;
 					 for (rn=0; rn<namesToAssign.length; rn++){	   // normelise names
 					     tmp1=namesToAssign[rn];
 							 tmp2=tmp1.substr(0,1);
-							 if (tmp2 == '+'){tmp2=true}else tmp2=false;
+							 if (tmp2 == '-'){tmp2=true;}else {tmp2=false; realNamesCounter++;}
 							 namesAlreadyAsigned[rn]=tmp2;
 							 tmp2=tmp1.substr(1);
-       	       fnm=tmp1.split(' ');
+       	       fnm=tmp2.split(' ');
 			         if (fnm.length>1)namesToAssign[rn]=fnm.join(' '); 
 			   	  }  // for 	
-				for(rn=0; rn<namesToAssign.length; rn++)	console.log('namesToAssign['+rn+']= '+namesToAssign[rn]+' namesAlreadyAsigned['+rn+']='+namesAlreadyAsigned[rn]);
+						
+					
+						if ( ! realNamesCounter){Alert('אין מתפללים שעונים למאפייני הסינון'); return};
+				//for(rn=0; rn<namesToAssign.length; rn++)	console.log('namesToAssign['+rn+']= '+namesToAssign[rn]+' namesAlreadyAsigned['+rn+']='+namesAlreadyAsigned[rn]);
 									
 				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0)}
 					  else{
 					 currentNameIdx=0;
+					 while((  namesAlreadyAsigned[currentNameIdx])  && (currentNameIdx<namesToAssign.length) )currentNameIdx++;
+					 if (currentNameIdx == namesToAssign.length){Alert('אין מתפללים שעונים למאפייני הסינון'); return};
 					 document.myform.familyname.value=namesToAssign[currentNameIdx];
 					 lastName=namesToAssign[currentNameIdx];
 
@@ -4123,6 +4129,7 @@ function svAndNext_cont(){
 
 //-----------------------------
 	function kadem(zz){
+	var origIdx;
 	if ( nameToJumpBackTo) {
 							    document.getElementById("fmName").value=nameToJumpBackTo;
 			            document.getElementById("fmNameFloat").value=nameToJumpBackTo;
@@ -4162,8 +4169,12 @@ function svAndNext_cont(){
 				//	  document.addEventListener('keyup', checkArrowPress );	
 						}   else {
 			 
-		    
-				   if(currentNameIdx < listToUse.length-mvCnt) currentNameIdx=currentNameIdx+mvCnt;    
+		      origIdx=currentNameIdx;
+					if (  (  sidurUlam) && (mvCnt) ){
+				       while (   namesAlreadyAsigned[currentNameIdx] )
+					                               if(currentNameIdx < listToUse.length-mvCnt) {currentNameIdx=currentNameIdx+mvCnt; } else { currentNameIdx= origIdx; break;}
+						} 
+						if ( ! sidurUlam) 	 	if(currentNameIdx < listToUse.length-mvCnt) currentNameIdx=currentNameIdx+mvCnt;													 
 				   document.myform.familyname.value=listToUse[currentNameIdx];
 					  document.myform.familynameForPrmnnt.value=listToUse[currentNameIdx];
            if(moshavim)return; 
@@ -4204,6 +4215,8 @@ function 		svAndPrvs_cont(){
 
 //-----------------------------     
 	function  prvsname(){
+	
+	var origIdx;
 	     if ( nameToJumpBackTo) {
 							    document.getElementById("fmName").value=nameToJumpBackTo;
 			            document.getElementById("fmNameFloat").value=nameToJumpBackTo;
@@ -4240,16 +4253,25 @@ function 		svAndPrvs_cont(){
 			     Alert('הוקלד שם שגוי');
 					//  document.addEventListener('keyup', checkArrowPress );	familynameForPrmnnt
 						}  else {
-			 
-		    
-				   if(currentNameIdx > 0) currentNameIdx=currentNameIdx-mvCnt;    
+			      origIdx=currentNameIdx;
+		        if (  (  sidurUlam) && (mvCnt) ){
+				       while (   namesAlreadyAsigned[currentNameIdx] )
+					                               if(currentNameIdx > 0) {currentNameIdx=currentNameIdx-mvCnt; } else { currentNameIdx= origIdx; break;}
+								} 
+							if ( ! sidurUlam) 		if(currentNameIdx > 0) currentNameIdx=currentNameIdx-mvCnt;	
+													 
+				   
 				   document.myform.familyname.value=listToUse[currentNameIdx];
 					 document.myform.familynameForPrmnnt.value=listToUse[currentNameIdx];
            if(moshavim)return; 
 					 funcStack=[doNothing];
 					 ckNameRtrvVlus(true); 
 					 }
-		}			       		
+		}
+		/*
+		 
+					
+		*/			       		
 
 //--------------------------------------------------------------------------------------------------------			 
 
