@@ -2990,7 +2990,7 @@ app.get('/getlist', function(req, res) {
 //---------------------------------------------------------- 
 					
 function analyseRqstVSAssgnd(rowp){
-
+var dbg1=false;
 var dbgIdx, tmp
 debugRows=[];
 dbgIdx=searchDebugParam('stsfctn');
@@ -3131,7 +3131,7 @@ nameForRow=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 	};   // for iill
 			
 			 for (gender=0;gender<2;gender++) numSeats[gender]=rqstdSeats_tmp[gender].length;
-			
+	dbg1=false;		
 			 for (gender=0; gender<2; gender++){
 			   if( ( ! numSeats[gender]) || isExpansion(prvsTmp,rqstdSeats_tmp,gender,dbg1)  ){
 				if(dbgStsfction) console.log('expnsn  row='+row);
