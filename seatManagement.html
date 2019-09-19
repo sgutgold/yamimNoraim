@@ -4005,7 +4005,9 @@ function getNameList_cont(rspnsString1){
 							 tmp2=tmp1.substr(0,1);
 							 if (tmp2 == '-'){tmp2=true;}else {tmp2=false; realNamesCounter++;}
 							 namesAlreadyAsigned[rn]=tmp2;
-							 tmp2=tmp1.substr(1);
+							
+							 tmp2=tmp1.substr(1,tmp1.length-1);
+							  namesToAssign[rn]=tmp2;
        	       fnm=tmp2.split(' ');
 			         if (fnm.length>1)namesToAssign[rn]=fnm.join(' '); 
 			   	  }  // for 	
@@ -4162,19 +4164,22 @@ function svAndNext_cont(){
 							
 					mvCnt=0;		
 					nameToSearch=lastName;   
-					
+					;
 			}		
 			if( ! currentNamefound	){
 			     Alert('הוקלד שם שגוי');
 				//	  document.addEventListener('keyup', checkArrowPress );	
 						}   else {
-			 
-		      origIdx=currentNameIdx;
-					if (  (  sidurUlam) && (mvCnt) ){
-				       while (   namesAlreadyAsigned[currentNameIdx] )
+						
+			 	     origIdx=currentNameIdx; 
+						 if(currentNameIdx < listToUse.length-mvCnt) currentNameIdx=currentNameIdx+mvCnt;
+		         
+					   if (  (  sidurUlam) && (mvCnt) ){
+				       while (   namesAlreadyAsigned[currentNameIdx] ){
 					                               if(currentNameIdx < listToUse.length-mvCnt) {currentNameIdx=currentNameIdx+mvCnt; } else { currentNameIdx= origIdx; break;}
+																				 }
 						} 
-						if ( ! sidurUlam) 	 	if(currentNameIdx < listToUse.length-mvCnt) currentNameIdx=currentNameIdx+mvCnt;													 
+																	 
 				   document.myform.familyname.value=listToUse[currentNameIdx];
 					  document.myform.familynameForPrmnnt.value=listToUse[currentNameIdx];
            if(moshavim)return; 
@@ -4254,11 +4259,12 @@ function 		svAndPrvs_cont(){
 					//  document.addEventListener('keyup', checkArrowPress );	familynameForPrmnnt
 						}  else {
 			      origIdx=currentNameIdx;
+						if(currentNameIdx > 0) currentNameIdx=currentNameIdx-mvCnt;	
 		        if (  (  sidurUlam) && (mvCnt) ){
 				       while (   namesAlreadyAsigned[currentNameIdx] )
 					                               if(currentNameIdx > 0) {currentNameIdx=currentNameIdx-mvCnt; } else { currentNameIdx= origIdx; break;}
 								} 
-							if ( ! sidurUlam) 		if(currentNameIdx > 0) currentNameIdx=currentNameIdx-mvCnt;	
+								
 													 
 				   
 				   document.myform.familyname.value=listToUse[currentNameIdx];
