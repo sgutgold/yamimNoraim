@@ -947,7 +947,8 @@ var kipurStr;
 
 moedCodes=['','rosh$','kipur$','all$'];
 
-var namesToAssign=new Array; 
+var namesToAssign=new Array;
+namesAlreadyAsigned = new Array;
 var requestorsNameList=new Array;  
 var listToUse=new Array; 
   
@@ -1005,7 +1006,7 @@ var lastKeyPressed='';
 var functionKeyList=[
                      67,   // 'c' or 'ב'     toggle auto completion
 										 74,    // 'j' or 'ח'    jump to assigned
-										 76     // 'l' or 'ך,    jump to assign and refocus
+										 76     // 'l' or 'ך'   jump to assign and refocus
 										 ];
 var reFocus;										 
 var focusElmnt;			
@@ -1246,7 +1247,7 @@ var bgColor;
 	            window.scrollTo(0, 0);
 						  focusElmnt=document.getElementById("fmName"); // over ride focus point to scroll up 
 							 
-					case 2:   // 'f' jump and refocus
+					case 2:   // 'l' jump and refocus
 					   if( ! JumpToCandidate)return;  // no candidate
 						 funcStack=[keydown_cont];
 						 saveSeatAssignment(false);  // save current  seat assignment; do not show positive confirmation 
@@ -1255,7 +1256,7 @@ var bgColor;
 }
 
 //-----
-function keydown_cont(respns){						 
+function keydown_cont(respns){				 
 						 if ( ! nameToJumpBackTo )nameToJumpBackTo=document.getElementById("fmName").value;
 						 document.getElementById("fmName").value=JumpToCandidate;
 																	 
@@ -1840,7 +1841,7 @@ if(tempStr=='$/')return;
  if(  tempAssigned[0] == tempAssigned[1] )JumpToCandidate=tempAssigned[0];
  if( ! tempAssigned[0] )JumpToCandidate=tempAssigned[1];
  if( ! tempAssigned[1] )JumpToCandidate=tempAssigned[0];
- 
+
  focusElmnt=document.getElementById(cell_id); 
  
  
@@ -3990,19 +3991,24 @@ function getNameList(){
          send_msg_to_server(url);
 }
 
-//---------
+//---------namesAlreadyAsigned
 function getNameList_cont(rspnsString1){				 
-	      
+	    var tmp1,tmp2;  
          if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');}
 					 else { 
 					 strr=delLeadingBlnks(rspnsString1.substr(3));
 					 if( !strr) {Alert('אין מתפללים שעונים למאפייני הסינון'); return};
 					 namesToAssign=strr.split('$'); 
 					 for (rn=0; rn<namesToAssign.length; rn++){	   // normelise names
-       	       fnm=namesToAssign[rn].split(' ');
+					     tmp1=namesToAssign[rn];
+							 tmp2=tmp1.substr(0,1);
+							 if (tmp2 == '+'){tmp2=true}else tmp2=false;
+							 namesAlreadyAsigned[rn]=tmp2;
+							 tmp2=tmp1.substr(1);
+       	       fnm=tmp1.split(' ');
 			         if (fnm.length>1)namesToAssign[rn]=fnm.join(' '); 
 			   	  }  // for 	
-				//	console.log(namesToAssign);
+				for(rn=0; rn<namesToAssign.length; rn++)	console.log('namesToAssign['+rn+']= '+namesToAssign[rn]+' namesAlreadyAsigned['+rn+']='+namesAlreadyAsigned[rn]);
 									
 				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0)}
 					  else{
@@ -4637,7 +4643,11 @@ function svSeatAssignment(checkOnly,showPositiveConfirmation){
 			         }
 				}	
 		if(	checkOnly)return listsAreTheSame;		 
-		if(listsAreTheSame)return true;
+		if(listsAreTheSame){
+		        func2=funcStack.pop(); 
+					  func2(true);
+			      return true;
+				}		
 		
 		if(overAssigned) { Alert('הקצאה לא נרשמה. יותר מדי מקומות הוקצו'); return};
 		strSeatsToUpdate=listOfAssignedSeats.join('+');  
