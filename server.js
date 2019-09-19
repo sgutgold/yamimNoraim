@@ -871,6 +871,31 @@ console.log('5');
 	*/ //////// - end debug code  1   
 
 	
+	/*   check if file exists try the code next project
+	
+	checkIf_memberRequstsExist();  // if exists finish init process
+	
+	
+	function checkIf_memberRequstsExist(){
+	var IsThereLocalMemberRequests=false;;
+	var tryXTimes=2;
+	while( (! IsThereLocalMemberRequests) && ( tryXTimes) ){
+	try {
+  if (fs.existsSync(XLSXfilename)) {
+    IsThereLocalMemberRequests=true;
+  }
+} catch(err) {
+  console.error(err);
+	tryXTimes--;
+}
+} // while
+if (IsThereLocalMemberRequests){
+   endInitProcess()}
+	 
+	 else setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
+} // function
+	// also debug backrequests when shira is applied
+	*/
 	
 	
 	
@@ -1537,8 +1562,10 @@ debug1=false;     //if (row  =='173') debug1=true;
 							 if ( ( ! toAssgnRoshMen) && ( ! toAssgnRoshWomen) && ( ! toAssgnKipurMen) && ( ! toAssgnKipurWomen) )doneWithFlag=true;
 							 break;
 		      }  // switch
-		    if ( (doneWithFilter=='true') && doneWithFlag)continue;
-				listToSend[idx]=vlu[0]; // strip not required info
+					
+				notPartOfTheListFlag='+';	
+		    if ( (doneWithFilter=='true') && doneWithFlag)notPartOfTheListFlag='-';
+				listToSend[idx]=notPartOfTheListFlag+vlu[0]; // strip not required info
 				idx++; 
 		}  //doneWithFilter
 		
