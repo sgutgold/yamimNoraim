@@ -2291,7 +2291,7 @@ ckNameRtrvVlus(p);
 		
 	if( ! document.myform.familyname.value){
 	       if(genTables) clearPrevsVlus();
-				 funcStack=[doNothing];
+		//		 if ( ! printingNow)funcStack=[doNothing];   // was without the if. print failed. looks as if redundent
 				 funcStack.push(genTables);
 				 ckNameRtrvVlus_cont2();
 				 return;
@@ -2357,7 +2357,7 @@ genTables=funcStack.pop();
 			
 					if ( ! printingNow)document.getElementById("mainFieldset").style.display='block';
 					resArray=res.substr(4).split('&');
-					
+				
 					
 		      creatColoredMap(genTables,resArray);
 		
@@ -2367,7 +2367,7 @@ genTables=funcStack.pop();
 					
 					if(delLeadingBlnks (document.myform.familyname.value))   // if there is a family name then
 				                      	updateCountAssigned(1,0); // force "number-of-assgnments-left" msg 
-					{fnc= funcStack.pop();  fnc(); return;} ;	
+					{fnc= funcStack.pop(); fnc(); return;} ;	
    		};
 					
 	}
@@ -3073,7 +3073,7 @@ var namesForInnerhtml = new Array;
 			 
 				baseColr=colr;
 				fontClr='black';
-				if(printingNow){nameT0Show=' ';} else nameT0Show=seatNVlu[0];
+				if(printingNow){nameT0Show=' ';} else nameT0Show=seatNVlu[0];  ; 
 				seatParts=vluu[1].split('/'); 
 				assndLst=seatParts[0].split('$'); 
 				assgndRosh=delLeadingBlnks(assndLst[0]); 
@@ -3093,7 +3093,7 @@ var namesForInnerhtml = new Array;
 
 								fontClr=assignedColor;
 					       colr=assignedBGColor;
-								 nameT0Show=assgndRosh;  
+								 nameT0Show=assgndRosh;   
 								  } else if((moed == 2) && assgndKipur) { //else3
 						
 																  
@@ -3123,7 +3123,8 @@ var namesForInnerhtml = new Array;
 
 	 
 		     cell_element.setAttribute("value", vluu[1]); 
-		 if ( ! printingNow)span_element.innerHTML=nameT0Show;
+		// if ( ! printingNow)
+		 span_element.innerHTML=nameT0Show;
 				
 	
 								  
