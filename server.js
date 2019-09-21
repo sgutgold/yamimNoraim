@@ -871,11 +871,16 @@ console.log('5');
 	*/ //////// - end debug code  1   
 
 	
-	/*   check if file exists try the code next project
+	
+	
+	
+	
+	//   check if file exists try the code next project
 	
 	checkIf_memberRequstsExist();  // if exists finish init process
 	
-	
+var 	numberOfDB_loadTrials=1;
+
 	function checkIf_memberRequstsExist(){
 	var IsThereLocalMemberRequests=false;;
 	var tryXTimes=2;
@@ -890,12 +895,15 @@ console.log('5');
 }
 } // while
 if (IsThereLocalMemberRequests){
-   endInitProcess()}
-	 
-	 else setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
+   initCompletion();
+	 console.log('DB found after '+numberOfDB_loadTrials+' trials');
+	 } else {
+	        numberOfDB_loadTrials++;
+	        setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
+					}
 } // function
 	// also debug backrequests when shira is applied
-	*/
+	
 	
 	
 	
@@ -918,10 +926,15 @@ if (IsThereLocalMemberRequests){
              
 // -----------------------------------------------------------------------
 
+var workbook = xlsx.readFile(XLSXfilename);  
 
-  var workbook = xlsx.readFile(XLSXfilename);  
+var supportWB=xlsx.readFile(supportTblsFilename); 
 
-	var supportWB=xlsx.readFile(supportTblsFilename);  
+var dayOfLastBackup=-1; 
+
+function initCompletion(){
+
+  
 
 //read error codes  from supportTables.xlsx            
 
@@ -1018,7 +1031,7 @@ initFromFiles(''); // init info from files for last year
 
 
 setTimeout(backupRequests, 60000);	//check every 10 minutes
-var dayOfLastBackup=-1;
+
 lastCol='AZ'; 
 var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
 var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
@@ -1026,7 +1039,7 @@ var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
 console.log('init done at  '+getPrintableDate());  // [2] is date + time
 
 initDone=true;
-
+} // end of initCompletion
 //------------------------------------------------------------
 
 function initFromFiles(yearToInitFrom){
@@ -3131,7 +3144,7 @@ nameForRow=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 	};   // for iill
 			
 			 for (gender=0;gender<2;gender++) numSeats[gender]=rqstdSeats_tmp[gender].length;
-	dbg1=false;		
+
 			 for (gender=0; gender<2; gender++){
 			   if( ( ! numSeats[gender]) || isExpansion(prvsTmp,rqstdSeats_tmp,gender,dbg1)  ){
 				if(dbgStsfction) console.log('expnsn  row='+row);
@@ -3245,7 +3258,7 @@ t1=Number(a.split('$')[1]);
 t2=Number(b.split('$')[1]);
 return t2-t1;
 }
-
+ 
 //----------------------------------------------------------	
 function isExpansion(prvsTmp,rqstdSeats_tmp,gender,dbg){
 var sameRow=false;
