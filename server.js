@@ -926,13 +926,18 @@ if (IsThereLocalMemberRequests){
              
 // -----------------------------------------------------------------------
 
-var workbook = xlsx.readFile(XLSXfilename);  
-
-var supportWB=xlsx.readFile(supportTblsFilename); 
-
+var workbook, supportWB;
 var dayOfLastBackup=-1; 
 
 function initCompletion(){
+
+ workbook = xlsx.readFile(XLSXfilename);  
+
+ supportWB=xlsx.readFile(supportTblsFilename); 
+
+
+
+
 
   
 
@@ -953,73 +958,9 @@ for (i=1; i<50; i++){
  txtCodes[i]=errCodeWS[ptr2].v;    
       };
 
-// -----------------------debug---------------------------
-
-
-/*	
-tmpfile=fs.readFileSync('membersRequests.xlsx');
-	fs.writeFileSync(XLSXfilename, tmpfile);
-	workbook = xlsx.readFile(XLSXfilename);
-	requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'];  
-
-
-    
-	tmpfile=fs.readFileSync('supportTables.xlsx');
-	fs.writeFileSync(supportTblsFilename, tmpfile);
-	supportWB=xlsx.readFile(supportTblsFilename); 
-
-*/
-
-//----------end debug----------------------------
 
 var debugRows=[];
-// debug code 3
 
-/*
-
-	
-	
-	 initFromFiles('2016');
-	 stsfctionColction=[];
-	 for (row=firstSeatRow; row<lastSeatRow+1; row++)analyseRqstVSAssgnd(row);
-//	 for (row=firstSeatRow; row<35; row++)analyseRqstVSAssgnd(row);
-	
-		// write file - save info
-		xlsx.writeFile(workbook, XLSXfilename);	  // write once for the cases when reloading from last year
-		initFromFiles('');
-	
-	for (i=0;i<stsfctionColction.length;i++){
-	//for (i=20;i<30;i++){
-	tmp=stsfctionColction[i].split('$');
-	dbgRow=tmp[4]; 
-	dbgStsfction=false; if(debugRows.indexOf(dbgRow) != -1 )dbgStsfction=true;
-	row=knownName(tmp[0])[0];	     
-	if (row== -1)continue;
-	row=row.toString();
-	if(dbgStsfction)console.log('row='+row+' '+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v+' '+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v+' '
-	    +requestedSeatsWorksheet[amudot.lstYrSeat+row].v);
-  tmp1=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v;
-	tmp1=tmp1.split('*');
-	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v=tmp[1]+'*'+tmp1[1];
-
-	
-	tmp1=requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v;
-	tmp1=tmp1.split('*');
-	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v=tmp[2]+'*'+tmp1[1];
-	
-	tmp1=requestedSeatsWorksheet[amudot.lstYrSeat+row].v;
-	tmp1=tmp1.split('*');
-	requestedSeatsWorksheet[amudot.lstYrSeat+row].v=tmp[3]+'*'+tmp1[1];
-	
-	if(dbgStsfction)console.log('after ='+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v+' '+requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v+' '
-	    +requestedSeatsWorksheet[amudot.lstYrSeat+row].v);
-	}
-		
-		xlsx.writeFile(workbook, XLSXfilename);		
-	
-	*/	
-		// end debug code 3
-		
 		
 		
 initFromFiles(''); // init info from files for last year
