@@ -2407,14 +2407,14 @@ countassnd=[0,0];
 
 // Hard initialize membersRequests.xlsx file
 
-app.get('/shira1807', function(req, res) {
+app.get('/shira1807', function(req, res) {console.log('shira');
 	res.header("Access-Control-Allow-Origin", "*");
 	if (initDone){
 	shiras_backup=true;   
 	backupRequests();  // backup before every thing
 	};
 	
-	
+	console.log('shira1');
 	tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(EmptyXLSXfilename, tmpfile);
 	fs.writeFileSync(XLSXfilename, tmpfile);
