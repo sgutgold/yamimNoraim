@@ -884,29 +884,26 @@ console.log('5');
 console.log('2');
 
 	function checkIf_memberRequstsExist(){console.log('entered ckeckif');
+	
 	if(IsThereLocalMemberRequests)return;
-	var tryXTimes=2;
-	while(  tryXTimes ){console.log('tryXTimes='+tryXTimes);
+	
+	
 	try {
   if (fs.existsSync(XLSXfilename)) {console.log('success');
-    tryXTimes=0;
+   
 		IsThereLocalMemberRequests=true;
 		
 	  console.log('DB found after '+numberOfDB_loadTrials+' trials');
 		initCompletion();
-		abort;
+		
   }
 } catch(err) {
   console.error('err='+err);
 	
-	tryXTimes--;
-	
-	if ( ! tryXTimes){
 	      numberOfDB_loadTrials++;
 	    setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
-			 }
+			
 }
-} // while
 
    
 	 
