@@ -870,13 +870,27 @@ console.log('5');
 	
 	*/ //////// - end debug code  1   
 
+	supportWB=xlsx.readFile(supportTblsFilename); 
+	
+	passwordsWS=supportWB.Sheets['passwords'];
+	mngmntPASSW=passwordsWS['B1'].v;  
+	gizbarPASSW=	passwordsWS['B2'].v;	
+	debugPASSW=	passwordsWS['B3'].v;	
+  moshavimPASSW=passwordsWS['B4'].v;
 	
 	
+errCodeWS=supportWB.Sheets['errorCodes'];
+for (i=1; i<50; i++){
+ ptr1='A'+(i).toString();
+ if (errCodeWS[ptr1].v == '$$$') break;
+ ptr2='B'+(i).toString();
+ txtCodes[i]=errCodeWS[ptr2].v;    
+      };
 	
 	
 	
 	//   check if file exists try the code next project
-	var IsThereLocalMemberRequests=false;;
+	
 	var 	numberOfDB_loadTrials=1;
 	console.log('1');
 	checkIf_memberRequstsExist();  // if exists finish init process
@@ -885,7 +899,7 @@ console.log('2');
 
 	function checkIf_memberRequstsExist(){console.log('entered ckeckif');
 	
-	if(IsThereLocalMemberRequests)return;
+	if(initDone)return;
 	
 	/*
 	try {
@@ -909,7 +923,7 @@ console.log('2');
 	fs.access(XLSXfilename, error => {
     if (!error) {
         // The check succeeded
-				IsThereLocalMemberRequests=true;
+				
 		
 	      console.log('DB found after '+numberOfDB_loadTrials+' trials');
 		    initCompletion();
@@ -955,30 +969,12 @@ function initCompletion(){
 
  workbook = xlsx.readFile(XLSXfilename);  
 
- supportWB=xlsx.readFile(supportTblsFilename); 
-
-
-
-
-
-  
+ 
 
 //read error codes  from supportTables.xlsx            
 
 
-	passwordsWS=supportWB.Sheets['passwords'];
-	mngmntPASSW=passwordsWS['B1'].v;  
-	gizbarPASSW=	passwordsWS['B2'].v;	
-	debugPASSW=	passwordsWS['B3'].v;	
-  moshavimPASSW=passwordsWS['B4'].v;
 
-errCodeWS=supportWB.Sheets['errorCodes'];
-for (i=1; i<50; i++){
- ptr1='A'+(i).toString();
- if (errCodeWS[ptr1].v == '$$$') break;
- ptr2='B'+(i).toString();
- txtCodes[i]=errCodeWS[ptr2].v;    
-      };
 
 
 var debugRows=[];
@@ -2657,12 +2653,21 @@ app.get('/isThereSuchAName', function(req, res) {
 	});
 
 
-//----------------------------------------------------------
+//------------------------------------------------------------------------------
 		
 	
 	app.get('/manage', function(req, res) {
 	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
+	 
+	 
+	 var dbg;
+		
+		dbg=searchDebugParam('disable');  
+		if ( ( dbg != -1 ) || ( ! initDone) ){
+		          res.send(cache_get('real_index'));
+							return;
+							}
             res.send(cache_get('mgmt') );
         })
 				
@@ -4711,8 +4716,8 @@ app.get('/ckpswGIZBAR', function(req, res) {
     
 		var dbg;
 		
-		dbg=searchDebugParam('index');  
-		if (  dbg != -1 ){
+		dbg=searchDebugParam('disable');  
+		if ( ( dbg != -1 ) || ( ! initDone) ){
 		          res.send(cache_get('real_index'));
 							return;
 							}
