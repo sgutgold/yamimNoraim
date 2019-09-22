@@ -1096,7 +1096,7 @@ if (   ! shiras_backup){		// do the following only for scheduled backups
 				}
 	} // if shiras_backup
 		
-    if( (hour_Greenwich_Mean_Time == 0 ) || (shiras_backup)){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
+    if( (hour_Greenwich_Mean_Time == 0 ) || ((shiras_backup) && (initDone))){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
 		
     	 xlsx.writeFile(workbook, BackupFilename);
 	 
@@ -2409,8 +2409,10 @@ countassnd=[0,0];
 
 app.get('/shira1807', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-	
-	shiras_backup=true;           backupRequests();  // backup before every thing
+	if (initDone){
+	shiras_backup=true;   
+	backupRequests();  // backup before every thing
+	};
 	
 	
 	tmpfile=fs.readFileSync('membersRequests.xlsx');
