@@ -876,31 +876,42 @@ console.log('5');
 	
 	
 	//   check if file exists try the code next project
-	
+	var IsThereLocalMemberRequests=false;;
+	var 	numberOfDB_loadTrials=1;
+	console.log('1');
 	checkIf_memberRequstsExist();  // if exists finish init process
 	
-var 	numberOfDB_loadTrials=1;
+console.log('2');
 
-	function checkIf_memberRequstsExist(){
-	var IsThereLocalMemberRequests=false;;
+	function checkIf_memberRequstsExist(){console.log('entered ckeckif');
+	if(IsThereLocalMemberRequests)return;
 	var tryXTimes=2;
-	while( (! IsThereLocalMemberRequests) && ( tryXTimes) ){
+	while(  tryXTimes ){console.log('tryXTimes='+tryXTimes);
 	try {
-  if (fs.existsSync(XLSXfilename)) {
-    IsThereLocalMemberRequests=true;
+  if (fs.existsSync(XLSXfilename)) {console.log('success');
+    tryXTimes=0;
+		IsThereLocalMemberRequests=true;
+		
+	  console.log('DB found after '+numberOfDB_loadTrials+' trials');
+		initCompletion();
+		abort;
   }
 } catch(err) {
-  console.error(err);
+  console.error('err='+err);
+	
 	tryXTimes--;
+	
+	if ( ! tryXTimes){
+	      numberOfDB_loadTrials++;
+	    setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
+			 }
 }
 } // while
-if (IsThereLocalMemberRequests){
-   initCompletion();
-	 console.log('DB found after '+numberOfDB_loadTrials+' trials');
-	 } else {
-	        numberOfDB_loadTrials++;
-	        setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
-					}
+
+   
+	 
+	        
+					
 } // function
 	// also debug backrequests when shira is applied
 	
