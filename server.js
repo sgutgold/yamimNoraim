@@ -887,7 +887,7 @@ console.log('2');
 	
 	if(IsThereLocalMemberRequests)return;
 	
-	
+	/*
 	try {
   if (fs.existsSync(XLSXfilename)) {console.log('success');
    
@@ -904,13 +904,27 @@ console.log('2');
 	    setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
 			
 }
-
+*/
    
-	 
+	fs.access(XLSXfilename, error => {
+    if (!error) {
+        // The check succeeded
+				IsThereLocalMemberRequests=true;
+		
+	      console.log('DB found after '+numberOfDB_loadTrials+' trials');
+		    initCompletion();
+    } else {
+        // The check failed
+				console.error('err='+err);
+	
+	      numberOfDB_loadTrials++;
+	    setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
+    }
+}); 
 	        
 					
 } // function
-	// also debug backrequests when shira is applied
+	
 	
 	
 	
