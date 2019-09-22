@@ -868,7 +868,11 @@ console.log('5');
 	
 	requestedSeatsWorksheet[amudot.debugRequests].v=' '; // on loading  anew database all debugs are reset
 	
-	*/ //////// - end debug code  1   
+	*/ //////// - end debug code  1  
+	
+	tmpfile=fs.readFileSync('supportTables.xlsx');  
+                    
+	fs.writeFileSync(supportTblsFilename, tmpfile); 
 
 	supportWB=xlsx.readFile(supportTblsFilename); 
 	
