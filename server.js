@@ -915,7 +915,7 @@ console.log('2');
 		    initCompletion();
     } else {
         // The check failed
-				console.error('err='+err);
+				console.error('err');
 	
 	      numberOfDB_loadTrials++;
 	    setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
