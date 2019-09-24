@@ -896,33 +896,15 @@ for (i=1; i<50; i++){
 	//   check if file exists try the code next project
 	
 	var 	numberOfDB_loadTrials=1;
-	console.log('1');
+
 	checkIf_memberRequstsExist();  // if exists finish init process
 	
-console.log('2');
+
 
 	function checkIf_memberRequstsExist(){console.log('entered ckeckif');
 	
 	if(initDone)return;
 	
-	/*
-	try {
-  if (fs.existsSync(XLSXfilename)) {console.log('success');
-   
-		IsThereLocalMemberRequests=true;
-		
-	  console.log('DB found after '+numberOfDB_loadTrials+' trials');
-		initCompletion();
-		
-  }
-} catch(err) {
-  console.error('err='+err);
-	
-	      numberOfDB_loadTrials++;
-	    setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
-			
-}
-*/
    
 	fs.access(XLSXfilename, error => {
     if (!error) {
@@ -933,7 +915,7 @@ console.log('2');
 		    initCompletion();
     } else {
         // The check failed
-				console.error('err');
+				console.error('DB not yet found after '+numberOfDB_loadTrials+' trials');
 	
 	      numberOfDB_loadTrials++;
 	    setTimeout(checkIf_memberRequstsExist, 6000);	//check every 1 minutes
@@ -2407,14 +2389,14 @@ countassnd=[0,0];
 
 // Hard initialize membersRequests.xlsx file
 
-app.get('/shira1807', function(req, res) {console.log('shira');
+app.get('/shira1807', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	if (initDone){
 	shiras_backup=true;   
 	backupRequests();  // backup before every thing
 	};
 	
-	console.log('shira1');
+	
 	tmpfile=fs.readFileSync('membersRequests.xlsx');
 	fs.writeFileSync(EmptyXLSXfilename, tmpfile);
 	fs.writeFileSync(XLSXfilename, tmpfile);
@@ -2539,7 +2521,8 @@ app.get('/UPDtashlumim', function(req, res) {
 		       requestedSeatsWorksheet[transactionPtr].v='write_info at '+getPrintableDate()+ ' of inputString====='+inputString;
 					 break;
 				} // if
-		} // for			 
+		} // for	
+		if(i >= 300)console.log('space not found for transaction history');		 
 	xlsx.writeFile(workbook, XLSXfilename);
 	
 //	inputString=inputString.substr(12); 
