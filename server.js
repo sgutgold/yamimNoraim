@@ -3630,6 +3630,7 @@ app.get('/updateAssignedSeats', function(req, res) {
 					 && (requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+row].v == Number(requestedSeatsWorksheet[amudot.menKipur+row].v))
 					 && (requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v == Number(requestedSeatsWorksheet[amudot.womenKipur+row].v ) )
 					 ){
+					   
 					   msg=calculate_crnt_assnmnt_stsfctn(row);
 						 res.send('***%'+msg)
 						 }
@@ -3665,7 +3666,7 @@ var tmp, str,i,colmn;
 		
 		
 	tmp=stsfctionColction[0].split('$');
-	
+	  console.log('tmp='+tmp);
   requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrMen+row].v=tmp[1]+'*';;
 	requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrWmn+row].v=tmp[2]+'*';
 	requestedSeatsWorksheet[amudot.ThisYRSSeat+row].v=tmp[3]+'*';
@@ -4484,7 +4485,8 @@ function getShulConfig(configWS){
 						 if( Number(fromSt) ){
 						// console.log('amudotOfConfig.ulam+Istr='+amudotOfConfig.ulam+Istr+'   fromSt='+fromSt);
 						    ulam=configWS[amudotOfConfig.ulam+Istr].v;
-							 if (ulam.substr(0,1) != 'n'){nashim=0;} else nashim=1; 
+							 //if (ulam.substr(0,1) != 'n'){nashim=0;} else nashim=1;
+							 nashim= ulam.substr(0,1);
 							 itmp=ulam.indexOf(' ');
 		           tmp=ulam.substr(itmp+1,1);
 							 UlamOrMartef='m';
@@ -4500,7 +4502,8 @@ function getShulConfig(configWS){
 							+configWS[amudotOfConfig.ezor+Istr].v+'@'
 							+slantedX+'@'
 							+slantedY+'@'
-							+UlamOrMartef+	'$';  
+							+UlamOrMartef+'@'
+							+	nashim+  '$';  
 							}; 
 						  i++;
 							Istr=(i).toString();  
@@ -4518,6 +4521,15 @@ function getShulConfig(configWS){
 	app.get('/gizbar', function(req, res) {
 	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
+	 var dbg;
+		
+		dbg=searchDebugParam('disable');  
+		if ( ( dbg != -1 ) || ( ! initDone) ){
+		          res.send(cache_get('real_index'));
+							return;
+							}
+	 
+	 
             res.send(cache_get('gizbar') );
         })	
 				
