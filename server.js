@@ -988,8 +988,8 @@ initDone=true;
 //------------------------------------------------------------
 
 function initFromFiles(yearToInitFrom){
-   if(yearToInitFrom == lastYearInit)return;
-	 lastYearInit=yearToInitFrom;
+ //  if(yearToInitFrom == lastYearInit)return;
+	// lastYearInit=yearToInitFrom;
 	 
 	 
    initValuesOutOfSupportTablesXLSX_file (yearToInitFrom);
@@ -1039,6 +1039,25 @@ function initFromFiles(yearToInitFrom){
 
 
 	
+//-------------------------------------------------------------------
+ function checkRequestedAssgnmntForDoubles(reqstedAssgmnt, moed,checkedRow){  // function returns true if a problem IS found
+ 
+ var assignedCol,i,j,tmp,row,assignmentForRow_STR;
+ assnmentsToVerify=reqstedAssgmnt.split('+');
+ 
+ if(moed==1){assignedCol=amudot.assignedSeatsRosh}else assignedCol=amudot.assignedSeatsKipur;
+  for (i=firstSeatRow;i<lastSeatRow;i++){ 
+         if (i == checkedRow)continue;
+				 row=i.toString();
+	       assignmentForRow_STR=delLeadingBlnks(requestedSeatsWorksheet[assignedCol+row1].v);
+				 if( ! assignmentForRow_STR) continue;
+				 assignmentForRow=assignmentForRow_STR.split('+');
+         for(j=0;j<assignmentForRow.length;j++)if ( assnmentsToVerify.indexOf(assignmentForRow[j]) != -1)return true;
+				 } // i
+	return false; // no problem found			 
+				      
+
+}
 //-------------------------------------------------------------------
 
 function colNametoNumber(col){
@@ -3596,6 +3615,7 @@ app.get('/updateAssignedSeats', function(req, res) {
 	 
 	 initFromFiles('');
 	   moed=inputParams[1]; 
+		 moed_integer=[' ','rosh','kipur'].indexOf(moed);
 	   nameToUpdate=inputParams[2];  
 	   strSeatsToUpdate=inputParams[3];  
 	 
@@ -3603,6 +3623,12 @@ app.get('/updateAssignedSeats', function(req, res) {
 		 if(rowNum == -1 ){res.send('---' ); return};
 		 row=rowNum.toString();
 		 
+		 errInAsgnmnt=false;
+		 if( (moed=='rosh') || (moed=='all') )errInAsgnmnt =checkRequestedAssgnmntForDoubles(strSeatsToUpdate, 1,rowNum);  // function returns true if a problem IS found
+		  if( (moed=='kipur') || (moed=='all') )errInAsgnmnt =errInAsgnmnt || checkRequestedAssgnmntForDoubles(strSeatsToUpdate, 2,rowNum);  // function returns true if a problem IS found
+			
+			if (errInAsgnmnt){res.send('???'); return}; //found doubles
+			
 		 if( (moed=='rosh') || (moed=='all') ){
 		 assgndBegunRosh=true;
 		 ptr=amudot.assignedSeatsRosh+row; 
@@ -3644,9 +3670,23 @@ app.get('/updateAssignedSeats', function(req, res) {
 			} )
 	 
 	 
-	      
-
-
+//----------------------------------------------------------      
+app.get('/reCalcStsfction', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	
+	 var str;
+	 inputString=decodeURI(req.originalUrl).split('?')[1];
+	 inputParams=inputString.split('$'); 
+	 if (inputParams[0] != debugPASSW){res.send('999' ); return};
+	 
+	 initFromFiles('');
+  row=inputParams[1];
+	 str=calculate_crnt_assnmnt_stsfctn(row);
+	 res.send('+++'+str);
+	 
+	 
+	 	} )
 //----------------------------------------------------------
 							
 /*
@@ -4156,14 +4196,20 @@ app.get('/setreadxls', function(req, res) {
 			} 
 		else		res.send('err in passw');
 })
-//------------------------------------------------------------------------------		
+//------------------------------------------------------------------------------	
   app.get('/roshToKipur', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
 	 initFromFiles('');
-	 for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
-         row=i.toString();
-	       requestedSeatsWorksheet[amudot.assignedSeatsKipur +row].v=requestedSeatsWorksheet[amudot.assignedSeatsRosh +row].v
+   var tmp,i,row;
+	 var notCopied=[];
+	 
+	 for (i=firstSeatRow;i<lastSeatRow+1;i++){  
+	       tmp=delLeadingBlnks(requestedSeatsWorksheet[amudot.assignedSeatsRosh +row].v);
+	       row=i.toString();
+			   if(	 checkRequestedAssgnmntForDoubles(tmp,2,i)  ){          //(reqstedAssgmnt, moed,checkedRow);; value true if problem
+				   notCopied.push(row);} else  
+					       requestedSeatsWorksheet[amudot.assignedSeatsKipur +row].v=requestedSeatsWorksheet[amudot.assignedSeatsRosh +row].v
 				
 				 }
 				 
@@ -4177,8 +4223,8 @@ app.get('/setreadxls', function(req, res) {
     CountAssignedPerMoed_PerUlam();
 		
 		checkDoubeeAssignments();
-
-			res.send('copied');	 
+      tmp=notCopied.join('+');
+			res.send('copied$'+tmp);	 
 	}) 
 //------------------------------------------------------------------------------						
 	
