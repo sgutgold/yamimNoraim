@@ -1073,7 +1073,8 @@ function colNametoNumber(col){
 function backupRequests(){
     var d1 = new Date();  
     var hour_Greenwich_Mean_Time = Number(d1.getHours());
-
+ 
+    weekDay=d1.getDay();  
 
 if (   ! shiras_backup){		// do the following only for scheduled backups
 // handle forgetList
@@ -1090,12 +1091,12 @@ if (   ! shiras_backup){		// do the following only for scheduled backups
 // end of forget list handling
 
 							 
-		 weekDay=d1.getDay();  
+		
 		 if( weekDay == dayOfLastBackup) {    
 		    setTimeout(backupRequests, 600000);	//check every 10 minutes
 		    return;
 				}
-	} // if shiras_backup
+	} // if  ! shiras_backup
 		
     if( (hour_Greenwich_Mean_Time == 0 ) || ((shiras_backup) && (initDone))){      // once a day; at night; when value=0 => in the winter 2am; in summer 3am// ! hour_Greenwich_Mean_Time
 		
