@@ -1049,7 +1049,7 @@ function initFromFiles(yearToInitFrom){
   for (i=firstSeatRow;i<lastSeatRow;i++){ 
          if (i == checkedRow)continue;
 				 row=i.toString();
-	       assignmentForRow_STR=delLeadingBlnks(requestedSeatsWorksheet[assignedCol+row1].v);
+	       assignmentForRow_STR=delLeadingBlnks(requestedSeatsWorksheet[assignedCol+row].v);
 				 if( ! assignmentForRow_STR) continue;
 				 assignmentForRow=assignmentForRow_STR.split('+');
          for(j=0;j<assignmentForRow.length;j++)if ( assnmentsToVerify.indexOf(assignmentForRow[j]) != -1)return true;
