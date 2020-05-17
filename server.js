@@ -10,7 +10,7 @@ var xlsx = require('xlsx');
 var nodemailer = require('nodemailer');
 
 
-    /*  ======================================================================= 
+    /*  ====================================================================== 
 
     /*
 		
@@ -3090,7 +3090,7 @@ for(chag=0;chag<2;chag++){
 
    if(chagimCounter){martefUlamGrade=tmp/chagimCounter} else martefUlamGrade=0;
 	 
-	
+	martefUlamGrade=martefUlamGrade.toString();
 			
 nameForRow=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 	if (nameForRow.substr(nameForRow.length-1,1)=='*')nameForRow=nameForRow.substr(0,nameForRow.length-1);	
@@ -3098,7 +3098,7 @@ nameForRow=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 	
  sts=delLeadingBlnks(requestedSeatsWorksheet[amudot.markedSeats+row].v);  
  
- if (! sts) { stsfctionColction.push(row+'$10$10$0');  return};  // no request no complaint  
+ if (! sts) { stsfctionColction.push(row+'$10$10$'+martefUlamGrade);  return};  // no request no complaint  
   stsArry=sts.split('+');
 	
 	
@@ -3201,7 +3201,7 @@ nameForRow=delLeadingBlnks(requestedSeatsWorksheet[amudot.name+row].v);
 		}
 		res1=res1+'$'+tmp0.toString();
 		
-		res1=res1+'$'+martefUlamGrade.toString()+'$'+row;  // row is saved for debug
+		res1=res1+'$'+martefUlamGrade+'$'+row;  // row is saved for debug
 	
 	
 	stsfctionColction.push(res1);
@@ -4765,6 +4765,7 @@ app.get('/ckpswGIZBAR', function(req, res) {
 		var dbg;
 		
 		dbg=searchDebugParam('disable');  
+		console.log('dbg='+dbg+'   initDone='+initDone);
 		if ( ( dbg != -1 ) || ( ! initDone) ){
 		          res.send(cache_get('real_index'));
 							return;
