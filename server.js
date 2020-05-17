@@ -3920,7 +3920,7 @@ app.get('/setDebugOn', function(req, res) {
 	 if(debugparam[1]=='query'){
 	      res.send('ok %'+debugRequestsAll.join('*'));
 				return};
-	     
+	  console.log(' debugparam='+debugparam);  
 		 
 	 if(debugparam[1]=='reset'){
 	   
@@ -3971,7 +3971,7 @@ app.get('/setDebugOn', function(req, res) {
 				
 //---------------------------------------------------------------------------------	
 function searchDebugParam(param){
-   var i;
+   var i;  console.log('debugRequestsKeysLength='+debugRequestsKeys.length+'  debugRequestsKeys='+debugRequestsKeys);
 	 for (i=0; i<	debugRequestsKeys.length;i++)if (		debugRequestsKeys[i] == param )return i;
 	 return -1;
 	 }
