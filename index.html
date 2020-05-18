@@ -619,6 +619,9 @@ var shurot=[   //shura starts at seat number, ends at seat number, belongs to ei
 			*/			 
 
 var shurot=[];
+var seatToUlam=[];
+var currentUlam='';
+lastSeatNumber=0;
 
 // ----------------------------------------------------------------------------------------	
 var dataToSend = [ ['familyname=',''],      //0
@@ -685,7 +688,7 @@ var prtiDisplayed=false;
 var emailPassDisplayed=false;
 var emailPassCode='';
 
-var firstPartOfURL ='http://seatselect-seatselection.apps.us-west-1.starter.openshift-online.com';
+var firstPartOfURL ='http://ariel-seatselection.apps.us-east-1.starter.openshift-online.com/';
 
 warnings=[ 'oldAfterPaid','oldAfterToPay','oldBeforeAfterPaid','oldBeforeAfterToPay','oldBeforeBeforeToPay','newBefore','newAfter'];
 
@@ -876,16 +879,30 @@ function clear_listOfIDsUp(e){
 	function getShulConfig_cont(func2,rslt){
 	     rspnsString = rslt;     
 			 shurot=[];
-			 var i;
+			 var i,j,idx,ulam,tmp,tmp1,nashim;
        var tbl1=	rspnsString.split('$'); 
 			 for (i=0;i<tbl1.length;i++){
-			    tmp=tbl1[i].split('@');
+			    tmp=tbl1[i].split('@');  
 					shurot[i]=new Array;
 					shurot[i][0]=Number(tmp[0]);
-					shurot[i][1]=Number(tmp[1]);
+					tmp1=Number(tmp[1]);
+					shurot[i][1]=tmp1;
 					shurot[i][2]=tmp[4];
+					shurot[i][3]=tmp[8];  //nasim='n'
+					shurot[i][4]=tmp[7];
+					if (tmp1>lastSeatNumber)lastSeatNumber=tmp1;
 			}				
-	
+			for (i=0;i<lastSeatNumber+1;i++)seatToUlam[i]=['',''];  //clear table
+
+			for (i=0;i<shurot.length; i++){ 
+			   idx=['m','r','n'].indexOf(shurot[i][4]);
+				 nashim= shurot[i][3];
+				 ulam=['Martef','Rashi','Nashim'][idx];  
+			   for (j=shurot[i][0];j<shurot[i][1]+1;j++)  seatToUlam[j]=[ulam,nashim ]; 
+				 
+			  }
+				
+			//	for (i=0;i<seatToUlam.length;i++)console.log(seatToUlam[i][0]+'  '+seatToUlam[i][1]);
 	   func2(rslt);
 	}
 // ===================================================================================
@@ -932,9 +949,8 @@ document.onkeydown = clear_listOfIDsDown;
      tDataChildren[i].innerHTML=basePayment+i*paymentPerSeat;
 		 }
 
+		  
 		 
-		 
-		
 	
 													             	
 
@@ -964,7 +980,8 @@ document.onkeydown = clear_listOfIDsDown;
 		
 		  ckBoxBaseElement=document.getElementById("hiddenDiv"); 
 	
- //    ---------Martef---------------------------------------------------------------		
+ //    ---------Martef--------------------------------------------------------------- 
+ currentUlam='Martef';		
 		
   LegendTextElement=document.getElementById("Hall1FrameTop"); 
   startingTop=getPosition(LegendTextElement);
@@ -991,6 +1008,8 @@ document.onkeydown = clear_listOfIDsDown;
 
 
 //------------------OOLAM RASHI--------------------------------------------------------
+ currentUlam='Rashi';	
+ 
       LegendTextElement=document.getElementById("Hall2FrameTop"); 
      startingTop=getPosition(LegendTextElement);
 	   startingTop=startingTop.y;  // alert("startingtop rashi="+startingTop);
@@ -1012,6 +1031,7 @@ document.onkeydown = clear_listOfIDsDown;
 			 adjustElementTop("Hall2FrameTop","arrow2",560); 
 			 
 //--------------------------EZRAT NASHIM----------------------------------------
+ currentUlam='Nashim';	
      LegendTextElement=document.getElementById("Hall3FrameTop"); 
      startingTop=getPosition(LegendTextElement);
 	   startingTop=startingTop.y;  // alert("startingtop nashim="+startingTop);
@@ -1035,7 +1055,7 @@ document.onkeydown = clear_listOfIDsDown;
 	if (document.myform.seatsString.value)reconstructSeats(document.myform.seatsString.value);
 	document.getElementById('fmName').focus();
 	   
-//-----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------- 
 
  function generate_list(LLst,baseElement,startingTop) {
  
@@ -1060,7 +1080,7 @@ document.onkeydown = clear_listOfIDsDown;
 			
 		 //	textSpan.innerHTML=(j).toString();  
 			cell.appendChild(textSpan);  
-     
+   
 			inh=j.toString(); 
       pid='c'+inh+'_p'; 
   
@@ -1909,8 +1929,8 @@ function UnDisplayPassCodeRequest() {
 				
 				 if(isCurrentLanguageHebrew){alertText="אנא בדוק/בדקי את מספר הכסאות שרשמת";}	 else alertText='please check number of requested seats';																								
          focusId=document.getElementById('misparMekomot');	
-			if ( 	!  (isValidSeatNumbers(document.myform.menRosh.value) &&  isValidSeatNumbers(document.myform.menkipur.value)
-			     && isValidSeatNumbers(document.myform.womenRosh.value) &&  isValidSeatNumbers(document.myform.womenkipur.value)  )
+			if ( 	! ( (isValidSeatNumbers(document.myform.menRosh.value) &&  isValidSeatNumbers(document.myform.menkipur.value)
+			     && isValidSeatNumbers(document.myform.womenRosh.value) &&  isValidSeatNumbers(document.myform.womenkipur.value) ) )
 					   )  {Alert(alertText,focusId);  return false; };
 				pymnt=	calcPayment();						 
 			if (  (retrievedPayment == 	basePayment)  && (pymnt 	== basePayment)		) { //first time and no request made
@@ -2230,7 +2250,7 @@ if(! reslt) {   document.myform.sbmt.disabled=false;      return false;   };
 						}		
 		dataToSend[10][1]=ChosenMinyanM;
 		
-	
+	//console.log( 'ChosenMinyanM='+ChosenMinyanM+'  ChosenMinyanW='+ChosenMinyanW); document.myform.sbmt.disabled=false;      return false; 
 		
 	//ck "more comments"	
 				if(! ckMoreCmnts()){   document.myform.sbmt.disabled=false;      return false;   };														 
@@ -2238,8 +2258,10 @@ if(! reslt) {   document.myform.sbmt.disabled=false;      return false;   };
 	      dataToSend[12][1]=document.myform.RmoreComments.value;	
 				
 				
-				dataToSend[13][1]=document.myform.seatsString.value;	
+				dataToSend[13][1]=document.myform.seatsString.value;
+
 				if ( Cancelling )dataToSend[13][1]='';	
+				
 	/*			
 		seatsForRoshHashana=Number(document.myform.menRosh.value)+Number(document.myform.womenRosh.value);
 		seatsForYomKipur=Number(document.myform.menkipur.value)+Number(document.myform.womenkipur.value);
@@ -2250,7 +2272,56 @@ if(! reslt) {   document.myform.sbmt.disabled=false;      return false;   };
 		dataToSend[14][1]=requiredPayment.toString();			
 		
 					if (dataToSend[0][0] != 'familyname='){sendErrMail('c',dataToSend); return false;};
+//  
 
+
+// check compatability between selected seats and requested ulam
+
+ChosenMinyanM='';
+ChosenMinyanW='';
+
+if ( ! ChosenMinyanM)ChosenMinyanM='Martef';
+if ( (ChosenMinyanM==2) || (ChosenMinyanM==3))ChosenMinyanM='Rashi';
+
+if ( ! ChosenMinyanW)ChosenMinyanW='Martef';
+if ( (ChosenMinyanW==2) || (ChosenMinyanW==3))ChosenMinyanM='Nashim';
+
+seatsArr=(dataToSend[13][1]).split('+');
+womenSeatsNotOK=0;
+menSeatsNotOK=0;
+
+for (i=0; i<seatsArr.length;i++){   // seats were selected
+  temp=seatsArr[i].split('_')[1];
+	temp=temp.split('_')[0];
+	seatNum=Number(temp);
+// gvarim
+  if ( (   ChosenMinyanM )&& (seatToUlam[i][1] != 'n') )
+	  if( ChosenMinyanM != seatToUlam[i][0])menSeatsNotOK++;
+	  
+// nashim
+if ( (   ChosenMinyanW )&& (seatToUlam[i][1] == 'n') )
+	  if( ChosenMinyanW != seatToUlam[i][0])womenSeatsNotOK++;
+
+}
+
+if ( menSeatsNotOK + womenSeatsNotOK){
+   if ( ! womenSeatsNotOK){
+	     focusId=document.getElementById('RmartefM');
+			 if(isCurrentLanguageHebrew){alertText="סומנו מקומות לגברים לא באולם שנבחר ";}	 else alertText="seats selected for men not in Preffered Minyan";																								
+		   Alert(alertText,focusId);
+			 return false;
+			 }
+		if ( ! menSeatsNotOK){
+	     focusId=document.getElementById('RmartefW');
+			 if(isCurrentLanguageHebrew){alertText="סומנו מקומות לנשים לא באולם שנבחר ";}	 else alertText="seats selected for women not in Preffered Minyan";																								
+		   Alert(alertText,focusId);
+			 return false;
+			 }	  
+    focusId=document.getElementById('RmartefW');
+		if(isCurrentLanguageHebrew){alertText="סומנו מקומות לגברים ולנשים לא באולם שנבחר ";}	 else alertText="seats selected for men and for women not in Preffered Minyan";																								
+		Alert(alertText,focusId);
+	 return false;
+	} 
 		
 		if(isCurrentLanguageHebrew){dataToSend[15][1]='hebrew';} else dataToSend[15][1]='english';
 				
@@ -2633,7 +2704,7 @@ function changeMarqueeDirection(drction){
 <form name="myform" id='myForm'     > 
 
 <h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
-<h1 style="font-size:150%;text-align:center"><b><u><span id='lanDepndntStr0_HB'>הזמנת מקומות לימים נוראים <span id='yearHebrewTitle'> תשע"ח </span></span>
+<h1 style="font-size:150%;text-align:center"><b><u><span id='lanDepndntStr0_HB'>הזמנת מקומות לימים נוראים <span id='yearHebrewTitle'> תשפ"א </span></span>
 <span id='lanDepndntStr0_EN'> Seat requests for High Holydays <span id='yearEnglishTitle'> 5778 </span></span></u></b> </h1>
 
 <h1 id='newBefore' style="font-size:150%;text-align:center;display:block;">  &nbsp &nbsp &nbsp </h1>
