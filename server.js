@@ -4765,7 +4765,7 @@ app.get('/ckpswGIZBAR', function(req, res) {
 		var dbg;
 		
 		dbg=searchDebugParam('disable');  
-		console.log('dbg='+dbg+'   initDone='+initDone);
+	
 		if ( ( dbg != -1 ) || ( ! initDone) ){
 		          res.send(cache_get('real_index'));
 							return;
