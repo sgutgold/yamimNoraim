@@ -4662,7 +4662,6 @@ app.get('/getOverAssignedList', function(req, res) {
         })	
 
 
-
 //------------------------------------------------------------------------------	
 
 // ck if registration is closed
