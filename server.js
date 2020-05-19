@@ -709,7 +709,6 @@ var	 doneWithFilter;
 
 var forgetList = new Array;
 
-	
 	var initDone=false;
 	
 var assgndBegunRosh=false;
@@ -4640,6 +4639,29 @@ app.get('/ckpswMGMT', function(req, res) {
 	    sendMail(maill,subj,txt);
             res.send('+++' );
         })				
+//------------------------------------------------------------------------------	
+
+app.get('/getOverAssignedList', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+//	 initFromFiles('');
+	 
+	 var i, str;
+	 str='ok';
+	 for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
+   row=i.toString();
+	 if(
+	        ( Number(requestedSeatsWorksheet[amudot.menRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v) )
+			||  ( Number(requestedSeatsWorksheet[amudot.womenRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v) )
+			||  ( Number(requestedSeatsWorksheet[amudot.menKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+row].v) )
+			||  ( Number(requestedSeatsWorksheet[amudot.womenKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v) )
+			)str=str+'+'+requestedSeatsWorksheet[amudot.name).v;
+	console.log( 'OverAssignedList='+str);
+	 res.send(str );
+        })	
+
+
+
 //------------------------------------------------------------------------------	
 
 // ck if registration is closed
