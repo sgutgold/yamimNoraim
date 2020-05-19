@@ -4649,13 +4649,14 @@ app.get('/getOverAssignedList', function(req, res) {
 	 var i, str;
 	 str='ok';
 	 for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
-   row=i.toString();
-	 if(
+    row=i.toString();
+	  if(
 	        ( Number(requestedSeatsWorksheet[amudot.menRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.womenRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.menKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.womenKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v) )
 			)str=str+'+'+requestedSeatsWorksheet[amudot.name].v;
+	}  // for		
 	console.log( 'OverAssignedList='+str);
 	 res.send(str );
         })	
