@@ -4655,7 +4655,7 @@ app.get('/getOverAssignedList', function(req, res) {
 			||  ( Number(requestedSeatsWorksheet[amudot.womenRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.menKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.womenKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v) )
-			)str=str+'+'+requestedSeatsWorksheet[amudot.name].v;
+			)str=str+'+'+requestedSeatsWorksheet[amudot.name+row].v;
 	}  // for		
 	console.log( 'OverAssignedList='+str);
 	 res.send(str );
