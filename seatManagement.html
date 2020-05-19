@@ -1322,7 +1322,8 @@ document.getElementById("hall1").style.display='none';
 	 document.getElementById("reportAssgnmnts").style.display='none';
 	 document.getElementById("stsfctn").style.display='none';
 	  document.getElementById("stsfctnNow").style.visibilty='hidden';
-
+  document.getElementById("OverAssignedList").style='visibility:hidden';
+	
 }
 // -------------------------------------------------------------------  
 
@@ -1361,7 +1362,8 @@ function hideFieldSets(){
 	 document.getElementById("reportAssgnmnts").style.display='none';
 	 document.getElementById("stsfctn").style.display='none';
 	  document.getElementById("stsfctnNow").style.visibility='hidden';
-      
+    document.getElementById("OverAssignedList").style='visibility:hidden';
+		  
    funcStack.push(hideFieldSets_cont);
 
 	 
@@ -2360,8 +2362,20 @@ genTables=funcStack.pop();
 				
 					
 		      creatColoredMap(genTables,resArray);
-		
+		       funcStack.push(ckNameRtrvVlus_cont4);
+					 url=encodeURI(firstPartOfURL+"/getYearList");
+		      
+          send_msg_to_server(url);
+	}
+//-------------------------
 	
+	function 	ckNameRtrvVlus_cont4(str){			 
+	       var str1, tmp;
+				 tmp=str.substr(0,3);
+				 str1=str.substr(3);
+				 if (tmp != 'ok+'){ 
+				      console.log('err in retrieving over assign list'); 
+							} else  display_OverAssignedList(str1);
 		
 		
 					
@@ -5659,10 +5673,42 @@ tmp=document.getElementById(msgId);
  }
 
 
+// ----------------------------------------------------------------------------------------- 
+function hide_OverAssignedList(){
+ document.getElementById("OverAssignedList").style='visibility:hidden';
+ }  
 
+// ----------------------------------------------------------------------------------------- 
 
-// -----------------------------------------------------------------------------------------
-                			
+function display_OverAssignedList(str){
+  var tmp, i,list,len;
+	if ( ! str.length ){  // no over assigned member
+	   document.getElementById("OverAssignedList").style='visibility:hidden';
+		 return;
+		 }
+	document.getElementById("OverAssignedList-hdr1").style='display:none';  // display the right header
+	document.getElementById("OverAssignedList-hdr2").style='display:none';
+		 
+	list=str.split('+');
+	len=Math.min(5,list.length)-1;
+  if (list.length > 5){tmp='2'}else tmp='1';
+	document.getElementById("OverAssignedList-hdr"+tmp).style='display:inline-block'; 
+
+	for (i=0; i<5; i++){
+	    id='OverAssignedList_li_'+(i).toString();
+			if (i > list.length-1)
+			      {document.getElementById(id).style='display:none' }
+						else {
+						     document.getElementById(id).style='display:inline-block; border:none';
+								 document.getElementById(id).innerHTML=list[i];
+								 }  // end else
+	}  // end for		
+	
+	document.getElementById("OverAssignedList").style='color:red; visibility:visible;  position:absolute; left:672px;  top:240px; border:2px solid red';
+	
+}
+
+//-----------------------------------------------------------------------------------------------------		          			
                 			
 </script>
 </head>
@@ -6219,7 +6265,18 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 דומה בתפקודה למקש j, פרט לכך שה cursor ישאר באותו המקום שהיה לפני הלחיצה
 </div>
 
-
+<div id='OverAssignedList' onclick='hide_OverAssignedList()' style='color:red; visibility:visible;  position:absolute; left:672px;  top:240px; border:2px solid red'>
+   <ul >
+	   <li id='OverAssignedList-hdr1' style='border:none'>   רשימת מתפללים עם הקצאה עודפת</li>
+		 <li id='OverAssignedList-hdr2' style='border:none'>   חמישה מתפללים עם הקצאה עודפת.<br> יש עוד מתפללים עם הקצאה עודפת</li>
+		 <br>
+	   <li style='border:none' id='OverAssignedList_li_0'> rrrrrrr</li><br>
+		 <li style='border:none' id='OverAssignedList_li_1'> rrrrrrr</li><br>
+		 <li style='border:none' id='OverAssignedList_li_2'> rrrrrrr</li><br>
+		 <li style='border:none' id='OverAssignedList_li_3'> rrrrrrr</li><br>
+		 <li style='border:none' id='OverAssignedList_li_4'> rrrrrrr</li><br>
+	</ul>
+</div>		 
 
 <!--
 RGray='rgba(190,190,190,0.6)';
