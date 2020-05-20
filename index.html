@@ -902,7 +902,7 @@ function clear_listOfIDsUp(e){
 				 
 			  }
 				
-			//	for (i=0;i<seatToUlam.length;i++)console.log(seatToUlam[i][0]+'  '+seatToUlam[i][1]);
+				//for (i=0;i<seatToUlam.length;i++)console.log('i='+i+'    '+seatToUlam[i][0]+'  '+seatToUlam[i][1]);
 	   func2(rslt);
 	}
 // ===================================================================================
@@ -2277,14 +2277,14 @@ if(! reslt) {   document.myform.sbmt.disabled=false;      return false;   };
 
 // check compatability between selected seats and requested ulam
 
-ChosenMinyanM='';
-ChosenMinyanW='';
+MinyanM='';
+MinyanW='';
 
-if ( ! ChosenMinyanM)ChosenMinyanM='Martef';
-if ( (ChosenMinyanM==2) || (ChosenMinyanM==3))ChosenMinyanM='Rashi';
+if ( ! ChosenMinyanM)MinyanM='Martef';
+if ( (ChosenMinyanM==2) || (ChosenMinyanM==3))MinyanM='Rashi';
 
-if ( ! ChosenMinyanW)ChosenMinyanW='Martef';
-if ( (ChosenMinyanW==2) || (ChosenMinyanW==3))ChosenMinyanM='Nashim';
+if ( ! ChosenMinyanW)MinyanW='Martef';
+if ( (ChosenMinyanW==2) || (ChosenMinyanW==3))MinyanW='Nashim';
 
 seatsArr=(dataToSend[13][1]).split('+');
 womenSeatsNotOK=0;
@@ -2295,12 +2295,12 @@ for (i=0; i<seatsArr.length;i++){   // seats were selected
 	temp=temp.split('_')[0];
 	seatNum=Number(temp);
 // gvarim
-  if ( (   ChosenMinyanM )&& (seatToUlam[i][1] != 'n') )
-	  if( ChosenMinyanM != seatToUlam[i][0])menSeatsNotOK++;
+  if ( (   ChosenMinyanM )&& (seatToUlam[seatNum][1] != 'n') )
+	  if( MinyanM != seatToUlam[seatNum][0])menSeatsNotOK++;
 	  
 // nashim
-if ( (   ChosenMinyanW )&& (seatToUlam[i][1] == 'n') )
-	  if( ChosenMinyanW != seatToUlam[i][0])womenSeatsNotOK++;
+if ( (   ChosenMinyanW )&& (seatToUlam[seatNum][1] == 'n') )
+	  if( MinyanW != seatToUlam[seatNum][0])womenSeatsNotOK++;
 
 }
 
@@ -2309,17 +2309,20 @@ if ( menSeatsNotOK + womenSeatsNotOK){
 	     focusId=document.getElementById('RmartefM');
 			 if(isCurrentLanguageHebrew){alertText="סומנו מקומות לגברים לא באולם שנבחר ";}	 else alertText="seats selected for men not in Preffered Minyan";																								
 		   Alert(alertText,focusId);
+			 document.myform.sbmt.disabled=false;
 			 return false;
 			 }
 		if ( ! menSeatsNotOK){
 	     focusId=document.getElementById('RmartefW');
 			 if(isCurrentLanguageHebrew){alertText="סומנו מקומות לנשים לא באולם שנבחר ";}	 else alertText="seats selected for women not in Preffered Minyan";																								
 		   Alert(alertText,focusId);
+			 document.myform.sbmt.disabled=false;
 			 return false;
 			 }	  
     focusId=document.getElementById('RmartefW');
 		if(isCurrentLanguageHebrew){alertText="סומנו מקומות לגברים ולנשים לא באולם שנבחר ";}	 else alertText="seats selected for men and for women not in Preffered Minyan";																								
 		Alert(alertText,focusId);
+		document.myform.sbmt.disabled=false;
 	 return false;
 	} 
 		
