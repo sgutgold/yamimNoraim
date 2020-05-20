@@ -905,9 +905,9 @@ function clear_listOfIDsUp(e){
 				//for (i=0;i<seatToUlam.length;i++)console.log('i='+i+'    '+seatToUlam[i][0]+'  '+seatToUlam[i][1]);
 	   func2(rslt);
 	}
+
+			
 // ===================================================================================
-
-
 
 function GenerateTables(){
 
@@ -915,8 +915,7 @@ function GenerateTables(){
 if(firstTimelanguageSetting){
 	     firstTimelanguageSetting=false;
 			 setCurrentLanguage();
-			 }  
-			
+				}
 setRegistrationClosedHeader(GenerateTables_cont1);
 }
 
@@ -966,7 +965,7 @@ document.onkeydown = clear_listOfIDsDown;
 	 
 	 document.myform.sbmt.disabled=false; 
 	 
-	 distFromBaseYear=thisYear-2017;
+	 distFromBaseYear=Number(thisYear)-2017;  
 	 if(distFromBaseYear < hebrewYears.length){document.getElementById('yearHebrewTitle').innerHTML=hebrewYears[distFromBaseYear]}else document.getElementById('yearHebrewTitle').innerHTML=' ';
 	 document.getElementById('yearEnglishTitle').innerHTML=(5778+distFromBaseYear).toString();
 	
