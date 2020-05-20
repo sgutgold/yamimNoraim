@@ -2371,9 +2371,10 @@ genTables=funcStack.pop();
 	
 	function 	ckNameRtrvVlus_cont4(str){			 
 	       var str1, tmp;
-				 tmp=str.substr(0,3);
+				 tmp=str.substr(0,2);
 				 str1=str.substr(3);
-				 if (tmp != 'ok+'){ 
+				 console.log('str='+str+'/  tmp='+tmp+'/   str1='+str1);
+				 if (tmp != 'ok'){ 
 				      console.log('err in retrieving over assign list'); 
 							} else  display_OverAssignedList(str1);
 		
@@ -5704,7 +5705,7 @@ function display_OverAssignedList(str){
 								 }  // end else
 	}  // end for		
 	
-	document.getElementById("OverAssignedList").style='color:red; visibility:visible;  position:absolute; left:672px;  top:240px; border:2px solid red';
+	document.getElementById("OverAssignedList").style='color:red; visibility:visible;  position:absolute; right:1030px;  top:240px; border:2px solid red';
 	
 }
 
@@ -6265,7 +6266,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 דומה בתפקודה למקש j, פרט לכך שה cursor ישאר באותו המקום שהיה לפני הלחיצה
 </div>
 
-<div id='OverAssignedList' onclick='hide_OverAssignedList()' style='color:red; visibility:visible;  position:absolute; left:672px;  top:240px; border:2px solid red'>
+<div id='OverAssignedList' onclick='hide_OverAssignedList()' style='color:red; visibility:visible;  position:absolute; right:472px;  top:240px; border:2px solid red'>
    <ul >
 	   <li id='OverAssignedList-hdr1' style='border:none'>   רשימת מתפללים עם הקצאה עודפת</li>
 		 <li id='OverAssignedList-hdr2' style='border:none'>   חמישה מתפללים עם הקצאה עודפת.<br> יש עוד מתפללים עם הקצאה עודפת</li>
