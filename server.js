@@ -3706,7 +3706,7 @@ var tmp, str,i,colmn;
 		
 		
 	tmp=stsfctionColction[0].split('$');
-	  console.log('tmp='+tmp);
+	 // console.log('tmp='+tmp);
   requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrMen+row].v=tmp[1]+'*';;
 	requestedSeatsWorksheet[amudot.stsfctnInFlrThisYrWmn+row].v=tmp[2]+'*';
 	requestedSeatsWorksheet[amudot.ThisYRSSeat+row].v=tmp[3]+'*';
@@ -3970,7 +3970,7 @@ app.get('/setDebugOn', function(req, res) {
 				
 //---------------------------------------------------------------------------------	
 function searchDebugParam(param){
-   var i;  console.log('debugRequestsKeysLength='+debugRequestsKeys.length+'  debugRequestsKeys='+debugRequestsKeys);
+   var i;  
 	 for (i=0; i<	debugRequestsKeys.length;i++)if (		debugRequestsKeys[i] == param )return i;
 	 return -1;
 	 }
@@ -4641,6 +4641,25 @@ app.get('/ckpswMGMT', function(req, res) {
         })				
 //------------------------------------------------------------------------------	
 
+app.get('/getYearBeforeCurrent', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+//	 initFromFiles('');
+	 
+	 var i, str;
+	 str='';
+	 
+	
+	 res.send(str );
+        })	
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+
 app.get('/getOverAssignedList', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
@@ -4657,7 +4676,7 @@ app.get('/getOverAssignedList', function(req, res) {
 			||  ( Number(requestedSeatsWorksheet[amudot.womenKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v) )
 			)str=str+'+'+requestedSeatsWorksheet[amudot.name+row].v;
 	}  // for		
-	console.log( 'OverAssignedList='+str);
+	
 	 res.send(str );
         })	
 
