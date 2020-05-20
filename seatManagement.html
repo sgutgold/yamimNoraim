@@ -1200,7 +1200,13 @@ function initPage_cont_1(){
 
 //------------
 
-function initPage_cont_2(){			
+function initPage_cont_2(prvsYear){	
+
+      prvsYear=Number(prvsYear)-2017;	
+			currentHebrewYear=[0,'תש"ף','תשפ"א','תשפ"ב','תשפ"ג','תשפ"ד'][prvsYear];
+			document.getElementById("hdrText").innerHTML=" <span style='text-decoration: underline;'>הזמנת מקומות לימים נוראים "+currentHebrewYear+"</span>";
+			
+				
 			funcStack=[doNothing];
 	    getShulConfig();
 
@@ -1293,15 +1299,17 @@ function enableFmNmOnChange(){ fmNmOnChangeDIsabled=false;}
 
 //------
 function 	initListOfYears_cont(rslt){
-	 
+var	 prvsYear;
 	    rspnsString = rslt.split('$');  
-			
+			     
+					 
 			 
 					rspnsString.sort(); 
+					prvsYear=rspnsString[rspnsString.length-1];
                     
 				  for (i=0; i<	rspnsString.length; i++)document.myform.dsplayYear.options[i+1]=new Option(rspnsString[i]);
 			rtrnFunc=funcStack.pop();
-			rtrnFunc();
+			rtrnFunc(prvsYear);
  
  }
 // -------------------------------------------------------------------  
@@ -5815,7 +5823,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 
 <div id='headerDiv'>
 <h1 style="color:blue; font-size:200%;text-align:center"><b><u>בית כנסת אריאל</u></b> </h1>
-<h1 id='hdrText' style="font-size:150%;text-align:center"><b><u>הזמנת מקומות לימים נוראים תשע"ח</u></b> </h1>
+<h1 id='hdrText' style="font-size:150%;text-align:center"><b><u> </u></b> </h1>
 <div id='paswDiv' >סיסמא:<input id='pasw' type="password" style="display:inline-block"  autofocus onchange='ckPassW()'> </div> <br>
 </div>
 
