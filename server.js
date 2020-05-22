@@ -1368,7 +1368,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		
 		// set sortedFirstNames
 		 for (i=0; i<	familyNames.length;i++) if ( hisName[i] <herName[i]){ sortedFirstNames[i]=hisName[i]+'*'+herName[i]}
-		                                                                 else sortedFirstNames[i]=herName[i]+'*'+hisrName[i]} ;
+		                                                                 else sortedFirstNames[i]=herName[i]+'*'+hisrName[i] ;
 																																		 
 	for (i=0;i<	familyNames.length;i++) console.log('fam='+	familyNames[i]+' his='+hisName[i]+' her='+herName[i]+' min='+	minimumName[i]+'  sorted='+sortedFirstNames[i]);																																			 
 						 
