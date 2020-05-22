@@ -1345,7 +1345,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 			for(i=0; i< familyNames.length;i++){ 
 			indices=[i]; 
 			  if(  minimumName[i] ) continue;  // minimum name already set
-	      minimumName[i]=familyNames[i];               console.log('i='+i+' minimumName[i]='+minimumName[i]+' familyNames[i]='+familyNames[i] );
+	//      minimumName[i]=familyNames[i];               console.log('i='+i+' minimumName[i]='+minimumName[i]+' familyNames[i]='+familyNames[i] );
 		
 	      for (j=i+1; j<familyNames.length;j++)if (familyNames[i] == familyNames[j] )indices.push(j);
 				
@@ -1353,13 +1353,13 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 				
 				for (k=0; k<indices.length;k++){
 				   l=indices[k];
-				  if (! hisName[l]){minimumName[l]=familyNames[i]+herName[l]; continue}; // no man
+				  if (! hisName[l]){minimumName[l]=familyNames[i]+'*'+herName[l]; continue}; // no man
 					
 				  for(m=0; m<indices.length ;m++){
 					  n=indices[m];
-					  if (l !=n) if(hisName[l] == hisName[n]){minimumName[l]=familyNames[i]+herName[l];	break};
+					  if (l !=n) if(hisName[l] == hisName[n]){minimumName[l]=familyNames[i]+'*'+herName[l];	break};
 	           } //for m
-						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+hisName[l];
+						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+'*'+hisName[l];
 				} // for k
 				
 				
@@ -1373,7 +1373,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		 for (i=0; i<	familyNames.length;i++) if ( hisName[i] <herName[i]){ sortedFirstNames[i]=hisName[i]+'*'+herName[i]}
 		                                                                 else sortedFirstNames[i]=herName[i]+'*'+hisName[i] ;
 																																		 
-	for (i=0;i<	familyNames.length;i++) console.log('fam='+	familyNames[i]+' his='+hisName[i]+' her='+herName[i]+' min='+	minimumName[i]+'  sorted='+sortedFirstNames[i]);																																			 
+	for (i=0;i<	familyNames.length;i++) console.log('i='+i+'  fam='+	familyNames[i]+' his='+hisName[i]+' her='+herName[i]+' min='+	minimumName[i]+'  sorted='+sortedFirstNames[i]);																																			 
 						 
 	 for (i=1; i<lastSeatNumber+1; i++){
                alreadyAssignedSeatsRosh[i]=' '; 
