@@ -1340,7 +1340,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 	 if (i>190)reportAnError('no $$$ at end of family names'); 
 	 
 	 // set minimum names
-	    i=0;
+	   
 		
 			for(i=0; i< familyNames.length;i++){ 
 			indices=[i]; 
@@ -1349,7 +1349,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		
 	      for (j=i+1; j<familyNames.length;j++)if (familyNames[i] == familyNames[j] )indices.push(j);
 				
-				if(  indices.length ==1 )   continue;  // this fam name appears only once
+				if(  indices.length ==1 ){minimumName[i]=familyNames[i];   continue; } // this fam name appears only once
 				
 				for (k=0; k<indices.length;k++){
 				   l=indices[k];
