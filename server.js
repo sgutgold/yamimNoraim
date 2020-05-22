@@ -1341,15 +1341,15 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 	 // set minimum names
 	    i=0;
 			while (i< familyNames.length){  
-	      minimumName[i]=familyNames[i];               console.log('i='+i+' minimumName[i]='+minimumName[i]);
+	      minimumName[i]=familyNames[i];               console.log('i='+i+' minimumName[i]='+minimumName[i]+' familyNames[i]='+familyNames[i]+' '+familyNames[i] );
 				sameFamName=0;
 	      for (j=i+1; j<familyNames.length;j++){
 				   minimumName[j]=familyNames[j];            console.log('j='+j+' minimumName[j]='+minimumName[j]);
 				   if (familyNames[i] != familyNames[j] )break;
 					 sameFamName++;
 				};
-				if( ! sameFamName) { i++;  continue};
-				
+				if( ! ) { i++;  continue};
+				console.log('sameFamName='+sameFamName);
 				for (k=i; k<j;k++){
 				  if (! hisName[k]){minimumName[k]=minimumName[k]+herName[k]; break}; // no man
 					minNameSet=false;
