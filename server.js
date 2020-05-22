@@ -1252,6 +1252,7 @@ BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 function initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom){
 var i,j,k,l, tmp,tmp1,tmp2,ptrA,ptrB,famParts, fullName, sameFamName,   minNameSet;
 tmp=new Array;
+indices=new Array;
 for(i=1; i<lastSeatNumber+1; i++){
       seatOcuupationLevel[i]=0;    // clear and set array size 
 			namesForSeat[i]='$/';
@@ -1283,7 +1284,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 	       familyNames [i]='';
 				 hisName[i]='';
 				 herName[i]='';
-				 minimumName='';
+				 minimumName[i]='';
 				 };  
 	
 	
@@ -1340,29 +1341,31 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 	 
 	 // set minimum names
 	    i=0;
-			while (i< familyNames.length){  
-	      minimumName[i]=familyNames[i];               console.log('i='+i+' minimumName[i]='+minimumName[i]+' familyNames[i]='+familyNames[i]+' '+familyNames[i] );
-				sameFamName=0;
-	      for (j=i+1; j<familyNames.length;j++){
-				   minimumName[j]=familyNames[j];            console.log('j='+j+' minimumName[j]='+minimumName[j]);
-				   if (familyNames[i] != familyNames[j] )break;
-					 sameFamName++;
-				};
-				if( ! sameFamName ) { i++;  continue};
-				console.log('sameFamName='+sameFamName);
-				for (k=i; k<j;k++){
-				  if (! hisName[k]){minimumName[k]=minimumName[k]+herName[k]; break}; // no man
-					minNameSet=false;
-				  for(l=i; l<j;l++){
-					  if (l !=k) if(hisName[l] == hisName[k])	{ minimumName[k]=minimumName[k]+herName[k]; minNameSet=true; break};
-	           } //for l
-						 if ( ! minNameSet)minimumName[k]=minimumName[k]+hisName[k];
+		
+			for(i=0; i< familyNames.length;i++){ 
+			indices=[i]; 
+			  if(  minimumName[i] ) continue;  // minimum name already set
+	      minimumName[i]=familyNames[i];               console.log('i='+i+' minimumName[i]='+minimumName[i]+' familyNames[i]='+familyNames[i] );
+		
+	      for (j=i+1; j<familyNames.length;j++)if (familyNames[i] == familyNames[j] )indices.push(j);
+				
+				if(  indices.length ==1 )   continue;  // this fam name appears only once
+				
+				for (k=0; k<indices.length;k++){
+				   l=indices[k];
+				  if (! hisName[l]){minimumName[l]=familyNames[i]+herName[l]; continue}; // no man
+					
+				  for(m=0; m<indices.length ;m++){
+					  n=indices[m];
+					  if (l !=n) if(hisName[l] == hisName[n]){minimumName[l]=familyNames[i]+herName[l];	break};
+	           } //for m
+						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+hisName[l];
 				} // for k
 				
 				
-				i=j;
 				
-		} // while i
+				
+		} // for i
 		
 	
 		
