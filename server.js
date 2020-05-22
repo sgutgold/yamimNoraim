@@ -111,18 +111,12 @@ var nodemailer = require('nodemailer');
 //--------------------------------------------------------------------------------	
 	function knownName(str){  
 	var rNmA = new Array(); 
-	/*     debug
+	var rNm,rn,fnm_parts,startingRow,fnm_firstPossibility,fnm_secondPossibilty;
 	
-	if(initDone){
-	strtsrt='';
-	for (qqq=0; qqq<familyNames.length; qqq++)strtsrt=strtsrt+'/'+qqq.toString()+' '+familyNames[qqq];
-	addr='kehilatarielseats@gmail.com';
-	subj='family names';
-	sendMail(addr,subj,strtsrt); 
-	}
-	*/          
+	var strParts;        
 	startingRow=3;
-	//nameParts=str.split(' '); firstNameInRequest=(nameParts.length==2);   
+	
+	strParts=str.split(' ');
 	rNm=-1; 
 	firstNamesString='';
 	for (rn=0; rn<familyNames.length; rn++){
@@ -676,7 +670,13 @@ function  memberInfo(requestor,inputString){
 
 
 //   init variables
-var familyNames= new Array();  
+var familyNames= new Array();
+var sortedFirstNames= new Array();
+var hisName= new Array();
+var herName= new Array();
+sortedFirstNames= new Array();
+minimumName= new Array();	
+  
 var reqMinyan = new Array;
 var txtCodes = new Array;
 var seatToRow = new Array;
@@ -1250,7 +1250,7 @@ BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 }
 //-------------------------------------------------------------
 function initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom){
-var i, tmp,tmp1,tmp2,ptrA,ptrB;
+var i,j,k,l, tmp,tmp1,tmp2,ptrA,ptrB,famParts, fullName, sameFamName,   minNameSet;
 tmp=new Array;
 for(i=1; i<lastSeatNumber+1; i++){
       seatOcuupationLevel[i]=0;    // clear and set array size 
@@ -1279,10 +1279,15 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
  
  
  
-	for(i=0;i<200;i++) familyNames[i]='';  // clear the table
+	for(i=0;i<200;i++){    // clear name tables
+	       familyNames [i]='';
+				 hisName[i]='';
+				 herName[i]='';
+				 minimumName='';
+				 };  
 	
 	
-	 firstName=[];
+	// firstName=[];
 	 	 firstSeatRow=0;
 	 for (i=2;i<200;i++){ 
 	 row=i.toString();
@@ -1295,10 +1300,14 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		if ( ! cell.v )continue;
 		if ( firstSeatRow == 0) firstSeatRow=i;   // first name  row
 		
-	     famName=cell.v; 
-			 if (famName == '$$$'){ lastSeatRow=i-1; break;}
-			 famParts= famName.split(' ');
-			 famName=famParts.join(' '); // remove un necessary blanks
+	     fullName=cell.v; 
+			 if (fullName == '$$$'){ lastSeatRow=i-1; break;}
+			 famParts= fullName.split('*');
+			 cell.v=famParts.join('*'); // remove un necessary blanks
+			 familyNames [i-firstSeatRow]=famParts[0];
+				 hisName[i-firstSeatRow]=famParts[1];
+				 herName[i-firstSeatRow]=famParts[2];
+				 /*
 			 if (famName.substr(famName.length-1,1)=='*') {
 			     famName=famName.substr(0,famName.length-1);
 					 theFirstName=famParts[famParts.length-1];
@@ -1308,7 +1317,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 					 else firstName[i-firstSeatRow]='';
 					 
 	     familyNames[i-firstSeatRow]= famName; 
-		
+		   */
 			 forgetList[i]='';
 			  
 		   mRosh=Number(requestedSeatsWorksheet[amudot.menRosh +row].v);
@@ -1317,8 +1326,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 				 wKipur=Number(requestedSeatsWorksheet[amudot.womenKipur +row].v); 
 				
 				 if ( (mRosh + wRosh + mKipur + wKipur) == 0) continue; // member did not input a request
-		//		continue;
-  // updateRowForNewSelection(row);     // delete after ok
+	
 				 closeSeats(1,i);
 				closeSeats(2,i);  
 						 
@@ -1327,10 +1335,43 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		
 		familyNames.length=i-firstSeatRow;
 		
+	
 	 if (i>190)reportAnError('no $$$ at end of family names'); 
 	 
-	 
-	 
+	 // set minimum names
+	    i=0;
+			while (i< familyNames.length){
+	      minimumName[i]=familyNames[i];
+				sameFamName=0;
+	      for (j=i+1; j<familyNames.length;j++){
+				   minimumName[j]=familyNames[j];
+				   if (familyNames[i] != familyNames[j] )break;
+					 sameFamName++;
+				};
+				if( ! sameFamName) { i++;  continue};
+				
+				for (k=i; k<j;k++){
+				  if (! hisName[k]){minimumName[k]=minimumName[k]+herName[k]; break}; // no man
+					minNameSet=false;
+				  for(l=i; l<j;l++){
+					  if (l !=k) if(hisName[l] == hisName[k])	{ minimumName[k]=minimumName[k]+herName[k]; minNameSet=true; break};
+	           } //for l
+						 if ( ! minNameSet)minimumName[k]=minimumName[k]+hisName[k];
+				} // for k
+				
+				
+				i=j;
+				
+		} // while i
+		
+	
+		
+		// set sortedFirstNames
+		 for (i=0; i<	familyNames.length;i++) if hisName[i] <herName[i]{ sortedFirstNames[i]=hisName[i]+'*'+herName[i]}
+		                                                                 else sortedFirstNames[i]=herName[i]+'*'+hisrName[i]} ;
+																																		 
+	for (i=0;i<	familyNames.length;i++) console.log('fam='+	familyNames[i];+' his='+hisName[i]+' her='+herName[i]+' min='+	minimumName[i]+'  sorted='+sortedFirstNames[i]);																																			 
+						 
 	 for (i=1; i<lastSeatNumber+1; i++){
                alreadyAssignedSeatsRosh[i]=' '; 
                alreadyAssignedSeatsKipur[i]=' '; 
