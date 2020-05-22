@@ -1348,7 +1348,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 				   if (familyNames[i] != familyNames[j] )break;
 					 sameFamName++;
 				};
-				if( ! ) { i++;  continue};
+				if( ! sameFamName ) { i++;  continue};
 				console.log('sameFamName='+sameFamName);
 				for (k=i; k<j;k++){
 				  if (! hisName[k]){minimumName[k]=minimumName[k]+herName[k]; break}; // no man
