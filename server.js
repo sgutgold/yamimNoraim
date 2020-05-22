@@ -720,7 +720,7 @@ var firstName = new Array;
 
 var assignedPerUlam=[[[0,0],[0,0]],[[0,0],[0,0]]];  //[ulam][moed][gvarim-nashim]
 
-var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',permanentSeats:'E',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',
+var amudot ={name:'B',registrationClosedDateNTime:'C',requestDate:'D',permanentSeats:'E',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',
               menRosh:'J',menKipur:'K',womenRosh:'L',womenKipur:'M',preferedMinyanW:'N',
               preferedExplanationW:'O',preferedMinyanM:'P',preferedExplanationM:'Q',cmnts:'R',
 							markedSeats:'S',numberMarkedMen:'T',numberMarkedWomen:'U',notAssignedMarkedSeatsRosh:'V',
