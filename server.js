@@ -2558,12 +2558,14 @@ for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set a
 	 
 	 });
 
-//---------------------------------------------------------------------------------	 firstSeatRow
+//---------------------------------------------------------------------------------	 
 // send tashlum info to gizbar
 
  
   app.get('/tashlumim', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
+	
+	
 	inputString=decodeURI(req.originalUrl); 
 	
 	if (inputString.substr(12)==gizbarPASSW){
@@ -2578,8 +2580,10 @@ for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set a
 	   if(! cell) continue;
 		 nameInCell=delLeadingBlnks(cell.v);
 		 if ( ! nameInCell)continue;
-		// if(nameInCell.substr(nameInCell.length-1)=='*')nameInCell=nameInCell.substr(0,nameInCell.length-1);
-		 listOfPayments=listOfPayments+'$'+minimumName[i-firstSeatRow];
+		// if(nameInCell.substr(nameInCell.length-1)=='*')nameInCell=nameInCell.substr(0,nameInCell.length-1);	
+			if ( hisName[i-firstSeatRow]  && herName[i-firstSeatRow] ){bothNames=hisName[i-firstSeatRow]+' '+
+			         hebrewLetters.vav+herName[i-firstSeatRow]; } else bothNames=hisName[i-firstSeatRow]+herName[i-firstSeatRow];								
+		 listOfPayments=listOfPayments+'$'+familyNames[i-firstSeatRow]+' '+bothNames;
 		  pointerCell=amudot.tashlum+(i).toString(); 
 		 cell=requestedSeatsWorksheet[pointerCell];
      listOfPayments=listOfPayments+'+'+cell.v;	
