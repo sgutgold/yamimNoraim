@@ -853,9 +853,10 @@ var amudotForStsfctn=[	amudot.stsfctnInFlrThisYrWmn,amudot.stsfctnInFlrThisYrMen
 							          amudot.stsfctnInFlr2YRSAgoYrWmn,amudot.stsfctnInFlr2YRSAgoYrMen,amudot.TwoYRSAgoSeat,
 												amudot.stsfctnInFlr3YRSAgoYrWmn,amudot.stsfctnInFlr3YRSAgoYrMen,amudot.ThreeYRSAgoSeat];	
 												
-var hebrewLetters={alef:0, bet:0, gimel:0, dalet:0, hei:0, vav:0, zain:0, chet:0, tet:0, yod:0, khaf_sofit:0,khaf:0,
-        lamed:0, mem_sofit:0, mem:0,nun_sofit:0, nun:0, samech:0, ayin:0, pe_sofit:0, pe:0, tzadi_ sofit:0, tzadi:0,
-				kuf:0, reish:0, shin:0, taf:0};																		
+var hebrewLetters={};
+/*alef:0, bet:0, gimel:0, dalet:0, hei:0, vav:0, zain:0, chet:0, tet:0, yod:0, khaf_sofit:0,khaf:0,
+        lamed:0, mem_sofit:0, mem:0,nun_sofit:0, nun:0, samech:0, ayin:0, pe_sofit:0, pe:0, tzadi_sofit:0, tzadi:0,
+				kuf:0, reish:0, shin:0, taf:0};				*/														
 		
 var seatOcuupationLevel = new Array;			
 var requestedSeatsWorksheet ;
