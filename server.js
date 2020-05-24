@@ -160,7 +160,7 @@ var nodemailer = require('nodemailer');
 								 nameB=firstNamesArray.join(' '); 
 								    if (nameB.substr(0,1) == 'å') nameB=nameN.substr(1);  
 								  if (nameB <nameA){ tmp=nameA; nameA=nameB; nameB=tmp};
-		                         console.log('nameA='+nameA+' nameB="+'nameB));
+		                         console.log('nameA='+nameA+' nameB='+ nameB));
 						  		bothNames=	sortedFirstNames[nextIdx].split('*');
 									cond1= ( (nameA) && (nameA != bothNames[0]) );  // if specified it has to be equal to the one in the DB
 									cond2= ( (nameB) && (nameB != bothNames[1]) );
