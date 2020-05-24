@@ -112,12 +112,71 @@ var nodemailer = require('nodemailer');
 	function knownName(str){  
 	var rNmA = new Array(); 
 	var rNm,rn,fnm_parts,startingRow,fnm_firstPossibility,fnm_secondPossibilty;
-	
+	var tempFamName,tmp;
 	var strParts;        
 	startingRow=3;
-	
+	var strOriginalLength,indices, nuberOfPops,tempFamName,firstIdx,i,j,nextIdx,confirmedIndices;
+	var firstNamesArray, nameA, nameB,bothNames;
+
 	strParts=str.split(' ');
-	rNm=-1; 
+	strOriginalLength=strParts.length;
+	
+	
+	indices=[];
+	nuberOfPops=-1;
+	while (strParts.length){
+	    nuberOfPops++;
+    	tempFamName=strParts.join(' ');
+			firstIdx=familyNames.indexOf( tempFamName );
+			if (firstIdx  == -1){ // this combination not found
+			     strParts.pop();  // remove the last part of the name in case it is a first name
+					 continue;  // try a shorter name
+					 }  // if
+			// family name found. now look for all possible families with the same family name
+			 i=0;  // start looking for this name from the first family name
+			 indices.push([firstIdx,nuberOfPops]);   console.log('firstIdx='+firstIdx+' nuberOfPops='+nuberOfPops); 
+			 nextIdx=familyNames.indexOf( tempFamName,firstIdx);
+			 while (nextIdx  != -1 ){
+			    indices.push([nextIdx,nuberOfPops]);  console.log('nextIdx='+nextIdx+' nuberOfPops='+nuberOfPops); 
+					nextIdx=familyNames.indexOf( tempFamName,nextIdx);	
+					}  // while nextIdx
+					
+			 strParts.pop();  // remove the last part of the name in case it is a first name		
+			 
+			 }   // while strparts.length
+			 
+			 // now we have all indices of possible last name
+			 confirmedIndices=[];
+			 //  next step == prone all indices that have different first name(s)
+			  for (i=0; i<indices.length; i++){
+				     nextIdx=indices[i][0];
+						 nuberOfPops=indices[i][1];  // length (in tokens) of firstnames
+						 strParts=str.split(' ');
+						 firstNamesArray=strParts.splice(strOriginalLength-nuberOfPops,nuberOfPops);
+						 
+						 // try all variations of how to generate two (or one) first names
+						 for (j=0; j<firstNamesArray.length;j++){
+						     nameA=firstNamesArray.splice(0,j).join(' ');
+								 nameB=firstNamesArray.join(' '); 
+								    if nameB.substr(0,1) == 'å') nameB=nameN.substr(1);  
+								  if (nameA <nameB){ bothNames=nameA+'*'+nameB}
+		                      else bothNames=nameB+'*'+nameA ;    console.log('bothNames='+bothNames);
+									if (bothNames == sortedFirstNames[nextIdx]) {		confirmedIndices.push(nextIdx); break;};
+									strParts=str.split(' ');   // restore firstNamesArray
+						      firstNamesArray=strParts.splice(strOriginalLength-nuberOfPops,nuberOfPops);
+							} // for j
+					} // for i
+											
+				  
+			if ( confirmedIndices.length != 1) { rNmA[0] = -1}else rNmA[0]=confirmedIndices[0]+startingRow;
+			rNmA[1]=''; for (i=0; i<confirmedIndices.length;i++)rNmA[1]=rNmA[1]+'$'+sortedFirstNames[confirmedIndices[i]];
+			
+			console.log('rNmA='+rNmA);
+		return rNmA;
+		
+		/*
+			
+						   
 	firstNamesString='';
 	for (rn=0; rn<familyNames.length; rn++){
 	     fnm_firstPossibility=delLeadingBlnks(familyNames[rn]);
@@ -137,7 +196,10 @@ var nodemailer = require('nodemailer');
 	if(rNm!=-1)rNm=rNm+startingRow;
 	rNmA[0]=rNm;   rNmA[1]=firstNamesString;
 	return rNmA;
+		*/
+	
 	};
+
 //--------------------------------------------------------------------------------
 	
  function handleInput(inPairs){  
@@ -1373,7 +1435,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		 for (i=0; i<	familyNames.length;i++) if ( hisName[i] <herName[i]){ sortedFirstNames[i]=hisName[i]+'*'+herName[i]}
 		                                                                 else sortedFirstNames[i]=herName[i]+'*'+hisName[i] ;
 																																		 
-	for (i=0;i<	familyNames.length;i++) console.log('i='+i+'  fam='+	familyNames[i]+' his='+hisName[i]+' her='+herName[i]+' min='+	minimumName[i]+'  sorted='+sortedFirstNames[i]);																																			 
+	// for (i=0;i<	familyNames.length;i++) console.log('i='+i+'  fam='+	familyNames[i]+' his='+hisName[i]+' her='+herName[i]+' min='+	minimumName[i]+'  sorted='+sortedFirstNames[i]);																																			 
 						 
 	 for (i=1; i<lastSeatNumber+1; i++){
                alreadyAssignedSeatsRosh[i]=' '; 
