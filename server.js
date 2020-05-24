@@ -1331,7 +1331,7 @@ BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 
 // upload hebrew letters
 HebrewLettersSheet=supportWB.Sheets['hebrewletters'];   
-for (i=1, i<28;i++){
+for (i=1; i<28;i++){
   row=i.toString();
 	tmp1=HebrewLettersSheet['A'+row).v;
 	tmp2=HebrewLettersSheet['B'+row).v;
