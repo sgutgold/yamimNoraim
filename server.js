@@ -126,7 +126,7 @@ var nodemailer = require('nodemailer');
 	nuberOfPops=-1;
 	while (strParts.length){
 	    nuberOfPops++;
-    	tempFamName=strParts.join(' ');
+    	tempFamName=strParts.join(' ');  console.log('tempFamName='+tempFamName);
 			firstIdx=familyNames.indexOf( tempFamName );
 			if (firstIdx  == -1){ // this combination not found
 			     strParts.pop();  // remove the last part of the name in case it is a first name
@@ -138,7 +138,7 @@ var nodemailer = require('nodemailer');
 			 nextIdx=familyNames.indexOf( tempFamName,firstIdx);
 			 while (nextIdx  != -1 ){
 			    indices.push([nextIdx,nuberOfPops]);  console.log('nextIdx='+nextIdx+' nuberOfPops='+nuberOfPops); 
-					nextIdx=familyNames.indexOf( tempFamName,nextIdx);	
+					nextIdx=familyNames.indexOf( tempFamName,nextIdx+1);	
 					}  // while nextIdx
 					
 			 strParts.pop();  // remove the last part of the name in case it is a first name		
