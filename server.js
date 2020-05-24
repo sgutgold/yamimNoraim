@@ -112,7 +112,7 @@ var nodemailer = require('nodemailer');
 	function knownName(str){  
 	var rNmA = new Array(); 
 	var rNm,rn,fnm_parts,startingRow,fnm_firstPossibility,fnm_secondPossibilty;
-	var tempFamName,tmp;
+	var tempFamName,tmp,idx;
 	var strParts;        
 	for (i=0; i<familyNames.length;i++)console.log('i='+i+' familyNames[i]='+familyNames[i]+'/');
 	var strOriginalLength,indices, nuberOfPops,tempFamName,firstIdx,i,j,nextIdx,confirmedIndices;
@@ -177,10 +177,12 @@ var nodemailer = require('nodemailer');
 			if ( confirmedIndices.length != 1) { rNmA[0] = -1}else rNmA[0]=confirmedIndices[0]+firstSeatRow;
 			rNmA[1]=''; 
 			for (i=0; i<confirmedIndices.length;i++){
-			    nameA=sortedFirstNames[confirmedIndices[i][0];
-					nameB=sortedFirstNames[confirmedIndices[i][1];
+			    tmp=sortedFirstNames[confirmedIndices[i]].split('*');
+			    nameA=tmp[0];
+					nameB=tmp[1];
 					if ( nameA  && nameB ){bothNames=nameA+' å'+nameB; }else {bothNames=nameA+nameB;
 			    rNmA[1]=rNmA[1]+'$'+bothNames;
+			} // for i		
 			
 			console.log('rNmA='+rNmA);
 		return rNmA;
