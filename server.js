@@ -121,7 +121,6 @@ var nodemailer = require('nodemailer');
 	strParts=str.split(' ');
 	strOriginalLength=strParts.length;
 	
-	for (i=0;i<familyNames.length;i++)console.log('i='+i+' familyNames[i]='+familyNames[i]);
 	indices=[];
 	nuberOfPops=-1;
 	while (strParts.length){
@@ -154,6 +153,9 @@ var nodemailer = require('nodemailer');
 						 strParts=str.split(' ');
 						 firstNamesArray=strParts.splice(strOriginalLength-nuberOfPops,nuberOfPops);
 						 
+						 console.log('firstNamesArray='+firstNamesArray);
+						 
+						 if ( ! firstNamesArray.length){ confirmedIndices.push(nextIdx); continue};
 						 // try all variations of how to generate two (or one) first names
 						 for (j=0; j<firstNamesArray.length;j++){
 						     nameA=firstNamesArray.splice(0,j).join(' ');
