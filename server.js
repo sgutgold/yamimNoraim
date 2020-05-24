@@ -160,7 +160,7 @@ var nodemailer = require('nodemailer');
 						 for (j=0; j<firstNamesArray.length;j++){
 						     nameA=firstNamesArray.splice(0,j).join(' ');
 								 nameB=firstNamesArray.join(' '); 
-								    if (nameB.substr(0,1) == 'å') nameB=nameB.substr(1);  
+								    if (nameB.substr(0,1) == hebrewLetters.vav) nameB=nameB.substr(1);  
 								  if (nameB <nameA){ tmp=nameA; nameA=nameB; nameB=tmp};
 		                         console.log('nameA='+nameA+' nameB='+ nameB);
 						  		bothNames=	sortedFirstNames[nextIdx].split('*');
@@ -180,7 +180,7 @@ var nodemailer = require('nodemailer');
 			    tmp=sortedFirstNames[confirmedIndices[i]].split('*');
 			    nameA=tmp[0];
 					nameB=tmp[1];
-					if ( nameA  && nameB ){bothNames=nameA+' å'+nameB; } else bothNames=nameA+nameB;
+					if ( nameA  && nameB ){bothNames=nameA+' '+hebrewLetters.vav+nameB; } else bothNames=nameA+nameB;
 			    rNmA[1]=rNmA[1]+'$'+bothNames;
 			} // for i		
 			
@@ -214,6 +214,8 @@ var nodemailer = require('nodemailer');
 	};
 
 //--------------------------------------------------------------------------------
+
+
 	
  function handleInput(inPairs){  
  
@@ -849,7 +851,11 @@ var amudotOfConfig={fromSeat:'A', toSeat:"B",reltvRowQual:'C',open_badSeats:'D',
 var amudotForStsfctn=[	amudot.stsfctnInFlrThisYrWmn,amudot.stsfctnInFlrThisYrMen,amudot.ThisYRSSeat,
 							          amudot.stsfctnInFlrLastYrWmn,amudot.stsfctnInFlrLastYrMen,amudot.lstYrSeat,
 							          amudot.stsfctnInFlr2YRSAgoYrWmn,amudot.stsfctnInFlr2YRSAgoYrMen,amudot.TwoYRSAgoSeat,
-												amudot.stsfctnInFlr3YRSAgoYrWmn,amudot.stsfctnInFlr3YRSAgoYrMen,amudot.ThreeYRSAgoSeat];							
+												amudot.stsfctnInFlr3YRSAgoYrWmn,amudot.stsfctnInFlr3YRSAgoYrMen,amudot.ThreeYRSAgoSeat];	
+												
+var hebrewLetters={alef:0, bet:0, gimel:0, dalet:0, hei:0, vav:0, zain:0, chet:0, tet:0, yod:0, khaf_sofit:0,khaf:0,
+        lamed:0, mem_sofit:0, mem:0,nun_sofit:0, nun:0, samech:0, ayin:0, pe_sofit:0, pe:0, tzadi_ sofit:0, tzadi:0,
+				kuf:0, reish:0, shin:0, taf:0};																		
 		
 var seatOcuupationLevel = new Array;			
 var requestedSeatsWorksheet ;
@@ -1322,7 +1328,17 @@ numberOfRequestedSeatsWeight=Number(sortWeightsSheet[sortWeightsPtr.numberOfRequ
 requestedSeatsPerFamilySizeWeight=Number(sortWeightsSheet[sortWeightsPtr.requestedSeatsPerFamilySize].v);
 BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 
-
+// upload hebrew letters
+HebrewLettersSheet=supportWB.Sheets['hebrewletters'];   
+for (i=1, i<28;i++){
+  row=i.toString();
+	tmp1=HebrewLettersSheet['A'+row).v;
+	tmp2=HebrewLettersSheet['B'+row).v;
+  hebrewLetters[temp1]=temp2;
+	console.log(temp1+'   '+hebrewLetters[temp1]);
+	}
+	console.log(hebrewLetters);
+	
 }
 //-------------------------------------------------------------
 function initValuesOutOfHtmlRequestsXLSX_file(yearToInitFrom){
