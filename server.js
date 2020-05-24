@@ -114,7 +114,7 @@ var nodemailer = require('nodemailer');
 	var rNm,rn,fnm_parts,startingRow,fnm_firstPossibility,fnm_secondPossibilty;
 	var tempFamName,tmp;
 	var strParts;        
-	startingRow=3;
+	for (i=0; i<familyNames.length;i++)console.log('i='+i+' familyNames[i]='+familyNames[i]+'/');
 	var strOriginalLength,indices, nuberOfPops,tempFamName,firstIdx,i,j,nextIdx,confirmedIndices;
 	var firstNamesArray, nameA, nameB,bothNames;
 
@@ -174,8 +174,13 @@ var nodemailer = require('nodemailer');
 					} // for i
 											
 				  
-			if ( confirmedIndices.length != 1) { rNmA[0] = -1}else rNmA[0]=confirmedIndices[0]+startingRow;
-			rNmA[1]=''; for (i=0; i<confirmedIndices.length;i++)rNmA[1]=rNmA[1]+'$'+sortedFirstNames[confirmedIndices[i]];
+			if ( confirmedIndices.length != 1) { rNmA[0] = -1}else rNmA[0]=confirmedIndices[0]+firstSeatRow;
+			rNmA[1]=''; 
+			for (i=0; i<confirmedIndices.length;i++){
+			    nameA=sortedFirstNames[confirmedIndices[i][0];
+					nameB=sortedFirstNames[confirmedIndices[i][1];
+					if ( nameA  && nameB ){bothNames=nameA+' å'+nameB; }else {bothNames=nameA+nameB;
+			    rNmA[1]=rNmA[1]+'$'+bothNames;
 			
 			console.log('rNmA='+rNmA);
 		return rNmA;
@@ -750,6 +755,7 @@ var txtCodes = new Array;
 var seatToRow = new Array;
 var isWoman =new Array;
 var startingRow;
+var firstSeatRow;
 var errorNumber;
 var seats = new Array;
 var incompatibilty;
