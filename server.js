@@ -1336,8 +1336,8 @@ for (i=1; i<28;i++){
 	tmp1=HebrewLettersSheet['A'+row].v;  console.log('A'+row);
 	tmp2=HebrewLettersSheet['B'+row].v;  
 	console.log('tmp1='+tmp1+'/ tmp2='+tmp2+'/');
-  hebrewLetters[temp2]=temp1;
-	console.log(temp1+'   '+hebrewLetters[temp1]);
+  hebrewLetters[tmp2]=tmp1;
+	console.log(tmp2+'   '+hebrewLetters[tmp2]);
 	}
 	console.log(hebrewLetters);
 	
