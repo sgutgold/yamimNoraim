@@ -135,7 +135,7 @@ var nodemailer = require('nodemailer');
 			// family name found. now look for all possible families with the same family name
 			 i=0;  // start looking for this name from the first family name
 			 indices.push([firstIdx,nuberOfPops]);   console.log('firstIdx='+firstIdx+' nuberOfPops='+nuberOfPops); 
-			 nextIdx=familyNames.indexOf( tempFamName,firstIdx);
+			 nextIdx=familyNames.indexOf( tempFamName,firstIdx+1);
 			 while (nextIdx  != -1 ){
 			    indices.push([nextIdx,nuberOfPops]);  console.log('nextIdx='+nextIdx+' nuberOfPops='+nuberOfPops); 
 					nextIdx=familyNames.indexOf( tempFamName,nextIdx+1);	
@@ -159,9 +159,13 @@ var nodemailer = require('nodemailer');
 						     nameA=firstNamesArray.splice(0,j).join(' ');
 								 nameB=firstNamesArray.join(' '); 
 								    if (nameB.substr(0,1) == 'å') nameB=nameN.substr(1);  
-								  if (nameA <nameB){ bothNames=nameA+'*'+nameB}
-		                      else bothNames=nameB+'*'+nameA ;    console.log('bothNames='+bothNames);
-									if (bothNames == sortedFirstNames[nextIdx]) {		confirmedIndices.push(nextIdx); break;};
+								  if (nameB <nameA){ tmp=nameA; nameA=nameB; nameB=tmp};
+		                         console.log('nameA='+nameA=' nameB="+'nameB));
+						  		bothNames=	sortedFirstNames[nextIdx].split('*');
+									cond1= ( (nameA) && (nameA != bothNames[0]) );  // if specified it has to be equal to the one in the DB
+									cond2= ( (nameB) && (nameB != bothNames[1]) );
+													 
+									if ( (! cond1) && ( ! cond2) ) {		confirmedIndices.push(nextIdx); break;};
 									strParts=str.split(' ');   // restore firstNamesArray
 						      firstNamesArray=strParts.splice(strOriginalLength-nuberOfPops,nuberOfPops);
 							} // for j
