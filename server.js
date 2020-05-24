@@ -1333,9 +1333,10 @@ BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 HebrewLettersSheet=supportWB.Sheets['hebrewletters'];   
 for (i=1; i<28;i++){
   row=i.toString();
-	tmp1=HebrewLettersSheet['A'+row].v;
-	tmp2=HebrewLettersSheet['B'+row].v;
-  hebrewLetters[temp1]=temp2;
+	tmp1=HebrewLettersSheet['A'+row].v;  console.log('A'+row);
+	tmp2=HebrewLettersSheet['B'+row].v;  
+	console.log('tmp1='+tmp1+'/ tmp2='+tmp2+'/');
+  hebrewLetters[temp2]=temp1;
 	console.log(temp1+'   '+hebrewLetters[temp1]);
 	}
 	console.log(hebrewLetters);
