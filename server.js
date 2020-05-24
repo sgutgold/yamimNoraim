@@ -121,7 +121,7 @@ var nodemailer = require('nodemailer');
 	strParts=str.split(' ');
 	strOriginalLength=strParts.length;
 	
-	
+	for (i=0;i<familyNames.length;i++)console.log('i='+i+' familyNames[i]='+familyNames[i]);
 	indices=[];
 	nuberOfPops=-1;
 	while (strParts.length){
