@@ -2603,7 +2603,8 @@ app.get('/UPDtashlumim', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	inputString=decodeURI(req.originalUrl);  
 	
-	inputPairs=inputString.split('$'); 
+	
+	inputPairs=inputString.split('$'); console.log('inputPairs='+inputPairs);
 	if (inputPairs[1] != gizbarPASSW){ res.send('999')}
 	
 	else{
