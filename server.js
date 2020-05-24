@@ -2601,6 +2601,7 @@ for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set a
 
 app.get('/UPDtashlumim', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
+	
 	inputString=decodeURI(req.originalUrl);  
 	
 	
