@@ -160,7 +160,7 @@ var nodemailer = require('nodemailer');
 						 for (j=0; j<firstNamesArray.length;j++){
 						     nameA=firstNamesArray.splice(0,j).join(' ');
 								 nameB=firstNamesArray.join(' '); 
-								    if (nameB.substr(0,1) == 'å') nameB=nameN.substr(1);  
+								    if (nameB.substr(0,1) == 'å') nameB=nameB.substr(1);  
 								  if (nameB <nameA){ tmp=nameA; nameA=nameB; nameB=tmp};
 		                         console.log('nameA='+nameA+' nameB='+ nameB);
 						  		bothNames=	sortedFirstNames[nextIdx].split('*');
@@ -180,7 +180,7 @@ var nodemailer = require('nodemailer');
 			    tmp=sortedFirstNames[confirmedIndices[i]].split('*');
 			    nameA=tmp[0];
 					nameB=tmp[1];
-					if ( nameA  && nameB ){bothNames=nameA+' å'+nameB; }else {bothNames=nameA+nameB;
+					if ( nameA  && nameB ){bothNames=nameA+' å'+nameB; } else bothNames=nameA+nameB;
 			    rNmA[1]=rNmA[1]+'$'+bothNames;
 			} // for i		
 			
