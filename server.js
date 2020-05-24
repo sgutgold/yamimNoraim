@@ -114,7 +114,7 @@ var nodemailer = require('nodemailer');
 	var rNm,rn,fnm_parts,startingRow,fnm_firstPossibility,fnm_secondPossibilty;
 	var tempFamName,tmp,idx;
 	var strParts;        
-	for (i=0; i<familyNames.length;i++)console.log('i='+i+' familyNames[i]='+familyNames[i]+'/');
+	//                   for (i=0; i<familyNames.length;i++)console.log('i='+i+' familyNames[i]='+familyNames[i]+'/');
 	var strOriginalLength,indices, nuberOfPops,tempFamName,firstIdx,i,j,nextIdx,confirmedIndices;
 	var firstNamesArray, nameA, nameB,bothNames;
 
@@ -164,8 +164,8 @@ var nodemailer = require('nodemailer');
 								  if (nameB <nameA){ tmp=nameA; nameA=nameB; nameB=tmp};
 		                         console.log('nameA='+nameA+' nameB='+ nameB);
 						  		bothNames=	sortedFirstNames[nextIdx].split('*');
-									cond1= ( (nameA) && (nameA != bothNames[0]) );  // if specified it has to be equal to the one in the DB
-									cond2= ( (nameB) && (nameB != bothNames[1]) );
+									cond1= ( (nameA) && (nameA != bothNames[0]) && (nameA != bothNames[1]) );  // if specified it has to be equal to the one in the DB
+									cond2= ( (nameB) && (nameB != bothNames[0]) && (nameB != bothNames[1]) );
 													 
 									if ( (! cond1) && ( ! cond2) ) {		confirmedIndices.push(nextIdx); break;};
 									strParts=str.split(' ');   // restore firstNamesArray
@@ -187,30 +187,7 @@ var nodemailer = require('nodemailer');
 			console.log('rNmA='+rNmA);
 		return rNmA;
 		
-		/*
-			
-						   
-	firstNamesString='';
-	for (rn=0; rn<familyNames.length; rn++){
-	     fnm_firstPossibility=delLeadingBlnks(familyNames[rn]);
-	     fnm_parts=fnm_firstPossibility.split(' ');
-	     
-			 fnm_secondPossibilty=fnm_firstPossibility;
-			 if (firstName[rn]){
-			                     fnm_parts.pop();
-													 fnm_secondPossibilty=fnm_parts.join(' ');
-													 }
-											
-	   if (str == fnm_firstPossibility) { rNm=rn; break };
-		 if (str == fnm_secondPossibilty) { firstNamesString=firstNamesString+	'$' +firstName[rn];	 };
-	
-			};
 		
-	if(rNm!=-1)rNm=rNm+startingRow;
-	rNmA[0]=rNm;   rNmA[1]=firstNamesString;
-	return rNmA;
-		*/
-	
 	};
 
 //--------------------------------------------------------------------------------
@@ -1333,13 +1310,13 @@ BabyWeight=Number(sortWeightsSheet[sortWeightsPtr.Baby].v);
 HebrewLettersSheet=supportWB.Sheets['hebrewletters'];   
 for (i=1; i<28;i++){
   row=i.toString();
-	tmp1=HebrewLettersSheet['A'+row].v;  console.log('A'+row);
+	tmp1=HebrewLettersSheet['A'+row].v; 
 	tmp2=HebrewLettersSheet['B'+row].v;  
-	console.log('tmp1='+tmp1+'/ tmp2='+tmp2+'/');
+	
   hebrewLetters[tmp2]=tmp1;
-	console.log(tmp2+'   '+hebrewLetters[tmp2]);
+	
 	}
-	console.log(hebrewLetters);
+	//console.log(hebrewLetters);
 	
 }
 //-------------------------------------------------------------
@@ -1447,13 +1424,13 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 				
 				for (k=0; k<indices.length;k++){
 				   l=indices[k];
-				  if (! hisName[l]){minimumName[l]=familyNames[i]+'*'+herName[l]; continue}; // no man
+				  if (! hisName[l]){minimumName[l]=familyNames[i]+' '+herName[l]; continue}; // no man
 					
 				  for(m=0; m<indices.length ;m++){
 					  n=indices[m];
-					  if (l !=n) if(hisName[l] == hisName[n]){minimumName[l]=familyNames[i]+'*'+herName[l];	break};
+					  if (l !=n) if(hisName[l] == hisName[n]){minimumName[l]=familyNames[i]+' '+herName[l];	break};
 	           } //for m
-						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+'*'+hisName[l];
+						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+' '+hisName[l];
 				} // for k
 				
 				
@@ -2581,7 +2558,7 @@ for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set a
 	 
 	 });
 
-//---------------------------------------------------------------------------------	 
+//---------------------------------------------------------------------------------	 firstSeatRow
 // send tashlum info to gizbar
 
  
@@ -2601,8 +2578,8 @@ for(i=1; i<lastSeatNumber+1; i++)seatOcuupationLevel[i]=0;    // clear and set a
 	   if(! cell) continue;
 		 nameInCell=delLeadingBlnks(cell.v);
 		 if ( ! nameInCell)continue;
-		 if(nameInCell.substr(nameInCell.length-1)=='*')nameInCell=nameInCell.substr(0,nameInCell.length-1);
-		 listOfPayments=listOfPayments+'$'+nameInCell;
+		// if(nameInCell.substr(nameInCell.length-1)=='*')nameInCell=nameInCell.substr(0,nameInCell.length-1);
+		 listOfPayments=listOfPayments+'$'+minimumName[i-firstSeatRow];
 		  pointerCell=amudot.tashlum+(i).toString(); 
 		 cell=requestedSeatsWorksheet[pointerCell];
      listOfPayments=listOfPayments+'+'+cell.v;	
