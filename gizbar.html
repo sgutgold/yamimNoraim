@@ -382,11 +382,12 @@ function 	ckPassW_cont(rspnsString){
 												
 	                      }
 	}
-// -----------------------------------------------------------------------------------------updateIdx updateIdx=Math.min(updateIdx+50
-	
-function updateTashlumim_start(){ // divide msg to parts so http get can hanle the size
+// -----------------------------------------------------------------------------------------
+batchSize=50;
 startIdx=0;
-endIdx=50; 
+endIdx=batchSize; 
+function updateTashlumim_start(){ // divide msg to parts so http get can hanle the size
+
  updateTashlumim();
  }
  
@@ -418,7 +419,7 @@ function updateTashlumim_cont(rspns){
 							if (endIdx == numberOfMembers){Alert('נתונים עודכנו'); return;}
 								   
 				      startIdx=endIdx;
-					    endIdx=Math.min(numberOfMembers,endIdx+50);
+					    endIdx=Math.min(numberOfMembers,endIdx+batchSize);
 					 	  updateTashlumim();
 											
               
