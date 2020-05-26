@@ -2201,7 +2201,9 @@ function generate_registeredList_XLS(){
 	 for(ijk=0;ijk<familyNames.length;ijk++)console.log('ijk='+ijk+' familyNames[ijk]='+familyNames[ijk]+' hisName[ijk='+hisName[ijk]+' herName[ijk='+herName[ijk]); 
 	 for(ijk=0;ijk<familyNames.length;ijk++)
 	       if ( hisName[ijk]  && herName[ijk] ){nameslist[ijk]=familyNames[ijk]+' '+hisName[ijk]+' '+hebrewLetters.vav+herName[ijk] } else nameslist[ijk]=familyNames[ijk]+' '+hisName[ijk]+herName[ijk];
+	  for(ijk=0;ijk<familyNames.length;ijk++)console.log('ijk='+ijk+' nameslist[ijk]='+nameslist[ijk]);
 	 nameslist.sort();
+	 for(ijk=0;ijk<familyNames.length;ijk++)console.log('aftr sort ijk='+ijk+' nameslist[ijk]='+nameslist[ijk]);
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
 		 name=nameslist[ik];
@@ -2836,8 +2838,8 @@ app.get('/getFullList', function(req, res) {
 	ijl=0;
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
-	   
-		 name = simplifyName(familyNames[ijk]);      /* .split('*');	
+	   combinedName=familyNames[ijk]+'*'+hisName+'*'+herName;
+		 name = simplifyName(combinedName);      /* .split('*');	
 		 if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
 		 name=name[0]+' '+tmp;
 		 */
@@ -2872,7 +2874,7 @@ app.get('/getFullList', function(req, res) {
 		
 		 
 			
-	    tmplist[ijl]=name;
+	    tmplist[ijl]=combinedName;
 			ijl++;
 
    };
