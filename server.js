@@ -125,7 +125,7 @@ var nodemailer = require('nodemailer');
 	nuberOfPops=-1;
 	while (strParts.length){
 	    nuberOfPops++;
-    	tempFamName=strParts.join(' ');  console.log('tempFamName='+tempFamName);
+    	tempFamName=strParts.join(' '); //console.log('tempFamName='+tempFamName);
 			firstIdx=familyNames.indexOf( tempFamName );
 			if (firstIdx  == -1){ // this combination not found
 			     strParts.pop();  // remove the last part of the name in case it is a first name
@@ -133,10 +133,10 @@ var nodemailer = require('nodemailer');
 					 }  // if
 			// family name found. now look for all possible families with the same family name
 			 i=0;  // start looking for this name from the first family name
-			 indices.push([firstIdx,nuberOfPops]);   console.log('firstIdx='+firstIdx+' nuberOfPops='+nuberOfPops); 
+			 indices.push([firstIdx,nuberOfPops]);  //console.log('firstIdx='+firstIdx+' nuberOfPops='+nuberOfPops); 
 			 nextIdx=familyNames.indexOf( tempFamName,firstIdx+1);
 			 while (nextIdx  != -1 ){
-			    indices.push([nextIdx,nuberOfPops]);  console.log('nextIdx='+nextIdx+' nuberOfPops='+nuberOfPops); 
+			    indices.push([nextIdx,nuberOfPops]);  //console.log('nextIdx='+nextIdx+' nuberOfPops='+nuberOfPops); 
 					nextIdx=familyNames.indexOf( tempFamName,nextIdx+1);	
 					}  // while nextIdx
 					
