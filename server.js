@@ -1940,7 +1940,7 @@ app.get('/getAssignmentReport', function(req, res) {
 	    d_wmn_rosh=req_wmn_rosh-asgnd_wmn_rosh;
 	    d_men_kipur=req_men_kipur-asgnd_men_kipur;
 	    d_wmn_kipur=req_wmn_kipur-asgnd_wmn_kipur;
-      nam=requestedSeatsWorksheet[amudot.name+row].v;\
+      nam=requestedSeatsWorksheet[amudot.name+row].v;
 			nam=nam.split('*');
 			if ( nam[1]  && nam[2] ){tmp=nam[1]+' '+hebrewLetters.vav+nam[2] } else tmp=nam[1]+nam[2];
 			nam=nam[0]+' '+tmp;
