@@ -182,7 +182,7 @@ var nodemailer = require('nodemailer');
 					nameB=tmp[1];
 					if ( nameA  && nameB ){bothNames=nameA+' '+hebrewLetters.vav+nameB; } else bothNames=nameA+nameB;
 					*/
-			    rNmA[1]=rNmA[1]+'$'+simlifyName(sortedFirstNames[confirmedIndices[i]]);
+			    rNmA[1]=rNmA[1]+'$'+simplifyName(sortedFirstNames[confirmedIndices[i]]);
 			} // for i		
 			
 			console.log('rNmA='+rNmA);
@@ -1500,7 +1500,7 @@ var reslt = new Array;
 }
 
 //------------------------------------------------------------------------------------ 
-function simlifyName(name){
+function simplifyName(name){
 var tmp,simplified;
 tmp=name.split('*');
  if (tmp[1]  && tmp[2] ){simplified=tmp[0]+' '+tmp[1]+' '+hebrewLetters.vav+tmp[2] } else simplified=tmp[0]+' '+tmp[1]+tmp[2];
@@ -1514,7 +1514,7 @@ tmp=name.split('*');
 
 function update_namesForSeat(row){
 debug1=false;     //if (row  =='173') debug1=true; 
-  nm=simlifyName(delLeadingBlnks( requestedSeatsWorksheet[amudot.name +row].v));
+  nm=simplifyName(delLeadingBlnks( requestedSeatsWorksheet[amudot.name +row].v));
   
  
 	markedSeatsSTR=delLeadingBlnks( requestedSeatsWorksheet[amudot.markedSeats +row].v); 
@@ -1931,7 +1931,8 @@ app.get('/getAssignmentReport', function(req, res) {
 	rtrnStr='';
 	for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
       row=i.toString();
-			
+			cell=requestedSeatsWorksheet[amudot.name+row];
+			if (! cell)continue;
 			closeSeats(1,row); // recalculate numberOfAssignedSeats
 			closeSeats(2,row);
 						
@@ -1950,7 +1951,7 @@ app.get('/getAssignmentReport', function(req, res) {
 	    d_wmn_rosh=req_wmn_rosh-asgnd_wmn_rosh;
 	    d_men_kipur=req_men_kipur-asgnd_men_kipur;
 	    d_wmn_kipur=req_wmn_kipur-asgnd_wmn_kipur;
-      nam=simlifyName(requestedSeatsWorksheet[amudot.name+row].v);
+      nam=simplifyName(requestedSeatsWorksheet[amudot.name+row].v);
 			/*nam=nam.split('*');
 			if ( nam[1]  && nam[2] ){tmp=nam[1]+' '+hebrewLetters.vav+nam[2] } else tmp=nam[1]+nam[2];
 			nam=nam[0]+' '+tmp;
@@ -2203,7 +2204,7 @@ function generate_registeredList_XLS(){
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
 		 name=nameslist[ik];
-		 rowNum=knownName(name)[0];
+		 rowNum=knownName(name)[0];console.log('rowNum='+rowNum);
 	   roww=rowNum.toString();
 		 
 		
@@ -2835,7 +2836,7 @@ app.get('/getFullList', function(req, res) {
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
 	   
-		 name = simlifyName(familyNames[ijk]);      /* .split('*');	
+		 name = simplifyName(familyNames[ijk]);      /* .split('*');	
 		 if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
 		 name=name[0]+' '+tmp;
 		 */
@@ -2907,10 +2908,8 @@ app.get('/getFullList', function(req, res) {
 							tmpVl=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)+Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)
 		             +Number(requestedSeatsWorksheet[amudot.menKipur+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
 		       if ( !	tmpVl ) continue;  // no request made		
-				   name=	(requestedSeatsWorksheet[amudot.name+row].v); //.split('*'); 
-					// if ( name[1]  && name[2] ){tmpp=name[0]+' '+name[1]+' '+hebrewLetters.vav+name[2] } else tmpp=name[0]+' '+name[1]+name[2];        
-					 
-					tmpRqList[idx]=tmpp;		 
+				   tmpRqList[idx]=	simplifyName(requestedSeatsWorksheet[amudot.name+row].v); 
+						 
 					idx++;
 							
 			}				
@@ -4809,7 +4808,7 @@ app.get('/getOverAssignedList', function(req, res) {
     row=i.toString();
 		cell=requestedSeatsWorksheet[amudot.name+row];
 		if (! cell)continue;
-		name=simlifyName(cell.v);      /*.split('*');
+		name=simplifyName(cell.v);      /*.split('*');
 		if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
     name=name[0]+' '+tmp;
 		*/		      
@@ -4874,7 +4873,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 
 				      tempList[k]=nam[0]+' '+tmp;
 							*/
-							tempList[k]=simlifyName(nam);
+							tempList[k]=simplifyName(nam);
 							prm=requestedSeatsWorksheet[amudot.permanentSeats+row];
 							if(prm){
 							prm=delLeadingBlnks(prm.v);
