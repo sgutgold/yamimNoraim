@@ -182,7 +182,10 @@ var nodemailer = require('nodemailer');
 					nameB=tmp[1];
 					if ( nameA  && nameB ){bothNames=nameA+' '+hebrewLetters.vav+nameB; } else bothNames=nameA+nameB;
 					*/
-			    rNmA[1]=rNmA[1]+'$'+simplifyName(sortedFirstNames[confirmedIndices[i]]);
+					
+					tmp=sortedFirstNames[confirmedIndices[i]].split('*');
+					if (tmp[0]  && tmp[1]){tmp= tmp[0]+' '+hebrewLetters.vav+tmp[1]}else tmp=tmp[0]+tmp[1];
+			    rNmA[1]=rNmA[1]+'$'+tmp;
 			} // for i		
 			
 			console.log('rNmA='+rNmA);
