@@ -2915,7 +2915,7 @@ app.get('/getFullList', function(req, res) {
 		             +Number(requestedSeatsWorksheet[amudot.menKipur+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
 		       if ( !	tmpVl ) continue;  // no request made		
 					 console.log(' line 2911 row='+row);
-				   tmpRqList[idx]=	simplifyName(nam); 
+				   tmpRqList[idx]=	nam; 
 						 
 					idx++;
 							
