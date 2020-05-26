@@ -177,11 +177,12 @@ var nodemailer = require('nodemailer');
 			if ( confirmedIndices.length != 1) { rNmA[0] = -1}else rNmA[0]=confirmedIndices[0]+firstSeatRow;
 			rNmA[1]=''; 
 			for (i=0; i<confirmedIndices.length;i++){
-			    tmp=sortedFirstNames[confirmedIndices[i]].split('*');
+			    /*tmp=sortedFirstNames[confirmedIndices[i]].split('*');
 			    nameA=tmp[0];
 					nameB=tmp[1];
 					if ( nameA  && nameB ){bothNames=nameA+' '+hebrewLetters.vav+nameB; } else bothNames=nameA+nameB;
-			    rNmA[1]=rNmA[1]+'$'+bothNames;
+					*/
+			    rNmA[1]=rNmA[1]+'$'+simlifyName(sortedFirstNames[confirmedIndices[i]]);
 			} // for i		
 			
 			console.log('rNmA='+rNmA);
@@ -1499,13 +1500,22 @@ var reslt = new Array;
 }
 
 //------------------------------------------------------------------------------------ 
+function simlifyName(name){
+var tmp,simplified;
+tmp=name.split('*');
+ if (tmp[1]  && tmp[2] ){simplified=tmp[0]+' '+tmp[1]+' '+hebrewLetters.vav+tmp[2] } else simplified=tmp[0]+' '+tmp[1]+tmp[2];
+	return simplified;	
+	
+	}
+	  
+
+//------------------------------------------------------------------------------------ 
 
 
 function update_namesForSeat(row){
 debug1=false;     //if (row  =='173') debug1=true; 
-  nm=delLeadingBlnks( requestedSeatsWorksheet[amudot.name +row].v);
-  nmLastChr=nm.substr(nm.length-1);
-	if(nmLastChr=='*')nm=nm.substr(0,nm.length-1);
+  nm=simlifyName(delLeadingBlnks( requestedSeatsWorksheet[amudot.name +row].v));
+  
  
 	markedSeatsSTR=delLeadingBlnks( requestedSeatsWorksheet[amudot.markedSeats +row].v); 
 	if(markedSeatsSTR){ // seats were marked
@@ -1940,11 +1950,11 @@ app.get('/getAssignmentReport', function(req, res) {
 	    d_wmn_rosh=req_wmn_rosh-asgnd_wmn_rosh;
 	    d_men_kipur=req_men_kipur-asgnd_men_kipur;
 	    d_wmn_kipur=req_wmn_kipur-asgnd_wmn_kipur;
-      nam=requestedSeatsWorksheet[amudot.name+row].v;
-			nam=nam.split('*');
+      nam=simlifyName(requestedSeatsWorksheet[amudot.name+row].v);
+			/*nam=nam.split('*');
 			if ( nam[1]  && nam[2] ){tmp=nam[1]+' '+hebrewLetters.vav+nam[2] } else tmp=nam[1]+nam[2];
 			nam=nam[0]+' '+tmp;
-			
+			*/
 			if( d_men_rosh || d_wmn_rosh  || d_men_kipur || d_wmn_kipur )   // at least one of them do not match
 			     rtrnStr=rtrnStr+nam+'&'+req_men_rosh.toString()+'&'+ req_wmn_rosh.toString()+ '&'+req_men_kipur.toString()+'&'+req_wmn_kipur.toString()
 				    +'&'+asgnd_men_rosh.toString()+'&'+asgnd_wmn_rosh.toString()+'&'+asgnd_men_kipur.toString()+'&'+asgnd_wmn_kipur.toString()+'$';
@@ -2825,9 +2835,10 @@ app.get('/getFullList', function(req, res) {
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
 	   
-		 name = familyNames[ijk].split('*');	
+		 name = simlifyName(familyNames[ijk]);      /* .split('*');	
 		 if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
 		 name=name[0]+' '+tmp;
+		 */
 		 row=knownName(name)[0]; 
 		 row=row.toString();
 	   ptr1=amudot.ThisYRSSeat+row;
@@ -4798,10 +4809,10 @@ app.get('/getOverAssignedList', function(req, res) {
     row=i.toString();
 		cell=requestedSeatsWorksheet[amudot.name+row];
 		if (! cell)continue;
-		name=(cell.v).split('*');
+		name=simlifyName(cell.v);      /*.split('*');
 		if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
     name=name[0]+' '+tmp;
-				      
+		*/		      
 	  if(
 	        ( Number(requestedSeatsWorksheet[amudot.menRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.womenRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v) )
@@ -4855,12 +4866,15 @@ app.get('/isRegistrationClosed', function(req, res) {
 							
 				      membershipLevel=Number(delLeadingBlnks(tmp)); 
 							if(membershipLevel < minMembershipLevel)continue;    //does not deserve permanent seat
+							
+							/*
 				      //if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
 							nam=nam.split('*');
 							if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
 
 				      tempList[k]=nam[0]+' '+tmp;
-							
+							*/
+							tempList[k]=simlifyName(nam);
 							prm=requestedSeatsWorksheet[amudot.permanentSeats+row];
 							if(prm){
 							prm=delLeadingBlnks(prm.v);
