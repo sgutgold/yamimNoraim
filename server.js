@@ -4796,7 +4796,9 @@ app.get('/getOverAssignedList', function(req, res) {
 	 str='ok';
 	 for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
     row=i.toString();
-		name=(requestedSeatsWorksheet[amudot.name+row].v).split('*');
+		cell=requestedSeatsWorksheet[amudot.name+row];
+		if (! cell)continue;
+		name=(cell.v).split('*');
 		if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
     name=name[0]+' '+tmp;
 				      
