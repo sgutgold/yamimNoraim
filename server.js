@@ -2197,10 +2197,11 @@ function generate_registeredList_XLS(){
 	 var amudotRegistered=['A','B','C','D'];
 	 var nameslist = new Array;
 	 var name;
-	 
+	 console.log('familyNames.length='+familyNames.length);
+	 for(ijk=0;ijk<familyNames.length;ijk++)console.log('ijk='+ijk+' familyNames[ijk]='+familyNames[ijk]+' hisName[ijk='+hisName[ijk]+' herName[ijk='+herName[ijk]); 
 	 for(ijk=0;ijk<familyNames.length;ijk++)
 	       if ( hisName[ijk]  && herName[ijk] ){nameslist[ijk]=familyNames[ijk]+' '+hisName[ijk]+' '+hebrewLetters.vav+herName[ijk] } else nameslist[ijk]=familyNames[ijk]+' '+hisName[ijk]+herName[ijk];
-	 nameslist= nameslist.sort();
+	 nameslist.sort();
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
 		 name=nameslist[ik];
@@ -2903,13 +2904,18 @@ app.get('/getFullList', function(req, res) {
 	var tmpRqList=[];    idx=0;
 	if(inp[0] == mngmntPASSW){  
 	initFromFiles(inp[1]);
-	    for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
+	    for (i=firstSeatRow;i<lastSeatRow+1;i++){
+			 
               row=i.toString();
+							nameCell=requestedSeatsWorksheet[amudot.name+row];
+							if (! nameCell) continue;
+							nam=delLeadingBlnks(nameCell.v);
+							if ( ! nam)continue;
 							tmpVl=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)+Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)
 		             +Number(requestedSeatsWorksheet[amudot.menKipur+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
 		       if ( !	tmpVl ) continue;  // no request made		
 					 console.log(' line 2911 row='+row);
-				   tmpRqList[idx]=	simplifyName(requestedSeatsWorksheet[amudot.name+row].v); 
+				   tmpRqList[idx]=	simplifyName(nam); 
 						 
 					idx++;
 							
