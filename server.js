@@ -2204,7 +2204,7 @@ function generate_registeredList_XLS(){
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
 		 name=nameslist[ik];
-		 rowNum=knownName(name)[0];console.log('rowNum='+rowNum);
+		 rowNum=knownName(name)[0];console.log('ik='+ik+' name='+name+' rowNum='+rowNum);
 	   roww=rowNum.toString();
 		 
 		
@@ -2908,6 +2908,7 @@ app.get('/getFullList', function(req, res) {
 							tmpVl=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)+Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)
 		             +Number(requestedSeatsWorksheet[amudot.menKipur+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
 		       if ( !	tmpVl ) continue;  // no request made		
+					 console.log(' line 2911 row='+row);
 				   tmpRqList[idx]=	simplifyName(requestedSeatsWorksheet[amudot.name+row].v); 
 						 
 					idx++;
