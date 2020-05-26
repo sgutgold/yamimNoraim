@@ -1553,7 +1553,7 @@ debug1=false;     //if (row  =='173') debug1=true;
 }
 //-------------------------------------------------------------------------- 
  function filterAndSort(){
- 
+ var tmp;
  var counts=[];
  var listToSend=[];
  var tempList=[];
@@ -1590,8 +1590,9 @@ debug1=false;     //if (row  =='173') debug1=true;
 		counts=counSeatsInEzor(row,moed,SidurUlam);  
 		if ( ! (counts[0]+ counts[1]) ) continue;    // no seat requested for current ulam
 		
-		nameToKeep= delLeadingBlnks(requestedSeatsWorksheet[amudot.name +row].v);
-		if (nameToKeep.substr(nameToKeep.length-1,1) == '*') nameToKeep=nameToKeep.substr(0,nameToKeep.length-1);
+		nameToKeep= delLeadingBlnks(requestedSeatsWorksheet[amudot.name +row].v);   //.split('*');
+		// if (nameToKeep[1]  && nameToKeep[2] ){nameToKeep=nameToKeep[0]+' '+nameToKeep[1]+' '+hebrewLetters.vav+nameToKeep[2] } else nameToKeep=nameToKeep[0]+' '+nameToKeep[1]+nameToKeep[2];
+		
 		tempList[idx]=nameToKeep+'$'+calcSortParam(row)[0]+'$'+calcSortParam(row)[1]+
 		                '$'+counts[0].toString()+'$'+counts[1].toString()
 										+'$'+toAssgnRoshMen.toString()+'$'+toAssgnRoshWomen.toString()+'$'+toAssgnKipurMen.toString()+'$'+toAssgnKipurWomen.toString();
@@ -1939,8 +1940,11 @@ app.get('/getAssignmentReport', function(req, res) {
 	    d_wmn_rosh=req_wmn_rosh-asgnd_wmn_rosh;
 	    d_men_kipur=req_men_kipur-asgnd_men_kipur;
 	    d_wmn_kipur=req_wmn_kipur-asgnd_wmn_kipur;
-      nam=requestedSeatsWorksheet[amudot.name+row].v;
-			if (nam.substr(nam.length-1,1)== '*')nam=nam.substr(0,nam.length-1);
+      nam=requestedSeatsWorksheet[amudot.name+row].v;\
+			nam=nam.split('*');
+			if ( nam[1]  && nam[2] ){tmp=nam[1]+' '+hebrewLetters.vav+nam[2] } else tmp=nam[1]+nam[2];
+			nam=nam[0]+' '+tmp;
+			
 			if( d_men_rosh || d_wmn_rosh  || d_men_kipur || d_wmn_kipur )   // at least one of them do not match
 			     rtrnStr=rtrnStr+nam+'&'+req_men_rosh.toString()+'&'+ req_wmn_rosh.toString()+ '&'+req_men_kipur.toString()+'&'+req_wmn_kipur.toString()
 				    +'&'+asgnd_men_rosh.toString()+'&'+asgnd_wmn_rosh.toString()+'&'+asgnd_men_kipur.toString()+'&'+asgnd_wmn_kipur.toString()+'$';
@@ -2168,7 +2172,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 xlsx.writeFile(tmpfile, seatsOrderedFileName);
 	 
 	 }
-//---------------------------------------------------------------------------------------- seatsOrdered
+//---------------------------------------------------------------------------------------- 
 
 function generate_registeredList_XLS(){
 	 initFromFiles('');
@@ -2183,17 +2187,17 @@ function generate_registeredList_XLS(){
 	 var nameslist = new Array;
 	 var name;
 	 
-	 for(ijk=0;ijk<familyNames.length;ijk++)nameslist[ijk]=familyNames[ijk];
-	 
+	 for(ijk=0;ijk<familyNames.length;ijk++)
+	       if ( hisName[ijk]  && herName[ijk] ){nameslist[ijk]=familyNames[ijk]+' '+hisName[ijk]+' '+hebrewLetters.vav+herName[ijk] } else nameslist[ijk]=familyNames[ijk]+' '+hisName[ijk]+herName[ijk];
 	 nameslist= nameslist.sort();
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
 		 name=nameslist[ik];
-		 rowNum=knownName(nameslist[ik])[0];
+		 rowNum=knownName(name)[0];
 	   roww=rowNum.toString();
 		 
 		
-		 if(name.substr(name.length-1,1) == '*')name=name.subster(0,name.kength-1);
+		 
 		 
 		  
 	   if(Number( delLeadingBlnks(requestedSeatsWorksheet[amudot.tashlum+roww].v) ) ){  // tashlum not zero meand he has registered
@@ -2821,7 +2825,9 @@ app.get('/getFullList', function(req, res) {
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
 	   
-		 name = familyNames[ijk];	
+		 name = familyNames[ijk].split('*');	
+		 if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
+		 name=name[0]+' '+tmp;
 		 row=knownName(name)[0]; 
 		 row=row.toString();
 	   ptr1=amudot.ThisYRSSeat+row;
@@ -2890,9 +2896,9 @@ app.get('/getFullList', function(req, res) {
 							tmpVl=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)+Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)
 		             +Number(requestedSeatsWorksheet[amudot.menKipur+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
 		       if ( !	tmpVl ) continue;  // no request made		
-				   tmpp=	requestedSeatsWorksheet[amudot.name+row].v;         
-					 ltmpp= tmpp.length;
-					 if (tmpp.substr(ltmpp-1) =='*')tmpp=tmpp.substr(0,ltmpp-1);
+				   name=	(requestedSeatsWorksheet[amudot.name+row].v); //.split('*'); 
+					// if ( name[1]  && name[2] ){tmpp=name[0]+' '+name[1]+' '+hebrewLetters.vav+name[2] } else tmpp=name[0]+' '+name[1]+name[2];        
+					 
 					tmpRqList[idx]=tmpp;		 
 					idx++;
 							
@@ -2929,7 +2935,7 @@ app.get('/getlist', function(req, res) {
 	 notPaidFilter=inpData[5];
 	 doneWithFilter=inpData[6];
 	 initFromFiles(inpData[7]);  
-	 listOfnames='+++'+	filterAndSort();																														
+	 listOfnames='+++'+		filterAndSort();																														
 	 res.send(listOfnames);
 	}
 	else res.send('999' );
@@ -4786,16 +4792,20 @@ app.get('/getOverAssignedList', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
 //	 initFromFiles('');
 	 
-	 var i, str;
+	 var i, str,tmp,name;
 	 str='ok';
 	 for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
     row=i.toString();
+		name=(requestedSeatsWorksheet[amudot.name+row].v).split('*');
+		if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
+    name=name[0]+' '+tmp;
+				      
 	  if(
 	        ( Number(requestedSeatsWorksheet[amudot.menRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshMen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.womenRosh+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsRoshWomen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.menKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurMen+row].v) )
 			||  ( Number(requestedSeatsWorksheet[amudot.womenKipur+row].v) < Number(requestedSeatsWorksheet[amudot.numberOfAssignedSeatsKipurWomen+row].v) )
-			)str=str+'+'+requestedSeatsWorksheet[amudot.name+row].v;
+			)str=str+'+'+name;
 	}  // for		
 	
 	 res.send(str );
@@ -4843,8 +4853,11 @@ app.get('/isRegistrationClosed', function(req, res) {
 							
 				      membershipLevel=Number(delLeadingBlnks(tmp)); 
 							if(membershipLevel < minMembershipLevel)continue;    //does not deserve permanent seat
-				      if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
-				      tempList[k]=nam;
+				      //if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
+							nam=nam.split('*');
+							if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
+
+				      tempList[k]=nam[0]+' '+tmp;
 							
 							prm=requestedSeatsWorksheet[amudot.permanentSeats+row];
 							if(prm){
