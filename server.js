@@ -2838,7 +2838,7 @@ app.get('/getFullList', function(req, res) {
 	ijl=0;
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
-	   combinedName=familyNames[ijk]+'*'+hisName+'*'+herName;
+	   combinedName=familyNames[ijk]+'*'+hisName[ijk]+'*'+herName[ijk];
 		 name = simplifyName(combinedName);      /* .split('*');	
 		 if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
 		 name=name[0]+' '+tmp;
