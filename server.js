@@ -2843,7 +2843,7 @@ app.get('/getFullList', function(req, res) {
 	ijl=0;
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
-	   if ( ! delLeadingBlnks(familyNames[ijk])continue;
+	   if ( ! delLeadingBlnks(familyNames[ijk]))continue;
 	   combinedName=familyNames[ijk]+'*'+hisName[ijk]+'*'+herName[ijk];
 		 name = simplifyName(combinedName);      /* .split('*');	
 		 if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
