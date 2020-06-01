@@ -1423,7 +1423,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		
 	      for (j=i+1; j<familyNames.length;j++)if (familyNames[i] == familyNames[j] )indices.push(j);
 				
-				if(  indices.length ==1 ){minimumName[i]=familyNames[i];   continue; } // this fam name appears only once
+				if(  indices.length ==1 ){minimumName[i]=familyNames[i]+'**';   continue; } // this fam name appears only once
 				
 				for (k=0; k<indices.length;k++){
 				   l=indices[k];
