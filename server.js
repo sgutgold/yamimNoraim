@@ -1427,13 +1427,13 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 				
 				for (k=0; k<indices.length;k++){
 				   l=indices[k];
-				  if (! hisName[l]){minimumName[l]=familyNames[i]+' '+herName[l]; continue}; // no man
+				  if (! hisName[l]){minimumName[l]=familyNames[i]+'**'+herName[l]; continue}; // no man
 					
 				  for(m=0; m<indices.length ;m++){
 					  n=indices[m];
-					  if (l !=n) if(hisName[l] == hisName[n]){minimumName[l]=familyNames[i]+' '+herName[l];	break};
+					  if (l !=n) if(hisName[l] == hisName[n]){minimumName[l]=familyNames[i]+'**'+herName[l];	break};
 	           } //for m
-						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+' '+hisName[l];
+						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+'*'+hisName[l]+'*';
 				} // for k
 				
 				
@@ -2982,10 +2982,10 @@ app.get('/getMinLengthNames', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
    
-	 inp=decodeURI(req.originalUrl).split('?')[1];
-	inpData=inp.split('$');
+	 inpData=decodeURI(req.originalUrl).split('?')[1];
+
 	
-	if(inpData[1] == mngmntPASSW){
+	if(inpData == mngmntPASSW){
 	
 	 if( ! minimumName.length){ res.send('---' );  return;};
 	 listOfnames= '+++'+		minimumName.join('$');
