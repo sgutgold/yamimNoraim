@@ -132,7 +132,7 @@ var nodemailer = require('nodemailer');
 					 continue;  // try a shorter name
 					 }  // if
 			// family name found. now look for all possible families with the same family name
-			 i=0;  // start looking for this name from the first family name
+			  // start looking for this name from the first family name
 			 indices.push([firstIdx,nuberOfPops]);  //console.log('firstIdx='+firstIdx+' nuberOfPops='+nuberOfPops); 
 			 nextIdx=familyNames.indexOf( tempFamName,firstIdx+1);
 			 while (nextIdx  != -1 ){
@@ -153,8 +153,7 @@ var nodemailer = require('nodemailer');
 						 strParts=str.split(' ');
 						 firstNamesArray=strParts.splice(strOriginalLength-nuberOfPops,nuberOfPops);
 						 
-						 console.log('firstNamesArray='+firstNamesArray);
-						 
+												 
 						 if ( ! firstNamesArray.length){ confirmedIndices.push(nextIdx); continue};
 						 // try all variations of how to generate two (or one) first names
 						 for (j=0; j<firstNamesArray.length;j++){
@@ -162,7 +161,7 @@ var nodemailer = require('nodemailer');
 								 nameB=firstNamesArray.join(' '); 
 								    if (nameB.substr(0,1) == hebrewLetters.vav) nameB=nameB.substr(1);  
 								  if (nameB <nameA){ tmp=nameA; nameA=nameB; nameB=tmp};
-		                         console.log('nameA='+nameA+' nameB='+ nameB);
+		                        
 						  		bothNames=	sortedFirstNames[nextIdx].split('*');
 									cond1= ( (nameA) && (nameA != bothNames[0]) && (nameA != bothNames[1]) );  // if specified it has to be equal to the one in the DB
 									cond2= ( (nameB) && (nameB != bothNames[0]) && (nameB != bothNames[1]) );
@@ -188,7 +187,7 @@ var nodemailer = require('nodemailer');
 			    rNmA[1]=rNmA[1]+'$'+tmp;
 			} // for i		
 			
-			console.log('rNmA='+rNmA);
+			
 		return rNmA;
 		
 		
@@ -1448,8 +1447,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 		 for (i=0; i<	familyNames.length;i++) if ( hisName[i] <herName[i]){ sortedFirstNames[i]=hisName[i]+'*'+herName[i]}
 		                                                                 else sortedFirstNames[i]=herName[i]+'*'+hisName[i] ;
 																																		 
-	// for (i=0;i<	familyNames.length;i++) console.log('i='+i+'  fam='+	familyNames[i]+' his='+hisName[i]+' her='+herName[i]+' min='+	minimumName[i]+'  sorted='+sortedFirstNames[i]);																																			 
-						 
+	 
 	 for (i=1; i<lastSeatNumber+1; i++){
                alreadyAssignedSeatsRosh[i]=' '; 
                alreadyAssignedSeatsKipur[i]=' '; 
@@ -1571,6 +1569,7 @@ debug1=false;     //if (row  =='173') debug1=true;
  var listToSend=[];
  var tempList=[];
  idx=0;
+ var indxToMinNames=[];
  moed=['rosh','kipur','all'].indexOf(moedCode)+1;
  // start with filtering
 
@@ -1648,6 +1647,7 @@ debug1=false;     //if (row  =='173') debug1=true;
  // second filtering stage of those that are already done and stripping of not required info
    vlu=[];
 	 idx=0;
+	 
 	 for(i=0;i<tempList_2.length;i++){
 	 
          vlu=tempList_2[i].split('$');
@@ -1672,11 +1672,12 @@ debug1=false;     //if (row  =='173') debug1=true;
 				notPartOfTheListFlag='+';	
 		    if ( (doneWithFilter=='true') && doneWithFlag)notPartOfTheListFlag='-';
 				listToSend[idx]=notPartOfTheListFlag+vlu[0]; // strip not required info
+				indxToMinNames[idx]=(knownName(simplifyName(vlu[0]))[0]-firstSeatRow).toString();
 				idx++; 
 		}  //doneWithFilter
 		
 
- strr=listToSend.join('$');   
+ strr=listToSend.join('$')+'@'+indxToMinNames.join('$');   
  return strr;
  }
  
@@ -2626,7 +2627,7 @@ app.get('/UPDtashlumim', function(req, res) {
 	inputString=decodeURI(req.originalUrl);  
 	
 	
-	inputPairs=inputString.split('$'); console.log('inputPairs='+inputPairs);
+	inputPairs=inputString.split('$'); 
 	if (inputPairs[1] != gizbarPASSW){ res.send('999')}
 	
 	else{
@@ -2828,6 +2829,7 @@ app.get('/getFullList', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
    
 	 var name,i, ijk,ijl,inp,inpData,tmplist,listType,tmp,tmp1,ptr1;
+	 var indxToMinNames=[];
 	 inp=decodeURI(req.originalUrl).split('?')[1];
 	inpData=inp.split('$');
 	//for(i=0;i<inpData.length;i++) console.log('inpData['+i+']='+inpData[i]+'/'  );
@@ -2841,6 +2843,7 @@ app.get('/getFullList', function(req, res) {
 	ijl=0;
 	
 	for(ijk=0;ijk<familyNames.length;ijk++){
+	   if ( ! delLeadingBlnks(familyNames[ijk])continue;
 	   combinedName=familyNames[ijk]+'*'+hisName[ijk]+'*'+herName[ijk];
 		 name = simplifyName(combinedName);      /* .split('*');	
 		 if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
@@ -2885,9 +2888,12 @@ app.get('/getFullList', function(req, res) {
 	 //console.log('listType='+listType+' numberOfCalculatedStsfction='+numberOfCalculatedStsfction+' ijl='+ijl);  
    if ((listType != 'pp') && ( ! numberOfCalculatedStsfction)){res.send('---');return;} // this year satisfection values not avaiable yet
 	 if ((listType != 'pp') && ( ! ijl)){res.send('---');return;} // empty list
-	tmplist=tmplist.sort();
+	 tmplist.sort();
+	 
+	 for(i=0;i<tmplist.length;i++)indxToMinNames[i]=(knownName(simplifyName(tmplist[i]))[0]-firstSeatRow).toString();
+			
 
-	 listOfnames='+++'+	tmplist.join('$');																														
+	 listOfnames='+++'+	tmplist.join('$')+'@'+indxToMinNames.join('$');																													
 	 res.send(listOfnames);
 	}
 	else { res.send('999' );
@@ -2906,7 +2912,9 @@ app.get('/getFullList', function(req, res) {
 	 inpA=decodeURI(req.originalUrl).split('?')[1];
 	// inpData=inp.split('$');
 	inp=inpA.split('$'); 
-	var tmpRqList=[];    idx=0;
+	var tmpRqList=[]; 
+	var indxToMinNames=[];
+	var   idx=0;
 	if(inp[0] == mngmntPASSW){  
 	initFromFiles(inp[1]);
 	    for (i=firstSeatRow;i<lastSeatRow+1;i++){
@@ -2919,15 +2927,16 @@ app.get('/getFullList', function(req, res) {
 							tmpVl=Number(requestedSeatsWorksheet[amudot.menRosh+row].v)+Number(requestedSeatsWorksheet[amudot.womenRosh+row].v)
 		             +Number(requestedSeatsWorksheet[amudot.menKipur+row].v)+Number(requestedSeatsWorksheet[amudot.womenKipur+row].v);
 		       if ( !	tmpVl ) continue;  // no request made		
-					 console.log(' line 2911 row='+row);
+			
 				   tmpRqList[idx]=	nam; 
 						 
 					idx++;
 							
 			}				
 	 
-	    tmpRqList=tmpRqList.sort();
-			tmpRqListStr='+++'+tmpRqList.join('$');
+	    tmpRqList.sort();
+			for(i=0;i<tmpRqList.length;i++)indxToMinNames[i]=(knownName(simplifyName(tmpRqList[i]))[0]-firstSeatRow).toString();
+			tmpRqListStr='+++'+tmpRqList.join('$')+'@'+indxToMinNames.join('$');
 			if( ! idx )tmpRqListStr='000';   // empty list
 	    res.send(tmpRqListStr);
 	
@@ -2965,7 +2974,33 @@ app.get('/getlist', function(req, res) {
 	 
 	 
         })
+				
 //----------------------------------------------------------
+
+
+app.get('/getMinLengthNames', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+   
+	 inp=decodeURI(req.originalUrl).split('?')[1];
+	inpData=inp.split('$');
+	
+	if(inpData[1] == mngmntPASSW){
+	
+	 if( ! minimumName.length){ res.send('---' );  return;};
+	 listOfnames= '+++'+		minimumName.join('$');
+	
+	 																												
+	 res.send(listOfnames);
+	}
+	else res.send('999' );
+	      
+	 
+	 
+        })
+								
+				
+//---------------------------------------------------------- 
  app.get('/genCodeSendEmail', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
