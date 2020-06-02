@@ -2210,8 +2210,8 @@ function generate_registeredList_XLS(){
 	 for(ijk=0;ijk<familyNames.length;ijk++)console.log('aftr sort ijk='+ijk+' nameslist[ijk]='+nameslist[ijk]);
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
-		 name=nameslist[ik];
-		 if ( ! name )continue;
+		 name=nameslist[ik];  console.log('name='+name+'/');
+		 if ( ! delLeadingBlnks(name) )continue;
 		 rowNum=knownName(name)[0];console.log('ik='+ik+' name='+name+' rowNum='+rowNum);
 	   roww=rowNum.toString();
 	  
