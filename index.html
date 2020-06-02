@@ -2351,7 +2351,21 @@ if (tmpNName[0]!= 'familyname'){sendErrMail('d',dataToSend);return false;};
 	
 	
 	
-		url=encodeURI(firstPartOfURL+"/writeinfo/?"+stringToSend);
+   var d=new Date();
+	 dParts=d.toString().split(' ');
+	 if (dParts[5].substr(4,4) == '0300'){DST_inIsrael='1' }else DST_inIsrael='0'; 		
+	 url=firstPartOfURL+"/writeinfo/?"+DST_inIsrael+'>'+stringToSend;
+ /*
+	 console.log('url='+url);
+	
+	 inputString=url.split('?')[1]; 
+	tmp=inputString.split('>');
+	DST_inIsrael=Number(tmp[0]);
+	inputString=tmp[1];
+	console.log('DST_inIsrael='+DST_inIsrael);
+	console.log('inputString='+inputString);
+	*/
+	 url=encodeURI(url);
 		send_msg_to_server(url,ckValidity_1_cont_end,doNothing);
 		
  }      
