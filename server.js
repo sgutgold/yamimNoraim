@@ -2114,9 +2114,9 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	    idx++;
 			};
 	 nameslist= nameslist.sort();
-	
+	console.log('2117 nameslist='+nameslist);
 	 for (ik=0; ik<nameslist.length;ik++){
-	   
+	   console.lok('ik='+ik);
 	     memberDataName[ik]=nameslist[ik];
 			 rowNum=knownName(memberDataName[ik])[0];
 	     roww=rowNum.toString();
@@ -2638,7 +2638,7 @@ app.get('/UPDtashlumim', function(req, res) {
   app.get('/writeinfo', function(req, res) {
 	var dbg,i;
 	res.header("Access-Control-Allow-Origin", "*");
-	fullInpString=decodeURI(req.originalUrl);
+	fullInpString=decodeURI(req.originalUrl); console.log('req.originalUrl='+req.originalUrl);    console.log('fullInpString='+fullInpString);
 	inputString=fullInpString.split('?')[1]; console.log('inputString='+inputString);
 	tmp=inputString.split('#'); console.log('tmp[0]='+tmp[0]);  console.log('tmp[1]='+tmp[1]);
 	DST_inIsrael=Number(tmp[0]);
