@@ -2118,7 +2118,9 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 idx=0;
 	 for(ijk=0;ijk<familyNames.length;ijk++){
 	    if( ! delLeadingBlnks( familyNames[ijk] ))continue;
-	    nameslist[idx]=familyNames[ijk]+' '+hisName[ijk]+' '+herName[ijk];
+			if ( hisName[ijk]  & herName[ijk]){ nameslist[idx]=familyNames[ijk]+' '+hisName[ijk]+' '+hebrewLetters.vav+herName[ijk]}
+			    else nameslist[idx]=familyNames[ijk]+' '+hisName[ijk]+herName[ijk]}
+	   
 	    idx++;
 			};
 	 nameslist= nameslist.sort();
