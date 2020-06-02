@@ -171,6 +171,8 @@ var nodemailer = require('nodemailer');
 													 
 									if ( (! cond1) && ( ! cond2) ) {		confirmedIndices.push(nextIdx); confirmed=true;  break;};
 									trials--;
+									strParts=str.split(' ');   // restore firstNamesArray
+						      firstNamesArray=strParts.splice(strOriginalLength-nuberOfPops,nuberOfPops);
 									} // while
 									if (confirmed )break;
 									strParts=str.split(' ');   // restore firstNamesArray
