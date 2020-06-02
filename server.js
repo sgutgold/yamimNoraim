@@ -2201,18 +2201,17 @@ function generate_registeredList_XLS(){
 	 var amudotRegistered=['A','B','C','D'];
 	 var nameslist = new Array;
 	 var name;
-	 console.log('familyNames.length='+familyNames.length);
-	 for(ijk=0;ijk<familyNames.length;ijk++)console.log('ijk='+ijk+' familyNames[ijk]='+familyNames[ijk]+' hisName[ijk='+hisName[ijk]+' herName[ijk='+herName[ijk]); 
+	
 	 for(ijk=0;ijk<familyNames.length;ijk++)
 	       if ( hisName[ijk]  && herName[ijk] ){nameslist[ijk]=familyNames[ijk]+' '+hisName[ijk]+' '+hebrewLetters.vav+herName[ijk] } else nameslist[ijk]=familyNames[ijk]+' '+hisName[ijk]+herName[ijk];
-	  for(ijk=0;ijk<familyNames.length;ijk++)console.log('ijk='+ijk+' nameslist[ijk]='+nameslist[ijk]);
+	
 	 nameslist.sort();
-	 for(ijk=0;ijk<familyNames.length;ijk++)console.log('aftr sort ijk='+ijk+' nameslist[ijk]='+nameslist[ijk]);
+	
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
-		 name=nameslist[ik];  console.log('name='+name+'/');
+		 name=nameslist[ik];  
 		 if ( ! delLeadingBlnks(name) )continue;
-		 rowNum=knownName(name)[0];console.log('ik='+ik+' name='+name+' rowNum='+rowNum);
+		 rowNum=knownName(name)[0];
 	   roww=rowNum.toString();
 	  
 	   if(Number( delLeadingBlnks(requestedSeatsWorksheet[amudot.tashlum+roww].v) ) ){  // tashlum not zero meand he has registered
@@ -2309,8 +2308,8 @@ function generate_registeredList_XLS(){
 		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
 		var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];	 
 			var n = new Date; 	
-			dParts=n.toString().split(' ');  
-			localTimeZoneDiffToZero= Number(dParts[5].substr(3,3));
+			dParts=n.toString().split(' '); for(i=0;i<dParts.length;i++)console.log('i='+i+' dParts[i]='+dParts[i]+'/'); 
+			localTimeZoneDiffToZero= Number(dParts[5].substr(3,3));   console.log('localTimeZoneDiffToZero='+localTimeZoneDiffToZero+'/');
 			offset=2-localTimeZoneDiffToZero; //  Israel is GMT+2
 			HR=Number(dParts[4].substr(0,2))+offset;
 			dy=Number(dParts[2]);
