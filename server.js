@@ -2119,12 +2119,12 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 for(ijk=0;ijk<familyNames.length;ijk++){
 	    if( ! delLeadingBlnks( familyNames[ijk] ))continue;
 			if ( hisName[ijk]  & herName[ijk]){ nameslist[idx]=familyNames[ijk]+' '+hisName[ijk]+' '+hebrewLetters.vav+herName[ijk]}
-			    else nameslist[idx]=familyNames[ijk]+' '+hisName[ijk]+herName[ijk]}
+			    else nameslist[idx]=familyNames[ijk]+' '+hisName[ijk]+herName[ijk];
 	   
 	    idx++;
 			};
 	 nameslist= nameslist.sort();
-	console.log('2117 nameslist='+nameslist);
+	console.log('2127 nameslist='+nameslist);
 	 for (ik=0; ik<nameslist.length;ik++){
 	   console.log('ik='+ik+' nameslist[ik='+nameslist[ik]);
 	     memberDataName[ik]=nameslist[ik];
