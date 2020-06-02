@@ -1043,7 +1043,7 @@ lastCol='AZ';
 var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
 var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
 
-console.log('init done at  '+getPrintableDate());  // [2] is date + time
+console.log('init done at  '+getPrintableDate()+'   DST ignored');  // [2] is date + time
 
 initDone=true;
 } // end of initCompletion
@@ -2054,8 +2054,11 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	
 	inputString=decodeURI(req.originalUrl); 
-  passW=inputString.split('-')[1]; //tt=inputString.split('-'); 
-	if (passW == mngmntPASSW){  fileToSendName= 'seatsOrdered.xlsx';  fileToRead=seatsOrderedFileName; generate_seatsOrderedXLS();}
+  tmp=inputString.split('-')[1]; //tt=inputString.split('-'); 
+	tmp=tmp.split('$');
+	passW=tmp[0];
+	DST_inIsrael=tmp[1];
+	if (passW == mngmntPASSW){  fileToSendName= 'seatsOrdered.xlsx';  fileToRead=seatsOrderedFileName; generate_seatsOrderedXLS(DST_inIsrael);}
 				else {fileToSendName='empty.xlsx'; fileToRead='empty.xlsx'}
 				
 				/*  send file to mail for debug purpose
@@ -2088,7 +2091,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 });
 //---------------------------------------------------------------------------------	
  //emptyHazmanatmekomotFileName=	process.env.OPENSHIFT_DATA_DIR+'hazmanatMekomotEmpty.xlsx';  
-	 function generate_seatsOrderedXLS(){
+	 function generate_seatsOrderedXLS(DST_inIsrael){
 	 initFromFiles('');
 	 var firstRowInHazmanot=12;
 	 var memberDataName =new Array; 
@@ -2158,28 +2161,8 @@ app.get('/seatsOrderedXLS', function(req, res) {
 			} // for ik		 
 		
 		
-		/* update report date	
-		offset=0;
-		var d= Date();
-		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
-		var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];	 
-			var n = new Date; 	
-			dParts=n.toString().split(' ');  
-			localTimeZoneDiffToZero= Number(dParts[5].substr(3,3));
-			offset=2-localTimeZoneDiffToZero; //  Israel is GMT+2
-			HR=Number(dParts[4].substr(0,2))+offset;
-			dy=Number(dParts[2]);
-			mnth=monthNames.indexOf(dParts[1])+1;
-			yr=Number(dParts[3]);
-			if (yr/4 == Math.round(yr/4)){mnthLngth[1]=29} else mnthLngth[1]=28;
-			
-			if (HR > 23){   HR=HR-24;   Dy++};
-			if(dy > mnthLngth[mnth-1] ) {dy=1; mnth++};
-			if (mnth>12){mnth=1; yr++};
-			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
-			
-		*/		
-			hazmanotSheet['B4'].v=getPrintableDate();
+		
+			hazmanotSheet['B4'].v=getPrintableDate(DST_inIsrael);
 		
 			
 	 // write the data into a new file
@@ -2290,8 +2273,8 @@ function generate_registeredList_XLS(DST_inIsrael){
 		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
 		var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];	 
 			var n = new Date; 	
-			dParts=n.toString().split(' '); for(i=0;i<dParts.length;i++)console.log('i='+i+' dParts[i]='+dParts[i]+'/'); 
-			localTimeZoneDiffToZero= Number(dParts[5].substr(4,4));   console.log('localTimeZoneDiffToZero='+localTimeZoneDiffToZero+'/ dParts[5]='+dParts[5]);
+			dParts=n.toString().split(' '); 
+			localTimeZoneDiffToZero= Number(dParts[5].substr(4,4));   
 			offset=2+DST_inIsrael-localTimeZoneDiffToZero; //  Israel is GMT+2
 			HR=Number(dParts[4].substr(0,2))+offset;
 			dy=Number(dParts[2]);
@@ -2650,15 +2633,18 @@ app.get('/UPDtashlumim', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1]; 
+	tmp=inputString.split('#');
+	DST_inIsrael=Number(tmp[0];
+	inputString=tmp[1];
 	dbg=searchDebugParam('writeinfo');
-	if (  dbg != -1) console.log('write_info at '+getPrintableDate()+ ' of inputString='+inputString);
+	if (  dbg != -1) console.log('write_info at '+getPrintableDate(DST_inIsrael)+ ' of inputString='+inputString);
 	initFromFiles('');
 	
 	// save transaction history
 	for (i=0;i<300;i++){
 	  transactionPtr='A'+(transactionHistoryFirstRow+i).toString();
 		if (delLeadingBlnks(requestedSeatsWorksheet[transactionPtr].v)  == '$$$'){ //empty slot found
-		       requestedSeatsWorksheet[transactionPtr].v='write_info at '+getPrintableDate()+ ' of inputString====='+inputString;
+		       requestedSeatsWorksheet[transactionPtr].v='write_info at '+getPrintableDate(DST_inIsrael)+ ' of inputString====='+inputString;
 					 break;
 				} // if
 		} // for	
