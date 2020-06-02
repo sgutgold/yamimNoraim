@@ -2116,7 +2116,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 nameslist= nameslist.sort();
 	
 	 for (ik=0; ik<nameslist.length;ik++){
-	     if(delLeadingBlnks( 
+	   
 	     memberDataName[ik]=nameslist[ik];
 			 rowNum=knownName(memberDataName[ik])[0];
 	     roww=rowNum.toString();
