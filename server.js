@@ -1043,7 +1043,7 @@ lastCol='AZ';
 var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
 var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
 
-console.log('init done at  '+getPrintableDate()+'   DST ignored');  // [2] is date + time
+console.log('init done at  '+getPrintableDate('0')+'   DST ignored');  // [2] is date + time
 
 initDone=true;
 } // end of initCompletion
@@ -2107,9 +2107,16 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 
 	 var nameslist = new Array;
 	 var amudotHazmana=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
-	 for(ijk=0;ijk<familyNames.length;ijk++)nameslist[ijk]=familyNames[ijk];
+	 idx=0;
+	 for(ijk=0;ijk<familyNames.length;ijk++){
+	    if( ! delLeadingBlnks( familyNames[ijk] ))continue;
+	    nameslist[idx]=familyNames[ijk]+' '+hisName[ijk]+' '+herName[ijk];
+	    idx++;
+			};
 	 nameslist= nameslist.sort();
+	
 	 for (ik=0; ik<nameslist.length;ik++){
+	     if(delLeadingBlnks( 
 	     memberDataName[ik]=nameslist[ik];
 			 rowNum=knownName(memberDataName[ik])[0];
 	     roww=rowNum.toString();
@@ -2632,10 +2639,10 @@ app.get('/UPDtashlumim', function(req, res) {
 	var dbg,i;
 	res.header("Access-Control-Allow-Origin", "*");
 	fullInpString=decodeURI(req.originalUrl);
-	inputString=fullInpString.split('?')[1]; 
-	tmp=inputString.split('#');
+	inputString=fullInpString.split('?')[1]; console.log('inputString='+inputString);
+	tmp=inputString.split('#'); console.log('tmp[0]='+tmp[0]);  console.log('tmp[1]='+tmp[1]);
 	DST_inIsrael=Number(tmp[0]);
-	inputString=tmp[1];
+	inputString=tmp[1];  console.log('inputString='+inputString);
 	dbg=searchDebugParam('writeinfo');
 	if (  dbg != -1) console.log('write_info at '+getPrintableDate(DST_inIsrael)+ ' of inputString='+inputString);
 	initFromFiles('');
