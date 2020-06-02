@@ -2634,7 +2634,7 @@ app.get('/UPDtashlumim', function(req, res) {
 	fullInpString=decodeURI(req.originalUrl);
 	inputString=fullInpString.split('?')[1]; 
 	tmp=inputString.split('#');
-	DST_inIsrael=Number(tmp[0];
+	DST_inIsrael=Number(tmp[0]);
 	inputString=tmp[1];
 	dbg=searchDebugParam('writeinfo');
 	if (  dbg != -1) console.log('write_info at '+getPrintableDate(DST_inIsrael)+ ' of inputString='+inputString);
