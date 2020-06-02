@@ -1043,7 +1043,7 @@ lastCol='AZ';
 var numOfColsInNewSheet=colNametoNumber(lastCol)+10;  // 10 is spare
 var numOfRowsInNewSheet=lastSeatRow+40;  // 40 spare for new names
 
-console.log('init done at  '+getPrintableDate('0')+'   DST ignored');  // [2] is date + time
+console.log('init done at  '+getPrintableDate(0)+'   DST ignored');  // [2] is date + time
 
 initDone=true;
 } // end of initCompletion
@@ -2289,7 +2289,7 @@ function generate_registeredList_XLS(DST_inIsrael){
 			yr=Number(dParts[3]);
 			if (yr/4 == Math.round(yr/4)){mnthLngth[1]=29} else mnthLngth[1]=28;
 			
-			if (HR > 23){   HR=HR-24;   Dy++};
+			if (HR > 23){   HR=HR-24;   dy++};
 			if(dy > mnthLngth[mnth-1] ) {dy=1; mnth++};
 			if (mnth>12){mnth=1; yr++};
 			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
