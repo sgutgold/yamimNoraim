@@ -157,16 +157,22 @@ var nodemailer = require('nodemailer');
 						 if ( ! firstNamesArray.length){ confirmedIndices.push(nextIdx); continue};
 						 // try all variations of how to generate two (or one) first names
 						 for (j=0; j<firstNamesArray.length;j++){
+						   trials=2;
+							 confirmed=false;
+						   while  ((trials) && ( ! confirmed) ){
 						     nameA=firstNamesArray.splice(0,j).join(' ');
 								 nameB=firstNamesArray.join(' '); 
-								    if (nameB.substr(0,1) == hebrewLetters.vav) nameB=nameB.substr(1);  
+								    if ((nameB.substr(0,1) == hebrewLetters.vav) && (trials=2) )nameB=nameB.substr(1);  
 								  if (nameB <nameA){ tmp=nameA; nameA=nameB; nameB=tmp};
 		                        
 						  		bothNames=	sortedFirstNames[nextIdx].split('*');
 									cond1= ( (nameA) && (nameA != bothNames[0]) && (nameA != bothNames[1]) );  // if specified it has to be equal to the one in the DB
 									cond2= ( (nameB) && (nameB != bothNames[0]) && (nameB != bothNames[1]) );
 													 
-									if ( (! cond1) && ( ! cond2) ) {		confirmedIndices.push(nextIdx); break;};
+									if ( (! cond1) && ( ! cond2) ) {		confirmedIndices.push(nextIdx); confirmed=true;  break;};
+									trials--;
+									} // while
+									if (confirmed )break;
 									strParts=str.split(' ');   // restore firstNamesArray
 						      firstNamesArray=strParts.splice(strOriginalLength-nuberOfPops,nuberOfPops);
 							} // for j
@@ -2118,7 +2124,8 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 for (ik=0; ik<nameslist.length;ik++){
 	   console.log('ik='+ik+' nameslist[ik='+nameslist[ik]);
 	     memberDataName[ik]=nameslist[ik];
-			 rowNum=knownName(memberDataName[ik])[0];
+			 tmp=knownName(memberDataName[ik]);  console.log('tmp='+tmp);
+			 rowNum=tmp[0];
 	     roww=rowNum.toString();
 			 ptr=amudot.menRosh+roww;
 	     memberDataMenR[ik]=requestedSeatsWorksheet[ptr].v;
@@ -2638,12 +2645,11 @@ app.get('/UPDtashlumim', function(req, res) {
   app.get('/writeinfo', function(req, res) {
 	var dbg,i;
 	res.header("Access-Control-Allow-Origin", "*");
-	fullInpString=decodeURI(req.originalUrl); console.log('req.originalUrl='+req.originalUrl);   
-	 console.log('fullInpString='+fullInpString);
-	inputString=fullInpString.split('?')[1]; console.log('inputString='+inputString);
-	tmp=inputString.split('>'); console.log('tmp[0]='+tmp[0]);  console.log('tmp[1]='+tmp[1]);
+	fullInpString=decodeURI(req.originalUrl); 
+	inputString=fullInpString.split('?')[1]; 
+	tmp=inputString.split('>'); 
 	DST_inIsrael=Number(tmp[0]);
-	inputString=tmp[1];  console.log('inputString='+inputString);
+	inputString=tmp[1];  
 	dbg=searchDebugParam('writeinfo');
 	if (  dbg != -1) console.log('write_info at '+getPrintableDate(DST_inIsrael)+ ' of inputString='+inputString);
 	initFromFiles('');
