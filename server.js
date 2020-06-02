@@ -2189,7 +2189,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	 }
 //---------------------------------------------------------------------------------------- 
 
-function generate_registeredList_XLS(){
+function generate_registeredList_XLS(DST_inIsrael){
 	 initFromFiles('');
 	 var firstRowInRegistered=12;
 	 var firstRowInNotRegistered=80;
@@ -2269,28 +2269,10 @@ function generate_registeredList_XLS(){
 			} 
 			
 			
-		/* update report date	
-		offset=0;
-		var d= Date();
-		var mnthLngth=[31,28,31,30,31,30,31,31,30,31,30,31];	
-		var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];	 
-			var n = new Date; 	
-			dParts=n.toString().split(' ');  
-			localTimeZoneDiffToZero= Number(dParts[5].substr(3,3));
-			offset=2-localTimeZoneDiffToZero; //  Israel is GMT+2
-			HR=Number(dParts[4].substr(0,2))+offset;
-			dy=Number(dParts[2]);
-			mnth=monthNames.indexOf(dParts[1])+1;
-			yr=Number(dParts[3]);
-			if (yr/4 == Math.round(yr/4)){mnthLngth[1]=29} else mnthLngth[1]=28;
+		// put date and time in the xls file
+		
 			
-			if (HR > 23){   HR=HR-24;   Dy++};
-			if(dy > mnthLngth[mnth-1] ) {dy=1; mnth++};
-			if (mnth>12){mnth=1; yr++};
-			newDate=dy.toString()+'/'+mnth.toString()+'/'+yr.toString();
-	*/		
-			
-			registeredSheet['B4'].v=getPrintableDate();
+			registeredSheet['B4'].v=getPrintableDate(DST_inIsrael);
 			
 			
 	 // write the data into a new file
@@ -2301,7 +2283,7 @@ function generate_registeredList_XLS(){
 
 
 //---------------------------------------------------------------------------------	 
- function getPrintableDate(){
+ function getPrintableDate(DST_inIsrael){
    var offset=0;
 	 var localTimeZoneDiffToZero,dParts,HR,dy,mnth,yr,newDate,newTime;
 		var d= Date();
@@ -2309,8 +2291,8 @@ function generate_registeredList_XLS(){
 		var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];	 
 			var n = new Date; 	
 			dParts=n.toString().split(' '); for(i=0;i<dParts.length;i++)console.log('i='+i+' dParts[i]='+dParts[i]+'/'); 
-			localTimeZoneDiffToZero= Number(dParts[5].substr(3,3));   console.log('localTimeZoneDiffToZero='+localTimeZoneDiffToZero+'/');
-			offset=2-localTimeZoneDiffToZero; //  Israel is GMT+2
+			localTimeZoneDiffToZero= Number(dParts[5].substr(4,4));   console.log('localTimeZoneDiffToZero='+localTimeZoneDiffToZero+'/ dParts[5]='+dParts[5]);
+			offset=2+DST_inIsrael-localTimeZoneDiffToZero; //  Israel is GMT+2
 			HR=Number(dParts[4].substr(0,2))+offset;
 			dy=Number(dParts[2]);
 			mnth=monthNames.indexOf(dParts[1])+1;
@@ -4302,8 +4284,11 @@ app.get('/updateMembersInfo', function(req, res) {
 app.get('/getListOfRegistered', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
    inputString=decodeURI(req.originalUrl); 
-  passW=inputString.split('-')[1];
-	 if (passW == mngmntPASSW){  fileToSendName= 'registerdList.xlsx';  fileToRead=registeredListFilename; generate_registeredList_XLS();}
+  info=inputString.split('-')[1];
+	info=info.split('$');
+	passW=info[0];
+	DST_inIsrael=Number(info[1]);
+	 if (passW == mngmntPASSW){  fileToSendName= 'registerdList.xlsx';  fileToRead=registeredListFilename; generate_registeredList_XLS(DST_inIsrael);}
 				else {fileToSendName='empty.xlsx'; fileToRead='empty.xlsx'};
 	 
      res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
