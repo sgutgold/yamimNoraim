@@ -1433,7 +1433,7 @@ requestedSeatsWorksheet = workbook.Sheets['HTMLRequests'+yearToInitFrom];
 					  n=indices[m];
 					  if (l !=n) if(hisName[l] == hisName[n]){minimumName[l]=familyNames[i]+' '+herName[l];	break};
 	           } //for m
-						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+'*'+hisName[l];
+						 if ( ! minimumName[l])minimumName[l]=familyNames[i]+' '+hisName[l];
 				} // for k
 				
 				
@@ -2211,13 +2211,10 @@ function generate_registeredList_XLS(){
 	 for (ik=0; ik<nameslist.length;ik++){
 	  
 		 name=nameslist[ik];
+		 if ( ! name )continue;
 		 rowNum=knownName(name)[0];console.log('ik='+ik+' name='+name+' rowNum='+rowNum);
 	   roww=rowNum.toString();
-		 
-		
-		 
-		 
-		  
+	  
 	   if(Number( delLeadingBlnks(requestedSeatsWorksheet[amudot.tashlum+roww].v) ) ){  // tashlum not zero meand he has registered
 		    registeredMembersName[k]=name;
 				k++}
