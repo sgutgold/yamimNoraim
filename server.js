@@ -2065,7 +2065,7 @@ app.get('/seatsOrderedXLS', function(req, res) {
   tmp=inputString.split('-')[1]; //tt=inputString.split('-'); 
 	tmp=tmp.split('$');
 	passW=tmp[0];
-	DST_inIsrael=tmp[1];
+	DST_inIsrael=Number(tmp[1]);
 	if (passW == mngmntPASSW){  fileToSendName= 'seatsOrdered.xlsx';  fileToRead=seatsOrderedFileName; generate_seatsOrderedXLS(DST_inIsrael);}
 				else {fileToSendName='empty.xlsx'; fileToRead='empty.xlsx'}
 				
@@ -2124,11 +2124,11 @@ app.get('/seatsOrderedXLS', function(req, res) {
 	    idx++;
 			};
 	 nameslist= nameslist.sort();
-	console.log('2127 nameslist='+nameslist);
+	//console.log('2127 nameslist='+nameslist);
 	 for (ik=0; ik<nameslist.length;ik++){
-	   console.log('ik='+ik+' nameslist[ik='+nameslist[ik]);
+	 //  console.log('ik='+ik+' nameslist[ik='+nameslist[ik]);
 	     memberDataName[ik]=nameslist[ik];
-			 tmp=knownName(memberDataName[ik]);  console.log('tmp='+tmp);
+			 tmp=knownName(memberDataName[ik]); 
 			 rowNum=tmp[0];
 	     roww=rowNum.toString();
 			 ptr=amudot.menRosh+roww;
@@ -4239,7 +4239,7 @@ app.get('/getMembersInfo', function(req, res) {
 				 Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
 											    colmn=amudot[key];
 													ptr=colmn+sMember;
-													vlu='';   if ( requestedSeatsWorksheet[ ptr] ) {vlu=requestedSeatsWorksheet[ ptr].v;} else console.log('ptr ='+ptr);
+													vlu='';   if ( requestedSeatsWorksheet[ ptr] ) {vlu=requestedSeatsWorksheet[ ptr].v;} else console.log('4240  ptr ='+ptr);
 													if ( ! isNaN(vlu)  )vlu=vlu.toString();  vlu=delLeadingBlnks(vlu);
 													    listToSend=listToSend+vlu+'&';  
 													      
