@@ -162,7 +162,7 @@ var nodemailer = require('nodemailer');
 						   while  ((trials) && ( ! confirmed) ){
 						     nameA=firstNamesArray.splice(0,j).join(' ');
 								 nameB=firstNamesArray.join(' '); 
-								    if ((nameB.substr(0,1) == hebrewLetters.vav) && (trials=2) )nameB=nameB.substr(1);  
+								    if ((nameB.substr(0,1) == hebrewLetters.vav) && (trials==2) )nameB=nameB.substr(1);  
 								  if (nameB <nameA){ tmp=nameA; nameA=nameB; nameB=tmp};
 		                        
 						  		bothNames=	sortedFirstNames[nextIdx].split('*');
