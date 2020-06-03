@@ -5022,7 +5022,7 @@ var 	inputString,tmp,i,j,updateRequests,addNewMembersRequests,memberInfo,nextLin
 			for(i=0;i<updateRequests.length;i++){
 			    memberInfo=updateRequests[i].split('%');
 					row=knownName(memberInfo[0])[0];   // name before update
-					if (row == -1){res.send('--- ' + memberInfo[0]+ ' is unknown'););  return;};
+					if (row == -1){res.send('--- ' + memberInfo[0]+ ' is unknown');  return;};
 					row=row.toString();
 					 for (j=0;j<	 amudot_memberPersonalInfo.length;j++)requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v=memberInfo[j+1];
 			  } // for i
