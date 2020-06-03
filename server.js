@@ -4995,7 +4995,11 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 				 namePtr=amudot.name+row;
 				 if (  (requestedSeatsWorksheet[namePtr])  && (delLeadingBlnks(requestedSeatsWorksheet[namePtr].v)) ){
 				 rspns=rspns+'>';
-				   for (j=0;j<	 amudot_memberPersonalInfo.length;j++)rspns=rspns+delLeadingBlnks(requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v)+'$' ;
+				   for (j=0;j<	 amudot_memberPersonalInfo.length;j++){
+					 console.log('amudot_memberPersonalInfo[j]='+amudot_memberPersonalInfo[j]+'  row='+row);
+					      ptr1=amudot_memberPersonalInfo[j]+row;  console.log('ptr1='+ptr1);
+							  rspns=rspns+delLeadingBlnks(requestedSeatsWorksheet[ptr1].v)+'$' ;
+							} // for j	
 					 rspns=rspns.substr(0,rspns.length-1);  // delete last $
 				}  //if
 			} // for i		 
@@ -5066,8 +5070,9 @@ var 	inputString,tmp,i,j,updateRequests,addNewMembersRequests,memberInfo,nextLin
 				
 	 //   delete members
 	 
-	 
-					  res.send('+++' );
+	  initFromFiles('');
+		
+	  res.send('+++' );
  })				
 				
 				
