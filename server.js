@@ -4978,8 +4978,104 @@ app.get('/ckpswGIZBAR', function(req, res) {
 	 if(inputString==moshavimPASSW){rspns='+++';} else rspns='---';
             res.send(rspns );
         })	
-//------------------------------------------------------------------------------			
+//------------------------------------------------------------------------------		
+
+var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot.phone, amudot.vetek];
+.	
+ app.get('/manageMemberInfo_getAll', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+	
+
+	 	 initFromFiles('');
+		 
+	   rspns='+++';
+	   for(i=firstSeatRow;i<lastSeatRow;i++){ 
+         row=i.toString();
+				 namePtr=amudot.name+row;
+				 if (  (requestedSeatsWorksheet[namePtr])  && (delLeadingBlnks(requestedSeatsWorksheet[namePtr].v) ){
+				 rspns=rspns+'>';
+				   for (j=0;j<	 amudot_memberPersonalInfo.length;j++)rspns=rspns+delLeadingBlnks(requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v)+'$' ;
+					 rspns=rspns.substr(0,rspns.length-1);  // delete last $
+				}  //if
+			} // for i		 
+           console.log('4998 rspns='+rspns);
+					  res.send(rspns );
+ })				
 				
+				
+//------------------------------------------------------------------------------			
+ app.get('/manageMemberInfo_update', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');
+var 	inputString,tmp,i,j,updateRequests,addNewMembersRequests,memberInfo,nextLineIdx,ptr,roww,ptr1;
+	 	
+		 inputString=decodeURI(req.originalUrl).split('?')[1];  
+		 tmp=inputString.split('<>');
+		 updateRequests=tmp[0].split'$');;
+		 addNewMembersRequests=tmp[1].split('$');
+		 membersToDeleteRequest=tmp[2].split('$');
+		  initFromFiles('');
+			
+			// update requests
+			
+			for(i=0;i<updateRequests.length;i++){
+			    memberInfo=updateRequests[i].split('%');
+					row=knownName(memberInfo[0])[0];   // name before update
+					if (row == -1){res.send('--- ' + memberInfo[0]+ ' is unknown'););  return;};
+					row=row.toString();
+					 for (j=0;j<	 amudot_memberPersonalInfo.length;j++)requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v=memberInfo[j+1];
+			  } // for i
+				
+		// add new members
+		nextLineIdx=lastSeatRow;
+		for(i=0;i<addNewMembersRequests.length;i++){ 
+		   roww=nextLineIdx.toString();
+		  if( delLeadingBlnks(requestedSeatsWorksheet[amudot.name+roww].v) != '$$$')
+			                     {res.send('--- ' + memberInfo[0]+ ' and the following ones were not added, not enough space provided');  return;};
+		  // clear the new line 		
+	      
+				 Object.keys(amudot).forEach(function(key)  {   // copy all colomns
+
+              ptr1= amudot[key]+roww;
+														
+						YrSheet[ptr1]={t:"s",v:vlu};
+						YrSheet[ptr1].v=(YrSheet[ptr1].v).toString();  //make sure it is of str attribute
+												
+         });	
+	      
+				for (j=0;j<	 amudot_memberPersonalInfo.length;j++)requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v=memberInfo[j];
+				
+   
+	      ptr=amudot.stsfctnInFlr2YRSAgoYrWmn+roww;    // set values for sorting so that a new member will not get high priority for un-existing past
+	      requestedSeatsWorksheet[ptr].v=10;
+	      ptr=amudot.stsfctnInFlr2YRSAgoYrMen+roww; 
+	      requestedSeatsWorksheet[ptr].v=10;
+     	  ptr=amudot.TwoYRSAgoSeat+roww; 
+	      requestedSeatsWorksheet[ptr].v=0;
+	      ptr=amudot.stsfctnInFlr3YRSAgoYrWmn+roww; 
+	      requestedSeatsWorksheet[ptr].v=10;
+	      ptr=amudot.stsfctnInFlr3YRSAgoYrMen+roww; 
+	      requestedSeatsWorksheet[ptr].v=10;
+	      ptr=amudot.ThreeYRSAgoSeat+roww; 
+	      requestedSeatsWorksheet[ptr].v=0;
+				
+				
+				nextLineIdx++;
+	}  // for i			
+				
+	 //   delete members
+	 
+	 
+					  res.send('+++' );
+ })				
+				
+				
+				
+				
+				
+				
+//------------------------------------------------------------------------------						
 	app.get('/', function(req, res) {  
 	//res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
