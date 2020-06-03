@@ -4993,7 +4993,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	   for(i=firstSeatRow;i<lastSeatRow;i++){ 
          row=i.toString();
 				 namePtr=amudot.name+row;
-				 if (  (requestedSeatsWorksheet[namePtr])  && (delLeadingBlnks(requestedSeatsWorksheet[namePtr].v) ){
+				 if (  (requestedSeatsWorksheet[namePtr])  && (delLeadingBlnks(requestedSeatsWorksheet[namePtr].v)) ){
 				 rspns=rspns+'>';
 				   for (j=0;j<	 amudot_memberPersonalInfo.length;j++)rspns=rspns+delLeadingBlnks(requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v)+'$' ;
 					 rspns=rspns.substr(0,rspns.length-1);  // delete last $
