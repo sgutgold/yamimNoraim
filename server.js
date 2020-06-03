@@ -5012,7 +5012,7 @@ var 	inputString,tmp,i,j,updateRequests,addNewMembersRequests,memberInfo,nextLin
 	 	
 		 inputString=decodeURI(req.originalUrl).split('?')[1];  
 		 tmp=inputString.split('<>');
-		 updateRequests=tmp[0].split'$');;
+		 updateRequests=tmp[0].split('$');;
 		 addNewMembersRequests=tmp[1].split('$');
 		 membersToDeleteRequest=tmp[2].split('$');
 		  initFromFiles('');
