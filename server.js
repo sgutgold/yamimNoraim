@@ -4981,7 +4981,7 @@ app.get('/ckpswGIZBAR', function(req, res) {
 //------------------------------------------------------------------------------		
 
 var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot.phone, amudot.vetek];
-.	
+
  app.get('/manageMemberInfo_getAll', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
