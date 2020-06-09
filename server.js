@@ -2389,7 +2389,9 @@ app.get('/deleteMember', function(req, res) {
 		       roww=(i).toString();
 		       Object.keys(amudot).forEach(function(key)  {   // clear values for row
 											    colmn=amudot[key];
-													requestedSeatsWorksheet[ colmn+roww].v=''; 
+													requestedSeatsWorksheet[ colmn+roww]={t:"s",v:''};
+														
+													//requestedSeatsWorksheet[ colmn+roww].v=''; 
 												    
 													 }) ;
 						requestedSeatsWorksheet[ amudot.name+roww].v='$$$';							     
