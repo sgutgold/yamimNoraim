@@ -2382,8 +2382,8 @@ app.get('/deleteMember', function(req, res) {
 
 	 inputString=decodeURI(req.originalUrl);  
 	 nam=inputString.split('?')[1];
-	 for (i=firstSeatRow;i< lastSeatRow+1;i++){console.log( 'i='+i);
-	// console.log('requestedSeatsWorksheet[amudot.name+(i).toString() ].v='+requestedSeatsWorksheet[amudot.name+(i).toString() ].v); 
+	 for (i=firstSeatRow;i< lastSeatRow+1;i++){
+	
 	  if(requestedSeatsWorksheet[amudot.name+(i).toString() ]){
 		 if(delLeadingBlnks(requestedSeatsWorksheet[amudot.name+(i).toString() ].v) == nam){  //found
 		       roww=(i).toString();
@@ -2476,10 +2476,12 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 	row=(i).toString();
 	 Object.keys(amudot).forEach(function(key)  {   // clear values for row
 											    colmn=amudot[key];
-													compressedDB[i]=compressedDB[i]+'<@>'+requestedSeatsWorksheet[ colmn+row].v; 
+													cell=requestedSeatsWorksheet[ colmn+row];
+													if (cell){vlu=cell.v} else vlu='';
+													compressedDB[i]=compressedDB[i]+'<@>'+vlu; 
 							 }) ;
 
-      compressedDB[i]=compressedDB[i].substr(1);  // remove first delimiter
+      compressedDB[i]=compressedDB[i].substr(3);  // remove first delimiter
 			}  // for i
 			
 	compressedDB.sort();
