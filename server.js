@@ -2384,7 +2384,8 @@ app.get('/deleteMember', function(req, res) {
 	 nam=inputString.split('?')[1];
 	 for (i=firstSeatRow;i< lastSeatRow+1;i++){console.log( 'i='+i);
 	 console.log('requestedSeatsWorksheet[amudot.name+(i).toString() ].v='+requestedSeatsWorksheet[amudot.name+(i).toString() ].v); 
-	   if(delLeadingBlnks() == nam){  //found
+	  if(requestedSeatsWorksheet[amudot.name+(i).toString() ]){
+		 if(delLeadingBlnks(requestedSeatsWorksheet[amudot.name+(i).toString() ].v) == nam){  //found
 		       roww=(i).toString();
 		       Object.keys(amudot).forEach(function(key)  {   // clear values for row
 											    colmn=amudot[key];
@@ -2396,6 +2397,7 @@ app.get('/deleteMember', function(req, res) {
 		         res.send('+++' );
 						 return;
 						 };  // deleted
+					}	 
 		  } // end for
 			 res.send('---' );   // not found
 	});	 
@@ -5171,8 +5173,8 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 				 if (  (requestedSeatsWorksheet[namePtr])  && (delLeadingBlnks(requestedSeatsWorksheet[namePtr].v)) ){
 				 rspns=rspns+'>';
 				   for (j=0;j<	 amudot_memberPersonalInfo.length;j++){
-					 console.log('amudot_memberPersonalInfo[j]='+amudot_memberPersonalInfo[j]+'  row='+row);
-					      ptr1=amudot_memberPersonalInfo[j]+row;  console.log('ptr1='+ptr1);
+					
+					      ptr1=amudot_memberPersonalInfo[j]+row;  
 							  rspns=rspns+delLeadingBlnks(requestedSeatsWorksheet[ptr1].v)+'$' ;
 							} // for j	
 					 rspns=rspns.substr(0,rspns.length-1);  // delete last $
