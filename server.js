@@ -2449,12 +2449,13 @@ app.get('/modifyMemberInfo', function(req, res) {
 						}   // switch			 																
 						} // for j
 						} // if
-						} // for i
+						
 					
 						  
 			xlsx.writeFile(workbook, XLSXfilename);  // write update								 
 						 
 	   res.send('+++');
+		 return;
 		 } //  found and modified
 		 
 		res.send('---');   // not found, error 
