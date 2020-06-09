@@ -2465,7 +2465,11 @@ app.get('/modifyMemberInfo', function(req, res) {
 		 
 		res.send('---');   // not found, error 
  });				
-//---------------------------------------------------------------------------------	   
+//---------------------------------------------------------------------------------	
+colmn=amudot[key];
+													requestedSeatsWorksheet[ colmn+roww]=
+
+   
 function sortDB(){
 var i,row,j;
 var compressedDB=new Array;
@@ -2492,7 +2496,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
      j=0;
 		 Object.keys(amudot).forEach(function(key)  {   // clear values for row
 											    colmn=amudot[key];
-													requestedSeatsWorksheet[ colmn+row].v=compressedDBEntry[j]; 
+													requestedSeatsWorksheet[ colmn+row]={t:"s",v:compressedDBEntry[j]); 
 													j++;
 							 }) ;
 		} // for i
