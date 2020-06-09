@@ -2496,7 +2496,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
      j=0;
 		 Object.keys(amudot).forEach(function(key)  {   // clear values for row
 											    colmn=amudot[key];
-													requestedSeatsWorksheet[ colmn+row]={t:"s",v:compressedDBEntry[j]); 
+													requestedSeatsWorksheet[ colmn+row]={t:"s",v:compressedDBEntry[j]}; 
 													j++;
 							 }) ;
 		} // for i
