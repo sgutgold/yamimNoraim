@@ -2325,7 +2325,7 @@ app.get('/addMember', function(req, res) {
 	 initFromFiles('');
 	 
 	  rslt=knownName(nam);
-		if ( (tmp[0] == -1) && ( ! tmp[1])  ){ // continue;
+		if ( (rslt[0] == -1) && ( ! rslt[1])  ){ // continue;
 	  nam=inputArray[1];  
 	  email=inputArray[2];
 		phone=inputArray[3];
@@ -2382,8 +2382,9 @@ app.get('/deleteMember', function(req, res) {
 
 	 inputString=decodeURI(req.originalUrl);  
 	 nam=inputString.split('?')[1];
-	 for (i=firstSeatRow;i< lastSeatRow+1;i++){
-	   if(delLeadingBlnks(requestedSeatsWorksheet[amudot.name+(i).toString() ].v) == nam){  //found
+	 for (i=firstSeatRow;i< lastSeatRow+1;i++){console.log(i='+i');
+	 console.log('requestedSeatsWorksheet[amudot.name+(i).toString() ].v='+requestedSeatsWorksheet[amudot.name+(i).toString() ].v); 
+	   if(delLeadingBlnks() == nam){  //found
 		       roww=(i).toString();
 		       Object.keys(amudot).forEach(function(key)  {   // clear values for row
 											    colmn=amudot[key];
@@ -5177,7 +5178,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 					 rspns=rspns.substr(0,rspns.length-1);  // delete last $
 				}  //if
 			} // for i		 
-           console.log('4998 rspns='+rspns);
+        //   console.log('5180 rspns='+rspns);
 					  res.send(rspns );
  })				
 	
@@ -5191,8 +5192,13 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	 initFromFiles('');
 	 
 	 nam=decodeURI(req.originalUrl).split('?')[1]; 
-	 tmp=knownName(nam);
-	 if ( (tmp[0] == -1) && ( ! tmp[1])  ){ res.send('---' );   return}; 
+	 
+	 for (i=firstSeatRow; i<lastSeatRow+1;i++)
+	      {if (nam==delLeadingBlnks(requestedSeatsWorksheet[amudot.name+(i).toString()].v) ){
+				      res.send('---' );   return
+							}; 
+	
+	    } //for
 	 
 	res.send('+++' ); 
 		
