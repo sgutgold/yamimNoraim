@@ -2447,7 +2447,9 @@ app.get('/modifyMemberInfo', function(req, res) {
 							     break;
 									 
 						}   // switch			 																
-						
+						} // for j
+						} // if
+						) // for i
 					
 						  
 			xlsx.writeFile(workbook, XLSXfilename);  // write update								 
