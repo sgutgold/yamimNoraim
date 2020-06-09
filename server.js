@@ -2504,7 +2504,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 // end debug		
 		
 	//		xlsx.writeFile(workbook, XLSXfilename);  // write update 
-}:	 
+}	 
 	 	
 //---------------------------------------------------------------------------------	   
 
