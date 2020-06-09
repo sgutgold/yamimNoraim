@@ -1116,7 +1116,7 @@ function initFromFiles(yearToInitFrom){
  assnmentsToVerify=reqstedAssgmnt.split('+');
  
  if(moed==1){assignedCol=amudot.assignedSeatsRosh}else assignedCol=amudot.assignedSeatsKipur;
-  for (i=firstSeatRow;i<lastSeatRow;i++){ 
+  for (i=firstSeatRow;i<lastSeatRow+1;i++){ 
          if (i == checkedRow)continue;
 				 row=i.toString();
 	       assignmentForRow_STR=delLeadingBlnks(requestedSeatsWorksheet[assignedCol+row].v);
@@ -2307,9 +2307,205 @@ function generate_registeredList_XLS(DST_inIsrael){
 			newTime=HR.toString()+dParts[4].substr(2);
 			return newDate+' '+newTime;
 	}
-//---------------------------------------------------------------------------------	   
+	
+//---------------------------------------------------------------------------------	  var amudotForMemberInfo	 ={name:'A',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',	memberShipStatus:'AU'};						
+ 
 
 app.get('/addMember', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+
+	 inputString=decodeURI(req.originalUrl);  
+	 inputPairs=inputString.split('?')[1];
+	 inputArray=inputPairs.split('$');
+	 nam=inputArray[0];
+	 if ( delLeadingBlnks(requestedSeatsWorksheet[amudot.name+(lastSeatRow+1).toString() ].v) != '$$$'){ res.send('999' ); return};  // no more space for new members
+ 
+ //  passW=inputPairs[5];
+	// if (passW == mngmntPASSW){
+	 initFromFiles('');
+	 
+	  rslt=knownName(nam);
+		if ( (tmp[0] == -1) && ( ! tmp[1])  ){ // continue;
+	  nam=inputArray[1];  
+	  email=inputArray[2];
+		phone=inputArray[3];
+		addr=inputArray[4];
+		membershipStatus=inputArray[5];
+
+
+		 lastSeatRow++;
+	 roww=lastSeatRow.toString();
+   pointerCell=amudot.name+roww; 
+	 requestedSeatsWorksheet[pointerCell].v=nam;
+	 pointerCell=amudot.email+roww; 
+	 requestedSeatsWorksheet[pointerCell].v=email; 	
+	 pointerCell=amudot.phone+roww; 
+	 requestedSeatsWorksheet[pointerCell].v=phone;
+	 pointerCell=amudot.addr+roww; 
+	 requestedSeatsWorksheet[pointerCell].v=addr; 	 	
+	 
+	  	
+	 ptr=amudot.memberShipStatus+roww; 
+	 requestedSeatsWorksheet[ptr].v=membershipStatus;
+	
+	 ptr=amudot.stsfctnInFlr2YRSAgoYrWmn+roww;    // set values for sorting so that a new member will not get high priority for un-existing past
+	 requestedSeatsWorksheet[ptr].v=10;
+	 ptr=amudot.stsfctnInFlr2YRSAgoYrMen+roww; 
+	 requestedSeatsWorksheet[ptr].v=10;
+	 ptr=amudot.TwoYRSAgoSeat+roww; 
+	 requestedSeatsWorksheet[ptr].v=0;
+	 ptr=amudot.stsfctnInFlr3YRSAgoYrWmn+roww; 
+	 requestedSeatsWorksheet[ptr].v=10;
+	 ptr=amudot.stsfctnInFlr3YRSAgoYrMen+roww; 
+	 requestedSeatsWorksheet[ptr].v=10;
+	 ptr=amudot.ThreeYRSAgoSeat+roww; 
+	 requestedSeatsWorksheet[ptr].v=0;
+	 
+	 sortDB();
+	   
+	 xlsx.writeFile(workbook, XLSXfilename);
+	 
+	
+	 
+	
+						
+	 res.send('+++');
+	 }
+	else res.send('---' ); 
+	 
+});
+	
+//---------------------------------------------------------------------------------	   
+
+app.get('/deleteMember', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+
+	 inputString=decodeURI(req.originalUrl);  
+	 nam=inputString.split('?')[1];
+	 for (i=firstSeatRow;i< lastSeatRow+1;i++){
+	   if(delLeadingBlnks(requestedSeatsWorksheet[amudot.name+(i).toString() ].v) == nam){  //found
+		       roww=(i).toString();
+		       Object.keys(amudot).forEach(function(key)  {   // clear values for row
+											    colmn=amudot[key];
+													requestedSeatsWorksheet[ colmn+roww].v=''; 
+												    
+													 }) ;
+						requestedSeatsWorksheet[ amudot.name+roww].v='$$$';							     
+            sortDB(); 
+		         res.send('+++' );
+						 return;
+						 };  // deleted
+		  } // end for
+			 res.send('---' );   // not found
+	});	 
+//---------------------------------------------------------------------------------var amudotForMemberInfo	 ={name:'A',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',	memberShipStatus:'AU'};				   
+app.get('/modifyMemberInfo', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+
+
+   
+	 inputString=decodeURI(req.originalUrl);  
+	 inputString=inputString.split('?')[1];
+
+	 inputArray=inputString.split('$');
+	 
+	 if (inputArray[0] != mngmntPASSW){
+	   res.send('999 wrong  password');
+		 return;
+		 }
+		 
+	 initFromFiles('');  // last year info  
+	  oldName=inputSArray[1];
+		
+	 for (i=firstSeatRow;i< lastSeatRow+1;i++){
+	   if(delLeadingBlnks(requestedSeatsWorksheet[amudot.name+(i).toString() ].v) == oldName){  //found
+		       roww=(i).toString();
+					
+					for (j=2;j< inputArray.length;j++){
+					  entry=inputArray[j];
+	          entryParts=entry.split('>');
+						
+				    switch 	(entryParts[0]) {  
+				     				 
+				     case 'name': 
+						          requestedSeatsWorksheet[amudot.name+row ].v=entryParts[1]; 
+						          break;
+							case 'email':
+							        requestedSeatsWorksheet[amudot.email+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'phone':
+							        requestedSeatsWorksheet[amudot.phone+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'addr':
+							        requestedSeatsWorksheet[amudot.addr+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'membership':
+							        requestedSeatsWorksheet[amudot.memberShipStatus+row ].v=entryParts[1]; 
+							     break;
+									 
+						}   // switch			 																
+						
+					
+						  
+			xlsx.writeFile(workbook, XLSXfilename);  // write update								 
+						 
+	   res.send('+++');
+		 } //  found and modified
+		 
+		res.send('---');   // not found, error 
+ });				
+//---------------------------------------------------------------------------------	   
+function sortDB(){
+var i,row,j;
+var compressedDB=new Array;
+var compressedDBEntry=new Array;
+
+for (i=firstSeatRow;i<lastSeatRow+1;i++){
+  compressedDB[i]='';
+	row=(i).toString();
+	 Object.keys(amudot).forEach(function(key)  {   // clear values for row
+											    colmn=amudot[key];
+													compressedDB[i]=compressedDB[i]+'<@>'+requestedSeatsWorksheet[ colmn+row].v; 
+							 }) ;
+
+      compressedDB[i]=compressedDB[i].substr(1);  // remove first delimiter
+			}  // for i
+			
+	compressedDB.sort();
+	
+	for (i=firstSeatRow;i<lastSeatRow+1;i++){
+	  row=(i).toString();
+	   compressedDBEntry=compressedDB[i].split('<@>');		
+     j=0;
+		 Object.keys(amudot).forEach(function(key)  {   // clear values for row
+											    colmn=amudot[key];
+													requestedSeatsWorksheet[ colmn+row].v=compressedDBEntry[j]; 
+													j++;
+							 }) ;
+		} // for i
+// debug
+for (i=firstSeatRow;i<lastSeatRow+1;i++){
+	   debugStr='';		
+		  row=(i).toString();
+    
+		 Object.keys(amudot).forEach(function(key)  {   // clear values for row
+											    colmn=amudot[key];
+													debugStr=debugStr+'--'+requestedSeatsWorksheet[ colmn+row].v]; 
+													
+							 }) ;
+							 console.log(debugStr);
+   } // for i
+// end debug		
+		
+	//		xlsx.writeFile(workbook, XLSXfilename);  // write update 
+}:	 
+	 	
+//---------------------------------------------------------------------------------	   
+
+app.get('/addMemberx', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 
 	 inputString=decodeURI(req.originalUrl);  
@@ -2383,6 +2579,11 @@ app.get('/addMember', function(req, res) {
 	else res.send('999' ); 
 	 
 });
+
+
+//---------------------------------------------------------------------------------	 
+
+
 
 //---------------------------------------------------------------------------------	  
 app.get('/addFirstName', function(req, res) {
@@ -4253,37 +4454,7 @@ app.get('/getMembersInfo', function(req, res) {
  });	
 
 
-//--------------------------------------------------------------------------------updateMembersInfo
 		
-app.get('/updateMembersInfo', function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*");
-	inputString=decodeURI(req.originalUrl).split('?')[1];
-	memberInfoTable=inputString.split('$');
-	if (memberInfoTable[0] != mngmntPASSW){
-	   res.send('--- wrong  password');
-		 return;
-		 }
-		 initFromFiles('');  // last year info  
-	
-	 for(member=1;member<memberInfoTable.length;member++){
-	     AMemberInfo=memberInfoTable[member].split('&');
-	     memberName= AMemberInfo[0];
-	     rowNum= knownName(memberName)[0];
-	     row=rowNum.toString();
-		   j=0;
-	     Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
-											    colmn=amudot[key];
-													if (  j ){                               // do not copy new name on existing name
-													      requestedSeatsWorksheet[ colmn+row]={t:"s",v:' '}; 
-																requestedSeatsWorksheet[ colmn+row].v= AMemberInfo[j];
-														}
-													 j++;      
-													 }) // for each
-				} //for member			  
-			xlsx.writeFile(workbook, XLSXfilename);  // write update								 
-						 
-	   res.send('+++');
- });						
 //---------------------------------------------------------------------------------	  
 app.get('/getListOfRegistered', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -5006,9 +5177,26 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
            console.log('4998 rspns='+rspns);
 					  res.send(rspns );
  })				
-				
-				
-//------------------------------------------------------------------------------			
+	
+//------------------------------------------------------------------------------					
+		 app.get('/isKnownName', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	 res.setHeader('Content-Type', 'text/html');	
+	 
+	var 	nam,tmp; 	
+	
+	 initFromFiles('');
+	 
+	 nam=decodeURI(req.originalUrl).split('?')[1]; 
+	 tmp=knownName(nam);
+	 if ( (tmp[0] == -1) && ( ! tmp[1])  ){ res.send('---' );   return}; 
+	 
+	res.send('+++' ); 
+		
+	  
+ })				
+			
+//------------------------------------------------------------------------------		
  app.get('/manageMemberInfo_update', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
