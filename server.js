@@ -2382,7 +2382,7 @@ app.get('/deleteMember', function(req, res) {
 
 	 inputString=decodeURI(req.originalUrl);  
 	 nam=inputString.split('?')[1];
-	 for (i=firstSeatRow;i< lastSeatRow+1;i++){console.log(i='+i');
+	 for (i=firstSeatRow;i< lastSeatRow+1;i++){console.log( 'i='+i);
 	 console.log('requestedSeatsWorksheet[amudot.name+(i).toString() ].v='+requestedSeatsWorksheet[amudot.name+(i).toString() ].v); 
 	   if(delLeadingBlnks() == nam){  //found
 		       roww=(i).toString();
