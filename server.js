@@ -2492,7 +2492,7 @@ var compressedDBEntry=new Array;
 
 
 for (i=firstSeatRow;i<lastSeatRow+1;i++){
-  nextCol='A';
+  nextCol=amudot.name;
   compressedDB[i]='';
 	row=(i).toString();
 	oneColBeyondLastCol=NextColumn(lastCol); 
@@ -2511,7 +2511,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 	compressedDB.sort();
 	
 	for (i=firstSeatRow;i<lastSeatRow+1;i++){
-	   nextCol='A';
+	   nextCol=amudot.name;
 	  row=(i).toString();  console.log('i='+i+' compressedDB[i]='+compressedDB[i]); 
 	   compressedDBEntry=compressedDB[i].split('<@>');		
     
