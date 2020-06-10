@@ -2539,7 +2539,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
    } // for i
 // end debug		
 		
-	//		xlsx.writeFile(workbook, XLSXfilename);  // write update 
+			xlsx.writeFile(workbook, XLSXfilename);  // write update 
 }	 
 	 	
 //---------------------------------------------------------------------------------	   
