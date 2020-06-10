@@ -2490,7 +2490,7 @@ var i,row,j;
 var compressedDB=new Array;
 var compressedDBEntry=new Array;
 
-initFromFiles('');
+
 console.log('lastSeatRow  1='+lastSeatRow);
 
 
