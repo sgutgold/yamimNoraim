@@ -801,11 +801,12 @@ var amudot ={name:'B',registrationClosedDateNTime:'C',requestDate:'D',permanentS
 							issueInFloorWmn:'AU',  issueinFloorMen:'AV',  issueBetweenFloors:'AW',   
 							memberShipStatus:'AX',nashimMuadaf:'AY',gvarimMuadaf:'AZ',debugRequestsKeys:'BA',debugRequestsAll:'BB'
 							};
-							
+	var lastCol='AZ';		
+								
 var amudotForMemberInfo	 ={name:'A',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',	memberShipStatus:'AU'};						
                        
 
-	var lastCol='AZ';													
+											
 	
 amudotToClrInReqstdSeatsWhnGenNewYr= {registrationClosedDateNTime:'C',requestDate:'D',
               menRosh:'J',menKipur:'K',womenRosh:'L',womenKipur:'M',preferedMinyanW:'N',
@@ -2465,22 +2466,43 @@ app.get('/modifyMemberInfo', function(req, res) {
 		 
 		res.send('---');   // not found, error 
  });				
-//---------------------------------------------------------------------------------	
+//---------------------------------------------------------------------------------
+ function NextColumn(colum){
+   var letters=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z'];
+   var i,firstLetter,seconLetter;
+	 if (colum.length == 1){
+	    i=letters.indexOf(colum);	
+	    if (i < letters.length-2)return letters[i+1];																																																						 																																											 			
+      return 'AA';
+			}
+  firstLetter=colum.substr(0,1);
+	secondLetter=colum.substr(1,1);
+	i=letters.indexOf(secondLetter);
+	 if (i < letters.length-2)return firstLetter+letters[i+1];	
+	 i=	i=letters.indexOf(firstLetter);
+	 return letters[i+1]+'A';
+	 
+ }
+//---------------------------------------------------------------------------------		
 
 function sortDB(){
 var i,row,j;
 var compressedDB=new Array;
 var compressedDBEntry=new Array;
 
+
 for (i=firstSeatRow;i<lastSeatRow+1;i++){
+  nextCol='AA';
   compressedDB[i]='';
 	row=(i).toString();
-	 Object.keys(amudot).forEach(function(key)  {   // clear values for row
-											    colmn=amudot[key];
-													cell=requestedSeatsWorksheet[ colmn+row];
+	oneColBeyondLastCol=NextColumn(lastCol); console.log('oneColBeyondLastCol='+oneColBeyondLastCol);
+	while (nextCol != oneColBeyondLastCol){     // collect values for row
+	    
+													cell=requestedSeatsWorksheet[ nextCol+row];
 													if (cell){vlu=cell.v} else vlu='';
-													compressedDB[i]=compressedDB[i]+'<@>'+vlu; 
-							 }) ;
+													compressedDB[i]=compressedDB[i]+'<@>'+vlu;
+													nextCol=NextColumn(nextCol);  if(i==firstSeatRow)console.log('nextCol='+nextCol);
+							 } ;
 
       compressedDB[i]=compressedDB[i].substr(3);  // remove first delimiter
 			console.log('i='+i+'   compressedDB[i]='+compressedDB[i]);
@@ -2489,13 +2511,17 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 	compressedDB.sort();
 	
 	for (i=firstSeatRow;i<lastSeatRow+1;i++){
+	   nextCol='AA';
 	  row=(i).toString();  console.log('i='+i+' compressedDB[i]='+compressedDB[i]); 
 	   compressedDBEntry=compressedDB[i].split('<@>');		
-     j=0;
-		 Object.keys(amudot).forEach(function(key)  {   // clear values for row
-											    colmn=amudot[key];
-													requestedSeatsWorksheet[ colmn+row]={t:"s",v:compressedDBEntry[j]}; 
-													j++;
+     j=firstSeatRow;
+		// Object.keys(amudot).forEach(function(key)  {   // clear values for row
+		  while (nextCol != oneColBeyondLastCol){     // collect values for row
+	                        requestedSeatsWorksheet[ nextCol+row]={t:"s",v:compressedDBEntry[j]}; 
+													nextCol=NextColumn(nextCol);  if(i==firstSeatRow)console.log('nextCol='+nextCol);
+											    j++;
+													
+													
 							 }) ;
 		} // for i
 // debug
