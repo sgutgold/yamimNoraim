@@ -2483,7 +2483,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 							 }) ;
 
       compressedDB[i]=compressedDB[i].substr(3);  // remove first delimiter
-			console.log('i='+i+'   compressedDB[i]='+compressedDB[i];
+			console.log('i='+i+'   compressedDB[i]='+compressedDB[i]);
 			}  // for i
 			
 	compressedDB.sort();
