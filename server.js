@@ -2493,51 +2493,38 @@ var compressedDBEntry=new Array;
 
 for (i=firstSeatRow;i<lastSeatRow+1;i++){
   nextCol=amudot.name;
-  compressedDB[i]='';
+  compressedDB[i-firstSeatRow]='';
 	row=(i).toString();
 	oneColBeyondLastCol=NextColumn(lastCol); 
 	while (nextCol != oneColBeyondLastCol){     // collect values for row
 	    
 													cell=requestedSeatsWorksheet[ nextCol+row];
 													if (cell){vlu=cell.v} else vlu='';
-													compressedDB[i]=compressedDB[i]+'<@>'+vlu;
-													nextCol=NextColumn(nextCol);  if(i==firstSeatRow)console.log('nextCol='+nextCol);
+													compressedDB[i-firstSeatRow]=compressedDB[i-firstSeatRow]+'<@>'+vlu;
+													nextCol=NextColumn(nextCol); 
 							 } ;
 
-      compressedDB[i]=compressedDB[i].substr(3);  // remove first delimiter
+      compressedDB[i-firstSeatRow]=compressedDB[i-firstSeatRow].substr(3);  // remove first delimiter
 			console.log('i='+i+'   compressedDB[i]='+compressedDB[i]);
 			}  // for i
-			
+	console.log('compressedDB.length  1  ='+compressedDB.length);		
 	compressedDB.sort();
-	
+	console.log('compressedDB.length  2  ='+compressedDB.length);		
 	for (i=firstSeatRow;i<lastSeatRow+1;i++){
 	   nextCol=amudot.name;
-	  row=(i).toString();  console.log('i='+i+' compressedDB[i]='+compressedDB[i]); 
-	   compressedDBEntry=compressedDB[i].split('<@>');		
+	  row=(i).toString();  console.log('i='+i+' compressedDB[i-firstSeatRow]='+compressedDB[i-firstSeatRow]); 
+	   compressedDBEntry=compressedDB[i-firstSeatRow].split('<@>');		
     
 		
 		 j=0;
 	   while (nextCol != oneColBeyondLastCol){     // restore values for row
 	                        requestedSeatsWorksheet[ nextCol+row]={t:"s",v:compressedDBEntry[j]}; 
-													nextCol=NextColumn(nextCol);  if(i==firstSeatRow)console.log('nextCol='+nextCol);
+													nextCol=NextColumn(nextCol); 
 											    j++;
 													
 													
 							 } ;
 		} // for i
-// debug
-for (i=firstSeatRow;i<lastSeatRow+1;i++){
-	   debugStr='';		
-		  row=(i).toString();
-    
-		 Object.keys(amudot).forEach(function(key)  {   // clear values for row
-											    colmn=amudot[key];
-													debugStr=debugStr+'--'+requestedSeatsWorksheet[ colmn+row].v; 
-													
-							 }) ;
-							 console.log(debugStr);
-   } // for i
-// end debug		
 		
 			xlsx.writeFile(workbook, XLSXfilename);  // write update 
 }	 
