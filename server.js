@@ -2472,13 +2472,13 @@ app.get('/modifyMemberInfo', function(req, res) {
    var i,firstLetter,seconLetter;
 	 if (colum.length == 1){
 	    i=letters.indexOf(colum);	
-	    if (i < letters.length-2)return letters[i+1];																																																						 																																											 			
+	    if (i < letters.length-1)return letters[i+1];																																																						 																																											 			
       return 'AA';
 			}
   firstLetter=colum.substr(0,1);
 	secondLetter=colum.substr(1,1);
 	i=letters.indexOf(secondLetter);
-	 if (i < letters.length-2)return firstLetter+letters[i+1];	
+	 if (i < letters.length-1)return firstLetter+letters[i+1];	
 	 i=	i=letters.indexOf(firstLetter);
 	 return letters[i+1]+'A';
 	 
@@ -2492,10 +2492,10 @@ var compressedDBEntry=new Array;
 
 
 for (i=firstSeatRow;i<lastSeatRow+1;i++){
-  nextCol='AA';
+  nextCol='A';
   compressedDB[i]='';
 	row=(i).toString();
-	oneColBeyondLastCol=NextColumn(lastCol); console.log('oneColBeyondLastCol='+oneColBeyondLastCol);
+	oneColBeyondLastCol=NextColumn(lastCol); 
 	while (nextCol != oneColBeyondLastCol){     // collect values for row
 	    
 													cell=requestedSeatsWorksheet[ nextCol+row];
@@ -2511,12 +2511,13 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 	compressedDB.sort();
 	
 	for (i=firstSeatRow;i<lastSeatRow+1;i++){
-	   nextCol='AA';
+	   nextCol='A';
 	  row=(i).toString();  console.log('i='+i+' compressedDB[i]='+compressedDB[i]); 
 	   compressedDBEntry=compressedDB[i].split('<@>');		
-     j=firstSeatRow;
-	  
-		  while (nextCol != oneColBeyondLastCol){     // restore values for row
+    
+		
+		 j=0;
+	   while (nextCol != oneColBeyondLastCol){     // restore values for row
 	                        requestedSeatsWorksheet[ nextCol+row]={t:"s",v:compressedDBEntry[j]}; 
 													nextCol=NextColumn(nextCol);  if(i==firstSeatRow)console.log('nextCol='+nextCol);
 											    j++;
