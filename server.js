@@ -2515,14 +2515,14 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 	  row=(i).toString();  console.log('i='+i+' compressedDB[i]='+compressedDB[i]); 
 	   compressedDBEntry=compressedDB[i].split('<@>');		
      j=firstSeatRow;
-		// Object.keys(amudot).forEach(function(key)  {   // clear values for row
-		  while (nextCol != oneColBeyondLastCol){     // collect values for row
+	  
+		  while (nextCol != oneColBeyondLastCol){     // restore values for row
 	                        requestedSeatsWorksheet[ nextCol+row]={t:"s",v:compressedDBEntry[j]}; 
 													nextCol=NextColumn(nextCol);  if(i==firstSeatRow)console.log('nextCol='+nextCol);
 											    j++;
 													
 													
-							 }) ;
+							 } ;
 		} // for i
 // debug
 for (i=firstSeatRow;i<lastSeatRow+1;i++){
