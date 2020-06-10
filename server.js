@@ -2500,7 +2500,8 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
   nextCol=amudot.name;
 	cell=requestedSeatsWorksheet[ amudot.name+row];
 	if ( ! cell){numOfDeletedRows++; continue;};
-	if (cell.v == '$$$'){numOfDeletedRows++; continue;};
+	if (delLeadingBlnks(cell.v) == '$$$'){numOfDeletedRows++; continue;};
+	if ( ! delLeadingBlnks(cell.v) ){numOfDeletedRows++; continue;};
   compressedDB[compressedDBIdx]='';
 	row=(i).toString();
 	oneColBeyondLastCol=NextColumn(lastCol); 
@@ -2537,7 +2538,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 													
 							 } ;
 		} // for i
-		rowIdx=compressedDB.length+firstSeatRow;
+		rowIdx=compressedDB.length+firstSeatRow;   console.log('compressedDB.length='+compressedDB.length+'firstSeatRow='+firstSeatRow+' rowIdx='+rowIdx);
 		for (i=0; i<numOfDeletedRows;i++){
 		   row=rowIdx.toString();
 			 requestedSeatsWorksheet[ amudot.name+row]={t:"s",v:'$$$'};  // use empty rows for future additions
