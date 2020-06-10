@@ -2498,12 +2498,13 @@ compressedDBIdx=0;
 numOfDeletedRows=0;
 for (i=firstSeatRow;i<lastSeatRow+1;i++){
   nextCol=amudot.name;
-	cell=requestedSeatsWorksheet[ amudot.name+row];
-	if ( ! cell){numOfDeletedRows++; continue;};
-	if (delLeadingBlnks(cell.v) == '$$$'){numOfDeletedRows++; continue;};
-	if ( ! delLeadingBlnks(cell.v) ){numOfDeletedRows++; continue;};
-  compressedDB[compressedDBIdx]='';
 	row=(i).toString();
+	cell=requestedSeatsWorksheet[ amudot.name+row];
+	if ( ! cell){numOfDeletedRows++; console.log('skip 1 i='+i); continue;};
+	if (delLeadingBlnks(cell.v) == '$$$'){numOfDeletedRows++; console.log('skip 2 i='+i); continue;};
+	if ( ! delLeadingBlnks(cell.v) ){numOfDeletedRows++; console.log('skip 3 i='+i); continue;};
+  compressedDB[compressedDBIdx]='';
+	
 	oneColBeyondLastCol=NextColumn(lastCol); 
 	while (nextCol != oneColBeyondLastCol){     // collect values for row
 	    
