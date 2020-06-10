@@ -2490,30 +2490,42 @@ var i,row,j;
 var compressedDB=new Array;
 var compressedDBEntry=new Array;
 
+initFromFiles('');
+console.log('lastSeatRow  1='+lastSeatRow);
 
+
+compressedDBIdx=0;
+numOfDeletedRows=0;
 for (i=firstSeatRow;i<lastSeatRow+1;i++){
   nextCol=amudot.name;
-  compressedDB[i-firstSeatRow]='';
+	cell=requestedSeatsWorksheet[ amudot.name+row];
+	if ( ! cell){numOfDeletedRows++; continue;};
+	if (cell.v == '$$$'){numOfDeletedRows++; continue;};
+  compressedDB[compressedDBIdx]='';
 	row=(i).toString();
 	oneColBeyondLastCol=NextColumn(lastCol); 
 	while (nextCol != oneColBeyondLastCol){     // collect values for row
 	    
 													cell=requestedSeatsWorksheet[ nextCol+row];
 													if (cell){vlu=cell.v} else vlu='';
-													compressedDB[i-firstSeatRow]=compressedDB[i-firstSeatRow]+'<@>'+vlu;
+													compressedDB[compressedDBIdx]=compressedDB[compressedDBIdx]+'<@>'+vlu;
 													nextCol=NextColumn(nextCol); 
 							 } ;
 
-      compressedDB[i-firstSeatRow]=compressedDB[i-firstSeatRow].substr(3);  // remove first delimiter
-			console.log('i='+i+'   compressedDB[i]='+compressedDB[i]);
+      compressedDB[compressedDBIdx]=compressedDB[compressedDBIdx].substr(3);  // remove first delimiter
+			//console.log('i='+i+'   compressedDB[i]='+compressedDB[i]);
+			compressedDBIdx++;
 			}  // for i
 	console.log('compressedDB.length  1  ='+compressedDB.length);		
+
 	compressedDB.sort();
+	
 	console.log('compressedDB.length  2  ='+compressedDB.length);		
-	for (i=firstSeatRow;i<lastSeatRow+1;i++){
-	   nextCol=amudot.name;
-	  row=(i).toString();  console.log('i='+i+' compressedDB[i-firstSeatRow]='+compressedDB[i-firstSeatRow]); 
-	   compressedDBEntry=compressedDB[i-firstSeatRow].split('<@>');		
+	
+	for(i=0; i<compressedDB.length;i++){
+	  nextCol=amudot.name;
+	  row=(i+firstSeatRow).toString();  console.log('i='+i+' compressedDB[i]='+compressedDB[i); 
+	   compressedDBEntry=compressedDB[i].split('<@>');		
     
 		
 		 j=0;
@@ -2525,8 +2537,17 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 													
 							 } ;
 		} // for i
+		rowIdx=compressedDB.length+firstSeatRow;
+		for (i=0; i<numOfDeletedRows;i++){
+		   row=rowIdx.toString();
+			 requestedSeatsWorksheet[ amudot.name+row]={t:"s",v:'$$$'};  // use empty rows for future additions
+			 rowIdx++;
+			 }
 		
 			xlsx.writeFile(workbook, XLSXfilename);  // write update 
+			
+			initFromFiles('');
+			
 }	 
 	 	
 //---------------------------------------------------------------------------------	   
