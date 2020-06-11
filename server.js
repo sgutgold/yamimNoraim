@@ -5340,7 +5340,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 									
 									
 									if ( cond1stWay ||  con2ndWay ) {		 if(confirmedIndices.indexOf(nextIdx) == -1)confirmedIndices.push(nextIdx); break;};
-									nameParts=partOfAName.split(' ');   // restore firstNamesArray
+									nameParts=nameToCheck.split(' ');   // restore firstNamesArray
 						      firstNamesArray=nameParts.splice(strOriginalLength-numberOfPops,numberOfPops);
 							} // for j
 					} // for i
