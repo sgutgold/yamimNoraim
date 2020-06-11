@@ -5265,7 +5265,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	 initFromFiles('');
 	 
 	 nam=decodeURI(req.originalUrl).split('?')[1]; 
-	  tmp=knownName(nam);
+	  tmp=knownName(nam);    console.log('nam='+nam+' tmp{0]='+tmp[0]+' tmp[1]='+tmp[1]);
 		if ( (tmp[0] != -1 ) ||(tmp[1])  ) {res.send('---' );   return};  // one occurance, or many, exist 
 	
 	 
