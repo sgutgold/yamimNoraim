@@ -5356,7 +5356,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	 res.send(rNmA);
 		
 		
-	}; 
+	}); 
 //-----------------------
 
 function findIdxOfName(	familyNames,tempFamName,idxFrom){
