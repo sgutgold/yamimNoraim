@@ -5390,10 +5390,10 @@ shortBothNames=[];
 
 
 
-*/
+
 		
 	  
- })				
+ }				
 			
 //------------------------------------------------------------------------------		
  app.get('/manageMemberInfo_update', function(req, res) {
