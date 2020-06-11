@@ -5265,15 +5265,9 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	 initFromFiles('');
 	 
 	 nam=decodeURI(req.originalUrl).split('?')[1]; 
-	 
-	 for (i=firstSeatRow; i<lastSeatRow+1;i++){
-	      cell=requestedSeatsWorksheet[amudot.name+(i).toString()];
-				if ( ! cell)continue;
-	      if (nam==delLeadingBlnks(requestedSeatsWorksheet[amudot.name+(i).toString()].v) ){
-				      res.send('---' );   return
-							}; 
+	  tmp=knownName(nam);
+		if ( (tmp[0] != -1 ) ||(tmp[1])  ) {res.send('---' );   return};  // one occurance, or many, exist 
 	
-	    } //for
 	 
 	res.send('+++' ); 
 		
