@@ -3003,9 +3003,6 @@ app.get('/isThereSuchAName', function(req, res) {
      }   // else
 			   
 	});
-
-
-
 //---------------------------------------------------------------------------------
 	
 // get request to verify family name and respond with previous inputs	
@@ -5260,16 +5257,140 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');	
 	 
-	var 	nam,tmp; 	
-	
+		
+	var rNmA = new Array(); 
+	var rNm,rn;
+	var tempFamName,tmp,idx,familyNames;
+	var strParts;        
+	var strOriginalLength,indices, numberOfPops,tempFamName,firstIdx,i,j,nextIdx,confirmedIndices;
+	var firstNamesArray, nameA, nameB,bothNames,cond1stWay,con2ndWay;
 	 initFromFiles('');
 	 
-	 nam=decodeURI(req.originalUrl).split('?')[1]; 
-	  tmp=knownName(nam);    console.log('nam='+nam+' tmp{0]='+tmp[0]+' tmp[1]='+tmp[1]);
-		if ( (tmp[0] != -1 ) ||(tmp[1])  ) {res.send('---' );   return};  // one occurance, or many, exist 
+	 nameToCheck=decodeURI(req.originalUrl).split('?')[1]; 
+	  
 	
-	 
-	res.send('+++' ); 
+    
+	familyNames=[];
+	bothNames=[];
+	
+	for (i=firstSeatRaw;i<lastSeatRow+1.i++) {
+	   cell= requestedSeatsWorksheet[amudot.name+i.toString()];
+		 if ( ! cell)  { familyNames[i-firstSeatRow]=''; continue};  
+		  if ( ! delLeadingBlnks(cell.v) ) { familyNames[i-firstSeatRow]=''; continue};    
+	  
+	    tmp=(cell.v).split('*');
+      familyNames[i]=tmp[0];
+			bothNames[i]=[tmp[1],tmp[2]];
+			
+	}   // for i 
+	
+	nameParts=nameToCheck.split(' ');  
+	strOriginalLength=nameParts.length;
+	
+	indices=[];
+	numberOfPops=-1;
+	while (nameParts.length){
+	    numberOfPops++;
+    	tempFamName=nameParts.join(' '); 
+		  firstIdx=findIdxOfName(	familyNames,tempFamName,0);
+			if (firstIdx  == -1){ // this combination not found
+			     nameParts.pop();  // remove the last part of the name in case it is a first name
+					 continue;  // try a shorter name
+					 }  // if
+			// family name found. now look for all possible families with the same family name
+			 // start looking for this name from the first family name
+			 indices.push([firstIdx,numberOfPops]); 
+			
+			 nextIdx=findIdxOfName(	familyNames,tempFamName,firstIdx+1);
+			 while (nextIdx  != -1 ){
+			   indices.push([nextIdx,numberOfPops]);  
+				
+					nextIdx=	findIdxOfName(	familyNames,tempFamName,nextIdx+1)
+					}  // while nextIdx
+					
+			 nameParts.pop();  // remove the last part of the name in case it is a first name		
+			 
+			 }   // while strparts.length
+			
+			 // now we have all indices of possible last name
+			 confirmedIndices=[];
+			 //  next step == prone all indices that have different first name(s)
+			  for (i=0; i<indices.length; i++){
+				     nextIdx=indices[i][0];
+						 numberOfPops=indices[i][1];  // length (in tokens) of firstnames
+						 nameParts=partOfAName.split(' ');
+						 firstNamesArray=nameParts.splice(strOriginalLength-numberOfPops,numberOfPops);
+						 
+						
+						 
+						 if ( ! firstNamesArray.length){ if(confirmedIndices.indexOf(nextIdx) == -1)confirmedIndices.push(nextIdx); continue};
+						 // try all variations of how to generate two (or one) first names
+						 for (j=0; j<firstNamesArray.length;j++){
+						     nameA=firstNamesArray.splice(0,j).join(' ');
+								 nameB=firstNamesArray.join(' '); 
+							    if (nameB.substr(0,1) == 'å') nameB=nameB.substr(1); 
+									// try one way 
+									cond1stWay= tryAMatch(nameA,nameB,bothNames[nextIdx]);
+
+								
+									// try 2nd way
+									
+									tmp=nameA;  nameA=nameB; nameB=tmp;   // change order
+									con2ndWay=tryAMatch(nameA,nameB,bothNames[nextIdx]);
+									
+									
+									if ( cond1stWay ||  con2ndWay ) {		 if(confirmedIndices.indexOf(nextIdx) == -1)confirmedIndices.push(nextIdx); break;};
+									nameParts=partOfAName.split(' ');   // restore firstNamesArray
+						      firstNamesArray=nameParts.splice(strOriginalLength-numberOfPops,numberOfPops);
+							} // for j
+					} // for i
+											
+				  
+			if ( confirmedIndices.length != 1) { rNmA[0] = -1}else rNmA[0]=confirmedIndices[0];
+			rNmA[1]=''; 
+			for (i=0; i<confirmedIndices.length;i++)rNmA[1]=rNmA[1]+'$'+simplifyName(rawList[confirmedIndices[i]]);
+			   
+				
+			console.log(rNmA);
+			
+	 res.send(rNmA);
+		
+		
+	}; 
+//-----------------------
+
+function findIdxOfName(	familyNames,tempFamName,idxFrom){
+var tmp,i,lngth,shortFamName;
+lngth=tempFamName.length;
+
+for (i=idxFrom;i< familyNames.length; i++){ 
+  if(  familyNames[i].substr(0,lngth) ==  tempFamName)return i;
+	}
+	return -1;
+	}
+	
+//-------------------
+function tryAMatch(nameA,nameB,bothNames){
+var shortBothNames,nameAL,nameBL,cond,cond1,cond2;
+
+shortBothNames=[];
+
+	                nameAL=nameA.length;
+									nameBL=nameB.length;
+									shortBothNames[0]=bothNames[0].substr(0,nameAL);
+									shortBothNames[1]=bothNames[1].substr(0,nameBL);  
+									
+									cond1= ( (nameA) && (nameA != shortBothNames[0])  );  // if specified it has to be equal to the one in the DB
+									cond2= ( (nameB) && (nameB != shortBothNames[1]) ); 
+									
+									cond=	(! cond1) && ( ! cond2);  
+									return cond;
+}									
+  
+
+
+
+*/
 		
 	  
  })				
