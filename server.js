@@ -5279,8 +5279,8 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 		  if ( ! delLeadingBlnks(cell.v) ) { familyNames[i-firstSeatRow]=''; continue};    
 	  
 	    tmp=(cell.v).split('*');
-      familyNames[i]=tmp[0];
-			bothNames[i]=[tmp[1],tmp[2]];
+      familyNames[i-firstSeatRow]=tmp[0];
+			bothNames[i-firstSeatRow]=[tmp[1],tmp[2]];
 			
 	}   // for i 
 	
