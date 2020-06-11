@@ -2326,16 +2326,46 @@ app.get('/addMember', function(req, res) {
 	 initFromFiles('');
 	 
 	  rslt=knownName(nam);
-		if ( (rslt[0] == -1) && ( ! rslt[1])  ){ // continue;
-	  nam=inputArray[1];  
+		if ( (rslt[0] == -1) && ( ! rslt[1])  ){ // continue update;
+/*	  nam=inputArray[1];  
 	  email=inputArray[2];
 		phone=inputArray[3];
 		addr=inputArray[4];
 		membershipStatus=inputArray[5];
-
+*/
 
 		 lastSeatRow++;
-	 roww=lastSeatRow.toString();
+		 roww=lastSeatRow.toString();
+		 console.log('lastSeatRow='+lastSeatRow+ ' inputArray='+inputArray);
+		 for (j=0;j< inputArray.length;j++){
+					  entry=inputArray[j];
+	          entryParts=entry.split('>');
+						
+				    switch 	(entryParts[0]) {  
+				     				 
+				     case 'name': 
+						          requestedSeatsWorksheet[amudot.name+row ].v=entryParts[1]; 
+						          break;
+							case 'email':
+							        requestedSeatsWorksheet[amudot.email+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'phone':
+							        requestedSeatsWorksheet[amudot.phone+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'addr':
+							        requestedSeatsWorksheet[amudot.addr+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'membership':
+							        requestedSeatsWorksheet[amudot.memberShipStatus+row ].v=entryParts[1]; 
+							     break;
+									 
+						}   // switch			 																
+						} // for j
+		 
+	/* 
    pointerCell=amudot.name+roww; 
 	 requestedSeatsWorksheet[pointerCell].v=nam;
 	 pointerCell=amudot.email+roww; 
@@ -2348,7 +2378,7 @@ app.get('/addMember', function(req, res) {
 	  	
 	 ptr=amudot.memberShipStatus+roww; 
 	 requestedSeatsWorksheet[ptr].v=membershipStatus;
-	
+	*/
 	 ptr=amudot.stsfctnInFlr2YRSAgoYrWmn+roww;    // set values for sorting so that a new member will not get high priority for un-existing past
 	 requestedSeatsWorksheet[ptr].v=10;
 	 ptr=amudot.stsfctnInFlr2YRSAgoYrMen+roww; 
@@ -2491,8 +2521,6 @@ var compressedDB=new Array;
 var compressedDBEntry=new Array;
 
 
-console.log('lastSeatRow  1='+lastSeatRow);
-
 
 compressedDBIdx=0;
 numOfDeletedRows=0;
@@ -2500,9 +2528,9 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
   nextCol=amudot.name;
 	row=(i).toString();
 	cell=requestedSeatsWorksheet[ amudot.name+row];
-	if ( ! cell){numOfDeletedRows++; console.log('skip 1 i='+i); continue;};
-	if (delLeadingBlnks(cell.v) == '$$$'){numOfDeletedRows++; console.log('skip 2 i='+i); continue;};
-	if ( ! delLeadingBlnks(cell.v) ){numOfDeletedRows++; console.log('skip 3 i='+i); continue;};
+	if ( ! cell){numOfDeletedRows++;  continue;};
+	if (delLeadingBlnks(cell.v) == '$$$'){numOfDeletedRows++;  continue;};
+	if ( ! delLeadingBlnks(cell.v) ){numOfDeletedRows++;  continue;};
   compressedDB[compressedDBIdx]='';
 	
 	oneColBeyondLastCol=NextColumn(lastCol); 
@@ -2515,18 +2543,18 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 							 } ;
 
       compressedDB[compressedDBIdx]=compressedDB[compressedDBIdx].substr(3);  // remove first delimiter
-			//console.log('i='+i+'   compressedDB[i]='+compressedDB[i]);
+			
 			compressedDBIdx++;
 			}  // for i
-	console.log('compressedDB.length  1  ='+compressedDB.length);		
+	
 
 	compressedDB.sort();
 	
-	console.log('compressedDB.length  2  ='+compressedDB.length);		
+	
 	
 	for(i=0; i<compressedDB.length;i++){
 	  nextCol=amudot.name;
-	  row=(i+firstSeatRow).toString();  console.log('i='+i+' compressedDB[i]='+compressedDB[i]); 
+	  row=(i+firstSeatRow).toString();  
 	   compressedDBEntry=compressedDB[i].split('<@>');		
     
 		
@@ -2539,7 +2567,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 													
 							 } ;
 		} // for i
-		rowIdx=compressedDB.length+firstSeatRow;   console.log('compressedDB.length='+compressedDB.length+'firstSeatRow='+firstSeatRow+' rowIdx='+rowIdx);
+		rowIdx=compressedDB.length+firstSeatRow;   
 		for (i=0; i<numOfDeletedRows;i++){
 		   row=rowIdx.toString();
 			 requestedSeatsWorksheet[ amudot.name+row]={t:"s",v:'$$$'};  // use empty rows for future additions
