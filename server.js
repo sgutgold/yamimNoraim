@@ -5318,7 +5318,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 			  for (i=0; i<indices.length; i++){
 				     nextIdx=indices[i][0];
 						 numberOfPops=indices[i][1];  // length (in tokens) of firstnames
-						 nameParts=partOfAName.split(' ');
+						 nameParts=nameToCheck.split(' ');
 						 firstNamesArray=nameParts.splice(strOriginalLength-numberOfPops,numberOfPops);
 						 
 						
