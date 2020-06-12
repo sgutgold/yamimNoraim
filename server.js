@@ -5330,7 +5330,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 						 for (j=0; j<firstNamesArray.length;j++){
 						     nameA=firstNamesArray.splice(0,j).join(' ');
 								 nameB=firstNamesArray.join(' '); 
-							    if (nameB.substr(0,1) == 'å') nameB=nameB.substr(1); 
+							    if (nameB.substr(0,1) == hebrewLetters.vav) nameB=nameB.substr(1); 
 									
 									console.log('nameA='+nameA+' nameB='+nameB);
 									// try one way 
