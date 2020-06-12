@@ -5312,8 +5312,8 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 			 nameParts.pop();  // remove the last part of the name in case it is a first name		
 			 
 			 }   // while strparts.length
-		console.log('indices.length='+	indices.length);
-		for (i=0;i<indices.length;i++)console.log('i='+i+' indices[i]='+indices[i]+' familyNames[indices[i][0]]='+familyNames[indices[i][0]]);
+		
+	
 			 // now we have all indices of possible last name
 			 confirmedIndices=[];
 			 //  next step == prone all indices that have different first name(s)
@@ -5332,7 +5332,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 								 nameB=firstNamesArray.join(' '); 
 							    if (nameB.substr(0,1) == hebrewLetters.vav) nameB=nameB.substr(1); 
 									
-									console.log('nameA='+nameA+' nameB='+nameB);
+									
 									// try one way 
 									cond1stWay= tryAMatch(nameA,nameB,bothNames[nextIdx]);
 
@@ -5353,9 +5353,8 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 			if ( confirmedIndices.length != 1) { rNmA[0] = -1}else rNmA[0]=confirmedIndices[0];
 			rNmA[1]=''; 
 			for (i=0; i<confirmedIndices.length;i++)rNmA[1]=rNmA[1]+'$'+simplifyName(rawList[confirmedIndices[i]]);
-			   
+			if (rNmA[1] )rNmA[1]=rNmA[1].substr(1);  
 				
-			console.log(rNmA);
 			
 	 res.send(rNmA);
 		
