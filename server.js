@@ -5313,7 +5313,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 			 
 			 }   // while strparts.length
 		console.log('indices.length='+	indices.length);
-		for (i=0;i<indices.length;i++)console.log('i='+i+' indices[i]='+indices[i]+' familyNames[indices[i][0]]='+familyNames[indices[i][0]);
+		for (i=0;i<indices.length;i++)console.log('i='+i+' indices[i]='+indices[i]+' familyNames[indices[i][0]]='+familyNames[indices[i][0]]);
 			 // now we have all indices of possible last name
 			 confirmedIndices=[];
 			 //  next step == prone all indices that have different first name(s)
