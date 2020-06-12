@@ -5263,13 +5263,13 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	var tempFamName,tmp,idx,familyNames;
 	var strParts;        
 	var strOriginalLength,indices, numberOfPops,tempFamName,firstIdx,i,j,nextIdx,confirmedIndices;
-	var firstNamesArray, nameA, nameB,bothNames,cond1stWay,con2ndWay;
+	var firstNamesArray, nameA, nameB,bothNames,rawList,cond1stWay,con2ndWay;
 	 initFromFiles('');
 	 
 	 nameToCheck=decodeURI(req.originalUrl).split('?')[1]; 
 	  
 	
-    
+  rawList=[];  
 	familyNames=[];
 	bothNames=[];
 	idx=0;
@@ -5277,8 +5277,8 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	   cell= requestedSeatsWorksheet[amudot.name+i.toString()];
 		 if ( ! cell)  continue;  
 		  if ( ! delLeadingBlnks(cell.v) )  continue;    
-	  
-	    tmp=(cell.v).split('*');
+	    rawList[idx]=delLeadingBlnks(cell.v);
+	    tmp=( rawList[idx]).split('*');
       familyNames[idx]=tmp[0];
 			bothNames[idx]=[tmp[1],tmp[2]];
 			idx++;
