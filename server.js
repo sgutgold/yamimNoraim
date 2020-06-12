@@ -5272,7 +5272,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
     
 	familyNames=[];
 	bothNames=[];
-	idx=o;
+	idx=0;
 	for (i=firstSeatRow;i<lastSeatRow+1;i++) {
 	   cell= requestedSeatsWorksheet[amudot.name+i.toString()];
 		 if ( ! cell)  continue;  
