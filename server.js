@@ -2324,15 +2324,10 @@ app.get('/addMember', function(req, res) {
  //  passW=inputPairs[5];
 	// if (passW == mngmntPASSW){
 	 initFromFiles('');
-	 
-	  rslt=knownName(nam);
-		if ( (rslt[0] == -1) && ( ! rslt[1])  ){ // continue update;
-/*	  nam=inputArray[1];  
-	  email=inputArray[2];
-		phone=inputArray[3];
-		addr=inputArray[4];
-		membershipStatus=inputArray[5];
-*/
+	 if (  isThisNameKnown(updateRequest[1])[1]) ){res.send('999 ' + updateRequest[1]+ ' is not unique');  return;};
+	  rslt=isThisNameKnown(nam);
+		if ( ! rslt[1] ){ // continue update;
+/
 
 		 lastSeatRow++;
 		 roww=lastSeatRow.toString();
@@ -2365,20 +2360,7 @@ app.get('/addMember', function(req, res) {
 						}   // switch			 																
 						} // for j
 		 
-	/* 
-   pointerCell=amudot.name+roww; 
-	 requestedSeatsWorksheet[pointerCell].v=nam;
-	 pointerCell=amudot.email+roww; 
-	 requestedSeatsWorksheet[pointerCell].v=email; 	
-	 pointerCell=amudot.phone+roww; 
-	 requestedSeatsWorksheet[pointerCell].v=phone;
-	 pointerCell=amudot.addr+roww; 
-	 requestedSeatsWorksheet[pointerCell].v=addr; 	 	
-	 
-	  	
-	 ptr=amudot.memberShipStatus+roww; 
-	 requestedSeatsWorksheet[ptr].v=membershipStatus;
-	*/
+	
 	 ptr=amudot.stsfctnInFlr2YRSAgoYrWmn+roww;    // set values for sorting so that a new member will not get high priority for un-existing past
 	 requestedSeatsWorksheet[ptr].v=10;
 	 ptr=amudot.stsfctnInFlr2YRSAgoYrMen+roww; 
@@ -2581,7 +2563,7 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 }	 
 	 	
 //---------------------------------------------------------------------------------	   
-
+/*
 app.get('/addMemberx', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 
@@ -2687,6 +2669,9 @@ app.get('/addFirstName', function(req, res) {
    }
    else res.send('999' );
 });
+
+*/
+
 //---------------------------------------------------------------------------------   //[ulam][moed][gvarim-nashim]  assignedPerUlam  
 
 app.get('/getCountOfSeats', function(req, res) {
@@ -5256,17 +5241,26 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 		 app.get('/isKnownName', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');	
+	 var rNmA;
+	 initFromFiles('');
+	 nameToCheck=decodeURI(req.originalUrl).split('?')[1]; 
+	 rNmA=isThisNameKnown	(nameToCheck);
 	 
+	 res.send(rNmA[0].toString()+'@'+rNmA[1]);
 		
+		
+	}); 
+//---------------------------------
+function isThisNameKnown	(nameToCheck){	
 	var rNmA = new Array(); 
 	var rNm,rn;
 	var tempFamName,tmp,idx,familyNames;
 	var strParts;        
 	var strOriginalLength,indices, numberOfPops,tempFamName,firstIdx,i,j,nextIdx,confirmedIndices;
 	var firstNamesArray, nameA, nameB,bothNames,rawList,cond1stWay,con2ndWay;
-	 initFromFiles('');
+	
 	 
-	 nameToCheck=decodeURI(req.originalUrl).split('?')[1]; 
+	
 	  
 	
   rawList=[];  
@@ -5355,11 +5349,12 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 			for (i=0; i<confirmedIndices.length;i++)rNmA[1]=rNmA[1]+'$'+simplifyName(rawList[confirmedIndices[i]]);
 			if (rNmA[1] )rNmA[1]=rNmA[1].substr(1);  
 				
+				
+				return (rNmA);
+				
+		}		
 			
-	 res.send(rNmA[0].toString()+'@'+rNmA[1]);
-		
-		
-	}); 
+	 
 //-----------------------
 
 function findIdxOfName(	familyNames,tempFamName,idxFrom){
@@ -5402,64 +5397,56 @@ shortBothNames=[];
  app.get('/manageMemberInfo_update', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	 res.setHeader('Content-Type', 'text/html');
-var 	inputString,tmp,i,j,updateRequests,addNewMembersRequests,memberInfo,nextLineIdx,ptr,roww,ptr1;
+var 	inputString,tmp,i,j,updateRequest,roww;
 	 	
 		 inputString=decodeURI(req.originalUrl).split('?')[1];  
-		 tmp=inputString.split('<>');
-		 updateRequests=tmp[0].split('$');;
-		 addNewMembersRequests=tmp[1].split('$');
-		 membersToDeleteRequest=tmp[2].split('$');
+	
+		 updateRequest=inputString.split('<>');;
+		 
 		  initFromFiles('');
 			
 			// update requests
 			
-			for(i=0;i<updateRequests.length;i++){
-			    memberInfo=updateRequests[i].split('%');
-					row=knownName(memberInfo[0])[0];   // name before update
-					if (row == -1){res.send('--- ' + memberInfo[0]+ ' is unknown');  return;};
-					row=row.toString();
-					 for (j=0;j<	 amudot_memberPersonalInfo.length;j++)requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v=memberInfo[j+1];
-			  } // for i
-				
-		// add new members
-		nextLineIdx=lastSeatRow;
-		for(i=0;i<addNewMembersRequests.length;i++){ 
-		   roww=nextLineIdx.toString();
-		  if( delLeadingBlnks(requestedSeatsWorksheet[amudot.name+roww].v) != '$$$')
-			                     {res.send('--- ' + memberInfo[0]+ ' and the following ones were not added, not enough space provided');  return;};
-		  // clear the new line 		
-	      
-				 Object.keys(amudot).forEach(function(key)  {   // copy all colomns
-
-              ptr1= amudot[key]+roww;
-														
-						YrSheet[ptr1]={t:"s",v:vlu};
-						YrSheet[ptr1].v=(YrSheet[ptr1].v).toString();  //make sure it is of str attribute
-												
-         });	
-	      
-				for (j=0;j<	 amudot_memberPersonalInfo.length;j++)requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v=memberInfo[j];
-				
-   
-	      ptr=amudot.stsfctnInFlr2YRSAgoYrWmn+roww;    // set values for sorting so that a new member will not get high priority for un-existing past
-	      requestedSeatsWorksheet[ptr].v=10;
-	      ptr=amudot.stsfctnInFlr2YRSAgoYrMen+roww; 
-	      requestedSeatsWorksheet[ptr].v=10;
-     	  ptr=amudot.TwoYRSAgoSeat+roww; 
-	      requestedSeatsWorksheet[ptr].v=0;
-	      ptr=amudot.stsfctnInFlr3YRSAgoYrWmn+roww; 
-	      requestedSeatsWorksheet[ptr].v=10;
-	      ptr=amudot.stsfctnInFlr3YRSAgoYrMen+roww; 
-	      requestedSeatsWorksheet[ptr].v=10;
-	      ptr=amudot.ThreeYRSAgoSeat+roww; 
-	      requestedSeatsWorksheet[ptr].v=0;
-				
-				
-				nextLineIdx++;
-	}  // for i			
-				
-	 //   delete members
+			
+			 ;
+					row=knownName(updateRequest[0])[0];   // name before update
+					if (row == -1){res.send('--- ' + updateRequest[0]+ ' is unknown');  return;};
+					if (  isThisNameKnown(updateRequest[1])[1]) ){res.send('999 ' + updateRequest[1]+ ' is not unique');  return;};
+					roww=row.toString();
+					 for (j=1;j<	updateRequest.length;j++){
+					 //requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v=updateRequest[j+1];
+			    entryParts=updateRequest[j].split('||');
+				   switch 	(entryParts[0]) {  
+				     				 
+				     case 'name': 
+						          requestedSeatsWorksheet[amudot.name+row ].v=entryParts[1]; 
+						          break;
+							case 'email':
+							        requestedSeatsWorksheet[amudot.email+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'phone':
+							        requestedSeatsWorksheet[amudot.phone+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'addr':
+							        requestedSeatsWorksheet[amudot.addr+row ].v=entryParts[1]; 
+							        break;
+											
+							case 'membership':
+							        requestedSeatsWorksheet[amudot.memberShipStatus+row ].v=entryParts[1]; 
+							     break;
+									 
+						}   // switch			 																
+						} // for j
+		 
+				 
+	 sortDB();
+	   
+	 xlsx.writeFile(workbook, XLSXfilename);
 	 
+	
+	
 	  initFromFiles('');
 		
 	  res.send('+++' );
