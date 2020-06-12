@@ -2324,7 +2324,7 @@ app.get('/addMember', function(req, res) {
  //  passW=inputPairs[5];
 	// if (passW == mngmntPASSW){
 	 initFromFiles('');
-	 if (  isThisNameKnown(updateRequest[1])[1]) ){res.send('999 ' + updateRequest[1]+ ' is not unique');  return;};
+	 
 	  rslt=isThisNameKnown(nam);
 		if ( ! rslt[1] ){ // continue update;
 /
