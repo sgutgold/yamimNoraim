@@ -5272,15 +5272,16 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
     
 	familyNames=[];
 	bothNames=[];
-	
+	idx=o;
 	for (i=firstSeatRow;i<lastSeatRow+1;i++) {
 	   cell= requestedSeatsWorksheet[amudot.name+i.toString()];
-		 if ( ! cell)  { familyNames[i-firstSeatRow]=''; continue};  
-		  if ( ! delLeadingBlnks(cell.v) ) { familyNames[i-firstSeatRow]=''; continue};    
+		 if ( ! cell)  continue;  
+		  if ( ! delLeadingBlnks(cell.v) )  continue;    
 	  
 	    tmp=(cell.v).split('*');
-      familyNames[i-firstSeatRow]=tmp[0];
-			bothNames[i-firstSeatRow]=[tmp[1],tmp[2]];
+      familyNames[idx]=tmp[0];
+			bothNames[idx]=[tmp[1],tmp[2]];
+			idx++:
 			
 	}   // for i 
 	
@@ -5311,7 +5312,8 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 			 nameParts.pop();  // remove the last part of the name in case it is a first name		
 			 
 			 }   // while strparts.length
-			
+		console.log(('indices.length='+	indices.length);
+		for (i=0;i<indices.length;i++)console.log('i='+i+' indices[i]='+indices[i]+' familyNames[indices[i][0]]='+familyNames[indices[i][0]);
 			 // now we have all indices of possible last name
 			 confirmedIndices=[];
 			 //  next step == prone all indices that have different first name(s)
@@ -5329,14 +5331,16 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 						     nameA=firstNamesArray.splice(0,j).join(' ');
 								 nameB=firstNamesArray.join(' '); 
 							    if (nameB.substr(0,1) == 'å') nameB=nameB.substr(1); 
+									
+									console.log('nameA='+nameA+' nameB='+nameB);
 									// try one way 
 									cond1stWay= tryAMatch(nameA,nameB,bothNames[nextIdx]);
 
 								
 									// try 2nd way
 									
-									tmp=nameA;  nameA=nameB; nameB=tmp;   // change order
-									con2ndWay=tryAMatch(nameA,nameB,bothNames[nextIdx]);
+									   // change order
+									con2ndWay=tryAMatch(nameB,nameA,bothNames[nextIdx]);
 									
 									
 									if ( cond1stWay ||  con2ndWay ) {		 if(confirmedIndices.indexOf(nextIdx) == -1)confirmedIndices.push(nextIdx); break;};
