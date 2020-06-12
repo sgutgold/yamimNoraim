@@ -5356,7 +5356,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 			if (rNmA[1] )rNmA[1]=rNmA[1].substr(1);  
 				
 			
-	 res.send(rNmA);
+	 res.send(rNmA[0].toString()+'@'+rNmA[1]);
 		
 		
 	}); 
