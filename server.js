@@ -5312,7 +5312,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 			 nameParts.pop();  // remove the last part of the name in case it is a first name		
 			 
 			 }   // while strparts.length
-		console.log(('indices.length='+	indices.length);
+		console.log('indices.length='+	indices.length);
 		for (i=0;i<indices.length;i++)console.log('i='+i+' indices[i]='+indices[i]+' familyNames[indices[i][0]]='+familyNames[indices[i][0]);
 			 // now we have all indices of possible last name
 			 confirmedIndices=[];
