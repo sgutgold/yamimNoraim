@@ -2327,7 +2327,7 @@ app.get('/addMember', function(req, res) {
 	 
 	  rslt=isThisNameKnown(nam);
 		if ( ! rslt[1] ){ // continue update;
-/
+
 
 		 lastSeatRow++;
 		 roww=lastSeatRow.toString();
