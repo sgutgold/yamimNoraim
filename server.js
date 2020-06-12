@@ -5281,7 +5281,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 	    tmp=(cell.v).split('*');
       familyNames[idx]=tmp[0];
 			bothNames[idx]=[tmp[1],tmp[2]];
-			idx++:
+			idx++;
 			
 	}   // for i 
 	
