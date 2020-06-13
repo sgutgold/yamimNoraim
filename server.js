@@ -5411,7 +5411,7 @@ var 	inputString,tmp,i,j,updateRequest,roww;
 			 ;
 					row=knownName(updateRequest[0])[0];   // name before update
 					if (row == -1){res.send('--- ' + updateRequest[0]+ ' is unknown');  return;};
-					if (  isThisNameKnown(updateRequest[1])[1]) ){res.send('999 ' + updateRequest[1]+ ' is not unique');  return;};
+					if (  isThisNameKnown(updateRequest[1])[1] ){res.send('999 ' + updateRequest[1]+ ' is not unique');  return;};
 					roww=row.toString();
 					 for (j=1;j<	updateRequest.length;j++){
 					 //requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v=updateRequest[j+1];
