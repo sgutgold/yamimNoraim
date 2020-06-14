@@ -5261,7 +5261,7 @@ function isThisNameKnown	(nameToCheck){
 	
 	 
 	
-	  
+	  console.log('nameToCheck='+nameToCheck);
 	
   rawList=[];  
 	familyNames=[];
@@ -5329,13 +5329,13 @@ function isThisNameKnown	(nameToCheck){
 									
 									// try one way 
 									cond1stWay= tryAMatch(nameA,nameB,bothNames[nextIdx]);
-                  console.log('nameA='+nameA+' nameB='+nameB+' cond1stWay='+cond1stWay);
+              //    console.log('nameA='+nameA+' nameB='+nameB+' cond1stWay='+cond1stWay);
 								
 									// try 2nd way
 									
 									   // change order
 									con2ndWay=tryAMatch(nameB,nameA,bothNames[nextIdx]);
-									console.log('nameA='+nameA+' nameB='+nameB+' con2ndWay='+con2ndWay);
+								//	console.log('nameA='+nameA+' nameB='+nameB+' con2ndWay='+con2ndWay);
 									
 									if ( cond1stWay ||  con2ndWay ) {		 if(confirmedIndices.indexOf(nextIdx) == -1)confirmedIndices.push(nextIdx); break;};
 									nameParts=nameToCheck.split(' ');   // restore firstNamesArray
@@ -5411,7 +5411,7 @@ var 	inputString,tmp,i,j,updateRequest,roww;
 			 ;
 					row=knownName(updateRequest[0])[0];   // name before update
 					if (row == -1){res.send('--- ' + updateRequest[0]+ ' is unknown');  return;};
-					if (  isThisNameKnown(updateRequest[1])[1] ){res.send('999 ' + updateRequest[1]+ ' is not unique');  return;};
+					if (  isThisNameKnown(simplifyName(updateRequest[1]))[1] ){res.send('999 ' + updateRequest[1]+ ' is not unique');  return;};
 					roww=row.toString();
 					 for (j=1;j<	updateRequest.length;j++){
 					 //requestedSeatsWorksheet[	 amudot_memberPersonalInfo[j]+row].v=updateRequest[j+1];
