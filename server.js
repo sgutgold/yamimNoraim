@@ -5276,7 +5276,7 @@ function isThisNameKnown	(nameToCheck){
       familyNames[idx]=tmp[0];
 			bothNames[idx]=[tmp[1],tmp[2]];
 			idx++;
-		console.log(	familyNames[idx]);
+		console.log(	familyNames[idx-1]);
 	}   // for i 
 	
 	nameParts=nameToCheck.split(' ');  
