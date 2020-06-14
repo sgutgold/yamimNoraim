@@ -5251,7 +5251,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 		
 	}); 
 //---------------------------------
-function isThisNameKnown	(nameToCheck){	
+function  	(nameToCheck){	
 	var rNmA = new Array(); 
 	var rNm,rn;
 	var tempFamName,tmp,idx,familyNames;
@@ -5261,7 +5261,7 @@ function isThisNameKnown	(nameToCheck){
 	
 	 
 	
-	  console.log('nameToCheck='+nameToCheck);
+	 // console.log('nameToCheck='+nameToCheck);
 	
   rawList=[];  
 	familyNames=[];
@@ -5276,7 +5276,7 @@ function isThisNameKnown	(nameToCheck){
       familyNames[idx]=tmp[0];
 			bothNames[idx]=[tmp[1],tmp[2]];
 			idx++;
-		console.log(	familyNames[idx-1]);
+	//	console.log(	familyNames[idx-1]);
 	}   // for i 
 	
 	nameParts=nameToCheck.split(' ');  
@@ -5287,18 +5287,19 @@ function isThisNameKnown	(nameToCheck){
 	while (nameParts.length){
 	    numberOfPops++;
     	tempFamName=nameParts.join(' '); 
-		  firstIdx=findIdxOfName(	familyNames,tempFamName,0);   console.log('firstIdx='+firstIdx+' tempFamName='+tempFamName);
+		  firstIdx=findIdxOfName(	familyNames,tempFamName,0);   // console.log('firstIdx='+firstIdx+' tempFamName='+tempFamName);
 			if (firstIdx  == -1){ // this combination not found
 			     nameParts.pop();  // remove the last part of the name in case it is a first name
 					 continue;  // try a shorter name
 					 }  // if
 			// family name found. now look for all possible families with the same family name
 			 // start looking for this name from the first family name
-			 indices.push([firstIdx,numberOfPops]); console.log(' indices 1 ='+indices);
+			 indices.push([firstIdx,numberOfPops]);
+			 // console.log(' indices 1 ='+indices);
 			
 			 nextIdx=findIdxOfName(	familyNames,tempFamName,firstIdx+1);
 			 while (nextIdx  != -1 ){
-			   indices.push([nextIdx,numberOfPops]);  console.log(' indices 2 ='+indices);
+			   indices.push([nextIdx,numberOfPops]);  //console.log(' indices 2 ='+indices);
 				
 					nextIdx=	findIdxOfName(	familyNames,tempFamName,nextIdx+1)
 					}  // while nextIdx
@@ -5306,7 +5307,7 @@ function isThisNameKnown	(nameToCheck){
 			 nameParts.pop();  // remove the last part of the name in case it is a first name		
 			 
 			 }   // while strparts.length
-		for(i=0;i<indices.length;i++)console.log('i='+i+' indices[i]='+indices[i]+' familyNames[indices[i]]='+familyNames[indices[i]]+' bothNames[indices[i]]='+bothNames[indices[i]]);
+		//for(i=0;i<indices.length;i++)console.log('i='+i+' indices[i]='+indices[i]+' familyNames[indices[i][0]]='+familyNames[indices[i][0]]+' bothNames[indices[i][0]]='+bothNames[indices[i][0]]);
 	
 			 // now we have all indices of possible last name
 			 confirmedIndices=[];
