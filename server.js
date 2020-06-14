@@ -5306,7 +5306,7 @@ function isThisNameKnown	(nameToCheck){
 			 nameParts.pop();  // remove the last part of the name in case it is a first name		
 			 
 			 }   // while strparts.length
-		
+		for(i=0;i<indices.length;i++)console.log('i='+i+' indices[i]='+indices[i]+' familyNames[indices[i]]='+familyNames[indices[i]]+' bothNames[indices[i]]='+bothNames[indices[i]]);
 	
 			 // now we have all indices of possible last name
 			 confirmedIndices=[];
@@ -5329,13 +5329,13 @@ function isThisNameKnown	(nameToCheck){
 									
 									// try one way 
 									cond1stWay= tryAMatch(nameA,nameB,bothNames[nextIdx]);
-
+                  console.log('nameA='+nameA+' nameB='+nameB+' cond1stWay='+cond1stWay);
 								
 									// try 2nd way
 									
 									   // change order
 									con2ndWay=tryAMatch(nameB,nameA,bothNames[nextIdx]);
-									
+									console.log('nameA='+nameA+' nameB='+nameB+' con2ndWay='+con2ndWay);
 									
 									if ( cond1stWay ||  con2ndWay ) {		 if(confirmedIndices.indexOf(nextIdx) == -1)confirmedIndices.push(nextIdx); break;};
 									nameParts=nameToCheck.split(' ');   // restore firstNamesArray
