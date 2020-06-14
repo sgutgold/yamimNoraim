@@ -5276,7 +5276,7 @@ function isThisNameKnown	(nameToCheck){
       familyNames[idx]=tmp[0];
 			bothNames[idx]=[tmp[1],tmp[2]];
 			idx++;
-			
+		console.log(	familyNames[idx]);
 	}   // for i 
 	
 	nameParts=nameToCheck.split(' ');  
@@ -5287,18 +5287,18 @@ function isThisNameKnown	(nameToCheck){
 	while (nameParts.length){
 	    numberOfPops++;
     	tempFamName=nameParts.join(' '); 
-		  firstIdx=findIdxOfName(	familyNames,tempFamName,0);
+		  firstIdx=findIdxOfName(	familyNames,tempFamName,0);   console.log('firstIdx='+firstIdx+' tempFamName='+tempFamName);
 			if (firstIdx  == -1){ // this combination not found
 			     nameParts.pop();  // remove the last part of the name in case it is a first name
 					 continue;  // try a shorter name
 					 }  // if
 			// family name found. now look for all possible families with the same family name
 			 // start looking for this name from the first family name
-			 indices.push([firstIdx,numberOfPops]); 
+			 indices.push([firstIdx,numberOfPops]); console.log(' indices 1 ='+indices);
 			
 			 nextIdx=findIdxOfName(	familyNames,tempFamName,firstIdx+1);
 			 while (nextIdx  != -1 ){
-			   indices.push([nextIdx,numberOfPops]);  
+			   indices.push([nextIdx,numberOfPops]);  console.log(' indices 2 ='+indices);
 				
 					nextIdx=	findIdxOfName(	familyNames,tempFamName,nextIdx+1)
 					}  // while nextIdx
