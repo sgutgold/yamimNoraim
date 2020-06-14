@@ -5251,7 +5251,7 @@ var amudot_memberPersonalInfo=[amudot.name,  amudot.email,  amudot.addr,  amudot
 		
 	}); 
 //---------------------------------
-function  	(nameToCheck){	
+function  	isThisNameKnown(nameToCheck){	
 	var rNmA = new Array(); 
 	var rNm,rn;
 	var tempFamName,tmp,idx,familyNames;
