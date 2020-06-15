@@ -5135,7 +5135,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 
 				      tempList[k]=nam[0]+' '+tmp;
 							*/
-							tempList[k]=simplifyName(nam)+'<>'+minimumName[member-firstSeatRow];
+							tempList[k]=nam+'<>'+minimumName[member-firstSeatRow];
 							prm=requestedSeatsWorksheet[amudot.permanentSeats+row];
 							if(prm){
 							prm=delLeadingBlnks(prm.v);
