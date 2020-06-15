@@ -786,7 +786,7 @@ var firstName = new Array;
 
 var assignedPerUlam=[[[0,0],[0,0]],[[0,0],[0,0]]];  //[ulam][moed][gvarim-nashim]
 
-var amudot ={name:'B',registrationClosedDateNTime:'C',requestDate:'D',permanentSeats:'E',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',
+var amudot ={name:'A',registrationClosedDateNTime:'C',requestDate:'D',permanentSeats:'E',zug_gever_yisha:'F',email:'G',addr:'H',phone:'I',
               menRosh:'J',menKipur:'K',womenRosh:'L',womenKipur:'M',preferedMinyanW:'N',
               preferedExplanationW:'O',preferedMinyanM:'P',preferedExplanationM:'Q',cmnts:'R',
 							markedSeats:'S',numberMarkedMen:'T',numberMarkedWomen:'U',notAssignedMarkedSeatsRosh:'V',
@@ -2331,7 +2331,7 @@ app.get('/addMember', function(req, res) {
 
 		 lastSeatRow++;
 		 roww=lastSeatRow.toString();
-		 console.log('lastSeatRow='+lastSeatRow+ ' inputArray='+inputArray);
+		// console.log('lastSeatRow='+lastSeatRow+ ' inputArray='+inputArray);
 		 for (j=0;j< inputArray.length;j++){
 					  entry=inputArray[j];
 	          entryParts=entry.split('>');
@@ -2563,114 +2563,9 @@ for (i=firstSeatRow;i<lastSeatRow+1;i++){
 }	 
 	 	
 //---------------------------------------------------------------------------------	   
-/*
-app.get('/addMemberx', function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*");
 
-	 inputString=decodeURI(req.originalUrl);  
-	 inputPairs=inputString.split('&');
-	 
- 
-   passW=inputPairs[5];
-	 if (passW == mngmntPASSW){
-	 initFromFiles('');
-	 
-	 lastNm=delLeadingBlnks(inputPairs[1]);
-   frstNm= delLeadingBlnks(inputPairs[2]);
-	 
-	 // is there such a name already in the system?
-	 if(frstNm){   nameToCheck=lastNm+' '+ frstNm; } else nameToCheck=lastNm;
-	 reslt=knownName(nameToCheck);  
-	 if (reslt[0] ==  -1) {   // either not found or there are others with this name
-	   if ( reslt[1] ){   //   there are others with this name
-		       //  demand specifying first name
-					 res.send('--1');
-	         return;
-					 }
-		} else // not -1; found such a name; request user to add first name to existing name
-				           {
-				   res.send('--2');
-	         return;
-					 }
-			
-			
-					    	 
-	 lastSeatRow++;
-	 
-	 if (frstNm){ 
-	        newName=lastNm+' '+ frstNm+'*';
-					familyNames[lastSeatRow-firstSeatRow]= lastNm+' '+ frstNm;
-					firstName[lastSeatRow-firstSeatRow]=frstNm;
-					}  else {
-					      newName=lastNm;
-								familyNames[lastSeatRow-firstSeatRow]= lastNm;
-					      firstName[lastSeatRow-firstSeatRow]='';
-                  }
-	 roww=lastSeatRow.toString()
-   pointerCell=amudot.name+roww; 
-	 requestedSeatsWorksheet[pointerCell].v=newName; 	
-	 ptr=amudot.memberShipStatus+roww; 
-	 requestedSeatsWorksheet[ptr].v=inputPairs[3];
-	 ptr=amudot.zug_gever_yisha+roww; 
-	 requestedSeatsWorksheet[ptr].v=inputPairs[4];
-	 ptr=amudot.stsfctnInFlr2YRSAgoYrWmn+roww;    // set values for sorting so that a new member will not get high priority for un-existing past
-	 requestedSeatsWorksheet[ptr].v=10;
-	 ptr=amudot.stsfctnInFlr2YRSAgoYrMen+roww; 
-	 requestedSeatsWorksheet[ptr].v=10;
-	 ptr=amudot.TwoYRSAgoSeat+roww; 
-	 requestedSeatsWorksheet[ptr].v=0;
-	 ptr=amudot.stsfctnInFlr3YRSAgoYrWmn+roww; 
-	 requestedSeatsWorksheet[ptr].v=10;
-	 ptr=amudot.stsfctnInFlr3YRSAgoYrMen+roww; 
-	 requestedSeatsWorksheet[ptr].v=10;
-	 ptr=amudot.ThreeYRSAgoSeat+roww; 
-	 requestedSeatsWorksheet[ptr].v=0;
-	 
-   
-	 xlsx.writeFile(workbook, XLSXfilename);
-	 
 	
-	 
-	
-						
-	 res.send('+++');
-	 }
-	else res.send('999' ); 
-	 
-});
-
-
-//---------------------------------------------------------------------------------	 
-
-
-
-//---------------------------------------------------------------------------------	  
-app.get('/addFirstName', function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*");
-
-	 inputString=decodeURI(req.originalUrl);  
-	 inputPairs=inputString.split('&');
-	 
  
-   passW=inputPairs[3];
-	 if (passW == mngmntPASSW){
-	 initFromFiles('');
-	 lastNm=delLeadingBlnks(inputPairs[1]);
-   frstNm= delLeadingBlnks(inputPairs[2]);
-	 if ( ( !lastNm) || ( !frstNm)  ){ res.send('---' );   return}; // bad input
-	 reslt=knownName(lastNm);
-	 if ( reslt[0] == -1 ){ res.send('---' );   return};  // either not found or already some exist with first names
-	 row=reslt[0];  ptr=amudot.name+row.toString();
-	 requestedSeatsWorksheet[ptr].v=requestedSeatsWorksheet[ptr].v+' '+frstNm+'*';
-	 xlsx.writeFile(workbook, XLSXfilename);
-	 familyNames[row-startingRow]=lastNm+' '+frstNm;
-	 firstName[row-startingRow]=frstNm;
-	 res.send('+++');
-   }
-   else res.send('999' );
-});
-
-*/
 
 //---------------------------------------------------------------------------------   //[ulam][moed][gvarim-nashim]  assignedPerUlam  
 
@@ -4465,7 +4360,7 @@ app.get('/manualUpdateValues', function(req, res) {
 		  temp1=inputPrms[i].split('&');
 			ptr=temp1[0]+rowToDebug;
 			vlu=temp1[2];
-		console.log('i='+i+' ptr='+ptr+'   vlu='+vlu);
+		//console.log('i='+i+' ptr='+ptr+'   vlu='+vlu);
 			
 			requestedSeatsWorksheet[ptr].v=vlu;
 			}  //for
@@ -4493,19 +4388,19 @@ app.get('/getMembersInfo', function(req, res) {
 													  listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
 											  
 	  for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
-		temp1=listToSend.length;   // for console.log
+		temp1=listToSend.length;   
 		    listToSend=listToSend+'$'		
 		    sMember=member.toString(); 
 				 Object.keys(amudotForMemberInfo).forEach(function(key)  {   // copy all hdrs 
 											    colmn=amudot[key];
 													ptr=colmn+sMember;
-													vlu='';   if ( requestedSeatsWorksheet[ ptr] ) {vlu=requestedSeatsWorksheet[ ptr].v;} else console.log('4240  ptr ='+ptr);
+													vlu='';   if ( requestedSeatsWorksheet[ ptr] ) vlu=requestedSeatsWorksheet[ ptr].v;
 													if ( ! isNaN(vlu)  )vlu=vlu.toString();  vlu=delLeadingBlnks(vlu);
 													    listToSend=listToSend+vlu+'&';  
 													      
 													 }) // for each 
 					listToSend=listToSend.substr(0,listToSend.length-1); //remove last & 
-					temp2=listToSend.length;   // for console.log
+					temp2=listToSend.length;   
 					toPrint=listToSend.substr(temp1,temp2-temp1);
 				
 					} // for member								 
@@ -4737,41 +4632,7 @@ function genNewYearRequestSheet(yearToCreate){
 	 	
 							
 							initValuesOutOfHtmlRequestsXLSX_file('');
-	/*  // function moved to assignment process						
-			// initialize proposed values for satisfaction
-			
-			// get refernce year woek sheet
-	 prvsYr=0;
-	 for (i=0;i<workbook.SheetNames.length; i++){
-	    WSnam=workbook.SheetNames[i];
-			fourDigitSuffix=WSnam.substr(WSnam.length-4); 
-			if (isNaN(fourDigitSuffix))continue;
-			Yrnum=Number(fourDigitSuffix);
-			if(Yrnum > prvsYr )prvsYr=Yrnum;
-	 };
-	 if ( ! prvsYr) {  return '555';};
-	
-	 initFromFiles(prvsYr.toString());
-	 stsfctionColction=[];
-	 for (row=firstSeatRow; row<lastSeatRow+1; row++)analyseRqstVSAssgnd(row);
-		
-		// write file - save info
-		xlsx.writeFile(workbook, XLSXfilename);	  // write once for the cases when reloading from last year
-		initFromFiles('');
-		
-	for (i=0;i<stsfctionColction.length;i++){
-	tmp=stsfctionColction[i].split('$');
-	row=knownName(tmp[0])[0];	
-	if (row== -1)continue;
-	row=row.toString();
-
-  requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrMen+row].v=tmp[1]+'*';;
-	requestedSeatsWorksheet[amudot.stsfctnInFlrLastYrWmn+row].v=tmp[2]+'*';
-	requestedSeatsWorksheet[amudot.lstYrSeat+row].v=tmp[3]+'*';
-	}
-		
-		xlsx.writeFile(workbook, XLSXfilename);					 	
-	*/				
+				
 		return '+++';
 									
 	}
@@ -5128,13 +4989,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 				      membershipLevel=Number(delLeadingBlnks(tmp)); 
 							if(membershipLevel < minMembershipLevel)continue;    //does not deserve permanent seat
 							
-							/*
-				      //if (nam.substr(nam.length-1) =='*')nam=nam.substr(0,nam.length-1);
-							nam=nam.split('*');
-							if ( name[1]  && name[2] ){tmp=name[1]+' '+hebrewLetters.vav+name[2] } else tmp=name[1]+name[2];
-
-				      tempList[k]=nam[0]+' '+tmp;
-							*/
+							
 							tempList[k]=nam+'<>'+minimumName[member-firstSeatRow];
 							prm=requestedSeatsWorksheet[amudot.permanentSeats+row];
 							if(prm){
