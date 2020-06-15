@@ -88,8 +88,8 @@
    #id1 {width:auto}
     
 	 input {font-size:25px}
-	 .floatingDivColorTable  {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold;}
-	  
+	 
+	 .memberInfoTable {border:1px solid black; border-collapse:collapse; font-size:16px; text-align:center;font-weight:bold;}
 		#FmNmT1 {display:inline-block; vertical-align:middle;border-collapse:collapse }
 		#FmNmT2 {display:inline-block; vertical-align:middle;border-collapse:collapse;border-style: solid }
 		#fmNameFloat  {	border-style: none}
@@ -914,6 +914,7 @@ var LastYear;
 var nextYear;
 
 
+
 // ----------------------------------------------------------------------------------------	
                      
 
@@ -926,7 +927,8 @@ var	positionInMsg={email:0,	addr:1,phone:2,	gvarimRoshHashana:3,gvarimKipur:4,na
 									 stsfctnInFlrThisYrWmn:33,stsfctnInFlrThisYrMen:34,ThisYrSeat:35
 									 };
 											  
-
+var indexToMinLengthNames=[];
+var MinLengthNames=[];
 
 originalListOfAssigned= [];
 	 listOfAssignedSeats =[];		
@@ -948,8 +950,10 @@ var kipurStr;
 moedCodes=['','rosh$','kipur$','all$'];
 
 var namesToAssign=new Array;
+var rawNamesToAssign=new Array;
 namesAlreadyAsigned = new Array;
-var requestorsNameList=new Array;  
+var requestorsNameList=new Array; 
+var rawRequestorsNameList=new Array;  
 var listToUse=new Array; 
   
 var currentNameIdx;
@@ -974,6 +978,7 @@ var blinkElmntList=[];
 var lastBlink=true;
 
 var listOfNames = new Array;
+var rawListOfNames = new Array;
 var contentIdx=0;
 changeContent=0;
 
@@ -1042,14 +1047,19 @@ var prsnlProblemsVlusFromServer= new Array;
 var newprsnlProblemsVlus= new Array;
 
 
+ var emailVerificationPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+ var membersInfoArray=new Array;
+
+
 // -------------------------------------------------------------------  
 //var waiting_for_server=false; 
 var timer_on=false;
 var timerId;
 var funcStack=[];
-							
+			
 var debugState=false;
 function send_msg_to_server(url){
+if(false)addToTrace(arguments.callee.caller.toString());
 //console.log("caller is " + arguments.callee.caller.toString());
    var oneSecond=1000;
    var response_arrived;
@@ -1107,6 +1117,7 @@ function send_msg_to_server(url){
 								turn_waitForServerMsg_on(false);
 								//console.log('funcStack='+funcStack);
 								rtrnFunc=funcStack.pop();
+								if(false)addToTrace(rtrnFunc);
 								//console.log('xhttp.responseText='+xhttp.responseText);
 								rtrnFunc(xhttp.responseText);
   
@@ -1161,9 +1172,11 @@ function doNothing(){};
 
 
 //---------------------------------------------------------------
-
+var debugTrace;
+debugTrace=[];
+function addToTrace(text){debugTrace.push(text);}
  
-  
+//---------------------------------------------------------------
 
 function initPage(){
   
@@ -1171,8 +1184,9 @@ function initPage(){
 	 
  // internal functions
  
- function initPage_start(){ 
-	      var d = new Date();
+ function initPage_start(){
+ 
+ 	      var d = new Date(); 
 	     nextYear=d.getFullYear();
 			 currentMonth=Number(d.getMonth()); 
 			 if (currentMonth > 9 )nextYear=Number(nextYear)+1;
@@ -1212,6 +1226,11 @@ function initPage_cont_2(prvsYear){
 
 }
 
+
+
+
+	
+//------------------------------------------------------------------------------
 /// main init page
 
 initPage_start();
@@ -1321,7 +1340,7 @@ document.getElementById("hall1").style.display='none';
 	 document.getElementById("hall2").style.display='none';
 	 document.getElementById("hall3").style.display='none';
    document.getElementById("getstfction").style.display='none';
-   document.getElementById("addNewMember").style.display='none';
+ 
 	  addinFirstName=false;
    document.getElementById("floatingDiv").style.display='none'; 
 	 document.getElementById("shortFloatingDiv").style.display='none';
@@ -1330,8 +1349,9 @@ document.getElementById("hall1").style.display='none';
 	 document.getElementById("reportAssgnmnts").style.display='none';
 	 document.getElementById("stsfctn").style.display='none';
 	  document.getElementById("stsfctnNow").style.visibilty='hidden';
-  document.getElementById("OverAssignedList").style='visibility:hidden';
-	
+   document.getElementById("OverAssignedList").style='visibility:hidden';
+	 document.getElementById("memberInfoList").style.display='none';
+	 document.getElementById("confirmMemberInfoChange").style.display='none';
 }
 // -------------------------------------------------------------------  
 
@@ -1363,7 +1383,7 @@ function hideFieldSets(){
 	 document.getElementById("shortFloatingDiv").style.display='none';
 	 document.getElementById("mainFieldset").style.display='none';
 	 document.getElementById("getstfction").style.display='none';
-	 document.getElementById("addNewMember").style.display='none';
+	
 	  addinFirstName=false;
 	 document.getElementById("copyAssignment").style.display='none';
 	 document.getElementById("prsnlProblems").style.display='none';
@@ -1371,6 +1391,10 @@ function hideFieldSets(){
 	 document.getElementById("stsfctn").style.display='none';
 	  document.getElementById("stsfctnNow").style.visibility='hidden';
     document.getElementById("OverAssignedList").style='visibility:hidden';
+		 document.getElementById("memberInfoList").style.display='none';
+		 document.getElementById("confirmMemberInfoChange").style.display='none';
+		 
+		 
 		  
    funcStack.push(hideFieldSets_cont);
 
@@ -1433,7 +1457,7 @@ function 		hideFieldSets_cont(rslt){
 	rtrnFunc();	
 							
 	}
-  
+
 // --------------------------------------------------------------------------
 function displayRegistrationClosedStatus(){
 
@@ -1771,7 +1795,7 @@ if (moshavim){
 //--------------------------------------------------------------------------clkMoshavim
 
 function clkMoshavim(div_id){
-var elmnt, span_element,seatNumber,tmp,fnm1,fnm2,fnm;
+var elmnt, span_element,seatNumber,tmp,fnm1,fnm2,fnm,nameIdx,tmpRslt;
    
 		elmnt=document.getElementById(div_id);
 		span_element=elmnt.children[0];
@@ -1787,8 +1811,10 @@ var elmnt, span_element,seatNumber,tmp,fnm1,fnm2,fnm;
 			 
 		fnm=fnm1.split(' ');
 		if (fnm.length>1)fnm1=fnm.join(' ');
-		
-		if (requestorsNameList.indexOf(fnm1) == -1){
+		 tmpRslt=findNameCandidates(rawRequestorsNameList,fnm1);  
+		 nameIdx=tmpRslt[0];
+		//nameIdx=requestorsNameList.indexOf(fnm1);
+		if (nameIdx == -1){ console.log(fnm1);console.log(requestorsNameList);
 		   alert('שם לא מוכר');
 			 return;
 			 }	   
@@ -1796,14 +1822,14 @@ var elmnt, span_element,seatNumber,tmp,fnm1,fnm2,fnm;
 				
 		width=elmnt.offsetWidth;
 		height=elmnt.offsetHeight;  
-		fnm2=fnm1;
+		fnm2=MinLengthNames[nameIdx];;
 		if(fnm2.length==3)fnm2=fnm2+'&nbsp';
 		if(fnm2.length==2)fnm2=fnm2+'&nbsp'+'&nbsp';  
 		formatName_single(fnm2,span_element,width,height);
 		     
 		span_element.innerHTML=fnm2; 
-		listOfAssignedSeats[seatNumber]=fnm1; 							
-			  
+		listOfAssignedSeats[seatNumber]=fnm1; 						
+			
 
 }
 
@@ -1821,6 +1847,7 @@ document.getElementById('dbgy').innerHTML=cursorY.toString();
 
 return;
 */
+
 if( ! moed) return;
 var cell_id = this.id; 
 cell1=document.getElementById(cell_id);  
@@ -2043,7 +2070,7 @@ if ( ! moshavim)generateMartef(LegendTextElement,MartefElement);
 	
 // -----------------------------------------------------------------------------------------	
     function clearPrevsVlus(){
-		
+		var tmp;
 //		simpleHideFieldSets();
 		
 	   document.getElementById('reqemail').innerHTML='';  
@@ -2065,10 +2092,10 @@ if ( ! moshavim)generateMartef(LegendTextElement,MartefElement);
 			document.getElementById("hakzaamleaa").style.display='none';
 			document.getElementById("holidayMixup").style.display='none';																		
 					
-		
-		if(document.myform.seatsString.value){
+		tmp=delLeadingBlnks(document.myform.seatsString.value);
+		if(tmp){
 		 var stArray = new Array;
-	   stArray = document.myform.seatsString.value.split('+');   
+	   stArray = tmp.split('*')[0].split('+');  console.log(' document.myform.seatsString.value='+ stArray);
 	   for(i=0; i<stArray.length; i++){
 		  var vlu=stArray[i].split('_');
       ckid='c'+vlu[0];  
@@ -2143,7 +2170,7 @@ if ( ! moshavim)generateMartef(LegendTextElement,MartefElement);
 	idxx=document.getElementById("prti").selectedIndex; 
 	if(moshavim)idxx=document.getElementById("prtiPrm").selectedIndex;
 	if ( ! idxx) return; 
-	
+	console.log('fullNames='+fullNames);
 	document.getElementById("fmName").value=fullNames[idxx-1];  
 	 document.myform.familynameForPrmnnt.value=fullNames[idxx-1];
 	tmp1= document.getElementById("prtitxt");
@@ -2158,7 +2185,7 @@ if ( ! moshavim)generateMartef(LegendTextElement,MartefElement);
 
 // -----------------------------------------------------------------------------------------	
  function getNamesForCompletion(){
- var tmp1, tmp2;
+ var tmp1, tmp2,tmpRslt;
  var reslt=[];
  
   if ( ! autoComletionOn ) return;
@@ -2171,30 +2198,29 @@ if ( ! moshavim)generateMartef(LegendTextElement,MartefElement);
 	//	document.myform.familyname.value=delLeadingBlnks(document.myform.familyname.value);	
 		if ( ( ! moshavim) && ( ! document.myform.familyname.value) )return;
 		if ( (  moshavim) && ( ! document.myform.familynameForPrmnnt.value) )return;
-		 if ( ! sidurUlam){listToSearchFrom=requestorsNameList;} else listToSearchFrom=namesToAssign;
+		 if ( ! sidurUlam){listToSearchFrom=rawRequestorsNameList;} else listToSearchFrom=rawNamesToAssign;
 		 
 		 srchArg=delLeadingBlnks(document.myform.familyname.value);
 		 if(moshavim)srchArg=delLeadingBlnks(document.myform.familynameForPrmnnt.value);
-	   if (srchArg.length > 1 ){
-		  for(i=1; i< srchArg.length-1; i++){
-		    shortArg=srchArg.substr(0,i);
-				reslt=searchName(shortArg,listToSearchFrom);
-				
-		    if( reslt.length==1){
-				     document.getElementById("fmName").value=reslt[0];
-		         document.getElementById("fmNameFloat").value=reslt[0];
-						 document.myform.familynameForPrmnnt.value=reslt[0];
+		 //console.log('srchArg='+srchArg);
+		 //for(iii=0;iii<listToSearchFrom.length;iii++)console.log(listToSearchFrom[iii]);
+		 tmpRslt=findNameCandidates(listToSearchFrom,srchArg);  //console.log('tmpRslt='+tmpRslt);
+		 
+		         if(tmpRslt[0] != -1){
+						 nam=simplifyName(listToSearchFrom[tmpRslt[0]]);
+				     document.getElementById("fmName").value=nam;
+		         document.getElementById("fmNameFloat").value=nam;
+						 document.myform.familynameForPrmnnt.value=nam;
 						 if (! moshavim)window.setTimeout(activateOnChange,5);
 						 return;
 						 }   // if
-				} // for		 
-			}  //if			 
+				 
 		        
 	  document.getElementById("fmNameFloat").value=srchArg;
 	   
-	  fullNames=searchName(srchArg,listToSearchFrom);
+	  fullNames=tmpRslt[1].split('$');
 	  
-		 
+		
 		 
 			idx=  fullNames.length;
 		  if ( idx){
@@ -2235,22 +2261,6 @@ if ( ! moshavim)generateMartef(LegendTextElement,MartefElement);
      } // if idx
 		 
 	}	 
-// -----------------------------------------------------------------------------------------
- function searchName(arg,searchList){
-  var fullNmes=[];
-	var srchArgLength;
-	srchArgLength=arg.length;
-	   for (rn=0; rn<searchList.length; rn++){
-			   leftPartOfNameString=searchList[rn].substr(0,srchArgLength);
-	       if(arg == leftPartOfNameString) fullNmes.push(searchList[rn]); 
-			  }  // for 	
- return fullNmes;
- 
- 
- 
- }
-
-
 
 // -----------------------------------------------------------------------------------------
 
@@ -2263,6 +2273,13 @@ function activateRefocus(){
 if (focusElmnt) focusElmnt.focus();
 	}
     
+
+//--------------------------------------------------------------------------------------
+var nxtPrvEnabled=true;
+function enableNxPrv(){nxtPrvEnabled=true;}
+function disableNxPrv(){nxtPrvEnabled=false;}
+
+
 
 //--------------------------------------------------------------------------------------
 function ckNameRtrvVlus_root(p){
@@ -2297,7 +2314,7 @@ ckNameRtrvVlus(p);
 			countAssignedMen=0;
 			countAssignedWomen=0;	 
 	
-	
+	disableNxPrv(); // wait until function is completed
 		
 	if( ! document.myform.familyname.value){
 	       if(genTables) clearPrevsVlus();
@@ -2349,7 +2366,9 @@ function ckNameRtrvVlus_cont2(){
 		 else { 
 		    fnc= funcStack.pop(); // get rid of param
 				fnc= funcStack.pop(); 
-				fnc(); return;
+				  enableNxPrv();
+					fnc(); 
+					return;
 			} ;	
 }
 
@@ -2360,7 +2379,7 @@ var genTables;
 genTables=funcStack.pop();
  
 		 if (res.substr(0,3)=='999') location.reload(true);
-		 if (res.substr(0,3)=='---') {fnc= funcStack.pop();  fnc(); return;} ;
+		 if (res.substr(0,3)=='---') {fnc= funcStack.pop();    enableNxPrv();    fnc();    return;} ;
 		 if(res.substr(0,3)=='aaa'){ // display color map
 		      mapForMember= false; 
 		      document.getElementById("colorMap").style.display='block';
@@ -2379,9 +2398,14 @@ genTables=funcStack.pop();
 	
 	function 	ckNameRtrvVlus_cont4(str){			 
 	       var str1, tmp;
+				 
+				 
+				  enableNxPrv();
+					
+					
 				 tmp=str.substr(0,2);
 				 str1=str.substr(3);
-				 console.log('str='+str+'/  tmp='+tmp+'/   str1='+str1);
+				
 				 if (tmp != 'ok'){ 
 				      console.log('err in retrieving over assign list'); 
 							} else  display_OverAssignedList(str1);
@@ -2420,11 +2444,11 @@ genTables=funcStack.pop();
  
 */
 
+
 function memberdetails(resArray){
   
 	 
 		
-	
      document.getElementById("details").style.display='block';
 		
 		 document.getElementById('reqemail').innerHTML=delLeadingBlnks(resArray[positionInMsg.email]);
@@ -2501,13 +2525,17 @@ function memberdetails(resArray){
 							     if(listOfAssignedSeats.indexOf(templist[i]) == -1)listOfAssignedSeats.push(templist[i]);   };
 							    }
 			
+			
+			         originalListOfAssigned=listOfAssignedSeats.slice();  
 			        assignedSeatsStr=resArray[positionInMsg.assignedSeatsRosh]+'*'+resArray[positionInMsg.assignedSeatsKipur];
 			
+			       
+				
 							 combinedSeatsStr= requestedSeatsStr+'*'+assignedSeatsStr;
 			        if ( ! moed)reconstructSeats(	combinedSeatsStr);
 							document.myform.seatsString.value=combinedSeatsStr;
 							          
-												 
+							 
 									 
 }
 // --------------------------------------------------------------------------------		
@@ -2562,8 +2590,8 @@ function memberdetails(resArray){
 						}		// end if seatElmnt	      
 				 } // end for
 		
-	     
-			 originalListOfAssigned=listOfAssignedSeats.slice();  
+	  
+		//	 originalListOfAssigned=listOfAssignedSeats.slice();  
 	}		 
 		
 //-----------------------------------------------------------------------------------    
@@ -2608,20 +2636,50 @@ function getFinalStsfctnVlu(vl){
 
 
 //-----------------------------------------------------------------------------------			
-	function getInfoForStsfction(){
-	var tmp;
-	tmp=document.myform.famyname.value;  
-	if ( ! ( delLeadingBlnks (tmp) ))return;
-	   
-	   document.myform.familyname.value=tmp; // needed there for ckName
+	function getInfoForStsfction(keyUp){
+	var tmpRslt,nam,tmp,idx;
+	nam=delLeadingBlnks(document.myform.famyname.value);  
+	if ( ! nam )return;
+	
+	// try generate a full name
+		
+		console.log('nam='+nam);  console.log('rawListOfNames='+rawListOfNames);
+		 tmpRslt=findNameCandidates(rawListOfNames,nam);
+		 if (tmpRslt[0] == -1){
+    		  if(keyUp)return;
+		      if( (! tmpRslt[1])  && ( ! keyUp)  )  {
+					     Alert('הוקלד שם שגוי');
+							 return;
+							 }
+							 if ( ( ! tmpRslt[1]) && (keyUp) )return;  // wrong name but 'keyUp', wait for corect name
+							 if (keyUp) return;   // more than 1 alternatives, wait for more info
+					 alertText=genNameAlertText(tmpRslt[1]);		 
+					 Alert(alertText);
+							 return;
+			}
+	
+	   idx=tmpRslt[0];
+		 nam=listOfNames[idx];
+	   document.myform.familyname.value=nam; // needed there for ckName
+		 document.myform.famyname.value=nam; // put full name instead of possibly part name
 		yearToDisplay='';   // get info from this year
 		funcStack=[getInfoForStsfction_cont1];
 		
 		  ckName(0);
 }
+//------------------------
+
+function genNameAlertText(src){
+var i, list,rslt;
+list=src.split('$');
+rslt='השם אינו יחיד במערכת. שמות אפשריים:';
+for (i=0;i<list.length;i++)rslt=rslt+'<br>'+list[i];
+
+return rslt;
+}
 
 //----------------------------------------------------------- 
-		 
+ 
 	function getInfoForStsfction_cont1(rslt){	
 	//typ=funcStack.pop(); 
 	res=rslt;
@@ -2648,14 +2706,8 @@ function getFinalStsfctnVlu(vl){
 		 document.getElementById('mkishv_m1').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.LastYrSeat]);
 		
 		 document.getElementById('vetek').innerHTML=getFinalStsfctnVlu(resArray[positionInMsg.memberShipStatus]);		
-		 
-	//   document.myform.beinKomot.value=Number(resArray[positionInMsg.issueBetweenFloors]);	
-	//	 document.myform.bekomaM.value=Number(resArray[positionInMsg.issueinFloorMen]);
-	//	 document.myform.bekomaW.value=Number(resArray[positionInMsg.issueInFloorWmn]);
-	/*
 	
-									 :33,:34,:35
-	*/	
+	
 		 lstYrMn=delLeadingBlnks(resArray[positionInMsg.stsfctnInFlrThisYrMen]);
 		 tmp1=lstYrMn.split('*');  
 		 if ( !tmp1[1] ){ 
@@ -2697,26 +2749,7 @@ function getFinalStsfctnVlu(vl){
 		  	
 	 
 		 saveStsfctionVlusToArray(stsfctionVlusFromServer);   
-	/*	 
-	return;	 
-		 
-	// get info from previous year	
 	
-	yearToDisplay=LastYear;  
-	   funcStack=[getInfoForStsfction_cont2];
-	    ckName(0);
-			}
-			
-//----------------------------------------                    
-			
-function getInfoForStsfction_cont2(rslt){	
-      res=rslt;		
-		  resArray=res.split('&'); 
-      if(res.substr(0,3)=='---'){
-        Object.keys(positionInMsg).forEach(function(key) {resArray[positionInMsg[key]]=''; 
-     									                     });	
-		    };                                         
-	*/
 	   document.getElementById('menRoshStsfctn').innerHTML=resArray[positionInMsg.gvarimRoshHashana];
 		 document.getElementById('menkipurStsfctn').innerHTML=resArray[positionInMsg.gvarimKipur];
 		 document.getElementById('womenRoshStsfctn').innerHTML=resArray[positionInMsg.nashimRoshHashana];
@@ -2834,10 +2867,39 @@ function getInfoForStsfction_cont2(rslt){
 	
 	}
 //-----------------------------------------------------------------------------------			
-	function getInfoForPrsnlPrblm(){  
-	if ( ! ( delLeadingBlnks (document.myform.famlyname.value) ))return;
+	function getInfoForPrsnlPrblm(keyUp){  
+	  var tmpRslt,nam,tmp,idx; 
+		
+	//if ( ! ( delLeadingBlnks (document.myform.famlyname.value) ))return;
 	   
-	   document.myform.familyname.value=document.myform.famlyname.value; // needed there for ckName
+		
+	nam=delLeadingBlnks(document.myform.famlyname.value);  
+	if ( ! nam )return;
+	
+	// try generate a full name
+		
+		
+		 tmpRslt=findNameCandidates(rawListOfNames,nam);
+		 if (tmpRslt[0] == -1){
+    		  if(keyUp)return;
+		      if( (! tmpRslt[1])  && ( ! keyUp)  )  {
+					     Alert('הוקלד שם שגוי');
+							 return;
+							 }
+							 if ( ( ! tmpRslt[1]) && (keyUp) )return;  // wrong name but 'keyUp', wait for corect name
+							 if (keyUp) return;   // more than 1 alternatives, wait for more info
+					 alertText=genNameAlertText(tmpRslt[1]);		 
+					 Alert(alertText);
+							 return;
+			}
+	
+	   idx=tmpRslt[0];
+		 nam=listOfNames[idx];  
+	   document.myform.familyname.value=nam; // needed there for ckName
+		
+		 
+	   document.myform.familyname.value=nam; // needed there for ckName
+		 document.myform.famlyname.value=nam;  // put full name in place of possibly partial name
 		yearToDisplay='';   // get info from this year
 		funcStack=[getInfoForPrsnlPrblm_cont1];
 		 ckName(0);
@@ -3052,7 +3114,7 @@ function getInfoForStsfction_cont2(rslt){
 
 
 
-// --------------------------------------------------------------------------------  
+// -------------------------------------------------------------------------------  
 
 
 function creatColoredMap(genTables,strArray){
@@ -3077,7 +3139,7 @@ var namesForInnerhtml = new Array;
 	 for (i=0; i< seats.length; i++){
 	 
 	    seatNVlu= seats[i].split('_');    debug=false;
-	
+
 				
 			seatId='c'+seatNVlu[0]+'_p';  
 			cell_element=document.getElementById(seatId); 
@@ -3096,7 +3158,7 @@ var namesForInnerhtml = new Array;
 			 
 				baseColr=colr;
 				fontClr='black';
-				if(printingNow){nameT0Show=' ';} else nameT0Show=seatNVlu[0];  ; 
+				if(printingNow){nameT0Show=' ';} else nameT0Show=seatNVlu[0];  
 				seatParts=vluu[1].split('/'); 
 				assndLst=seatParts[0].split('$'); 
 				assgndRosh=delLeadingBlnks(assndLst[0]); 
@@ -3106,7 +3168,7 @@ var namesForInnerhtml = new Array;
 										  
 											 fontClr=assignedColor;
 					             colr=assignedBGColor;
-					              nameT0Show=assgndRosh;
+					              nameT0Show=assgndRosh;  
 					                     } //end if2
 					  else { //only one is assigned   start else2
 						    
@@ -3116,14 +3178,14 @@ var namesForInnerhtml = new Array;
 
 								fontClr=assignedColor;
 					       colr=assignedBGColor;
-								 nameT0Show=assgndRosh;   
+								 nameT0Show=assgndRosh;  
 								  } else if((moed == 2) && assgndKipur) { //else3
 						
 																  
 
 									   fontClr=assignedColor;
 					           colr=assignedBGColor;
-								     nameT0Show=assgndKipur;
+								     nameT0Show=assgndKipur;  
 										 } //end else3
 				      } // end else2
 				}  //end if1
@@ -3144,13 +3206,16 @@ var namesForInnerhtml = new Array;
 	    		originalInfo.baseNameToShowList=seatNVlu[0];
 	
 
-	 
+	 //console.log('vluu[1]='+vluu[1]);
 		     cell_element.setAttribute("value", vluu[1]); 
+		
 		// if ( ! printingNow)
-		 span_element.innerHTML=nameT0Show;
-				
+		
+		 tmp=replaceFullNameByMinLngthName(nameT0Show,rawNamesToAssign);
+		 if ( (isNaN(nameT0Show) ) || (tmp) )nameT0Show=tmp;
+		 span_element.innerHTML=nameT0Show;  //console.log('3199 nameT0Show='+nameT0Show+' MinLengthNames='+MinLengthNames); 
+		
 	
-								  
 	
 	 //seatOriginalInfo[seatNVlu[0]]=Object.assign({}, originalInfo);
 	 collectOriginalInfo(seatNVlu[0]);
@@ -3164,6 +3229,16 @@ var namesForInnerhtml = new Array;
 
 	 highlightMemberSeats(strArray[1]); 
 }
+// --------------------------------------------------------------------------------  
+function replaceFullNameByMinLngthName(nam,list){
+var i, tmp;
+tmpRslt=findNameCandidates(list,nam);
+if (tmpRslt[0] == -1)return '';
+ tmp=indexToMinLengthNames[tmpRslt[0]];
+ if ( ! tmp ) return '';
+ return MinLengthNames[tmp];
+ }
+
 
 // --------------------------------------------------------------------------------
 function collectOriginalInfo(toSeat){
@@ -3479,10 +3554,10 @@ if ( ! validPasswordEntered){
  
 
 function prepareToPrint(reqUlam){
-/*
-  rotationTags=  notRotated:$   RotatedM45Div: <    RotatedM315Div: #      RotatedM135Div: >    
 
-  */
+//  rotationTags=  notRotated:$   RotatedM45Div: <    RotatedM315Div: #      RotatedM135Div: >    
+
+ 
 										 
 										 
 		
@@ -3965,20 +4040,20 @@ function 	getShulConfig_cont(rslt){
 function 	getListOfNames_cont(rspnse){	
 //console.log("caller is " + arguments.callee.caller.toString());
 
-             var param,func2;
+             var param,func2,tmp;
               rqstorsString = rspnse; 
 						  if(rqstorsString.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
 					    if(rqstorsString.substr(0,3)=='000'){Alert('רשימת שמות ריקה');  return;};
 					    strrratrs=delLeadingBlnks(rqstorsString.substr(3));
 							if(! strrratrs){Alert('רשימת שמות ריקה');  return;};
-
-					 requestorsNameList=strrratrs.split('$');
-					  for (rn=0; rn<requestorsNameList.length; rn++){	   // normelise names
-       	       fnm=requestorsNameList[rn].split(' ');
-			         if (fnm.length>1)requestorsNameList[rn]=fnm.join(' '); 
-			   	  }  // for 	
-					 
-					  
+              tmp=strrratrs.split('@');
+					    rawRequestorsNameList=tmp[0].split('$'); 
+							tmp=tmp[1].split('$');
+					    for (rn=0; rn<rawRequestorsNameList.length; rn++){   //console.log('raw='+rawRequestorsNameList[rn]+' simpl='+simplifyName(rawRequestorsNameList[rn]));
+							indexToMinLengthNames[rn]=Number(tmp[rn]);
+							requestorsNameList[rn]=simplifyName(rawRequestorsNameList[rn]);
+							}
+							console.log(indexToMinLengthNames);
 				
 				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0);return;}
 					  else{
@@ -3998,7 +4073,17 @@ function 	getListOfNames_cont(rspnse){
     	simpleHideFieldSets();
 	   moed=document.getElementById("moedPrint").selectedIndex;  
    }
+//------------------------------------------------------------------------------------ 
+function simplifyName(nam){
+var tmp,simplified;
+ 
+tmp=nam.split('*');
 
+ if (tmp[1]  && tmp[2] ){simplified=tmp[0]+' '+tmp[1]+' ו'+tmp[2] } else simplified=tmp[0]+' '+tmp[1]+tmp[2];
+//console.log('nam='+nam+' simplified='+simplified);
+	return simplified;	
+	
+	}
 	 
 //--------------------------------------------------------------------------------------------------------
 function getNameList(){
@@ -4017,28 +4102,31 @@ function getNameList(){
 
 //--------------------------------
 function getNameList_cont(rspnsString1){				 
-	    var tmp1,tmp2, realNamesCounter;  
+	    var tmp,tmp1,tmp2,tmp3, realNamesCounter;  
          if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');}
 					 else { 
 					 strr=delLeadingBlnks(rspnsString1.substr(3));
 					 if( !strr) {Alert('אין מתפללים שעונים למאפייני הסינון'); return};
-					 namesToAssign=strr.split('$'); 
+					 tmp=strr.split('@');
+					 rawNamesToAssign=tmp[0].split('$');
+					 tmp=tmp[1].split('$');
+					  
 					 realNamesCounter=0;
-					 for (rn=0; rn<namesToAssign.length; rn++){	   // normelise names
-					     tmp1=namesToAssign[rn];
+					 for (rn=0; rn<rawNamesToAssign.length; rn++){	   // normelise names
+					     tmp1=rawNamesToAssign[rn];
 							 tmp2=tmp1.substr(0,1);
+							 tmp3=rawNamesToAssign[rn].substr(1);
+							 rawNamesToAssign[rn]=tmp3;
 							 if (tmp2 == '-'){tmp2=true;}else {tmp2=false; realNamesCounter++;}
 							 namesAlreadyAsigned[rn]=tmp2;
 							
-							 tmp2=tmp1.substr(1,tmp1.length-1);
-							  namesToAssign[rn]=tmp2;
-       	       fnm=tmp2.split(' ');
-			         if (fnm.length>1)namesToAssign[rn]=fnm.join(' '); 
-			   	  }  // for 	
+							 namesToAssign[rn]=simplifyName(tmp3);;
+       	       indexToMinLengthNames[rn]=Number(tmp[rn]);
+			       }  // for 	
 						
 					
 						if ( ! realNamesCounter){Alert('אין מתפללים שעונים למאפייני הסינון'); return};
-				//for(rn=0; rn<namesToAssign.length; rn++)	console.log('namesToAssign['+rn+']= '+namesToAssign[rn]+' namesAlreadyAsigned['+rn+']='+namesAlreadyAsigned[rn]);
+			
 									
 				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0)}
 					  else{
@@ -4061,7 +4149,7 @@ return;
 //--------------------------------------------------------------------------------------------------------
 
 function getUnFilteredNameList(listType){
-  yearToDisplay='';     //nextYear;  // the list of names that has to be handled is the most updated one
+  yearToDisplay='';     //nextYear;  // the list of names that has to be handled is the most upd one
 
 	url=encodeURI(firstPartOfURL+"/getFullList/?$"+password+'$'+yearToDisplay+'$'+LastYear+'$'+listType);		
   funcStack=[getUnFilteredNameList_cont];
@@ -4070,32 +4158,50 @@ function getUnFilteredNameList(listType){
  
  //---------
  function   getUnFilteredNameList_cont(rslt){ 
+ var i,tmp,tmp1,tmp0;
           noStsfctionToDsply=true; 
          if(debugState)console.log(' getUnFilteredNameList_cont rslt='+rslt);  
 	       rspnsString1 = rslt; 
          if(rspnsString1.substr(0,3)=='999'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');return;}
 				 
 				 if(rspnsString1.substr(0,3)=='---'){Alert('אין נתונים להצגה');   return;}
+				 
 				 	noStsfctionToDsply=false;
-					 listOfNames=rspnsString1.substr(3).split('$');
-				   listOfNames.sort();      
+					tmp=rspnsString1.substr(3).split('@');
+					 rawListOfNames=tmp[0].split('$');
+					 tmp1=tmp[1].split('$');
+					 for (i=0; i<tmp1.length;i++)rawListOfNames[i]=rawListOfNames[i]+'@'+tmp1[i];
+				   rawListOfNames.sort(); 
+					 listofNames=[];
+					 for(i=0;i<rawListOfNames.length;i++) {
+					      tmp1=rawListOfNames[i].split('@')[1];
+								rawListOfNames[i]=rawListOfNames[i].split('@')[0];
+								
+					      listOfNames[i]=simplifyName(rawListOfNames[i]);
+								indexToMinLengthNames[i]=Number(tmp1);
+							}	   
+								
+								console.log('listOfNames='+listOfNames);
+						console.log(	'indexToMinLengthNames='+indexToMinLengthNames);
 				   if( delLeadingBlnks(document.myform.famyname.value)){kademStsfction(0);}
 								
 					  else{
-					 currentNameIdx=0;
+					 currentNameIdx=0;  
+					 while (  (rawListOfNames[currentNameIdx] == '**') && (currentNameIdx < rawListOfNames.length-1) ) currentNameIdx++; 
+					 
 					 document.myform.famyname.value=listOfNames[currentNameIdx];
 					      }
 								
-					 		 getInfoForStsfction('');			 		
+					 		 getInfoForStsfction(false);			 		
 					 
 return;
 
 }
 
 
-//--------------------------------------------------------------------------------------------------------
-
+//-------------------------------------------------------------------------------------------------------- 
 function getUnFilteredNameListForPP(){
+var i;
   yearToDisplay='';     //nextYear;  // the list of names that has to be handled is the most updated one
  
 	url=encodeURI(firstPartOfURL+"/getFullList/?$"+password+'$'+yearToDisplay+'$'+LastYear+'$pp');		
@@ -4104,30 +4210,162 @@ function getUnFilteredNameListForPP(){
           send_msg_to_server(url);
 }
 //------------
-function  getUnFilteredNameListForPP_cont(rspns){        
+function  getUnFilteredNameListForPP_cont(rspns){    
+var tmp;    
 	       rspnsString1 = rspns; 
-         if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');}
-					 else {
-					 listOfNames=rspnsString1.substr(3).split('$');
-				   listOfNames.sort();      
+         if(rspnsString1.substr(0,3)!='+++'){Alert('סיסמא שגויה. הכנס סיסמא נכונה'); return;}
+					
+           tmp=rspnsString1.substr(3).split('@');  
+					 rawListOfNames=tmp[0].split('$');
+					 tmp=tmp[1].split('$');
+				  // rawListOfNames.sort();                       // console.log('rawlistOfNames='+rawListOfNames);
+					   listofNames=[];
+					 for(i=0;i<rawListOfNames.length;i++){
+					      listOfNames[i]=simplifyName(rawListOfNames[i]);
+								indexToMinLengthNames[i]=Number(tmp[i]);
+								}   
 				   if( delLeadingBlnks(document.myform.famlyname.value)){kademPersnlPrblms(0)} 
 						 else{
-					 currentNameIdx=0;
+					 currentNameIdx=0;  
+					 while ( (currentNameIdx< rawListOfNames.length-1) && (rawListOfNames[currentNameIdx] == '**') ) currentNameIdx++ ;                         
+					  if (  rawListOfNames[currentNameIdx] == '**'){Alert('אין נתונים'); return};
 					 document.myform.famlyname.value=listOfNames[currentNameIdx];
 					      }
-					 		 getInfoForPrsnlPrblm()			 		
-					 }
+					 		 getInfoForPrsnlPrblm(false);		 		
+					
 return;
 
 }
 
+//--------------------------------------------------------------------------------	
+	function findNameCandidates(rawList,partOfAName){ 
+	 
+	var rNmA = new Array(); 
+	var rNm,rn;
+	var tempFamName,tmp,idx,familyNames;
+	var strParts;        
+	var strOriginalLength,indices, numberOfPops,tempFamName,firstIdx,i,j,nextIdx,confirmedIndices;
+	var firstNamesArray, nameA, nameB,bothNames,cond1stWay,con2ndWay;
+    
+	familyNames=[];
+	bothNames=[];
+	
+	for (i=0;i<rawList.length;i++) {
+	  if(  rawList[i]){
+	    tmp=rawList[i].split('*');
+      familyNames[i]=tmp[0];
+			bothNames[i]=[tmp[1],tmp[2]];
+			}else familyNames[i]='';
+	}
+	
+	nameParts=partOfAName.split(' ');  
+	strOriginalLength=nameParts.length;
+	
+	indices=[];
+	numberOfPops=-1;
+	while (nameParts.length){
+	    numberOfPops++;
+    	tempFamName=nameParts.join(' '); 
+		  firstIdx=findIdxOfName(	familyNames,tempFamName,0);
+			if (firstIdx  == -1){ // this combination not found
+			     nameParts.pop();  // remove the last part of the name in case it is a first name
+					 continue;  // try a shorter name
+					 }  // if
+			// family name found. now look for all possible families with the same family name
+			 // start looking for this name from the first family name
+			 indices.push([firstIdx,numberOfPops]); 
+			
+			 nextIdx=findIdxOfName(	familyNames,tempFamName,firstIdx+1);
+			 while (nextIdx  != -1 ){
+			   indices.push([nextIdx,numberOfPops]);  
+				
+					nextIdx=	findIdxOfName(	familyNames,tempFamName,nextIdx+1)
+					}  // while nextIdx
+					
+			 nameParts.pop();  // remove the last part of the name in case it is a first name		
+			 
+			 }   // while strparts.length
+			
+			 // now we have all indices of possible last name
+			 confirmedIndices=[];
+			 //  next step == prone all indices that have different first name(s)
+			  for (i=0; i<indices.length; i++){
+				     nextIdx=indices[i][0];
+						 numberOfPops=indices[i][1];  // length (in tokens) of firstnames
+						 nameParts=partOfAName.split(' ');
+						 firstNamesArray=nameParts.splice(strOriginalLength-numberOfPops,numberOfPops);
+						 
+						
+						 
+						 if ( ! firstNamesArray.length){ if(confirmedIndices.indexOf(nextIdx) == -1)confirmedIndices.push(nextIdx); continue};
+						 // try all variations of how to generate two (or one) first names
+						 for (j=0; j<firstNamesArray.length;j++){
+						     nameA=firstNamesArray.splice(0,j).join(' ');
+								 nameB=firstNamesArray.join(' '); 
+							    if (nameB.substr(0,1) == 'ו') nameB=nameB.substr(1); 
+									// try one way 
+									cond1stWay= tryAMatch(nameA,nameB,bothNames[nextIdx]);
 
+								
+									// try 2nd way
+									
+									tmp=nameA;  nameA=nameB; nameB=tmp;   // change order
+									con2ndWay=tryAMatch(nameA,nameB,bothNames[nextIdx]);
+									
+									
+									if ( cond1stWay ||  con2ndWay ) {		 if(confirmedIndices.indexOf(nextIdx) == -1)confirmedIndices.push(nextIdx); break;};
+									nameParts=partOfAName.split(' ');   // restore firstNamesArray
+						      firstNamesArray=nameParts.splice(strOriginalLength-numberOfPops,numberOfPops);
+							} // for j
+					} // for i
+											
+				  
+			if ( confirmedIndices.length != 1) { rNmA[0] = -1}else rNmA[0]=confirmedIndices[0];
+			rNmA[1]=''; 
+			for (i=0; i<confirmedIndices.length;i++)rNmA[1]=rNmA[1]+'$'+simplifyName(rawList[confirmedIndices[i]]);
+			   
+				
+			
+			
+		return rNmA;
+		
+		
+	}; 
+//-----------------------
+
+function findIdxOfName(	familyNames,tempFamName,idxFrom){
+var tmp,i,lngth,shortFamName;
+lngth=tempFamName.length;
+
+for (i=idxFrom;i< familyNames.length; i++){ 
+  if(  familyNames[i].substr(0,lngth) ==  tempFamName)return i;
+	}
+	return -1;
+	}
+	
+//-------------------
+function tryAMatch(nameA,nameB,bothNames){
+var shortBothNames,nameAL,nameBL,cond,cond1,cond2;
+
+shortBothNames=[];
+
+	                nameAL=nameA.length;
+									nameBL=nameB.length;
+									shortBothNames[0]=bothNames[0].substr(0,nameAL);
+									shortBothNames[1]=bothNames[1].substr(0,nameBL);  
+									
+									cond1= ( (nameA) && (nameA != shortBothNames[0])  );  // if specified it has to be equal to the one in the DB
+									cond2= ( (nameB) && (nameB != shortBothNames[1]) ); 
+									
+									cond=	(! cond1) && ( ! cond2);  
+									return cond;
+}									
   
 
 //--------------------------------------------------------------------------------------------------------checkOnly
   function  nextname(){ 
 	checkOnly= ! event.altKey;   // if alt key pressed==> donot ask; save!  
-	//alert('checkOnly='+checkOnly);
+	if(! nxtPrvEnabled)return; //wait for previous fuunction to complete
 	 noSaveNeeded=  svSeatAssignment(checkOnly,false);  // if saved, no more saving needed
 	 if (noSaveNeeded){  
 	         kadem(1);
@@ -4135,7 +4373,7 @@ return;
 					 }
 		funcNo=nxName;
 	  funcYes=svAndNext;
-	//	funcStack=[doNothing];
+	
 		yesOrNo("האם ברצונך לשמור את הערכים ששונו?");			 
 	}
 	
@@ -4192,7 +4430,7 @@ function svAndNext_cont(){
 			}		
 			if( ! currentNamefound	){
 			     Alert('הוקלד שם שגוי');
-				//	  document.addEventListener('keyup', checkArrowPress );	
+				
 						}   else {
 						
 			 	     origIdx=currentNameIdx; 
@@ -4218,6 +4456,10 @@ function svAndNext_cont(){
   function  prvname(){
 	
 	 checkOnly= ! event.altKey;   // if alt key pressed==> donot ask; save!
+	 
+	 if( ! nxtPrvEnabled)return; //wait for previous fuunction to complete
+	 
+	 
 	 noSaveNeeded=  svSeatAssignment(checkOnly,false);  // if saved, no more saving needed
 	 
 	 
@@ -4269,15 +4511,15 @@ function 		svAndPrvs_cont(){
 		     if (nameToSearch == delLeadingBlnks(listToUse[currentNameIdx])){
 				       currentNamefound=true;
 							 break;
-							 }
-			   }
+							 }  // if
+			   }  // for
 				 if(currentNamefound){
 					    if( ! tryIt)lastName=nameToSearch;
 							break;
-							}
+							}  // if
 					nameToSearch=lastName;
 					mvCnt=0;
-			}		
+			}	//for try it	
 			if( ! currentNamefound	){
 			     Alert('הוקלד שם שגוי');
 					//  document.addEventListener('keyup', checkArrowPress );	familynameForPrmnnt
@@ -4298,10 +4540,10 @@ function 		svAndPrvs_cont(){
 					 ckNameRtrvVlus(true); 
 					 }
 		}
-		/*
+		
 		 
 					
-		*/			       		
+				       		
 
 //--------------------------------------------------------------------------------------------------------			 
 
@@ -4395,32 +4637,38 @@ function saveAndMoveNext_cont(){
 function saveAndMovePrvs_cont(){		
 		prvnameStsfction();
 		}
-//--------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------- findNameCandidates(rawList,partOfAName){ 
  function  nextnameStsfction(){
 	
 		kademStsfction(1);
 	}  
-	
+//--------------------
+		
 	function kademStsfction(zz){
+	var tmpRslt,nam;
 	
-		 currentNamefound=false;
-		 nam=delLeadingBlnks(document.myform.famyname.value);
-		 for(currentNameIdx=0; currentNameIdx <listOfNames.length; currentNameIdx++ ){
-		     if (nam == delLeadingBlnks(listOfNames[currentNameIdx])){
-				       currentNamefound=true;
-							 break;
+		 nam=delLeadingBlnks(document.myform.famyname.value);   
+		 tmpRslt=findNameCandidates(rawListOfNames,nam);
+		
+		 if (tmpRslt[0] == -1){
+		      if( ! tmpRslt[1]){
+					     Alert('הוקלד שם שגוי');
+							 return;
 							 }
-			}
-			if( ! currentNamefound	){
-			     Alert('הוקלד שם שגוי');
-			//		  document.addEventListener('keyup', checkArrowPress );	
-						}   else {
+					 Alert('השם שהוקלט אינו יחיד במערכת');
+							 return;
+			}		 
+		
 			 
-		    
-				   if(currentNameIdx < listOfNames.length-zz) currentNameIdx=currentNameIdx+zz;    
-				   document.myform.famyname.value=listOfNames[currentNameIdx];
-					 getInfoForStsfction('');
-					 } 
+  	      currentNameIdx=tmpRslt[0];  
+					 last_currentNameIdx=currentNameIdx;                                
+				   if(tmpRslt[0] < rawListOfNames.length-zz) currentNameIdx=currentNameIdx+zz;  
+					 while ( (currentNameIdx< rawListOfNames.length-1) && (rawListOfNames[currentNameIdx] == '**') ) currentNameIdx++;  
+					 if (  rawListOfNames[currentNameIdx] == '**')currentNameIdx=last_currentNameIdx;  // no where to move to
+					    
+				   document.myform.famyname.value=simplifyName(rawListOfNames[currentNameIdx]);
+					 getInfoForStsfction(false);
+					 
 		}			 
 
 
@@ -4428,24 +4676,27 @@ function saveAndMovePrvs_cont(){
  function  prvnameStsfction(){
 	
 	   
-		
-		 currentNamefound=false;
-		 for(currentNameIdx=0; currentNameIdx <listOfNames.length; currentNameIdx++ ){
-		     if (delLeadingBlnks(document.myform.famyname.value) == delLeadingBlnks(listOfNames[currentNameIdx])){
-				       currentNamefound=true;
-							 break;
+		nam=delLeadingBlnks(document.myform.famyname.value);
+		 tmpRslt=findNameCandidates(rawListOfNames,nam);
+		 
+		 if (tmpRslt[0] == -1){
+		      if( ! tmpRslt[1]){
+					     Alert('הוקלד שם שגוי');
+							 return;
 							 }
-			}
-			if( ! currentNamefound	){
-			     Alert('הוקלד שם שגוי');
-					//  document.addEventListener('keyup', checkArrowPress );	
-						}  else {
-			 
-		    
-				   if(currentNameIdx > 0) currentNameIdx--;    
-				   document.myform.famyname.value=listOfNames[currentNameIdx];
-					 getInfoForStsfction('');
-					 }
+					 Alert('השם שהוקלט אינו יחיד במערכת');
+							 return;
+			}		 
+		
+		 
+		       currentNameIdx=tmpRslt[0];
+					 last_currentNameIdx=currentNameIdx;
+				   if(currentNameIdx > 0) currentNameIdx--; 
+					 while ( (currentNameIdx > 0) && (rawListOfNames[currentNameIdx] == '**') ) currentNameIdx--;
+					  if (  rawListOfNames[currentNameIdx] == '**')currentNameIdx=last_currentNameIdx;  // no where to move to
+				   document.myform.famyname.value=simplifyName(rawListOfNames[currentNameIdx]);
+					 getInfoForStsfction(false);
+				
 		}			       		
 
 //--------------------------------------------------------------------------------------------------------  
@@ -4563,58 +4814,71 @@ function saveAndMoveNextPP_cont(){
 function saveAndMovePrvsPP_cont(){		
 		prvnamePrsnlPrblms();
 		}
-//--------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------  
  function  nextnamePrsnlPrblms(){
 	
 		kademPersnlPrblms(1);
 	}  
+
+//-----------------------------
 	
 	function kademPersnlPrblms(zz){
 	
-		 currentNamefound=false;
-		 nam=delLeadingBlnks(document.myform.famlyname.value);
-		 for(currentNameIdx=0; currentNameIdx <listOfNames.length; currentNameIdx++ ){
-		     if (nam == delLeadingBlnks(listOfNames[currentNameIdx])){
-				       currentNamefound=true;
-							 break;
+	var tmpRslt,nam;
+	
+		nam=delLeadingBlnks(document.myform.famlyname.value);
+		 tmpRslt=findNameCandidates(rawListOfNames,nam);
+		 
+		 if (tmpRslt[0] == -1){
+		      if( ! tmpRslt[1]){
+					     Alert('הוקלד שם שגוי');
+							 return;
 							 }
-			}
-			if( ! currentNamefound	){
-			     Alert('הוקלד שם שגוי');
-			//		  document.addEventListener('keyup', checkArrowPress );	
-						}   else {
-			 
-		    
-				   if(currentNameIdx < listOfNames.length-zz) currentNameIdx=currentNameIdx+zz;    
+					 Alert('השם שהוקלט אינו יחיד במערכת');
+							 return;
+			}		 
+		
+	         currentNameIdx=tmpRslt[0];
+					  last_currentNameIdx=currentNameIdx; 
+				   if(currentNameIdx < listOfNames.length-zz) currentNameIdx=currentNameIdx+zz; 
+					 while ( (currentNameIdx< listOfNames.length-1) && (rawListOfNames[currentNameIdx] == '**') ) currentNameIdx++ ; 
+					  if (  rawListOfNames[currentNameIdx] == '**')currentNameIdx=last_currentNameIdx;  // no where to move to
+					 
 				   document.myform.famlyname.value=listOfNames[currentNameIdx];
-					 getInfoForPrsnlPrblm();
-					 } 
+					 getInfoForPrsnlPrblm(false);
+					
 		}			 
 
-
+ 
 //--------------------------------------------------------------------------------------------------------  
  function  prvnamePrsnlPrblms(){
 	
-	   
-		
-		 currentNamefound=false;
-		 for(currentNameIdx=0; currentNameIdx <listOfNames.length; currentNameIdx++ ){
-		     if (delLeadingBlnks(document.myform.famlyname.value) == delLeadingBlnks(listOfNames[currentNameIdx])){
-				       currentNamefound=true;
-							 break;
-							 }
-			}
-			if( ! currentNamefound	){
-			     Alert('הוקלד שם שגוי');
-					//  document.addEventListener('keyup', checkArrowPress );	
-						}  else {
+	   var tmpRslt,nam;
+	
+		nam=delLeadingBlnks(document.myform.famlyname.value);
+		 tmpRslt=findNameCandidates(rawListOfNames,nam);
 			 
-		    
-				   if(currentNameIdx > 0) currentNameIdx--;    
+		 if (tmpRslt[0] == -1){
+		      if( ! tmpRslt[1]){
+					     Alert('הוקלד שם שגוי');
+							 return;
+							 }
+					 Alert('השם שהוקלט אינו יחיד במערכת');
+							 return;
+			}		 
+		
+		
+		 
+		 
+		      currentNameIdx=tmpRslt[0];
+					last_currentNameIdx=currentNameIdx; 
+				   if(currentNameIdx > 0) currentNameIdx--;  
+					 while ( (currentNameIdx > 0) && (rawListOfNames[currentNameIdx] == '**') ) currentNameIdx--; 
+					   if (  rawListOfNames[currentNameIdx] == '**')currentNameIdx=last_currentNameIdx;  // no where to move to
 				   document.myform.famlyname.value=listOfNames[currentNameIdx];
-					 getInfoForPrsnlPrblm();
-					 }
-		}			       		
+					 getInfoForPrsnlPrblm(false);
+				
+		}				    		
 //--------------------------------------------------------------------------------------------------------
 
 function savePrsnlPrblmsByButton(){
@@ -4662,7 +4926,7 @@ function 	savePrsnlPrblms_cont(res){
 
 	
 //-------------------------------------------------------------------------------------------------------- 
-function saveSeatAssignment_fromHTML(prm){
+function saveSeatAssignment_fromHTML(prm){ 
   funcStack=[doNothing];
 	saveSeatAssignment(prm);
 }	
@@ -4685,16 +4949,21 @@ function svSeatAssignment(checkOnly,showPositiveConfirmation){
 	
 	
 	
-  originalListOfAssigned=originalListOfAssigned.sort(); 
-	listOfAssignedSeats=listOfAssignedSeats.sort();
+   originalListOfAssigned.sort(); 
+   listOfAssignedSeats.sort();
 	listsAreTheSame=false;
 	if(listOfAssignedSeats.length == originalListOfAssigned.length){
 	   listsAreTheSame=true;
 		 for(i=0; i < listOfAssignedSeats.length; i++){
 		   if ( originalListOfAssigned[i] != listOfAssignedSeats[i]) {listsAreTheSame=false; break}
 			         }
-				}	
-		if(	checkOnly)return listsAreTheSame;		 
+				}	// if length
+		if(	checkOnly){
+		 if( ! listsAreTheSame){
+		      console.log('originalListOfAssigned='+originalListOfAssigned);
+					console.log('listOfAssignedSeats='+listOfAssignedSeats);   };
+					return listsAreTheSame;
+					};		 
 		if(listsAreTheSame){
 		        func2=funcStack.pop(); 
 					  func2(true);
@@ -4743,7 +5012,7 @@ function svSeatAssignment_cont(	rspnsString1){
 							     setTimeout(turnOffRishumButza, 3000);
 									 }	
 	
-					  //  Alert(' רישום בוצע');
+					  //  Alert (' רישום בוצע');
 							originalListOfAssigned=listOfAssignedSeats.slice(); 
 								          
 							          } //second else	
@@ -4837,8 +5106,7 @@ function displayStsfction(rspnsArray,arr_indices){
 	   stsfctionVlusFromServer[1]= document.myform.nashim_m0_1.value;		
 	   stsfctionVlusFromServer[2]= document.myform.mkishv_m0_1.value;	
      
-	//	 elm=document.getElementById("savestsfctn_1");
- //    elm.onclick='saveStsfctn_1_button()';
+	
 		 
 		 document.getElementById('stsfctnNow').style.visibility='visible';
 		 document.getElementById('gvr_m0_1').focus();
@@ -4998,21 +5266,427 @@ function 	genAssgnmentReport_cont(rspns){
 	}
 
 //-------------------------------------------------------------------------------------------------------- 
-   function addANewMember(){
+   function memberInfoManagement(){
 	   simpleHideFieldSets();
-	   document.getElementById('addNewMember').style.display='block';
-		 document.getElementById('addMemberHdr').style.display='block';
-	   document.getElementById('addFirstName').style.display='none';
+	   document.getElementById('memberInfoList').style.display='block';
+//		 document.getElementById('addMemberHdr').style.display='block';
+//	   document.getElementById('addFirstName').style.display='none';
+		 
+		 
+		 url=encodeURI(firstPartOfURL+'/manageMemberInfo_getAll/');
+		 funcStack=[memberInfoManagement_cont];
+		 send_msg_to_server(url);
+
      addinFirstName=false;
 				 
 		 }
+		 
+//------------------------   
+		var membershipStatus=['תומך שנה ראשונה','תומך שנה שניה','תומך לאחר שנה שניה','חבר קהילה'];	
+		
+		function memberInfoManagement_cont(rspns){ 
+		var  tmp, idx, i,j, a_member, names;
+	
+		membersInfoArray=rspns.split('>');
+		// clear rows in table from last display of member info
+				
+		tableBody=document.getElementById('memberInfoTable_body');
+		a_row=document.getElementById('memberInfoTable_rowX');
+		
+		idx=0;
+		while (true) {
+   elmnt=document.getElementById('memberInfoTable_row'+idx.toString());
+   if( !elmnt)break;
+	 elmnt.parentNode.removeChild(elmnt);
+	 idx++;
+	}	
+	
+	for (i=1; i<membersInfoArray.length;i++){
+			a_member=membersInfoArray[i].split('$');
+			names=a_member[0].split('*'); 
+			newRow=a_row.cloneNode(true); 
+			newRow.setAttribute("id", 'memberInfoTable_row'+(i).toString());
+			tableBody.appendChild(newRow);  
+			row=document.getElementById('memberInfoTable_row'+(i).toString());
+			row.style.display='inline-block';
+		  for (j=0; j<3;j++) {
+			    row.children[j].children[0].setAttribute("id", 'memberInfoData_'+(i).toString()+'_'+(j).toString());
+          document.getElementById('memberInfoData_'+(i).toString()+'_'+(j).toString()).value=names[j];
+				 
+					};
+			
+		  for (j=1; j< a_member.length-1;j++){
+			    row.children[j+2].children[0].setAttribute("id", 'memberInfoData_'+(i).toString()+'_'+(j+2).toString());
+          document.getElementById('memberInfoData_'+(i).toString()+'_'+(j+2).toString()).value=a_member[j];
+			   };
+			
+			tmp=a_member.length; tmp++;  
+			tmpId='memberInfoSelect_'+(i).toString();
+			row.children[tmp].children[0].setAttribute("id",tmpId );
+			document.getElementById(tmpId).selectedIndex=Number(a_member[a_member.length-1]);
+			
+			tmp++;  
+			tmpId='memberInfoModify_'+(i).toString();
+			row.children[tmp].children[0].setAttribute("id",tmpId );
+		  row.children[tmp].children[0].onclick=modifyMemberInfo;
+		
+		  tmp++;  
+			tmpId='memberInfoDelete_'+(i).toString();
+			row.children[tmp].children[0].setAttribute("id",tmpId );
+		  row.children[tmp].children[0].onclick=deleteMember;
+			
+				  
+		}  // for i
+}
+
+// ----------------------------------------------------------------------------------------   	
+   function addNewMemberTomech(){
+	 var nam, url;
+	 if ( ! ckMemberInfoFieldsValidity()){ return;}
+	 
+	  document.getElementById("confirmMemberInfoChange").style.display='none';
+		if ( ! delLeadingBlnks(document.getElementById('addMemberFamName').value) )return;
+	 nam=delLeadingBlnks(document.getElementById('addMemberFamName').value)+'*'+
+	      delLeadingBlnks(document.getElementById('addMemberHisName').value)+'*'+
+				delLeadingBlnks(document.getElementById('addMemberHerName').value);
+	 
+	 
+	     funcStack.push(nam);  // save nam for future use
+		  
+		  url=encodeURI(firstPartOfURL+"/isKnownName/?"+simplifyName(nam)); 
+						
+      funcStack.push(addNewMemberTomech_cont1);  // console.log('funcStack='+funcStack);
+						
+		  send_msg_to_server(url);
+	 
+	 }
+
+//---------------------------
+	 
+	 function addNewMemberTomech_cont1(rspnsStr ){
+	 var email, addr, phone,memberShipStatus,msg,url,nam,tmp;
+	 nam=funcStack.pop(); 
+	 rspns=rspnsStr.split('@');
+	
+	 
+	 if (rspns[1].length)
+	 {
+	      alert('השם או שם דומה מאד כבר קיים במערכת. הוסף מידע שיאפשר זהוי חד-חד ערכי');
+				return;
+				};
+	email=delLeadingBlnks(document.getElementById('addMemberEmail').value);		
+   emailUrl='email>'+email;
+	 addr=delLeadingBlnks(document.getElementById('addMemberAddr').value);
+	 addrUrl='addr>'+addr;
+	 phone=delLeadingBlnks(document.getElementById('addMemberPhone').value);
+	 phoneUrl='phone>'+phone;
+	 memberShipStatus=document.getElementById('addMember_membershipStatus').selectedIndex	; 
+	 if (memberShipStatus == 1)memberShipStatus=3; // translate to DB notation
+	
+	 memberShipStatusUrl='membership>'+	memberShipStatus.toString();
+	  
+	
+	 alertMsg='<br>'+simplifyName(nam)+'<br>'+email+'<br>'+addr+'<br>'+phone+'<br>';
+	 if( memberShipStatus){alertMsg=alertMsg+'חבר קהילה חדש'}else alertMsg=alertMsg+'תומך חדש';
+	
+	 msg='name>'+nam+'$'+emailUrl+'$'+phoneUrl+'$'+addrUrl+'$'+memberShipStatusUrl;
+	 funcStack.push(msg);
+	funcNo=empty;
+	  funcYes=addNewMemberTomech_cont2;
+	yesOrNo("האם ברצונך להוסיף את"+alertMsg);		
+	} 
+//------------------------------------------
+
+function addNewMemberTomech_cont2(){	
+    msg=funcStack.pop(); 
+	 
+	 url=encodeURI(firstPartOfURL+"/addMember/?"+msg); 
+						
+   funcStack.push(addNewMemberTomech_cont3);  // console.log('funcStack='+funcStack);
+						
+		  send_msg_to_server(url);		
+	}  
+//-------------------------------------
+
+function addNewMemberTomech_cont3(rspns){
+if(rspns=='+++'){alert('רישום בוצע')}else alert('רישום לא בוצע. שגיאת מערכת');
+clearTableAndRe_display();
+
+
+}
+// -----------------------------------------------------------------------------------------    
+function clearTableAndRe_display(){
+
+ document.getElementById('addMemberFamName').value='';
+ document.getElementById('addMemberHisName').value='';
+ document.getElementById('addMemberHerName').value='';
+ document.getElementById('addMemberEmail').value='';
+ document.getElementById('addMemberAddr').value='';
+ document.getElementById('addMemberPhone').value='';
+ document.getElementById('addMember_membershipStatus').selectedIndex=0;
+ 
+ memberInfoManagement();
+
+
+}
+
+
+// -----------------------------------------------------------------------------------------			  
+
+function modifyMemberInfo(e){
+var div_id = this.id;
+var row,idx,a_memberInfo,newInfo,reservedWords;
+
+
+row=div_id.split('_')[1];
+
+
+idx=Number(row);
+a_memberInfo=membersInfoArray[idx].split('$');
+newInfo=gatherMemberInfo(row);
+equal=true;
+reservedWords=false;
+for (i=0;i<a_memberInfo.length;i++){
+     if (i != a_memberInfo.length-1)if ( ! checkreservedWords(newInfo[i]))reservedWords=true;
+		if (a_memberInfo[i] != newInfo[i])equal=false;
+		}
+		if( equal){alert('נתוני המתפלל לא שונו. לא יבוצע עדכון'); return};
+		if(reservedWords) return;
+		
+	 if(newInfo[1]) if ( ! validateEmail(newInfo[1])) return;
+
+	 if (newInfo[3])  if ( ! ckPhone(newInfo[3])) return;	
+	 
+	 document.getElementById('confirmMemberInfoChange').style.display='block';	
+
+ document.getElementById('newInfoFor').innerHTML=simplifyName(a_memberInfo[0]);   
+ 
+for(i=0;i<a_memberInfo.length-1;i++){
+   rowNum=(i+1).toString();
+   document.getElementById('newInfoRow_'+rowNum).style.display='none';
+	 if (a_memberInfo[i] != newInfo[i]){
+	    vlu1=a_memberInfo[i];
+			vlu2=newInfo[i];
+			if ( ! i) {vlu1=simplifyName(vlu1);   vlu2=simplifyName(vlu2); };
+	 	  document.getElementById('newInfoRow_'+rowNum).style.display='inline-block';	
+		  document.getElementById('oldInfo_'+rowNum).innerHTML=vlu1;
+			document.getElementById('newInfo_'+rowNum).innerHTML=vlu2;
+			} //if
+		}  // i
+		i=a_memberInfo.length-1;
+		 rowNum=(i+1).toString();
+		document.getElementById('newInfoRow_'+rowNum).style.display='none';
+	 if (a_memberInfo[i] != newInfo[i]){
+	  document.getElementById('newInfoRow_'+rowNum).style.display='inline-block';	
+		document.getElementById('oldInfo_'+rowNum).innerHTML=membershipStatus[a_memberInfo[i]];
+		document.getElementById('newInfo_'+rowNum).innerHTML=membershipStatus[newInfo[i]];	
+		}
+			
+
+		 funcStack=[row];
+}
+// -----------------------------------------------------------------------------------------     
+  function ignoreMemberInfoModification(){
+	  document.getElementById('confirmMemberInfoChange').style.display='none';
+		return;
+		}
+	
+
+// -----------------------------------------------------------------------------------------
+ function performMemberInfoModification(){
+var row, newInfo,a_memberInfo; 
+ row=funcStack.pop();
+ newInfo=gatherMemberInfo(row);
+ idx=Number(row);
+ a_memberInfo=membersInfoArray[idx].split('$');
+ msg=simplifyName(a_memberInfo[0])+'<>name||'+newInfo[0]+'<>email||'+newInfo[1]+'<>addr||'+newInfo[2]+'<>phone||'+newInfo[3]+'<>membership||'+newInfo[4];
+
+ 	url=encodeURI(firstPartOfURL+"/manageMemberInfo_update/?"+msg);
+	funcStack=[performMemberInfoModification_cont];
+  send_msg_to_server(url)
+ 
+ }
+ //------------------------
+ function performMemberInfoModification_cont(rspns){
+
+ rspnsCode=rspns.substr(0,3);
+ if (rspnsCode == '---'){alert('השם המקורי אינו מוכר במערכת. בדוק רשימת שמות. רישום לא בוצע'); return;}
+ if (rspnsCode == '999'){alert('השם או שם דומה מאד כבר קיים במערכת. הוסף מידע שיאפשר זהוי חד-חד ערכי '); return;}
+ if (rspnsCode != '+++'){alert('שגיאת מערכת - לא ברור האם הרישום בוצע. בדוק ברשימת החברים'); return};
+ alert('רישום בוצע '); 
+  document.getElementById('confirmMemberInfoChange').style.display='none';
+ memberInfoManagement();
+}
+// -----------------------------------------------------------------------------------------
+function gatherMemberInfo(row){
+var nam,i;
+var tmpArray=new Array;
+nam=delLeadingBlnks(document.getElementById('memberInfoData_'+row+'_0').value)+'*'+
+	      delLeadingBlnks(document.getElementById('memberInfoData_'+row+'_1').value)+'*'+
+				delLeadingBlnks(document.getElementById('memberInfoData_'+row+'_2').value);
+
+ tmpArray[0]=nam;
+ for (i=3;i<6;i++)tmpArray[i-2]=delLeadingBlnks(document.getElementById('memberInfoData_'+row+'_'+(i).toString()).value);
+ tmpArray[4]=document.getElementById('memberInfoSelect_'+row).selectedIndex	;
+ return tmpArray;
+ }
+ 
+// -----------------------------------------------------------------------------------------
+
+ function deleteMember(e){
+ var div_id = this.id;
+var tmpArray=new Array;
+var inputData=new Array;
+var row, i;
+row=div_id.split('_')[1];
+
+ document.getElementById("confirmMemberInfoChange").style.display='none';
+ 
+inputData=membersInfoArray[Number(row)].split('$');
+
+tmpArray=gatherMemberInfo(row);
+
+for(i=0;i<7;i++)if ( tmpArray[i] != inputData[i] ){
+  Alert('הנתונים של החבר/תומך הזה השתנו. ניתן למחוק רק כאשר הנתונים על המסך הם המקוריים ');
+  return;
+  };
+	
+	funcStack.push(inputData[0]);
+	funcNo=empty;
+	  funcYes=deleteMember_cont_1;
+	yesOrNo("האם ברצונך למחוק מרשימת המתפללים את:<br>"+simplifyName(inputData[0]));		
+	
+	
+}
+//----------------------------------------------	
+	 function deleteMember_cont_1(){
+	 var nameToDelete,url;
+	 nameToDelete=funcStack.pop();
+	 url=encodeURI(firstPartOfURL+"/deleteMember/?"+nameToDelete); 
+							
+   funcStack.push(deleteMember_cont_2);  
+						
+		  send_msg_to_server(url);		
+ 
+ }
+//---------------------------------------
+
+function deleteMember_cont_2(rspns){
+if(rspns=='---'){alert('השם לא מופיע במערכת'); return;};
+
+memberInfoManagement(); // rearrange screen
+Alert('מחיקה בוצעה ');
+}
+
+// -----------------------------------------------------------------------------------------
+ function ckMemberInfoFieldsValidity(){
+   if (! checkreservedWords(document.getElementById('addMemberFamName').value))return false;
+	 if (! checkreservedWords(document.getElementById('addMemberHisName').value))return false;
+	 if (! checkreservedWords(document.getElementById('addMemberHerName').value))return false;
+	 if (! checkreservedWords(document.getElementById('addMemberEmail').value))return false;
+	 if (! checkreservedWords(document.getElementById('addMemberAddr').value))return false;
+	 tmp=delLeadingBlnks(document.getElementById('addMemberEmail').value);
+   if(tmp) if ( ! validateEmail(tmp)) return false;
+	 tmp=delLeadingBlnks(document.getElementById('addMemberPhone').value);
+	 if (tmp)  if ( ! ckPhone(tmp)) return false;
+	 return true;
+ 
+ }
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------				 		
+		function validateEmail(email) {
+		
+   var  emailVerificationPattern= /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+  
+		
+		isValid= emailVerificationPattern.test(email);  
+	
+		if (! isValid )alert("כתובת המייל אינה חוקית"); 
+		
+		return isValid;  
+		
+				
+	}
+// -----------------------------------------------------------------------------------------
+	
+		
+	function ckPhone(telNumber){
+	israel_3DigitPrefixes=['050','051','052','053','054','055','058','072','073','074','076','077','078','079']; 
+	israelFixedLinesPrefixes=['02','03','04','08','09'];
+		
+		 
+		 validTel= true;
+		  telNumber=delLeadingBlnks(telNumber);
+			
+		 if ( ! telNumber) return true;	
+		
+		twoDigitPrfx=telNumber.substring(0, 2);
+		if (israelFixedLinesPrefixes.indexOf(twoDigitPrfx)!=-1){   //two digit prefix
+		   if ( telNumber.substring(2, 3)  != '-'){     // fix phone format
+			       telNumber=telNumber.substring(0, 2)+'-'+telNumber.substring(2);
+						                                   }
+											}	
+											
+		threeDigitPrfx=telNumber.substring(0, 3);
+		if (israel_3DigitPrefixes.indexOf(threeDigitPrfx)!=-1){   //three digit prefix
+		   if ( telNumber.substring(3, 4)  != '-'){     // fix phone format
+			       telNumber=telNumber.substring(0, 3)+'-'+telNumber.substring(3);
+						                                   }
+											}																				 
+				
+			telLength=telNumber.length;
+		 switch (telLength) {
+		   
+				case 11: //3 digit prefix
+  	 		   telPrefix=telNumber.substring(0, 3); 
+   		     if (israel_3DigitPrefixes.indexOf(telPrefix)==-1) validTel= false;  
+				   if ( telNumber.substring(3, 4)  != '-') validTel= false;
+				   if (isNaN(telNumber.substring(4)))	 validTel= false;																				 																								 
+				   break;
+			 case 10:   //fixed line
+			     telPrefix=telNumber.substring(0, 2); 
+   		     if (israelFixedLinesPrefixes.indexOf(telPrefix)==-1) validTel= false;  
+			     if ( telNumber.substring(2, 3)  != '-') validTel= false;
+				   if (isNaN(telNumber.substring(3)))	 validTel= false;	
+					 break;
+			 default: validTel= false;
+			 
+			 } 		 
+					 	
+																						
+		if (!	 validTel) 	alert("מספר הטלפון  אינו חוקי");																									
+   	return validTel;
+	}
+	
+//-------------------------------------------------------------------------------------------------------- 
+ function checkreservedWords(inputText){
+	var i, validText
+ var reservesCharArray=["&","!","#","$","%","^"];	 
+		 	 for (i=0;i<reservesCharArray.length;i++){
+		     if (inputText.indexOf(reservesCharArray[i])!=-1){
+				       alert("בבקשה אל תשתמש בטקסט באותיות <br> &,!,#,$,%,^"); 
+				       return false;
+						};  // if
+						
+						}; //  for
+		  return true;
+			};  
+
+// -----------------------------------------------------------------------------------------		
+		
+		
+			
 
 //-------------------------------------------------------------------------------------------------------- 
 
 
-
 function empty(){};
-//-------------------------------------------------------------------------------------------------------------  
+/*------------------------------------------------------------------------------------------------------------- 
 function addMember(){
              lstNm=delLeadingBlnks(document.myform.newLastName.value);
              frstNm=delLeadingBlnks(document.myform.newFrstName.value);
@@ -5070,8 +5744,55 @@ function 	addMember_cont1(rspnsString1){
 									}
 									Alert('שגיאה בהוספת שם פרטי');
 									return;
-							}		
-			
+	
+	
+	
+	
+	<fieldset id='addNewMember' style='display:none'>
+<h2 style='color:brown' id='addMemberHdr'> הוספת חבר/תומך חדש
+
+ 	<span style='font-size:22px;border:1px dotted' onmouseover="explnAddMember(true)" onmouseout="explnAddMember(false)"> &nbsp ? &nbsp </span>
+<br> </h2>
+<h2 style='color:brown' id='addFirstName'> הוספת שם פרטי לחבר/תומך קיים </h2>
+  <div>  הכנס שם משפחה:
+		      <input type="text" name="newLastName" id="newLastName" style='width:200px' > 
+					<span> &nbsp &nbsp  &nbsp &nbsp </span>
+
+					הכנס שם פרטי
+					<input type="text" name="newFrstName" id="newFrstName"  style='width:200px'> 
+										<span> &nbsp &nbsp &nbsp &nbsp  </span>
+
+          <select id='isTomech'  name='isTomech'  style='font-size:20px;'display:inline-block;'>     
+							                            <option value="notChosen">האם חבר או תומך?</option> 
+																					<option value="chaver">חבר</option>           
+																			    <option value="tomech">תומך</option> 
+													</select>	
+																		<span> &nbsp &nbsp  אפיון משפחה &nbsp </span>
+																		
+					<select id='familyType'  name='familyType'  style='font-size:20px;'display:inline-block;'>     
+							                            <option value="zug">זוג</option> 
+																					<option value="gever">גבר</option>           
+																			    <option value="Yisha">אשה</option> 
+													</select>	
+																		<span> &nbsp &nbsp  &nbsp &nbsp </span>													
+
+<button  type="button"  onclick= 'addMember()' style='display:inline-block;'> <h3>הוסף  </h3></button> 
+
+</div>
+
+<div id='explnAddMember'> 
+החברים במערכת מזוהים על פי שמם<br>
+עבור רוב החברים מספיק שם המשפחה על מנת לזהות אותם ולכן רק שם המשפחה רשום במערכת.<br>
+כדי לזהות באופן חד ערכי את החברים החולקים שם משפחה עם חברים אחרים (למשל פרנקל), יש צורך לרשום במערכת גם את השם הפרטי<br>
+לכן, אם מוסיפים חבר חדש שיש לו שם משפחה שכבר קיים במערכת, יתכנו שני תרחישים:<br>
+1. כבר קיימים במערכת שני חברים או יותר להם אותו שם משפחה. במקרה הזה המערכת תבקש גם את שם המשפחה וגם את השם הפרטי של החבר החדש<br>
+2. אם קיים רק חבר אחד במערכת שלו אותו שם משפחה הזהה לשם המשפחה של החבר אותו רוצים להוסיף, כדי לאפשר לזהות באופן חד ערכי גם את החבר 
+<br> &nbsp &nbsp &nbsp הקיים וגם את החבר החדש, המערכת תבקש קודם להוסיף שם פרטי לחבר הקיים ורק אחר כך תאפשר הוספת החבר החדש
+</div>  
+
+</fieldset>		 
+						}		
+*/			
 // ---------------------------------------------------------------------------------------- '/'
   function isPrintRequestValidNow(){
 	if(! moed )return false;
@@ -5355,7 +6076,10 @@ function 		 openClose_cont(rspns){
 //-----------------------------------------------------------------------------------------
 	
 function download_registerdList(){
-  url=firstPartOfURL+'/getListOfRegistered/?'+'-'+password;
+   var d=new Date();
+	 dParts=d.toString().split(' ');
+	 if (dParts[5].substr(4,4) == '0300'){DST_inIsrael='1' }else DST_inIsrael='0'; 
+  url=firstPartOfURL+'/getListOfRegistered/?'+'-'+password+'$'+DST_inIsrael;
     downloadFile(url,'registerdList.xlsx');
 		}
 		
@@ -5369,7 +6093,10 @@ function download_membersRequests(){
 		
 // -----------------------------------------------------------------------------------------
 function download_seatsOrderedXLS(){
-  url=firstPartOfURL+'/seatsOrderedXLS/?'+'-'+password;
+   var d=new Date();
+	 dParts=d.toString().split(' ');
+	 if (dParts[5].substr(4,4) == '0300'){DST_inIsrael='1' }else DST_inIsrael='0'; 
+  url=firstPartOfURL+'/seatsOrderedXLS/?'+'-'+password+'$'+DST_inIsrael;
     downloadFile(url,'seatsOrdered.xlsx');
 }
 
@@ -5415,7 +6142,25 @@ document.body.removeChild(a);
 
 }			
 
+//------------------------------------------------------------------------------
 
+function getMinLengthNames(){
+  url=encodeURI(firstPartOfURL+"/getMinLengthNames/?"+password);   
+	funcStack.push(getMinLengthNames_cont);
+  send_msg_to_server(url);
+	}
+	
+//--------------------
+
+function 	getMinLengthNames_cont(str){
+var i, rtrnFunc;
+  if ( str.substr(0,3) == '---' ){alert ('something is wrong, system has not even one member. Call Simcha'); return;}
+	 if ( str.substr(0,3) == '999' ){alert ('5662 wrong password'); return; };
+	MinLengthNames=str.substr(3).split('$')
+//	for (i=0; i< MinLengthNames.length;i++)console.log( MinLengthNames[i]);
+	rtrnFunc=funcStack.pop();
+	rtrnFunc();
+	}
 // -----------------------------------------------------------------------------------------
 
 function ckPassW(){
@@ -5431,10 +6176,10 @@ function ckPassW(){
 	//-------
 	function ckPassW_cont1(rslt){
 	            rspnsString = rslt;
-							
+						
 							if(rspnsString.substr(0,3)=='---'){  // try sidur ulam rashi passw
 							     paswElement=document.getElementById("pasw");
-                   password=delLeadingBlnks(paswElement.value);     
+                   password=delLeadingBlnks(paswElement.value);   	//console.log('p1='+password);  
                    url=encodeURI(firstPartOfURL+"/ckpswMoshavim/?"+password); 
 									 funcStack=[ckPassW_cont2];
                 	 send_msg_to_server(url);
@@ -5442,7 +6187,11 @@ function ckPassW(){
 									 document.getElementById("paswDiv").style.display='none';  
 								   validPasswordEntered=true;
 									 document.getElementById("ctrlFieldset").style.display='block';
+									 
 									 document.getElementById("oprtion").focus();
+									 funcStack=[doNothing];
+	                 getMinLengthNames(); 
+									 
 									 }
 	}
 	//------------------------- 
@@ -5463,28 +6212,31 @@ function ckPassW_cont2(rslt){
 		        			document.getElementById("mainFieldset").style.display='none';
 			        		GenerateTables();
 					        document.getElementById("Buttons").style.display='block';	
-					        getPrmnntListOfNames();     
-	             }
-	}   
+									funcStack=[doNothing];
+					        getPrmnntListOfNames(); 
+						}  // else			
+}
+   
 
+	
 //--------------------------------------------------------------------------------------------------------   
-  function getPrmnntListOfNames(){
+  function getPrmnntListOfNames(){  
 	  var i,rn,textSpan,elmnt;
 		var tempList=[];
 		var temp1List=[];
 		var membershipLevel='3';
 			// get list of all requestors			 
 		url=encodeURI(firstPartOfURL+"/getPermanentSeatsList/?"+password+'$'+membershipLevel);
-		funcStack=[getPrmnntListOfNames_cont];
+		funcStack.push(getPrmnntListOfNames_cont);
 		 send_msg_to_server(url);
 }
 
 //------------------------
 		
 function getPrmnntListOfNames_cont(rslt){
-              
+    var DoubleName;          
 	            rqstorsString = rslt; 
-						
+						  for(i=0;i<1300;i++)listOfAssignedSeats[i]=-1;
 						  if(rqstorsString.substr(0,3)=='---'){Alert('סיסמא שגויה. הכנס סיסמא נכונה');  return;};
 					 
 					    strrratrs=delLeadingBlnks(rqstorsString.substr(3));
@@ -5494,16 +6246,19 @@ function getPrmnntListOfNames_cont(rslt){
 							tempList=strrratrs.split('$');
 						
 			
-					  for (rn=0; rn<tempList.length; rn++){	   // normelise names
+					     for (rn=0; rn<tempList.length; rn++){	 // console.log('rn='+rn+' tempList[rn]='+tempList[rn]);   // normelise names
 						   temp1List=tempList[rn].split('+');
-							 fnm1=temp1List[0];
-						   requestorsNameList[rn]=fnm1;
-       	       fnm=requestorsNameList[rn].split(' ');
+							 DoubleName=temp1List[0].split('<>');
+							 MinLengthNames[rn]=DoubleName[1];
+							 fnm1=DoubleName[0];
+						   rawRequestorsNameList[rn]=fnm1;
+       	       fnm=fnm1.split('*');
+							 requestorsNameList[rn]=fnm[0]; 
 			         if (fnm.length>1){
 							      fnm1=fnm.join(' ');
 										requestorsNameList[rn]=fnm1; 
 										};
-							//console.log(requestorsNameList[rn]);   use for printing list of permanent members
+				//	console.log('rn='+rn+'  requestorsNameList[rn]='+requestorsNameList[rn]); //  use for printing list of permanent members
 							 for (i=1;i<temp1List.length;i++){
 							 
 							    seat=temp1List[i];
@@ -5514,7 +6269,8 @@ function getPrmnntListOfNames_cont(rslt){
 									 
 					        width=elmnt.offsetWidth;
 					        height=elmnt.offsetHeight;  
-									fnm2=fnm1;
+									//fnm2=fnm1;
+									fnm2=MinLengthNames[rn];
 									 if(fnm2.length==3)fnm2=fnm2+'&nbsp';
 					         if(fnm2.length==2)fnm2=fnm2+'&nbsp'+'&nbsp';  
 					        formatName_single(fnm2,textSpan,width,height);
@@ -5523,6 +6279,7 @@ function getPrmnntListOfNames_cont(rslt){
 									seat=Number(seat); 
 									listOfAssignedSeats[seat]=fnm1; 
 							 }  // for i
+							// console.log('requestorsNameList[rn]='+requestorsNameList[rn]+' MinLengthNames[rn]='+MinLengthNames[rn]);
 			   	  }  // for 	rn
 					 
 					  
@@ -5548,39 +6305,62 @@ var ListToSend=[];
 for (i=0;i<requestorsNameList.length;i++){ListToSend[i]=requestorsNameList[i]+'@'; }
 
 for (i=0;i<700;i++){
-    nam=listOfAssignedSeats[i];
+    nam=listOfAssignedSeats[i]; 
 		if(nam == -1)continue;
 		indx=requestorsNameList.indexOf(nam);  
 		ListToSend[indx]=ListToSend[indx]+(i).toString()+'+';
 	
 		};
-		
+		funcStack=[];
 		rslt='';
 		for (i=0;i<ListToSend.length;i++){
 		  ListToSend[i]=ListToSend[i].substr(0,ListToSend[i].length-1);
 			rslt=rslt+ListToSend[i]+'$';
-			};
-			rslt=rslt.substr(0,rslt.length-1);
+			if(rslt.length >1000){
+			    rslt=rslt.substr(0,rslt.length-1);
+			    funcStack.push(rslt);  
+					rslt='';
+					}  // if rslt lngth    
+			};  // for i
+			if(rslt){
+			     rslt=rslt.substr(0,rslt.length-1);
+					 funcStack.push(rslt);
+					 } // if rslt
+					 
+					 
+
+					 sendConfig_cont();
+	}
+	
+	//-------------------------------------
+	function 	sendConfig_cont(){
+	 var rslt;
+	
+	    if ( 	funcStack.length == 0){
+    			 Alert('עדכון בוצע');
+		    	 return;
+					 };
+			rslt=funcStack.pop();		 
 			
 		 
-		url=encodeURI(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);
-    funcStack=[sendConfig_cont];
+		url=encodeURI(firstPartOfURL+"/setPermanentSeatsList/?"+password+'$'+rslt);  
+    funcStack.push(sendConfig_cont_1);
 		send_msg_to_server(url);
 		
 	}	 
 		
 
 //-------------------
-function sendConfig_cont(rslt){
+function sendConfig_cont_1(rslt){
 				
 							if(rslt.substr(0,3)=='---'){  
 							                        Alert('בעיה בתהליך. נסה שנית');
 																		  return;
 																		  }
 																		
+						sendConfig_cont();												
 																		
 																		
-																		 Alert('עדכון בוצע');
 		}
 
 
@@ -5672,7 +6452,7 @@ tmp=document.getElementById(msgId);
  if (onOrOff){tmp.style.visibility='visible';}else tmp.style.visibility='hidden';
  }
 
-// -----------------------------------------------------------------------------------------
+/* -----------------------------------------------------------------------------------------
 function explnAddMember(onOrOff){
 var msgId;
 var tmp;
@@ -5681,7 +6461,7 @@ tmp=document.getElementById(msgId);
  if (onOrOff){tmp.style.visibility='visible';}else tmp.style.visibility='hidden';
  }
 
-
+*/
 // ----------------------------------------------------------------------------------------- 
 function hide_OverAssignedList(){
  document.getElementById("OverAssignedList").style='visibility:hidden';
@@ -5943,7 +6723,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 <button  type="button"  onclick= 'executeDownload()' style='display:inline-block;'> <h3>הורד קובץ  </h3></button> 
 <span> &nbsp &nbsp &nbsp &nbsp  </span>
 
-<button  type="button"  onclick= 'addANewMember()' style='display:inline-block;'> <h3>הוסף חבר </h3></button> 
+<button  type="button"  onclick= 'memberInfoManagement()' style='display:inline-block;'> <h3>נהל רשימת חברים </h3></button> 
  </span>
 </div>
 
@@ -5957,57 +6737,118 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 </fieldset>
 
 
+<fieldset id='memberInfoList' style=display:none'>
+<h2 style='color:brown' id='addMemberHdr'>עדכון פרטים / הוספת חברים / הורדת חברים מהרשימה </h2>
+<table id= 'memberInfoTable' style="direction:rtl;  font-size:16px; text-align:center;font-weight:bold;">
 
-<fieldset id='addNewMember' style='display:none'>
-<h2 style='color:brown' id='addMemberHdr'> הוספת חבר/תומך חדש
+	<thead 	style=" border:none;display:inline-block; width:1500 ">
+	 <tr  style=" border:none;display:inline-block; width:1340 ">
+	     <td 	style=" border:none;width:20px; font-size:15px"> &nbsp </td> 		
+	     <th  style=" border:1px solid black; border-collapse:collapse;width:100px; font-size:15px">  שם משפחה  </th>
+			 <th  style=" border:1px solid black; border-collapse:collapse;width:85px; font-size:15px">  שם הבעל   </th>
+			 <th  style=" border:1px solid black; border-collapse:collapse;width:85px; font-size:15px">  שם האשה   </th> 
+			 <th  style=" border:1px solid black; border-collapse:collapse;width:250px; font-size:15px">  מייל      </th> 
+			 <th  style=" border:1px solid black; border-collapse:collapse;width:250px; font-size:15px">  כתובת     </th> 
+			 <th  style=" border:1px solid black; border-collapse:collapse;width:132px; font-size:15px">  טלפון     </th> 
+			 <th  style=" border:1px solid black; border-collapse:collapse;width:112px; font-size:15px"> מעמד חברות/ותק  </th> 
+			
+		</tr>
+  </thead>
+<tbody id='memberInfoTable_body'>
+			 <tr id='memberInfoTable_rowX'   style=" border:1px solid black; border-collapse:collapse; display:none " >
+			 <td ><input type="text" id='memberInfoTable_data'  style=" border:1px solid black; border-collapse:collapse;width:100px; font-size:15px"> &nbsp </td> 
+			 <td ><input type="text" id='memberInfoTable_data'  style=" border:1px solid black; border-collapse:collapse; width:80px; font-size:15px"> &nbsp </td>
+			 <td><input type="text"  id='memberInfoTable_data'  style=" border:1px solid black; border-collapse:collapse;width:80px;  font-size:15px"> &nbsp </td>
+			  <td><input type="text" id='memberInfoTable_data'  style=" border:1px solid black; border-collapse:collapse; width:250px;font-size:15px"> &nbsp </td>
+				<td><input type="text" id='memberInfoTable_data'  style=" border:1px solid black; border-collapse:collapse; width:250px;font-size:15px"> &nbsp </td> 
+				<td><input type="text" id='memberInfoTable_data'  style=" border:1px solid black; border-collapse:collapse;width:120px; font-size:15px"> &nbsp </td>
+				<td id='memberInfoTable_data5'> <select>
+				                                  <option value="first Year">תומך שנה ראשונה</option> 
+																					<option value="second year">תומך עד שנתיים</option>          
+																			    <option value="third year">תומך ותיק</option> 
+																				  <option value="isMember">חבר קהילה</option> 
+																	</select>				
+				            </td> 
+				 <td> <button  type="button"  onclick= 'modifyMemberInfo()' style='display:inline-block;'> <h3>עדכן </h3></button> </td> 
+				 <td> <button  type="button"  onclick= 'deleteMember()' style='display:inline-block;background:red'> <h3>מחק מרשימת המתפללים </h3></button> </td> 
+			 <tr>
 
- 	<span style='font-size:22px;border:1px dotted' onmouseover="explnAddMember(true)" onmouseout="explnAddMember(false)"> &nbsp ? &nbsp </span>
-<br> </h2>
-<h2 style='color:brown' id='addFirstName'> הוספת שם פרטי לחבר/תומך קיים </h2>
-  <div>  הכנס שם משפחה:
-		      <input type="text" name="newLastName" id="newLastName" style='width:200px' > 
-					<span> &nbsp &nbsp  &nbsp &nbsp </span>
+			 
+<tr id='memberInfoTable_addMember'   style=" border:1px solid black; border-collapse:collapse; display:inline-block " >
+			 <td ><input type="text" id='addMemberFamName'  style=" border:1px solid black; border-collapse:collapse;width:100px; font-size:15px"> &nbsp </td> 
+			 <td ><input type="text" id='addMemberHisName'  style=" border:1px solid black; border-collapse:collapse; width:80px; font-size:15px"> &nbsp </td>
+			 <td><input type="text"  id='addMemberHerName'  style=" border:1px solid black; border-collapse:collapse;width:80px;  font-size:15px"> &nbsp </td>
+			  <td><input type="text" id='addMemberEmail'  style=" border:1px solid black; border-collapse:collapse; width:250px;font-size:15px"> &nbsp </td>
+				<td><input type="text" id='addMemberAddr'  style=" border:1px solid black; border-collapse:collapse; width:250px;font-size:15px"> &nbsp </td> 
+				<td><input type="text" id='addMemberPhone'  style=" border:1px solid black; border-collapse:collapse;width:120px; font-size:15px"> &nbsp </td>
+				<td > <select  id='addMember_membershipStatus'>
+				                                  <option value="new_tomech">תומך חדש</option> 
+																					<option value="new_Member">חבר קהילה חדש</option>          
+																			   
+																	</select>				
+				            </td> 
+					<td 	style=" border:none;width:90px; font-size:15px"> &nbsp </td> 				
+				 <td> <button  type="button"  onclick= 'addNewMemberTomech()' style='display:inline-block; width:139px; '> <h3>הוסף חבר/תומך </h3></button> </td> 
+				  </tr>
 
-					הכנס שם פרטי
-					<input type="text" name="newFrstName" id="newFrstName"  style='width:200px'> 
-										<span> &nbsp &nbsp &nbsp &nbsp  </span>
+	
+</tbody>
+</table>
+</fieldset>
 
-          <select id='isTomech'  name='isTomech'  style='font-size:20px;'display:inline-block;'>     
-							                            <option value="notChosen">האם חבר או תומך?</option> 
-																					<option value="chaver">חבר</option>           
-																			    <option value="tomech">תומך</option> 
-													</select>	
-																		<span> &nbsp &nbsp  אפיון משפחה &nbsp </span>
-																		
-					<select id='familyType'  name='familyType'  style='font-size:20px;'display:inline-block;'>     
-							                            <option value="zug">זוג</option> 
-																					<option value="gever">גבר</option>           
-																			    <option value="Yisha">אשה</option> 
-													</select>	
-																		<span> &nbsp &nbsp  &nbsp &nbsp </span>													
 
-<button  type="button"  onclick= 'addMember()' style='display:inline-block;'> <h3>הוסף  </h3></button> 
+<div id='confirmMemberInfoChange'    style="display:block;border:2px solid red;  border-collapse:collapse;width:600px;  background:rgba(300,300,300,0.95); font-size:15px;position:fixed;top:10px;left:10px;">
+<h2 style='text-align:center; '>אנא אשר/י שינוי הנתונים עבור<span> &nbsp </span><span id='newInfoFor'></span></h2>
+<table style="direction:rtl">
 
+<thead>
+<tr style=" border:1px solid black; border-collapse:collapse; width:598px;height:25; display:inline-block ">
+<th style=" display:inline-block;width:100px"> &nbsp </th>
+ <th style="  display:inline-block; width:240px; text-align:center">מידע לפני שינוי</th> 
+ <th  style="  display:inline-block; width:240px; text-align:center"> מידע מעודכן</th>
+</tr>
+
+</thead>
+<tbody>
+<tr id='newInfoRow_1' style=" border:1px solid black; border-collapse:collapse; display:inline-block; width:598px;height:25; "> 
+ <td style=" height:25; display:inline-block; width:100px; text-align:center">שם:</td>
+ <td id='oldInfo_1' style=" height:25; display:inline-block; width:240px; text-align:center">א</td>
+ <td id='newInfo_1' style=" height:25; display:inline-block; width:240px; text-align:center;color:red">א</td> </tr>
+<tr id='newInfoRow_2'  style=" border:1px solid black; border-collapse:collapse; display:inline-block; width:598px; height:25;"> 
+<td style=" height:25; display:inline-block; width:100px; text-align:center">email:</td> 
+<td id='oldInfo_2' style=" height:25; display:inline-block; width:240px; text-align:center">א</td>
+<td id='newInfo_2' style=" height:25; display:inline-block; width:240px; text-align:center;color:red">א</td> </tr>
+<tr id='newInfoRow_3'  style=" border:1px solid black; border-collapse:collapse; display:inline-block; width:598px; height:25; "> 
+<td style=" height:25;display:inline-block; width:100px; text-align:center">כתובת:</td> 
+<td id='oldInfo_3' style=" height:25; display:inline-block; width:240px; text-align:center;">א</td>
+<td id='newInfo_3' style=" height:25; display:inline-block; width:240px; text-align:center;color:red">א</td> </tr>
+<tr id='newInfoRow_4'  style=" border:1px solid black; border-collapse:collapse; display:inline-block; width:598px; height:25; "> 
+<td style="height:25; display:inline-block; width:100px; text-align:center">טלפון:</td> 
+<td id='oldInfo_4' style=" height:25; display:inline-block; width:240px; text-align:center">א</td>
+<td id='newInfo_4' style=" height:25; display:inline-block; width:240px; text-align:center;color:red">א</td> </tr>
+<tr id='newInfoRow_5'  style=" border:1px solid black; border-collapse:collapse; display:inline-block; width:598px;height:25; "> 
+<td style=" height:25; display:inline-block; width:100px; text-align:center">סטטוס חברות:</td> 
+<td id='oldInfo_5' style=" height:25; display:inline-block; width:240px; text-align:center">א</td>
+<td id='newInfo_5' style=" height:25; display:inline-block; width:240px; text-align:center;color:red">א</td> </tr>
+
+</tbody>
+</table>
+
+<button  type="button"  onclick= 'performMemberInfoModification()' style='display:inline-block; width:143px; '> <h3>אשר שינוי </h3></button>
+<span style="width:200px; visibility:hidden"> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx </span>
+<button  type="button"  onclick= 'ignoreMemberInfoModification()' style='display:inline-block; width:141px; '> <h3>בטל שינוי </h3></button>
 </div>
 
-<div id='explnAddMember'> 
-החברים במערכת מזוהים על פי שמם<br>
-עבור רוב החברים מספיק שם המשפחה על מנת לזהות אותם ולכן רק שם המשפחה רשום במערכת.<br>
-כדי לזהות באופן חד ערכי את החברים החולקים שם משפחה עם חברים אחרים (למשל פרנקל), יש צורך לרשום במערכת גם את השם הפרטי<br>
-לכן, אם מוסיפים חבר חדש שיש לו שם משפחה שכבר קיים במערכת, יתכנו שני תרחישים:<br>
-1. כבר קיימים במערכת שני חברים או יותר להם אותו שם משפחה. במקרה הזה המערכת תבקש גם את שם המשפחה וגם את השם הפרטי של החבר החדש<br>
-2. אם קיים רק חבר אחד במערכת שלו אותו שם משפחה הזהה לשם המשפחה של החבר אותו רוצים להוסיף, כדי לאפשר לזהות באופן חד ערכי גם את החבר 
-<br> &nbsp &nbsp &nbsp הקיים וגם את החבר החדש, המערכת תבקש קודם להוסיף שם פרטי לחבר הקיים ורק אחר כך תאפשר הוספת החבר החדש
-</div>  
 
-</fieldset>		 
+
+
 
 <fieldset id='getstfction'   style='display:none'>
 <div >
 <div>
   <label for="famyname">שם משפחה</label>
 									<button  type="button" id='prvs' onclick= 'ckSaveAndMovePrvsStsfction()' style='display:inline-block;height:30px;font-size:22px'> &#x2192 </button>
-		      <input type="text" name="famyname" id="fmName1" required onchange='getInfoForStsfction("")'> 
+		      <input type="text" name="famyname" id="fmName1" required onchange='getInfoForStsfction(false)'  onkeyup='getInfoForStsfction(true)'> 
 					<button  type="button" id='next' onclick= 'ckSaveAndMoveNextStsfction()' style='display:inline-block;height:30px;font-size:22px'> &#x2190 </button>
  </div>  
 	<br>
@@ -6081,7 +6922,7 @@ width:100px;color:blue'   onclick='copyFromRosh()'> העתק הצבות <br>ראש השנה</div
 <div>
   <label for="famlyname">שם משפחה</label>
 									<button  type="button" id='prvsPrsnl' onclick= 'ckSaveAndMovePrvsPrsnlProblems()' style='display:inline-block;height:30px;font-size:22px'> &#x2192 </button>
-		      <input type="text" name="famlyname" id="fmName11" required onchange='getInfoForPrsnlPrblm()'> 
+		      <input type="text" name="famlyname" id="fmName11" required onchange='getInfoForPrsnlPrblm(false)'  onkeyup='getInfoForPrsnlPrblm(true)'> 
 					<button  type="button" id='nextPrsnl' onclick= 'ckSaveAndMoveNextPrsnlProblems()' style='display:inline-block;height:30px;font-size:22px'> &#x2190 </button>
  </div>  
 	<br>
