@@ -1042,7 +1042,7 @@ initFromFiles(''); // init info from files for last year
 		
 	checkDoubeeAssignments();
 
-
+sortDB();
 	
 
 
@@ -5113,8 +5113,8 @@ app.get('/isRegistrationClosed', function(req, res) {
 	var tempList=[];
 	 inputString=decodeURI(req.originalUrl).split('?')[1];  
 	 inputString=inputString.split('$');
-	 if (inputString[0] != moshavimPASSW){console.log('wrong password'); res.send('---' )}
-	 else {
+	 if (inputString[0] != moshavimPASSW){console.log('wrong password'); res.send('---' );return}
+	 
 	   k=0;
 		 minMembershipLevel=Number(inputString[1]);
 	   for (member=firstSeatRow; member<lastSeatRow+1; member++){ 
@@ -5135,7 +5135,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 
 				      tempList[k]=nam[0]+' '+tmp;
 							*/
-							tempList[k]=simplifyName(nam);
+							tempList[k]=simplifyName(nam)+'<>'+minimumName[member-firstSeatRow];
 							prm=requestedSeatsWorksheet[amudot.permanentSeats+row];
 							if(prm){
 							prm=delLeadingBlnks(prm.v);
@@ -5149,7 +5149,7 @@ app.get('/isRegistrationClosed', function(req, res) {
 							
 							
 									
-			}  // else						
+								
 								 
  
 	 })
