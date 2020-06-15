@@ -5686,113 +5686,8 @@ Alert('מחיקה בוצעה ');
 
 
 function empty(){};
-/*------------------------------------------------------------------------------------------------------------- 
-function addMember(){
-             lstNm=delLeadingBlnks(document.myform.newLastName.value);
-             frstNm=delLeadingBlnks(document.myform.newFrstName.value);
-						 
-						 if (addinFirstName){  // adding first name to existing last name
-						    if (  ( !frstNm) || ( !lstNm) ) return;
-								
-								url=encodeURI(firstPartOfURL+"/addFirstName/?&"+lstNm+'&'+frstNm+'&'+password);  
-								funcStack=[addMember_cont1];
-								send_msg_to_server(url);
-								return;
-              } //if addin
-			 
-						 
-						
-						 ChaverOrTomechIdx=document.getElementById("isTomech").selectedIndex;  
-						  if ( ( ! lstNm) || ( ! ChaverOrTomechIdx) ) return;
-						 	mmbrshp=['0','3','0'][ChaverOrTomechIdx];	
-							
-							
-							familyType=	document.getElementById("familyType").value; 		 
-              url=encodeURI(firstPartOfURL+"/addMember/?&"+lstNm+'&'+frstNm+'&'+mmbrshp+'&'+familyType+'&'+password);
-							funcStack=[addMember_cont2];
-							send_msg_to_server(url);
-}
-
-//------------------
-
-function 		addMember_cont2(rspnsString1){					
-						
-              if(rspnsString1.substr(0,3)== '--1'){Alert('שם המשפחה כבר קיים במערכת. אנא מלא שם פרטי'); return;};
-							if(rspnsString1.substr(0,3)=='--2'){
-							          document.getElementById('addMemberHdr').style.display='none';
-	                      document.getElementById('addFirstName').style.display='block';
-												addinFirstName=true;
-												document.myform.newFrstName.value='';
-												Alert('שם המשפחה הז כבר קיים במערכת ללא שם פרטי. כדי להוסיף עוד שם משפחה כזה יש להוסיף שם פרטי לשם המשפחה הקיים');
-												return;
-												};
-              if(rspnsString1.substr(0,3)!='+++'){Alert('נסה שנית. בעיה ברישום');}
-							   else Alert(lstNm+' '+frstNm+'  נוסף לרשימת המתפללים');
-
-    
-}
-
-
-//---------
-
-function 	addMember_cont1(rspnsString1){							
-							
-								if(rspnsString1.substr(0,3)=='+++'){
-								  addANewMember();
-									Alert('עכשיו ניתן לחזור ולהגדיר את החבר החדש');
-									return;
-									}
-									Alert('שגיאה בהוספת שם פרטי');
-									return;
-	
-	
-	
-	
-	<fieldset id='addNewMember' style='display:none'>
-<h2 style='color:brown' id='addMemberHdr'> הוספת חבר/תומך חדש
-
- 	<span style='font-size:22px;border:1px dotted' onmouseover="explnAddMember(true)" onmouseout="explnAddMember(false)"> &nbsp ? &nbsp </span>
-<br> </h2>
-<h2 style='color:brown' id='addFirstName'> הוספת שם פרטי לחבר/תומך קיים </h2>
-  <div>  הכנס שם משפחה:
-		      <input type="text" name="newLastName" id="newLastName" style='width:200px' > 
-					<span> &nbsp &nbsp  &nbsp &nbsp </span>
-
-					הכנס שם פרטי
-					<input type="text" name="newFrstName" id="newFrstName"  style='width:200px'> 
-										<span> &nbsp &nbsp &nbsp &nbsp  </span>
-
-          <select id='isTomech'  name='isTomech'  style='font-size:20px;'display:inline-block;'>     
-							                            <option value="notChosen">האם חבר או תומך?</option> 
-																					<option value="chaver">חבר</option>           
-																			    <option value="tomech">תומך</option> 
-													</select>	
-																		<span> &nbsp &nbsp  אפיון משפחה &nbsp </span>
-																		
-					<select id='familyType'  name='familyType'  style='font-size:20px;'display:inline-block;'>     
-							                            <option value="zug">זוג</option> 
-																					<option value="gever">גבר</option>           
-																			    <option value="Yisha">אשה</option> 
-													</select>	
-																		<span> &nbsp &nbsp  &nbsp &nbsp </span>													
-
-<button  type="button"  onclick= 'addMember()' style='display:inline-block;'> <h3>הוסף  </h3></button> 
-
-</div>
-
-<div id='explnAddMember'> 
-החברים במערכת מזוהים על פי שמם<br>
-עבור רוב החברים מספיק שם המשפחה על מנת לזהות אותם ולכן רק שם המשפחה רשום במערכת.<br>
-כדי לזהות באופן חד ערכי את החברים החולקים שם משפחה עם חברים אחרים (למשל פרנקל), יש צורך לרשום במערכת גם את השם הפרטי<br>
-לכן, אם מוסיפים חבר חדש שיש לו שם משפחה שכבר קיים במערכת, יתכנו שני תרחישים:<br>
-1. כבר קיימים במערכת שני חברים או יותר להם אותו שם משפחה. במקרה הזה המערכת תבקש גם את שם המשפחה וגם את השם הפרטי של החבר החדש<br>
-2. אם קיים רק חבר אחד במערכת שלו אותו שם משפחה הזהה לשם המשפחה של החבר אותו רוצים להוסיף, כדי לאפשר לזהות באופן חד ערכי גם את החבר 
-<br> &nbsp &nbsp &nbsp הקיים וגם את החבר החדש, המערכת תבקש קודם להוסיף שם פרטי לחבר הקיים ורק אחר כך תאפשר הוספת החבר החדש
-</div>  
-
-</fieldset>		 
-						}		
-*/			
+//------------------------------------------------------------------------------------------------------------- 
+			
 // ---------------------------------------------------------------------------------------- '/'
   function isPrintRequestValidNow(){
 	if(! moed )return false;
@@ -6452,16 +6347,10 @@ tmp=document.getElementById(msgId);
  if (onOrOff){tmp.style.visibility='visible';}else tmp.style.visibility='hidden';
  }
 
-/* -----------------------------------------------------------------------------------------
-function explnAddMember(onOrOff){
-var msgId;
-var tmp;
- msgId='explnAddMember';  
-tmp=document.getElementById(msgId);
- if (onOrOff){tmp.style.visibility='visible';}else tmp.style.visibility='hidden';
- }
+// -----------------------------------------------------------------------------------------
 
-*/
+
+
 // ----------------------------------------------------------------------------------------- 
 function hide_OverAssignedList(){
  document.getElementById("OverAssignedList").style='visibility:hidden';
