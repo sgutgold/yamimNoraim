@@ -1513,6 +1513,7 @@ var reslt = new Array;
 function simplifyName(name){
 var tmp,simplified;
 tmp=name.split('*');
+if  ( (! tmp[1])  && ( !tmp[2]) ) return tmp[0];
  if (tmp[1]  && tmp[2] ){simplified=tmp[0]+' '+tmp[1]+' '+hebrewLetters.vav+tmp[2] } else simplified=tmp[0]+' '+tmp[1]+tmp[2];
 	return simplified;	
 	
