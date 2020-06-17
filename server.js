@@ -3121,7 +3121,7 @@ app.get('/getMinLengthNames', function(req, res) {
    
 	 inpData=decodeURI(req.originalUrl).split('?')[1];
   inpData=inpData.split('$');
-	initFromFiles(impData[1]);
+	initFromFiles(inpData[1]);
 	
 	if ( (inpData[0] == mngmntPASSW) || (inpData[0]== moshavimPASSW)  ){
 	
