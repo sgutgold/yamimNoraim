@@ -3120,9 +3120,10 @@ app.get('/getMinLengthNames', function(req, res) {
 	 res.setHeader('Content-Type', 'text/html');
    
 	 inpData=decodeURI(req.originalUrl).split('?')[1];
-
+  inpData=inpData.split('$');
+	initFromFiles(impData[1]);
 	
-	if ( (inpData == mngmntPASSW) || (inpData== moshavimPASSW)  ){
+	if ( (inpData[0] == mngmntPASSW) || (inpData[0]== moshavimPASSW)  ){
 	
 	 if( ! minimumName.length){ res.send('---' );  return;};
 	 listOfnames= '+++'+		minimumName.join('$');
