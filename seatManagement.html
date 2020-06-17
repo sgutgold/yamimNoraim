@@ -1752,9 +1752,9 @@ if (moshavim){
 		
 		if( listOfAssignedSeats.indexOf(seatNumber) == -1){ 
 	
-		  // new assignment
+		  // new assignment    
  
-		      span_element.innerHTML=document.myform.familyname.value;
+		      span_element.innerHTML=replaceFullNameByMinLngthName(document.myform.familyname.value,rawNamesToAssign);
 			   listOfAssignedSeats.push(seatNumber);
 				 elmnt.style.backgroundColor='black';
 				 elmnt.style.color='yellow';
@@ -2296,7 +2296,6 @@ ckNameRtrvVlus(p);
 	
 	if(namesOptionDisplayed){fnc= funcStack.pop();  fnc(); return;};  //name not completed yet
 	
-	
 	if(	document.myform.familyname.value != delLeadingBlnks(document.myform.familyname.value)){
 	       	document.myform.familyname.value=delLeadingBlnks(document.myform.familyname.value);	
           fnc= funcStack.pop();  fnc(); return;
@@ -2336,11 +2335,11 @@ ckNameRtrvVlus(p);
 
 function ckNameRtrvVlus_cont1(res){
 
-		  
+		
 		 if(res.substr(0,3)!='---')lastNameChecked=document.myform.familyname.value; 
 	
 		 mapForMember=true;
-		  resArray=res.split('&');  
+		  resArray=res.split('&'); 
 			
 	    if(document.hiddenForm.lastFamName.value != document.myform.familyname.value)clearPrevsVlus();
 		 document.hiddenForm.lastFamName.value = document.myform.familyname.value;
@@ -2377,7 +2376,7 @@ function ckNameRtrvVlus_cont3(res){
 
 var genTables;
 genTables=funcStack.pop();
- 
+
 		 if (res.substr(0,3)=='999') location.reload(true);
 		 if (res.substr(0,3)=='---') {fnc= funcStack.pop();    enableNxPrv();    fnc();    return;} ;
 		 if(res.substr(0,3)=='aaa'){ // display color map
@@ -3118,12 +3117,13 @@ return rslt;
 
 
 function creatColoredMap(genTables,strArray){
-
+var rawList;
 var namesForInnerhtml = new Array;
      document.myform.seatsString.value='';
 		
 		if(genTables)GenerateTables(); // build seat maps
-		 ;              
+		if(sidurUlam){rawList= rawNamesToAssign}else rawList=  rawRequestorsNameList;  
+		         
 			
 // coloring
     str_s=strArray[0]; // ocupancy and highlight. [0] is occupacy list
@@ -3136,7 +3136,7 @@ var namesForInnerhtml = new Array;
 			   assignedColor='black';
 			   assignedBGColor=	'white';
 			   }
-	 for (i=0; i< seats.length; i++){
+	 for (i=0; i< seats.length; i++){ 
 	 
 	    seatNVlu= seats[i].split('_');    debug=false;
 
@@ -3211,7 +3211,7 @@ var namesForInnerhtml = new Array;
 		
 		// if ( ! printingNow)
 		
-		 tmp=replaceFullNameByMinLngthName(nameT0Show,rawNamesToAssign);
+		 tmp=replaceFullNameByMinLngthName(nameT0Show,rawList);  
 		 if ( (isNaN(nameT0Show) ) || (tmp) )nameT0Show=tmp;
 		 span_element.innerHTML=nameT0Show;  //console.log('3199 nameT0Show='+nameT0Show+' MinLengthNames='+MinLengthNames); 
 		
@@ -3545,7 +3545,9 @@ if ( ! validPasswordEntered){
 					funcStack=[doNothing];
        funcStack.push(true);   //prepare ckNameRtrvVlus parameter
 			 funcStack.push(ckNameRtrvVlus);
-       getListOfNames();
+			 funcStack.push(getListOfNames);
+			 
+       getMinLengthNames();
    //    ckNameRtrvVlus(true);   // will becalled from getListOfNames
 	   	 
 }
@@ -4047,13 +4049,13 @@ function 	getListOfNames_cont(rspnse){
 					    strrratrs=delLeadingBlnks(rqstorsString.substr(3));
 							if(! strrratrs){Alert('רשימת שמות ריקה');  return;};
               tmp=strrratrs.split('@');
-					    rawRequestorsNameList=tmp[0].split('$'); 
+					    rawRequestorsNameList=tmp[0].split('$');
 							tmp=tmp[1].split('$');
 					    for (rn=0; rn<rawRequestorsNameList.length; rn++){   //console.log('raw='+rawRequestorsNameList[rn]+' simpl='+simplifyName(rawRequestorsNameList[rn]));
 							indexToMinLengthNames[rn]=Number(tmp[rn]);
-							requestorsNameList[rn]=simplifyName(rawRequestorsNameList[rn]);
+							requestorsNameList[rn]=simplifyName(rawRequestorsNameList[rn]);   
 							}
-							console.log(indexToMinLengthNames);
+						
 				
 				   if( delLeadingBlnks(document.myform.familyname.value)){kadem(0);return;}
 					  else{
@@ -4078,7 +4080,7 @@ function simplifyName(nam){
 var tmp,simplified;
  
 tmp=nam.split('*');
-
+if  ( (! tmp[1])  && ( !tmp[2]) ) return tmp[0];
  if (tmp[1]  && tmp[2] ){simplified=tmp[0]+' '+tmp[1]+' ו'+tmp[2] } else simplified=tmp[0]+' '+tmp[1]+tmp[2];
 //console.log('nam='+nam+' simplified='+simplified);
 	return simplified;	
@@ -6040,7 +6042,7 @@ document.body.removeChild(a);
 //------------------------------------------------------------------------------
 
 function getMinLengthNames(){
-  url=encodeURI(firstPartOfURL+"/getMinLengthNames/?"+password);   
+  url=encodeURI(firstPartOfURL+"/getMinLengthNames/?"+password+'$'+yearToDisplay);   
 	funcStack.push(getMinLengthNames_cont);
   send_msg_to_server(url);
 	}
@@ -6084,8 +6086,8 @@ function ckPassW(){
 									 document.getElementById("ctrlFieldset").style.display='block';
 									 
 									 document.getElementById("oprtion").focus();
-									 funcStack=[doNothing];
-	                 getMinLengthNames(); 
+							//		 funcStack=[doNothing];
+	              //   getMinLengthNames(); 
 									 
 									 }
 	}
